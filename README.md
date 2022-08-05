@@ -39,7 +39,7 @@ You will be redirected to a registration page. Use false information (just to te
 - Email: *user@mail.com*
 - Username: *user*
 - Password: *user123*
-- Confirm password: *user123*
+- Confirm password: *user123*  
 After registering you will be able to use and explore the app.
 ## Author
 
