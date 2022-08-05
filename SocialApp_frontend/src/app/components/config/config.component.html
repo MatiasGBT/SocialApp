@@ -1,0 +1,60 @@
+<section id="section-settings">
+    <h1>{{'SETTINGS.TITLE' | translate}}</h1>
+
+    <div id="configurations">
+        <div class="configuration-box">
+            <i class="fa-solid fa-bell notif-icon"></i>
+            <div class="configuration-data">
+                <h2>{{'SETTINGS.NOTIFICATIONS_TITLE' | translate}}</h2>
+                <p>{{'SETTINGS.NOTIFICATIONS_TEXT' | translate}}</p>
+            </div>
+            
+            <div class="option">
+                <label class="content-input">
+                    <input type="checkbox" [checked]="inputCheck" (change)="changeNotifications()">
+                    <i></i>
+                </label>
+            </div>
+        </div>
+
+        <div class="configuration-box">
+            <i class="fa-solid fa-language notif-icon"></i>
+            <div class="configuration-data">
+                <h2>{{'SETTINGS.LANGUAGE_TITLE' | translate}}</h2>
+                <p>{{'SETTINGS.LANGUAGE_TEXT' | translate}}</p>
+            </div>
+            
+            <div class="option">
+                <select [(ngModel)]="select" (change)="changeLanguage()" class="lang-select">
+                    <option *ngFor="let lang of translate.getLangs()" [value]="lang"
+                        [selected]="lang === translate.currentLang">
+                        {{ 'LANGUAGES.' + lang | translate }}
+                    </option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="configuration-box">
+            <i class="fa-solid fa-user-pen notif-icon"></i>
+            <div class="configuration-data">
+                <h2>{{'SETTINGS.ACCOUNT_TITLE' | translate}}</h2>
+                <p>{{'SETTINGS.ACCOUNT_TEXT' | translate}}</p>
+            </div>
+            
+            <div class="option">
+                <button (click)="manageAccount()">{{'SETTINGS.ACCOUNT_BUTTON' | translate}}</button>
+            </div>
+        </div>
+
+        <div class="configuration-box">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            <div class="configuration-data">
+                <h2>{{'SETTINGS.LOGOUT' | translate}}</h2>
+            </div>
+            
+            <div class="option">
+                <button (click)="logout()">{{'SETTINGS.LOGOUT' | translate}}</button>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,42 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+::selection {
+    background: #7f5af0;
+    color: white;
+}
+
+html {
+    background: #16161a;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+}
+
+a, p, figcaption, button, span, i, select, ::placeholder {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+}
+
+::placeholder {
+    color: rgb(209, 209, 209);
+}
+
+section {
+    margin-top: 60px;
+    margin-bottom: 80px;
+    color: white;
+}
+
+@media (min-width: 768px) {
+    section {
+        margin-bottom: 0;
+        margin-left: 20%;
+        width: 80%;
+    }
+}

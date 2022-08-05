@@ -1,0 +1,60 @@
+{
+    "NAVBAR": {
+        "SEARCH_PEOPLE": "Buscar personas"
+    },
+    "FOOTER": {
+        "POST": "Nueva publicación",
+        "INDEX": "Inicio",
+        "PROFILE": "Perfil",
+        "NOTIFICATIONS": "Notificaciones",
+        "SETTINGS": "Configuración"
+    },
+    "NEWPOST": {
+        "TITLE": "Hacer una nueva publicación",
+        "MESSAGE": "Mensaje de la publicación",
+        "PLACEHOLDER": "Escribe el texto de la publicación. Recuerda que solo puede tener un máximo de 200 caracteres.",
+        "IMAGE": "Imagen de la publicación",
+        "DROP_IMAGE": "Arrastra y suelta la imagen aquí"
+    },
+    "ASIDE": {
+        "FEATURED_POST": "Publicación destacada",
+        "FEATURED_USERS": "Usuarios destacados",
+        "USERS_MAYBE": "Quizá conozcas a"
+    },
+    "PROFILE": {
+        "NUMBER_OF_POSTS": "Cant. publicaciones",
+        "NUMBER_OF_FRIENDS": "Cant. amigos",
+        "EDIT_PROFILE": "Editar perfil",
+        "ADD_FRIEND": "Agregar amigo",
+        "SEND_MESSAGE": "Enviar mensaje",
+        "CALL": "Llamar",
+        "POSTS": "Publicaciones"
+    },
+    "NOTIFICATIONS": {
+        "TITLE": "Notificaciones",
+        "DELETE_ALL": "Eliminar todas las notificaciones",
+        "NEW_FRIEND_TITLE": "¡Nuevo amigo!",
+        "NEW_FRIEND_TEXT": "ahora es tu amigo",
+        "LIKE_POST_TITLE": "Tu post recibió un like",
+        "LIKE_POST_TEXT": "Ver",
+        "NEW_MESSAGE_TITLE": "te envió un mensaje",
+        "NEW_MESSAGE_TEXT": "Pulsa para verlo",
+        "NOTIFICATIONS_DISABLED": "Las notificaciones están deshabilitadas. Actívalas en la pestaña de Configuración para visualizarlas."
+    },
+    "SETTINGS": {
+        "TITLE": "Configuración",
+        "NOTIFICATIONS_TITLE": "Notificaciones",
+        "NOTIFICATIONS_TEXT": "Activa/desactiva las notificaciones (ya no aparecerán en la pestaña Notificaciones)",
+        "LANGUAGE_TITLE": "Idioma",
+        "LANGUAGE_TEXT": "Cambia el idioma del sistema",
+        "ACCOUNT_TITLE": "Administración de cuenta",
+        "ACCOUNT_TEXT": "Gestiona las credenciales de la cuenta",
+        "ACCOUNT_BUTTON": "Gestionar usuario",
+        "LOGOUT": "Cerrar sesión"
+    },
+    "LANGUAGES": {
+        "en": "English",
+        "es": "Español",
+        "pt": "Português (BR)"
+    }
+}

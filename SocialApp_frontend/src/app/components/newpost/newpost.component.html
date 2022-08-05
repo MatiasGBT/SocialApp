@@ -1,0 +1,20 @@
+<section id="section-newpost">
+    <h1>{{'NEWPOST.TITLE' | translate}}</h1>
+
+    <h2>{{'NEWPOST.MESSAGE' | translate}}</h2>
+    <textarea name="" id="" maxlength="200"
+        placeholder="{{placeholder}}"></textarea>
+
+    <h2>{{'NEWPOST.IMAGE' | translate}}</h2>
+    <div class="custom-dropzone" ngx-dropzone [multiple]="false" [accept]="'image/*'" (change)="onSelect($event)">
+        <ngx-dropzone-label>
+            <p>{{'NEWPOST.DROP_IMAGE' | translate}}</p>
+        </ngx-dropzone-label>
+        <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f"
+            [removable]="true" (removed)="onRemove(f)">
+            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+        </ngx-dropzone-image-preview>
+    </div>
+
+    <button type="submit" id="submit-post">Publicar</button>
+</section>

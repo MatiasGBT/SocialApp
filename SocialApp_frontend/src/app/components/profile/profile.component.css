@@ -1,0 +1,151 @@
+#section-profile h3 {
+    margin-left: 25px;
+    margin-top: 20px;
+}
+
+#profile {
+    padding-top: 25px;
+}
+
+#profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#profile-header-photo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+#profile-header-photo img {
+    border-radius: 50%;
+}
+
+#profile-header-photo figcaption {
+    margin-top: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+#profile-header-data {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+}
+
+#profile-header-data div {
+    margin-right: 20px;
+}
+
+#profile-description {
+    margin-top: 10px;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+hr {
+    margin-top: 25px;
+    width: calc(100% - 50px);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.publication-footer {
+    justify-content: space-between;
+}
+
+.profile-button {
+    display: block;
+    background: #7f5af0;
+    color: white;
+    width: calc(100% - 50px); /*Same as hr*/
+    height: 35px;
+    border-radius: 5px;
+    border: 0;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1rem;
+    transition: .3s;
+}
+
+.profile-button:hover {
+    background: #6f4ed1;
+    transition: .3s;
+}
+
+.date {
+    margin-right: 10px;
+}
+
+@media (min-width: 768px) {
+    #section-profile {
+        display: flex;
+    }
+
+    #middle {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    #profile-header-photo {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    #profile-header-photo img {
+        border-radius: 5px;
+        margin-left: 25px;
+    }
+    
+    #profile-header-photo figcaption {
+        margin-top: 0;
+        margin-left: 20px;
+    }
+
+    #profile-description {
+        margin-top: 15px;
+    }
+}
+
+@media (min-width: 1038px) {
+    #middle {
+        width: 75%;
+    }
+
+    #profile-description {
+        margin-top: 20px;
+    }
+
+    #profile-header-photo img {
+        margin-left: 0;
+    }
+
+    #profile-buttons {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .profile-button {
+        display: block;
+        margin-top: 20px;
+        margin-left: 25px;
+        margin-right: 25px;
+        max-width: 50%;
+    }
+
+    .publication {
+        width: 100%;
+    }
+
+    .users-aside {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+}

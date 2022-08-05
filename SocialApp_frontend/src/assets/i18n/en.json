@@ -1,0 +1,60 @@
+{
+    "NAVBAR": {
+        "SEARCH_PEOPLE": "Search people"
+    },
+    "FOOTER": {
+        "POST": "New post",
+        "INDEX": "Home",
+        "PROFILE": "Profile",
+        "NOTIFICATIONS": "Notifications",
+        "SETTINGS": "Settings"
+    },
+    "NEWPOST": {
+        "TITLE": "Make a new post",
+        "MESSAGE": "Post message",
+        "PLACEHOLDER": "Write the text of the publication. Remember that it can only have a maximum of 200 characters.",
+        "IMAGE": "Post image",
+        "DROP_IMAGE": "Drag and drop the image here"
+    },
+    "ASIDE": {
+        "FEATURED_POST": "Featured post",
+        "FEATURED_USERS": "Featured users",
+        "USERS_MAYBE": "Users you may know"
+    },
+    "PROFILE": {
+        "NUMBER_OF_POSTS": "Posts",
+        "NUMBER_OF_FRIENDS": "Friends",
+        "EDIT_PROFILE": "Edit profile",
+        "ADD_FRIEND": "Add friend",
+        "SEND_MESSAGE": "Send message",
+        "CALL": "Call",
+        "POSTS": "Posts"
+    },
+    "NOTIFICATIONS": {
+        "TITLE": "Notifications",
+        "DELETE_ALL": "Delete all notifications",
+        "NEW_FRIEND_TITLE": "¡New friend!",
+        "NEW_FRIEND_TEXT": "is now your friend",
+        "LIKE_POST_TITLE": "Your post received a like",
+        "LIKE_POST_TEXT": "¡Check it!",
+        "NEW_MESSAGE_TITLE": "sent you a message",
+        "NEW_MESSAGE_TEXT": "Touch to see it",
+        "NOTIFICATIONS_DISABLED": "Notifications are disabled. Activate them in the Settings tab to view them."
+    },
+    "SETTINGS": {
+        "TITLE": "Settings",
+        "NOTIFICATIONS_TITLE": "Notifications",
+        "NOTIFICATIONS_TEXT": "Turn notifications on/off (will no longer appear in the Notifications tab)",
+        "LANGUAGE_TITLE": "Language",
+        "LANGUAGE_TEXT": "Change the system language",
+        "ACCOUNT_TITLE": "Account management",
+        "ACCOUNT_TEXT": "Manage account credentials",
+        "ACCOUNT_BUTTON": "Manage user",
+        "LOGOUT": "Logout"
+    },
+    "LANGUAGES": {
+        "en": "English",
+        "es": "Español",
+        "pt": "Português (BR)"
+    }
+}

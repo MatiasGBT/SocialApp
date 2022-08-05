@@ -1,0 +1,82 @@
+<section id="section-notifications">
+    <header>
+        <h1>{{'NOTIFICATIONS.TITLE' | translate}}</h1>
+        <button class="delete-button delete-all-icon" *ngIf="isNotificationsEnabled">
+            <i class="fa-solid fa-trash"></i> {{'NOTIFICATIONS.DELETE_ALL' | translate}}
+        </button>
+    </header>
+
+    <div id="notifications" *ngIf="isNotificationsEnabled">
+        <div class="notification-box">
+            <i class="fa-solid fa-bell notif-icon"></i>
+            <div class="notification-data">
+                <h2>{{'NOTIFICATIONS.NEW_FRIEND_TITLE' | translate}}</h2>
+                <p>Usuario Amigo 10 {{'NOTIFICATIONS.NEW_FRIEND_TEXT' | translate}}</p>
+            </div>
+            <button class="delete-button delete-icon"><i class="fa-solid fa-trash"></i></button>
+        </div>
+
+        <div class="notification-box">
+            <i class="fa-solid fa-bell notif-icon"></i>
+            <div class="notification-data">
+                <h2>{{'NOTIFICATIONS.LIKE_POST_TITLE' | translate}}</h2>
+                <p>{{'NOTIFICATIONS.LIKE_POST_TEXT' | translate}}</p>
+            </div>
+            <button class="delete-button delete-icon"><i class="fa-solid fa-trash"></i></button>
+        </div>
+
+        <div class="notification-box">
+            <i class="fa-solid fa-bell notif-icon"></i>
+            <div class="notification-data">
+                <h2>Amigo 3 {{'NOTIFICATIONS.NEW_MESSAGE_TITLE' | translate}}</h2>
+                <p>{{'NOTIFICATIONS.NEW_MESSAGE_TEXT' | translate}}</p>
+            </div>
+            <button class="delete-button delete-icon"><i class="fa-solid fa-trash"></i></button>
+        </div>
+
+        <div class="notification-box">
+            <i class="fa-solid fa-bell notif-icon"  style="opacity: 50%;"></i>
+            <div class="notification-data"  style="opacity: 50%;">
+                <h2>{{'NOTIFICATIONS.LIKE_POST_TITLE' | translate}}</h2>
+                <p>{{'NOTIFICATIONS.LIKE_POST_TEXT' | translate}}</p>
+            </div>
+            <button class="delete-button delete-icon"><i class="fa-solid fa-trash"></i></button>
+        </div>
+        <div class="notification-box">
+            <i class="fa-solid fa-bell notif-icon"  style="opacity: 50%;"></i>
+            <div class="notification-data"  style="opacity: 50%;">
+                <h2>{{'NOTIFICATIONS.LIKE_POST_TITLE' | translate}}</h2>
+                <p>{{'NOTIFICATIONS.LIKE_POST_TEXT' | translate}}</p>
+            </div>
+            <button class="delete-button delete-icon"><i class="fa-solid fa-trash"></i></button>
+        </div>
+        <div class="notification-box">
+            <i class="fa-solid fa-bell notif-icon"  style="opacity: 50%;"></i>
+            <div class="notification-data"  style="opacity: 50%;">
+                <h2>{{'NOTIFICATIONS.LIKE_POST_TITLE' | translate}}</h2>
+                <p>{{'NOTIFICATIONS.LIKE_POST_TEXT' | translate}}</p>
+            </div>
+            <button class="delete-button delete-icon"><i class="fa-solid fa-trash"></i></button>
+        </div>
+        <div class="notification-box">
+            <i class="fa-solid fa-bell notif-icon"  style="opacity: 50%;"></i>
+            <div class="notification-data"  style="opacity: 50%;">
+                <h2>{{'NOTIFICATIONS.LIKE_POST_TITLE' | translate}}</h2>
+                <p>{{'NOTIFICATIONS.LIKE_POST_TEXT' | translate}}</p>
+            </div>
+            <button class="delete-button delete-icon"><i class="fa-solid fa-trash"></i></button>
+        </div>
+        <div class="notification-box">
+            <i class="fa-solid fa-bell notif-icon"  style="opacity: 50%;"></i>
+            <div class="notification-data"  style="opacity: 50%;">
+                <h2>{{'NOTIFICATIONS.LIKE_POST_TITLE' | translate}}</h2>
+                <p>{{'NOTIFICATIONS.LIKE_POST_TEXT' | translate}}</p>
+            </div>
+            <button class="delete-button delete-icon"><i class="fa-solid fa-trash"></i></button>
+        </div>
+    </div>
+
+    <p *ngIf="!isNotificationsEnabled" class="notifications-disabled">
+        {{'NOTIFICATIONS.NOTIFICATIONS_DISABLED' | translate}}
+    </p>
+</section>

@@ -1,0 +1,40 @@
+<footer>
+    <div>
+        <img src="https://via.placeholder.com/60" id="logo">
+        <p>Social App</p>
+    </div>
+
+    <ul>
+        <li id="publication-link" [routerLink]="['/newpost']">
+            <a id="principal-link">
+                <i class="fa-solid fa-plus"></i>
+                <p> {{'FOOTER.POST' | translate}}</p>
+            </a>
+        </li>
+        <li id="index-link">
+            <a [routerLink]="['/index']" routerLinkActive="active">
+                <i class="fa-solid fa-house"></i>
+                <p> {{'FOOTER.INDEX' | translate}}</p>
+            </a>
+        </li>
+        <li id="profile-link">
+            <a [routerLink]="['/profile']" routerLinkActive="active">
+                <i class="fa-solid fa-user"></i>
+                <p> {{'FOOTER.PROFILE' | translate}}</p>
+            </a>
+        </li>
+        <li id="notification-link">
+            <a [routerLink]="['/notif']" routerLinkActive="active">
+                <i class="fa-solid fa-bell"></i>
+                <p> {{'FOOTER.NOTIFICATIONS' | translate}}</p>
+                <span id="notifications_length" *ngIf="isNotificationsEnabled">3</span>
+            </a>
+        </li>
+        <li id="configuration-link">
+            <a [routerLink]="['/config']" routerLinkActive="active">
+                <i class="fa-solid fa-cog"></i>
+                <p> {{'FOOTER.SETTINGS' | translate}}</p>
+            </a>
+        </li>
+    </ul>
+</footer>

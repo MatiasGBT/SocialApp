@@ -1,0 +1,60 @@
+{
+    "NAVBAR": {
+        "SEARCH_PEOPLE": "Buscar pessoas"
+    },
+    "FOOTER": {
+        "POST": "Nova publicação",
+        "INDEX": "Início",
+        "PROFILE": "Perfil",
+        "NOTIFICATIONS": "Notificações",
+        "SETTINGS": "Configuração"
+    },
+    "NEWPOST": {
+        "TITLE": "Fazer uma nova publicação",
+        "MESSAGE": "Mensagem da publicação",
+        "PLACEHOLDER": "Escreva o texto da publicação. Lembre-se que ele só pode ter um máximo de 200 caracteres.",
+        "IMAGE": "Imagem da publicação",
+        "DROP_IMAGE": "Arraste e solte a imagem aqui"
+    },
+    "ASIDE": {
+        "FEATURED_POST": "Publicação fixada",
+        "FEATURED_USERS": "Usuários fixados",
+        "USERS_MAYBE": "Talvez você conheça a"
+    },
+    "PROFILE": {
+        "NUMBER_OF_POSTS": "Publicações",
+        "NUMBER_OF_FRIENDS": "Amigos",
+        "EDIT_PROFILE": "Editar o perfil",
+        "ADD_FRIEND": "Adicionar amigo",
+        "SEND_MESSAGE": "Enviar mensagem",
+        "CALL": "Chamar",
+        "POSTS": "Publicações"
+    },
+    "NOTIFICATIONS": {
+        "TITLE": "Notificações",
+        "DELETE_ALL": "Eliminar todas as notificações",
+        "NEW_FRIEND_TITLE": "¡Novo amigo!",
+        "NEW_FRIEND_TEXT": "agora é seu amigo",
+        "LIKE_POST_TITLE": "Seu publicação recebeu um like",
+        "LIKE_POST_TEXT": "Ver",
+        "NEW_MESSAGE_TITLE": "enviou a você uma mensagem",
+        "NEW_MESSAGE_TEXT": "Toque para vê-la",
+        "NOTIFICATIONS_DISABLED": "As notificações estão desativadas. Habilite-as na guia Configurações para exibi-las."
+    },
+    "SETTINGS": {
+        "TITLE": "Configuração",
+        "NOTIFICATIONS_TITLE": "Notificações",
+        "NOTIFICATIONS_TEXT": "Habilitar/desabilitar notificações (não aparecerão mais em Notificações).",
+        "LANGUAGE_TITLE": "Língua",
+        "LANGUAGE_TEXT": "Mudar o idioma do sistema",
+        "ACCOUNT_TITLE": "Gestão de conta",
+        "ACCOUNT_TEXT": "Gerenciar as credenciais da conta",
+        "ACCOUNT_BUTTON": "Gerenciar usuário",
+        "LOGOUT": "Sair da sessão"
+    },
+    "LANGUAGES": {
+        "en": "English",
+        "es": "Español",
+        "pt": "Português (BR)"
+    }
+}

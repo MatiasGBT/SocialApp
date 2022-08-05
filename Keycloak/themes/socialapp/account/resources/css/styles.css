@@ -1,0 +1,161 @@
+/*Superior header*/
+#landingSignOutButton {
+    background: #7f5af0;
+    color: white;
+    border-radius: 10px;
+    transition: .3s;
+}
+
+#landingSignOutButton:hover {
+    background: #6f4ed1;
+    transition: .3s;
+}
+
+/*Header*/
+.pf-c-page__main-section.pf-m-shadow-bottom {
+    background: #24242b !important;
+}
+
+.pf-c-page__main-section.pf-m-shadow-bottom h1 {
+    color: white !important;
+}
+
+/*Background/body*/
+.pf-c-page__main-section.pf-m-overflow-scroll {
+    background: #16161a !important;
+}
+
+/*Cards index*/
+.pf-c-card {
+    background: #24242b !important;
+    color: white !important;
+    border-radius: 10px;
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2) !important;
+}
+
+.pf-c-card__title {
+    color: white !important;
+}
+
+.pf-c-card a {
+    color: #7f5af0;
+}
+
+.pf-c-card a:hover {
+    color: #6f4ed1;
+}
+
+/*Sidebar menu*/
+#page-sidebar {
+    background: #24242b !important;
+}
+
+/*Main page*/
+.pf-c-page__main {
+    background: #16161a !important;
+}
+
+.pf-c-page__main section,
+.pf-c-page__main section h1,
+.pf-c-page__main section h2,
+.pf-c-page__main section p {
+    background: transparent !important;
+    color: white !important;
+}
+
+/*Links sidebar*/
+.pf-m-current {
+    border-left: 5px solid #7f5af0 !important;
+}
+
+.pf-m-current::after {
+    border-left: none !important;
+}
+
+/*Inputs from Personal Info*/
+#user-name, #email-address, #first-name, #last-name, #locale-select {
+    background: #24242b;
+    color: white;
+    border: 2px solid #7f5af0;
+    border-radius: 10px;
+    outline: none;
+}
+
+/*Save and cancel buttons from Personal Info*/
+#save-btn {
+    background: #7f5af0;
+    border-radius: 10px;
+    transition: .3s;
+}
+
+#save-btn:hover {
+    background: #6f4ed1;
+    transition: .3s;
+}
+
+#cancel-btn, #refresh-page {
+    color: #7f5af0;
+}
+
+#cancel-btn:hover, #refresh-page:hover {
+    color: #6f4ed1;
+    text-decoration: underline;
+}
+
+/*Cards from Account Security*/
+.pf-c-data-list__item-row {
+    background: #24242b !important;
+    color: white;
+    border: none !important;
+    border-radius: 15px;
+}
+
+.pf-c-data-list__item {
+    background: transparent !important;
+}
+
+.pf-c-data-list {
+    border-top: none !important;
+}
+
+.pf-c-data-list__item {
+    border-bottom: none !important;
+}
+
+.pf-c-data-list__item-row button {
+    background: #7f5af0 !important;
+    color: white !important;
+    border-radius: 10px;
+    transition: .3s;
+    border: none;
+}
+
+.pf-c-data-list__expandable-content {
+    border-top: none !important;
+}
+
+.pf-c-data-list__item-row button:hover {
+    background: #6f4ed1 !important;
+    transition: .3s;
+}
+
+.pf-c-button.pf-m-secondary {
+    border: none !important;
+}
+
+.pf-c-button.pf-m-secondary::after {
+    border: none !important;
+}
+
+.pf-c-button.pf-m-secondary:hover {
+    border: none !important;
+}
+
+#otp-set-up {
+    color: #7f5af0;
+}
+
+#otp-set-up:hover {
+    color: #6f4ed1;
+    text-decoration: underline;
+}

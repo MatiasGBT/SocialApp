@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+
+  frontend: 
+    build: /SocialApp_frontend
+    ports:
+      - "4200:4200"
+
+  backend: 
+    build: /SocialApp_backend
+    depends_on:
+      - mysql
+      - keycloak
+    ports:
+      - "8090:8090"
+    links: 
+      - mysql
+
+  keycloak: 
+    build: /Keycloak
+    ports:
+      - "8080:8080"
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=adminpass
+  
+  mysql:
+    image: mysql:8.0.30
+    ports: 
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=1234
+      - MYSQL_DATABASE=social_app
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:

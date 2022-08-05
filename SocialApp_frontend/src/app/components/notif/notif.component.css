@@ -1,0 +1,113 @@
+#section-notifications {
+    color: white;
+    padding: 25px;
+}
+
+header {
+    display: flex;
+}
+
+h2 {
+    font-size: 1.25rem;
+}
+
+#notifications {
+    margin-top: 25px;
+}
+
+#notifications i {
+    font-size: 1.5rem;
+}
+
+.notification-box {
+    margin-top: 15px;
+}
+
+.notif-icon {
+    margin-right: 15px;
+}
+
+.delete-button {
+    margin-left: auto;
+    text-align: center;
+    background: #7f5af0;
+    color: white;
+    cursor: pointer;
+    transition: .3s;
+    border: none;
+    outline: none;
+}
+
+.delete-button:hover {
+    transition: .3s;
+}
+
+.delete-all-icon {
+    display: block;
+    width: auto;
+    height: 30px;
+    border-radius: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.delete-all-icon:hover {
+    background: #6f4ed1;
+}
+
+.delete-icon {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
+
+.delete-icon:hover {
+    border-radius: 15px;
+}
+
+.notification-box {
+    display: flex;
+    align-items: center;
+}
+
+.notifications-disabled {
+    margin-top: 15px;
+}
+
+.notifications-disabled a {
+    color: #7f5af0;
+}
+
+@media (min-width: 768px) {
+    .delete-icon {
+        transition: .3s;
+    }
+    
+    .delete-icon:hover {
+        opacity: 100%;
+        transition: .3s;
+    }
+}
+
+@media (min-width: 1038px) {
+    #section-notifications {
+        background-image: url("../../../assets/img/notifications_bg.svg");
+        background-repeat: no-repeat;
+        background-size: 28rem;
+        background-position-x: right;
+        background-position-y: center;
+        min-height: calc(100vh - 60px); /*- navbar height*/
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .notification-box, header {
+        width: 60%;
+    }
+
+    .delete-all-icon {
+        font-size: 1rem;
+    }
+}
