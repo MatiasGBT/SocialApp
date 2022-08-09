@@ -28,7 +28,15 @@
         "ADD_FRIEND": "Adicionar amigo",
         "SEND_MESSAGE": "Enviar mensagem",
         "CALL": "Chamar",
-        "POSTS": "Publicações"
+        "POSTS": "Publicações",
+        "EDIT": {
+            "TITLE": "Detalhes do perfil",
+            "PICTURE_TITLE": "Foto do perfil",
+            "PICTURE_DROP": "Arraste e solte a foto do perfil aqui",
+            "DESCRIPTION_TITLE": "Descrição",
+            "DESCRIPTION_PLACEHOLDER": "Escreva uma descrição de si mesmo. Lembre-se que só pode ter um máximo de 200 caracteres.",
+            "NOTE": "Nota: Se você deseja alterar as credenciais de login, por favor, vá para a guia Configurações."
+        }
     },
     "NOTIFICATIONS": {
         "TITLE": "Notificações",

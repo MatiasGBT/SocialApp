@@ -9,7 +9,7 @@ public interface IService<E> {
 
     List<E> toList();
 
-    void save(E entity);
+    E save(E entity);
 
     void delete(E entity);
 

@@ -15,29 +15,11 @@ import java.util.stream.Collectors;
 //https://stackoverflow.com/questions/72381114/spring-security-upgrading-the-deprecated-websecurityconfigureradapter-in-spring/72585651#72585651
 
 @Service("userDetailsService")
-public class UserService implements UserDetailsService, IService<UserApp> {
+public class UserService implements IService<UserApp> {
 
     @Autowired
     IUserRepository repository;
 
-    //SPRING SECURITY
-    @Override
-    @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserApp user = repository.findByUsername(username);
-
-        if (user == null) {
-            throw new UsernameNotFoundException("Error en el login: no existe el usuario " + username);
-        }
-
-        List<GrantedAuthority> authorities = user.getRoles()
-                .stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName()))
-                .collect(Collectors.toList());
-        return new User(user.getUsername(), user.getPassword(), true, true, true, true, authorities);
-    }
-
-    //INTERFACE ISERVICE
     @Override
     @Transactional(readOnly = true)
     public List<UserApp> toList() {
@@ -46,8 +28,8 @@ public class UserService implements UserDetailsService, IService<UserApp> {
 
     @Override
     @Transactional
-    public void save(UserApp entity) {
-        repository.save(entity);
+    public UserApp save(UserApp entity) {
+        return repository.save(entity);
     }
 
     @Override
@@ -61,4 +43,7 @@ public class UserService implements UserDetailsService, IService<UserApp> {
     public UserApp find(Long id) {
         return repository.findById(id).orElse(null);
     }
+
+    @Transactional(readOnly = true)
+    public UserApp findByUsername(String username) { return repository.findByUsername(username); }
 }

@@ -22,8 +22,8 @@ public class MessageService implements IService<Message> {
 
     @Override
     @Transactional
-    public void save(Message entity) {
-        repository.save(entity);
+    public Message save(Message entity) {
+        return repository.save(entity);
     }
 
     @Override

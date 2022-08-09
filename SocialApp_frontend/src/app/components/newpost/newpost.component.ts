@@ -19,7 +19,7 @@ export class NewpostComponent implements OnInit {
     }
     this.translate.get('NEWPOST.PLACEHOLDER').subscribe((res: string) => {
       this.placeholder = res;
-  });
+    });
   }
 
   onSelect(event) {

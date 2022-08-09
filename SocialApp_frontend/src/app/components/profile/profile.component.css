@@ -48,6 +48,10 @@
     padding-right: 25px;
 }
 
+button {
+    cursor: pointer;
+}
+
 hr {
     margin-top: 25px;
     width: calc(100% - 50px);

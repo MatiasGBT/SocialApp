@@ -28,7 +28,15 @@
         "ADD_FRIEND": "Agregar amigo",
         "SEND_MESSAGE": "Enviar mensaje",
         "CALL": "Llamar",
-        "POSTS": "Publicaciones"
+        "POSTS": "Publicaciones",
+        "EDIT": {
+            "TITLE": "Detalles del perfil",
+            "PICTURE_TITLE": "Foto de perfil",
+            "PICTURE_DROP": "Arrastra y suelta la foto aquí",
+            "DESCRIPTION_TITLE": "Descripción",
+            "DESCRIPTION_PLACEHOLDER": "Escribe tu descripción. Recuerda que solo puede tener un máximo de 200 caracteres.",
+            "NOTE": "Nota: Si desea cambiar las credenciales de inicio de sesión, por favor vaya a la pestaña Configuración."
+        }
     },
     "NOTIFICATIONS": {
         "TITLE": "Notificaciones",

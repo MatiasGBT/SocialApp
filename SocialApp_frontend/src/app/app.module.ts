@@ -16,6 +16,7 @@ import { NotifComponent } from './components/notif/notif.component';
 import { ConfigComponent } from './components/config/config.component';
 import { NewpostComponent } from './components/newpost/newpost.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { EditProfileComponent } from './components/profile/edit-profile/edit-profile.component';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -45,7 +46,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ProfileComponent,
     NotifComponent,
     ConfigComponent,
-    NewpostComponent
+    NewpostComponent,
+    EditProfileComponent
   ],
   imports: [
     BrowserModule,

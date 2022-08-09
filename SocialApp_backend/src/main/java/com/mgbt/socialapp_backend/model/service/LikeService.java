@@ -22,8 +22,8 @@ public class LikeService implements IService<Like> {
 
     @Override
     @Transactional
-    public void save(Like entity) {
-        repository.save(entity);
+    public Like save(Like entity) {
+        return repository.save(entity);
     }
 
     @Override

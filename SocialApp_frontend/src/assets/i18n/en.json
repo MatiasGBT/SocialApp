@@ -28,7 +28,15 @@
         "ADD_FRIEND": "Add friend",
         "SEND_MESSAGE": "Send message",
         "CALL": "Call",
-        "POSTS": "Posts"
+        "POSTS": "Posts",
+        "EDIT": {
+            "TITLE": "Profile details",
+            "PICTURE_TITLE": "Profile picture",
+            "PICTURE_DROP": "Drag and drop the profile picture here",
+            "DESCRIPTION_TITLE": "Description",
+            "DESCRIPTION_PLACEHOLDER": "Write a description of yourself. Remember that it can only have a maximum of 200 characters.",
+            "NOTE": "Note: If you want to change the login credentials please go to the Settings tab."
+        }
     },
     "NOTIFICATIONS": {
         "TITLE": "Notifications",

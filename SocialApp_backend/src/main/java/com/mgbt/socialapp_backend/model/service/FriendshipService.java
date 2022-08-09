@@ -22,8 +22,8 @@ public class FriendshipService implements IService<Friendship> {
 
     @Override
     @Transactional
-    public void save(Friendship entity) {
-        repository.save(entity);
+    public Friendship save(Friendship entity) {
+        return repository.save(entity);
     }
 
     @Override

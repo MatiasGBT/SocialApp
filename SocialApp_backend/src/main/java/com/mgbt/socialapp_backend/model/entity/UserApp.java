@@ -21,24 +21,13 @@ public class UserApp implements Serializable {
     @Column(name="id_user")
     private Long idUser;
 
-    @Column(name = "username", nullable = false, unique = true)
-    @NotEmpty(message = "El nombre de usuario no puede estar vacío")
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
 
-    @Column(name = "password", nullable = false)
-    @NotEmpty(message = "La contraseña no puede estar vacía")
-    private String password;
-
-    @Column(name = "email", unique = true, nullable = false)
-    @Email(message = "Formato de Email incorrecto")
-    private String email;
-
     @Column(name = "name", nullable = false)
-    @NotEmpty(message = "El nombre no puede estar vacío")
     private String name;
 
     @Column(name = "surname", nullable = false)
-    @NotEmpty(message = "El apellido no puede estar vacío")
     private String surname;
 
     @Column(name = "photo")
@@ -59,15 +48,14 @@ public class UserApp implements Serializable {
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date deletionDate;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "id_user"),
-            inverseJoinColumns = @JoinColumn(name = "id_role"),
-            uniqueConstraints = {@UniqueConstraint(columnNames = {"id_user", "id_role"})})
-    private List<Role> roles;
-
     @OneToMany(fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
     @JoinTable(name = "notifications", joinColumns = @JoinColumn(name = "id_user_receiver"),
             uniqueConstraints = {@UniqueConstraint(columnNames = {"id_user_receiver"})})
     private List<Notification> notifications;
+
+    @PrePersist
+    public void setUpCreationDate() {
+        this.creationDate = new Date();
+    }
 }

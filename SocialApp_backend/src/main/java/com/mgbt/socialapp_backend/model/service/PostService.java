@@ -22,8 +22,8 @@ public class PostService implements IService<Post> {
 
     @Override
     @Transactional
-    public void save(Post entity) {
-        repository.save(entity);
+    public Post save(Post entity) {
+        return repository.save(entity);
     }
 
     @Override
