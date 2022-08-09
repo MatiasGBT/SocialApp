@@ -10,6 +10,7 @@ import { User } from '../models/user';
 })
 export class AuthService {
   private _user: User;
+  private token = this.keycloakService.getKeycloakInstance().token;
 
   constructor(private http: HttpClient, private keycloakService: KeycloakService,
     private router: Router) { }
@@ -17,16 +18,15 @@ export class AuthService {
   public get user(): User {
     if (this._user == null) {
       this._user = new User();
-      let token = this.keycloakService.getKeycloakInstance().token;
-      let payload = this.obtainPayload(token);
+      let payload = this.obtainPayload(this.token);
       this.createUserWithPayload(payload);
-      this.login(this._user).subscribe(response => {
-        this._user = response.user as User;
-        if (response.status != undefined && response.status == 201) {
-          this.router.navigate(["/profile/edit"])
-        }
-      });
     }
+    this.login(this._user).subscribe(response => {
+      this._user = response.user as User;
+      if (response.status != undefined && response.status == 201) {
+        this.router.navigate(["/profile/edit"]);
+      }
+    });
     return this._user;
   }
 

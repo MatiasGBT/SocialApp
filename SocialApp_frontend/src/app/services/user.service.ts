@@ -7,7 +7,7 @@ import { User } from '../models/user';
   providedIn: 'root'
 })
 export class UserService {
-  private urlEndPoint: string = 'http://localhost:8090/api/profile';
+  private urlEndPoint: string = 'http://localhost:8090/api/';
 
   constructor(private http: HttpClient) { }
 
@@ -16,7 +16,7 @@ export class UserService {
     formData.append("file", file);
     formData.append("username", user.username);
     formData.append("description", user.description);
-    return this.http.post(`${this.urlEndPoint}/upload/`, formData).pipe(
+    return this.http.post(`${this.urlEndPoint}profile/upload/`, formData).pipe(
       map((response: any) => response.user as User),
       catchError(e => {
         console.error(e.error);

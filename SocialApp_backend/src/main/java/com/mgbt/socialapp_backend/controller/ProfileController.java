@@ -1,25 +1,19 @@
 package com.mgbt.socialapp_backend.controller;
 
 import com.mgbt.socialapp_backend.model.entity.UserApp;
-import com.mgbt.socialapp_backend.model.service.IUploadFileService;
-import com.mgbt.socialapp_backend.model.service.UserService;
+import com.mgbt.socialapp_backend.model.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("api/profile/")
-@PreAuthorize("isAuthenticated()")
 public class ProfileController {
 
     @Autowired
@@ -48,7 +42,7 @@ public class ProfileController {
             uploadFileService.delete(lastFileName);
             user.setPhoto(fileName);
             user.setDescription(description);
-            userService.save(user);
+            user = userService.save(user);
             response.put("user", user);
             response.put("message", "File uploaded correctly: " + fileName);
         }

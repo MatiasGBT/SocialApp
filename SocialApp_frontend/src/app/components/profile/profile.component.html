@@ -3,7 +3,8 @@
         <div id="profile">
             <div id="profile-header">
                 <figure id="profile-header-photo">
-                    <img src="https://via.placeholder.com/80">
+                    <img *ngIf="user?.photo" src="http://localhost:8090/api/profile/img/{{user.photo}}" width="80px" height="80px">
+                    <img *ngIf="!user?.photo" src="http://localhost:8090/images/no-photo.jpg" width="80px" height="80px">
                     <figcaption>Matías Gabriel Blanco Toledo</figcaption>
                 </figure>
                 <div id="profile-header-data">
@@ -18,11 +19,7 @@
                 </div>
             </div>
             <div id="profile-description">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates dolorum ipsa, aliquid eligendi
-                    autem
-                    totam cum ex quos omnis repudiandae, sint dignissimos sed inventore maiores fugiat non
-                    necessitatibus.
-                    Quibusdam, ab?</p>
+                <p *ngIf="user?.description">{{user.description}}</p>
             </div>
             <div id="profile-buttons">
                 <button type="button" class="profile-button" [routerLink]="['edit']"><i class="fa-solid fa-pencil"></i> {{'PROFILE.EDIT_PROFILE'

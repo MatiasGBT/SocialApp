@@ -54,7 +54,7 @@ export class EditProfileComponent implements OnInit {
     } else {
       this.userService.uploadPhoto(this.files[0], this.user).subscribe(user => {
         this.user = user;
-        this.router.navigate(['/profile']);
+        this.router.navigate(['/index']);
       });
     }
   }
