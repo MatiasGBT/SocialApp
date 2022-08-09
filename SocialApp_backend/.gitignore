@@ -1,5 +1,9 @@
 HELP.md
-target/
+target/classes
+target/maven-archiver
+target/maven-status
+target/surefire-reports
+target/test-classes
 !.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###
