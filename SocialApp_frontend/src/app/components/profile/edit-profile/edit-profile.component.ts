@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { NgxCroppedEvent, NgxPhotoEditorService } from 'ngx-photo-editor';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-profile',
@@ -12,11 +14,13 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class EditProfileComponent implements OnInit {
   public user: User;
-  public files: File[] = [];
+  public file: File;
   public placeholder: string;
+  output?: NgxCroppedEvent;
 
   constructor(private authService: AuthService, private translate: TranslateService,
-    private userService: UserService, private router: Router) { }
+    private userService: UserService, private router: Router,
+    private fileEditorService: NgxPhotoEditorService) { }
 
   ngOnInit(): void {
     let lang = localStorage.getItem("lang");
@@ -28,33 +32,31 @@ export class EditProfileComponent implements OnInit {
     });
 
     this.user = this.authService.user;
-    if (this.user.photo != null) {
-      this.files.push();
-    }
   }
 
-  onSelect(event) {
-    this.files.push(...event.addedFiles);
-    if(this.files.length > 1){
-      this.replaceFile();
-    }
-  }
-  
-  onRemove(event) {
-    this.files.splice(this.files.indexOf(event), 1);
-  }
-
-  replaceFile(){
-    this.files.splice(0, 1);
+  fileChangeHandler(event: any) {
+    this.fileEditorService.open(event, {
+      aspectRatio: 4 / 4,
+      autoCropArea: 1,
+      resizeToWidth: 500,
+      resizeToHeight: 500,
+      viewMode: 1
+    }).subscribe(data => {
+      this.output = data;
+      this.file = this.output.file;
+    });
   }
 
   editProfile() {
-    if (this.files.length == 0) {
+    if (!this.file) {
       console.error("No file selected");
     } else {
-      this.userService.uploadPhoto(this.files[0], this.user).subscribe(user => {
+      if (this.user.description == null) {
+        this.user.description = "";
+      }
+      this.userService.uploadPhoto(this.file, this.user).subscribe(user => {
         this.user = user;
-        this.router.navigate(['/index']);
+        window.location.reload();
       });
     }
   }

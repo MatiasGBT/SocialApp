@@ -17,6 +17,7 @@ import { ConfigComponent } from './components/config/config.component';
 import { NewpostComponent } from './components/newpost/newpost.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { EditProfileComponent } from './components/profile/edit-profile/edit-profile.component';
+import { NgxPhotoEditorModule } from 'ngx-photo-editor';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -63,7 +64,8 @@ export function HttpLoaderFactory(http: HttpClient) {
           useFactory: HttpLoaderFactory,
           deps: [HttpClient]
       }
-  })
+    }),
+    NgxPhotoEditorModule
   ],
   providers: [
     {

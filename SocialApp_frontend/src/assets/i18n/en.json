@@ -35,7 +35,9 @@
             "PICTURE_DROP": "Drag and drop the profile picture here",
             "DESCRIPTION_TITLE": "Description",
             "DESCRIPTION_PLACEHOLDER": "Write a description of yourself. Remember that it can only have a maximum of 200 characters.",
-            "NOTE": "Note: If you want to change the login credentials please go to the Settings tab."
+            "NOTE": "Note: If you want to change the login credentials please go to the Settings tab.",
+            "PHOTO_BUTTON": "Select a profile photo",
+            "EDIT_BUTTON": "Edit profile"
         }
     },
     "NOTIFICATIONS": {

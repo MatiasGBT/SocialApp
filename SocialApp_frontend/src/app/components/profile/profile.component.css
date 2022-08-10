@@ -23,6 +23,7 @@
 
 #profile-header-photo img {
     border-radius: 50%;
+    border: 2px solid #7f5af0;
 }
 
 #profile-header-photo figcaption {
