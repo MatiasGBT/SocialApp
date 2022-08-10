@@ -37,7 +37,9 @@
             "DESCRIPTION_PLACEHOLDER": "Escribe tu descripción. Recuerda que solo puede tener un máximo de 200 caracteres.",
             "NOTE": "Nota: Si desea cambiar las credenciales de inicio de sesión, por favor vaya a la pestaña Configuración.",
             "PHOTO_BUTTON": "Selecciona una foto de perfil",
-            "EDIT_BUTTON": "Editar perfil"
+            "EDIT_BUTTON": "Editar perfil",
+            "APPLY_BUTTON": "Aplicar",
+            "CANCEL_BUTTON": "Cancelar"
         }
     },
     "NOTIFICATIONS": {

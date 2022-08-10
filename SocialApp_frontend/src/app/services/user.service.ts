@@ -11,7 +11,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  uploadPhoto(file: File, user: User): Observable<User> {
+  uploadNewUser(file: File, user: User): Observable<User> {
     let formData = new FormData();
     formData.append("file", file);
     formData.append("username", user.username);

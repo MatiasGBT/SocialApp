@@ -16,6 +16,8 @@ export class EditProfileComponent implements OnInit {
   public user: User;
   public file: File;
   public placeholder: string;
+  private applyBtn: string;
+  private cancelBtn: string;
   output?: NgxCroppedEvent;
 
   constructor(private authService: AuthService, private translate: TranslateService,
@@ -30,6 +32,12 @@ export class EditProfileComponent implements OnInit {
     this.translate.get('PROFILE.EDIT.DESCRIPTION_PLACEHOLDER').subscribe((res: string) => {
       this.placeholder = res;
     });
+    this.translate.get('PROFILE.EDIT.APPLY_BUTTON').subscribe((res: string) => {
+      this.applyBtn = res;
+    });
+    this.translate.get('PROFILE.EDIT.CANCEL_BUTTON').subscribe((res: string) => {
+      this.cancelBtn = res;
+    });
 
     this.user = this.authService.user;
   }
@@ -40,7 +48,10 @@ export class EditProfileComponent implements OnInit {
       autoCropArea: 1,
       resizeToWidth: 500,
       resizeToHeight: 500,
-      viewMode: 1
+      viewMode: 1,
+      hideModalHeader: true,
+      applyBtnText: this.applyBtn,
+      closeBtnText: this.cancelBtn
     }).subscribe(data => {
       this.output = data;
       this.file = this.output.file;
@@ -54,7 +65,7 @@ export class EditProfileComponent implements OnInit {
       if (this.user.description == null) {
         this.user.description = "";
       }
-      this.userService.uploadPhoto(this.file, this.user).subscribe(user => {
+      this.userService.uploadNewUser(this.file, this.user).subscribe(user => {
         this.user = user;
         window.location.reload();
       });

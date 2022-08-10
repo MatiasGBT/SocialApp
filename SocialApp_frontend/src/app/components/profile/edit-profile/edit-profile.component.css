@@ -102,12 +102,7 @@ textarea {
     }
 }
 
-/*Photo editor*/
-.ngx-pe-dialog-header {
+body {
     font-family: 'Roboto', sans-serif !important;
-    font-weight: 300;
-}
-
-.ngx-pe-btn-primary {
-    background: red !important;
+    font-weight: 300 !important;
 }
