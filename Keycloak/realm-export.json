@@ -1426,7 +1426,7 @@
       "firstBrokerLoginFlowAlias": "first broker login",
       "config": {
         "syncMode": "IMPORT",
-        "clientSecret": "**********",
+        "clientSecret": "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",
         "clientId": "928116016924-1pnr48t9ppem8sehudsrsr1fn0t3m5pl.apps.googleusercontent.com",
         "useJwksUrl": "true"
       }
