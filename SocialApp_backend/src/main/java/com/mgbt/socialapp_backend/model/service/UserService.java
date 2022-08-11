@@ -46,4 +46,15 @@ public class UserService implements IService<UserApp> {
 
     @Transactional(readOnly = true)
     public UserApp findByUsername(String username) { return repository.findByUsername(username); }
+
+    @Transactional
+    public UserApp checkIfUserIsPersisted(UserApp userFound, UserApp userFromToken) {
+        if (!userFound.getName().equals(userFromToken.getName()) ||
+                !userFound.getSurname().equals(userFromToken.getSurname())) {
+            userFound.setName(userFromToken.getName());
+            userFound.setSurname(userFromToken.getSurname());
+            userFound = this.save(userFound);
+        }
+        return userFound;
+    }
 }

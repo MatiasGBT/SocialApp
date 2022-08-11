@@ -65,10 +65,19 @@ export class EditProfileComponent implements OnInit {
       if (this.user.description == null) {
         this.user.description = "";
       }
-      this.userService.uploadNewUser(this.file, this.user).subscribe(user => {
-        this.user = user;
-        window.location.reload();
-      });
+      Swal.fire({
+        icon: 'success',
+        title: 'Changes saved',
+        showConfirmButton: false,
+        timer: 1250,
+        background: '#7f5af0',
+        color: 'white'
+      }).then(() => {
+        this.userService.uploadNewUser(this.file, this.user).subscribe(user => {
+          this.user = user;
+          this.ngOnInit();
+        });
+      })
     }
   }
 }
