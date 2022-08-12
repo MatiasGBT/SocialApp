@@ -21,8 +21,7 @@ export class EditProfileComponent implements OnInit {
   output?: NgxCroppedEvent;
 
   constructor(private authService: AuthService, private translate: TranslateService,
-    private userService: UserService, private router: Router,
-    private fileEditorService: NgxPhotoEditorService) { }
+    private userService: UserService, private fileEditorService: NgxPhotoEditorService) { }
 
   ngOnInit(): void {
     let lang = localStorage.getItem("lang");
@@ -55,29 +54,41 @@ export class EditProfileComponent implements OnInit {
     }).subscribe(data => {
       this.output = data;
       this.file = this.output.file;
+      this.user.photo = null; //This is done in order to remove the user's image from the view and add the uploaded from the input.
     });
   }
 
   editProfile() {
     if (!this.file) {
-      console.error("No file selected");
+      this.fireModal(
+        this.userService.uploadNewUserWithoutFile(this.user).subscribe(response => {
+          this.user = response.user as User;
+          console.log(response.message);
+        })
+      );
     } else {
       if (this.user.description == null) {
         this.user.description = "";
       }
-      Swal.fire({
-        icon: 'success',
-        title: 'Changes saved',
-        showConfirmButton: false,
-        timer: 1250,
-        background: '#7f5af0',
-        color: 'white'
-      }).then(() => {
-        this.userService.uploadNewUser(this.file, this.user).subscribe(user => {
-          this.user = user;
-          this.ngOnInit();
-        });
-      })
+      this.fireModal(
+        this.userService.uploadNewUser(this.file, this.user).subscribe(response => {
+          this.user = response.user as User;
+          console.log(response.message);
+        })
+      );
     }
+  }
+
+  fireModal(executableFunction: any) {
+    Swal.fire({
+      icon: 'success',
+      title: 'Changes saved',
+      showConfirmButton: false,
+      timer: 1250,
+      background: '#7f5af0',
+      color: 'white'
+    }).then(() => {
+      executableFunction;
+    })
   }
 }

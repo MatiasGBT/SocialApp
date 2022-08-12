@@ -31,7 +31,7 @@ export class AuthService {
   }
 
   private login(user: User): Observable<any> {
-    let url = "http://localhost:8090/api/index/login";
+    let url = "http://localhost:8090/api/app/login";
     const httpHeaders = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': 'Basic ' + this.keycloakService.getToken()});
     return this.http.post<any>(url, user, {headers: httpHeaders});
   }

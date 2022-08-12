@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@RequestMapping("api/index/")
+@RequestMapping("api/app/")
 @PreAuthorize("isAuthenticated()")
 public class AppController {
 
@@ -22,7 +22,7 @@ public class AppController {
         UserApp userFound = userService.findByUsername(user.getUsername());
         Map<String, Object> response = new HashMap<>();
         if (userFound != null) {
-            userFound = userService.checkIfUserIsPersisted(userFound, user); //Needed if the user updates their first and last name from Keycloak
+            userService.checkIfUserIsPersisted(userFound, user); //Needed if the user updates their first and last name from Keycloak
             response.put("message", "User found");
             response.put("user", userFound);
             return new ResponseEntity<Map>(response, HttpStatus.OK);

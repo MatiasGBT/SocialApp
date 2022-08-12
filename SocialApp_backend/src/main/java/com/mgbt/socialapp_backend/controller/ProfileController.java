@@ -22,7 +22,7 @@ public class ProfileController {
     @Autowired
     private IUploadFileService uploadFileService;
 
-    @PostMapping("/upload")
+    @PostMapping("/edit/complete")
     @PreAuthorize("hasRole('user')")
     public ResponseEntity<?> editProfile(@RequestParam("file") MultipartFile file,
                                          @RequestParam("username") String username,
@@ -46,6 +46,19 @@ public class ProfileController {
             response.put("user", user);
             response.put("message", "File uploaded correctly: " + fileName);
         }
+        return new ResponseEntity<Map>(response, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/edit/half")
+    @PreAuthorize("hasRole('user')")
+    public ResponseEntity<?> editProfile(@RequestParam("username") String username,
+                                         @RequestParam("description") String description) {
+        Map<String, Object> response = new HashMap<>();
+        UserApp user = userService.findByUsername(username);
+        user.setDescription(description);
+        user = userService.save(user);
+        response.put("user", user);
+        response.put("message", "Description changed correctly: " + user.getDescription());
         return new ResponseEntity<Map>(response, HttpStatus.CREATED);
     }
 

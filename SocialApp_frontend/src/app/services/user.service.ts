@@ -11,17 +11,23 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  uploadNewUser(file: File, user: User): Observable<User> {
+  uploadNewUser(file: File, user: User): Observable<any> {
     let formData = new FormData();
     formData.append("file", file);
     formData.append("username", user.username);
     formData.append("description", user.description);
-    return this.http.post(`${this.urlEndPoint}profile/upload/`, formData).pipe(
-      map((response: any) => response.user as User),
+    return this.http.post(`${this.urlEndPoint}profile/edit/complete`, formData).pipe(
       catchError(e => {
         console.error(e.error);
         return throwError(() => new Error(e));
       })
     );
+  }
+
+  uploadNewUserWithoutFile(user: User): Observable<any> {
+    let formData = new FormData();
+    formData.append("username", user.username);
+    formData.append("description", user.description);
+    return this.http.post(`${this.urlEndPoint}profile/edit/half`, formData);
   }
 }
