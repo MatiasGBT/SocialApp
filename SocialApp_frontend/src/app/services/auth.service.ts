@@ -1,39 +1,32 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { KeycloakService } from 'keycloak-angular';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private _user: User;
+  private user: User;
   private token = this.keycloakService.getKeycloakInstance().token;
+  private baseUrl = "http://localhost:8090/api/app/";
 
-  constructor(private http: HttpClient, private keycloakService: KeycloakService,
-    private router: Router) { }
+  constructor(private http: HttpClient, private keycloakService: KeycloakService) { }
 
-  public get user(): User {
-    if (this._user == null) {
-      this._user = new User();
+  public login(): Observable<any> {
+    if (this.user == null) {
+      this.user = new User();
       let payload = this.obtainPayload(this.token);
       this.createUserWithPayload(payload);
     }
-    this.login(this._user).subscribe(response => {
-      this._user = response.user as User;
-      if (response.status != undefined && response.status == 201) {
-        this.router.navigate(["/profile/edit"]);
-      }
-    });
-    return this._user;
+    const httpHeaders = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': 'Basic ' + this.keycloakService.getToken()});
+    return this.http.post<any>(this.baseUrl + "login", this.user, {headers: httpHeaders});
   }
 
-  private login(user: User): Observable<any> {
-    let url = "http://localhost:8090/api/app/login";
-    const httpHeaders = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': 'Basic ' + this.keycloakService.getToken()});
-    return this.http.post<any>(url, user, {headers: httpHeaders});
+  public getUsername(): string {
+    let payload = this.obtainPayload(this.token);
+    return payload.preferred_username;
   }
 
   private obtainPayload(access_token:string): any {
@@ -41,8 +34,8 @@ export class AuthService {
   }
 
   private createUserWithPayload(payload) {
-    this._user.username = payload.preferred_username;
-    this._user.name = payload.given_name;
-    this._user.surname = payload.family_name;
+    this.user.username = payload.preferred_username;
+    this.user.name = payload.given_name;
+    this.user.surname = payload.family_name;
   }
 }

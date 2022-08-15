@@ -33,7 +33,7 @@ public class ProfileController {
             try {
                 fileName = uploadFileService.save(file);
             } catch (IOException e) {
-                response.put("message", "Server error");
+                response.put("message", "Database error");
                 response.put("error", e.getMessage());
                 return new ResponseEntity<Map>(response, HttpStatus.INTERNAL_SERVER_ERROR);
             }

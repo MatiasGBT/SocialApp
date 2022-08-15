@@ -7,12 +7,13 @@
         <button (click)="file.click()" id="select-button">{{'PROFILE.EDIT.PHOTO_BUTTON' | translate}}</button>
         <div class="image">
             <img *ngIf="!user?.photo" [src]="output?.base64" alt="">
+            <img *ngIf="!user?.photo && !output?.base64" src="http://localhost:8090/images/no-photo.jpg">
             <img *ngIf="user?.photo" src="http://localhost:8090/api/profile/img/{{user.photo}}" alt="">
         </div>
 
         <h2>{{'PROFILE.EDIT.DESCRIPTION_TITLE' | translate}}</h2>
-        <textarea name="" id="" maxlength="200" placeholder="{{placeholder}}"
-        [(ngModel)]="user.description" name="description" [value]="user.description"></textarea>
+        <textarea maxlength="200" placeholder="{{placeholder}}" 
+        [(ngModel)]="description" name="description"></textarea>
 
         <button type="submit" id="submit-changes" (click)="editProfile()">{{'PROFILE.EDIT.EDIT_BUTTON' | translate}}</button>
 

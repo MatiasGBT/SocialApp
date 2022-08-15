@@ -3,6 +3,7 @@ package com.mgbt.socialapp_backend.controller;
 import com.mgbt.socialapp_backend.model.entity.UserApp;
 import com.mgbt.socialapp_backend.model.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -24,14 +25,50 @@ public class AppController {
         if (userFound != null) {
             userService.checkIfUserIsPersisted(userFound, user); //Needed if the user updates their first and last name from Keycloak
             response.put("message", "User found");
-            response.put("user", userFound);
             return new ResponseEntity<Map>(response, HttpStatus.OK);
         } else {
             userFound = userService.save(user);
             response.put("message", "User created");
-            response.put("user", userFound);
             response.put("status", HttpStatus.CREATED.value());
             return new ResponseEntity<Map>(response, HttpStatus.CREATED);
         }
+    }
+
+    @GetMapping("/get/keycloak/{username}")
+    @PreAuthorize("hasRole('user')")
+    public ResponseEntity<?> getKeycloakUser(@PathVariable String username) {
+        UserApp user;
+        Map<String, Object> response = new HashMap<>();
+        try {
+            user = userService.findByUsername(username);
+        } catch (DataAccessException e) {
+            response.put("message", "Database error");
+            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<Map>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        if (user == null) {
+            response.put("message", "The user does not exist");
+            return new ResponseEntity<Map>(response, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @GetMapping("/get/{id}")
+    @PreAuthorize("hasRole('user')")
+    public ResponseEntity<?> getUser(@PathVariable Long id) {
+        UserApp user;
+        Map<String, Object> response = new HashMap<>();
+        try {
+            user = userService.find(id);
+        } catch (DataAccessException e) {
+            response.put("message", "Database error");
+            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<Map>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        if (user == null) {
+            response.put("message", "The user does not exist");
+            return new ResponseEntity<Map>(response, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }

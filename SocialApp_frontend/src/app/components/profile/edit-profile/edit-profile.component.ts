@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxCroppedEvent, NgxPhotoEditorService } from 'ngx-photo-editor';
 import { User } from 'src/app/models/user';
-import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
 
@@ -15,13 +14,14 @@ import Swal from 'sweetalert2';
 export class EditProfileComponent implements OnInit {
   public user: User;
   public file: File;
+  public description: string;
   public placeholder: string;
   private applyBtn: string;
   private cancelBtn: string;
   output?: NgxCroppedEvent;
 
-  constructor(private authService: AuthService, private translate: TranslateService,
-    private userService: UserService, private fileEditorService: NgxPhotoEditorService) { }
+  constructor(private translate: TranslateService, private userService: UserService,
+    private fileEditorService: NgxPhotoEditorService, private router: Router) { }
 
   ngOnInit(): void {
     let lang = localStorage.getItem("lang");
@@ -38,7 +38,11 @@ export class EditProfileComponent implements OnInit {
       this.cancelBtn = res;
     });
 
-    this.user = this.authService.user;
+    this.userService.getKeycloakUser().subscribe(response => {
+      this.user = response;
+      this.description = this.user.description;
+    });
+
   }
 
   fileChangeHandler(event: any) {
@@ -59,21 +63,28 @@ export class EditProfileComponent implements OnInit {
   }
 
   editProfile() {
+    if (this.description == null || this.description == undefined) {
+      this.description = "";
+    }
+    this.user.description = this.description;
+
     if (!this.file) {
       this.fireModal(
         this.userService.uploadNewUserWithoutFile(this.user).subscribe(response => {
           this.user = response.user as User;
           console.log(response.message);
+          this.router.navigate(['/profile']);
         })
       );
     } else {
-      if (this.user.description == null) {
-        this.user.description = "";
-      }
       this.fireModal(
         this.userService.uploadNewUser(this.file, this.user).subscribe(response => {
           this.user = response.user as User;
           console.log(response.message);
+          this.userService.userChanger.emit({
+            user: this.user
+          });
+          this.router.navigate(['/profile']);
         })
       );
     }

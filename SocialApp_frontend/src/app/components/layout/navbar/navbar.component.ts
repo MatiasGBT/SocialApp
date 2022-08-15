@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { User } from 'src/app/models/user';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,8 +11,9 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 export class NavbarComponent implements OnInit {
 
   public placeholder: string;
+  public user: User;
 
-  constructor(private translate:TranslateService) {}
+  constructor(private translate:TranslateService, private userService: UserService) {}
 
   ngOnInit(): void {
     const lang = localStorage.getItem('lang');
@@ -26,6 +29,13 @@ export class NavbarComponent implements OnInit {
         this.placeholder = res;
       });
     });
-  }
 
+    this.userService.getKeycloakUser().subscribe(response => {
+      this.user = response;
+    });
+
+    this.userService.userChanger.subscribe(data => {
+      this.user.photo = data.user.photo;
+    })
+  }
 }

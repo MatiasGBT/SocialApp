@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { User } from './models/user';
 import { AuthService } from './services/auth.service';
 
 @Component({
@@ -9,13 +9,18 @@ import { AuthService } from './services/auth.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  private user: User;
 
-  constructor(private translate: TranslateService, private authService: AuthService) {
+  constructor(private translate: TranslateService, private authService: AuthService,
+    private router: Router) {
     translate.addLangs(['en', 'es', 'pt']);
   }
   
   ngOnInit(): void {
-    this.user = this.authService.user;
+    this.authService.login().subscribe(response => {
+      console.log(response.message);
+      if (response.status != undefined && response.status == 201) {
+        this.router.navigate(['/profile/edit'])
+      }
+    })
   }
 }
