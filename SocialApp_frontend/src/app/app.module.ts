@@ -1,6 +1,6 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 
@@ -18,6 +18,8 @@ import { NewpostComponent } from './components/newpost/newpost.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { EditProfileComponent } from './components/profile/edit-profile/edit-profile.component';
 import { NgxPhotoEditorModule } from 'ngx-photo-editor';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -65,7 +67,10 @@ export function HttpLoaderFactory(http: HttpClient) {
           deps: [HttpClient]
       }
     }),
-    NgxPhotoEditorModule
+    NgxPhotoEditorModule,
+    BrowserAnimationsModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule
   ],
   providers: [
     {

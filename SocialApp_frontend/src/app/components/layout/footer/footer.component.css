@@ -124,6 +124,7 @@ footer ul li a p {
         align-items: center;
         height: 30%;
         color: white;
+        cursor: pointer;
     }
 
     footer div img {

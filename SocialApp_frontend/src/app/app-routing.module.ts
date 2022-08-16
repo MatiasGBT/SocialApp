@@ -13,6 +13,7 @@ const routes: Routes = [
   {path: 'index', component: IndexComponent, canActivate: [AuthGuard], data: {role: 'user'}},
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard], data: {role: 'user'}},
   {path: 'profile/edit', component: EditProfileComponent},
+  {path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard], data: {role: 'user'}},
   {path: 'notif', component: NotifComponent, canActivate: [AuthGuard], data: {role: 'user'}},
   {path: 'config', component: ConfigComponent, canActivate: [AuthGuard], data: {role: 'user'}},
   {path: 'newpost', component: NewpostComponent, canActivate: [AuthGuard], data: {role: 'user'}}

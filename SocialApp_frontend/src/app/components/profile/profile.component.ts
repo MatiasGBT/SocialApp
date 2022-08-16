@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
 
@@ -10,7 +11,7 @@ import { UserService } from 'src/app/services/user.service';
 export class ProfileComponent implements OnInit {
   public user: User;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private activatedRout: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.userService.getKeycloakUser().subscribe(response => {
@@ -19,7 +20,16 @@ export class ProfileComponent implements OnInit {
 
     this.userService.userChanger.subscribe(data => {
       this.user = data.user;
-    })
+    });
+
+    this.activatedRout.params.subscribe(params => {
+      let id = params['id'];
+      if (id) {
+        this.userService.getUser(id).subscribe(user => {
+          this.user = user
+        });
+      }
+    });
   }
 
 }

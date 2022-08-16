@@ -49,4 +49,9 @@ public class UserService implements IService<UserApp> {
             userFound = this.save(userFound);
         }
     }
+
+    @Transactional(readOnly = true)
+    public List<UserApp> filter(String name, String keycloakName) {
+        return repository.filter(name, keycloakName);
+    }
 }

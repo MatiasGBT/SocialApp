@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { User } from '../models/user';
 import { AuthService } from './auth.service';
 
@@ -9,14 +9,14 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class UserService {
-  private baseUrl: string = 'http://localhost:8090/api/';
+  private baseUrl: string = 'http://localhost:8090/api';
   @Output() userChanger: EventEmitter<any> = new EventEmitter();
 
   constructor(private http: HttpClient, private router: Router,
     private authService: AuthService) { }
 
   public getKeycloakUser(): Observable<User> {
-    return this.http.get<User>(`${this.baseUrl}app/get/keycloak/${this.authService.getUsername()}`).pipe(
+    return this.http.get<User>(`${this.baseUrl}/app/get/keycloak/${this.authService.getUsername()}`).pipe(
       catchError(e => {
         window.location.reload();
         return throwError(()=>e);
@@ -25,10 +25,20 @@ export class UserService {
   }
 
   public getUser(id: number): Observable<User> {
-    return this.http.get<User>(`${this.baseUrl}app/get/${id}`).pipe(
+    return this.http.get<User>(`${this.baseUrl}/app/get/${id}`).pipe(
       catchError(e => {
-        this.router.navigate(['/index']);
+        this.router.navigate(['/index']); //Need a 404 page
         return throwError(()=>e);
+      })
+    );
+  }
+
+  public filterUsers(name: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/navbar/autocomplete/${name}&${this.authService.getUsername()}`).pipe(
+      map(response => response.users as User[]),
+      catchError(e => {
+        console.error(e.error);
+        return throwError(() => new Error(e));
       })
     );
   }
@@ -38,7 +48,7 @@ export class UserService {
     formData.append("file", file);
     formData.append("username", user.username);
     formData.append("description", user.description);
-    return this.http.post(`${this.baseUrl}profile/edit/complete`, formData).pipe(
+    return this.http.post(`${this.baseUrl}/profile/edit/complete`, formData).pipe(
       catchError(e => {
         console.error(e.error);
         return throwError(() => new Error(e));
@@ -50,6 +60,6 @@ export class UserService {
     let formData = new FormData();
     formData.append("username", user.username);
     formData.append("description", user.description);
-    return this.http.post(`${this.baseUrl}profile/edit/half`, formData);
+    return this.http.post(`${this.baseUrl}/profile/edit/half`, formData);
   }
 }

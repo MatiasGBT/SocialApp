@@ -1,6 +1,7 @@
 #section-newpost {
-    padding: 25px;
-    margin-bottom: 60px;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 25px;
 }
 
 h2 {
@@ -59,7 +60,7 @@ textarea {
 
 @media (min-width: 768px) {
     #section-newpost {
-        margin-bottom: 0;
+        padding-bottom: 25px;
     }
 }
 
