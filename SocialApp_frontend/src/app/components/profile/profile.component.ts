@@ -10,14 +10,11 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class ProfileComponent implements OnInit {
   public user: User;
+  public keycloakUserId: number;
 
   constructor(private userService: UserService, private activatedRout: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.userService.getKeycloakUser().subscribe(response => {
-      this.user = response;
-    });
-
     this.userService.userChanger.subscribe(data => {
       this.user = data.user;
     });
@@ -27,6 +24,11 @@ export class ProfileComponent implements OnInit {
       if (id) {
         this.userService.getUser(id).subscribe(user => {
           this.user = user
+        });
+      } else {
+        this.userService.getKeycloakUser().subscribe(response => {
+          this.user = response;
+          this.keycloakUserId = response.idUser;
         });
       }
     });

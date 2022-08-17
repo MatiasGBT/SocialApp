@@ -145,6 +145,12 @@ hr {
         max-width: 50%;
     }
 
+    .edit-profile-button {
+        margin-left: auto;
+        margin-right: 25px; /*Same as padding*/
+        width: 30%;
+    }
+
     .publication {
         width: 100%;
     }

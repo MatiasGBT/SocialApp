@@ -22,14 +22,18 @@
                 <p *ngIf="user?.description">{{user.description}}</p>
             </div>
             <div id="profile-buttons">
-                <button type="button" class="profile-button" [routerLink]="['edit']"><i class="fa-solid fa-pencil"></i> {{'PROFILE.EDIT_PROFILE'
-                    | translate}}</button>
-                <button type="button" class="profile-button"><i class="fa-solid fa-plus"></i> {{'PROFILE.ADD_FRIEND' |
-                    translate}}</button>
-                <button type="button" class="profile-button"><i class="fa-solid fa-message"></i>
-                    {{'PROFILE.SEND_MESSAGE' | translate}}</button>
-                <button type="button" class="profile-button"><i class="fa-solid fa-phone-flip"></i> {{'PROFILE.CALL' |
-                    translate}}</button>
+                <button type="button" class="profile-button edit-profile-button" [routerLink]="['edit']" *ngIf="user.idUser == keycloakUserId">
+                    <i class="fa-solid fa-pencil"></i> {{'PROFILE.EDIT_PROFILE' | translate}}
+                </button>
+                <button type="button" class="profile-button" *ngIf="user.idUser != keycloakUserId">
+                    <i class="fa-solid fa-plus"></i> {{'PROFILE.ADD_FRIEND' | translate}}
+                </button>
+                <button type="button" class="profile-button" *ngIf="user.idUser != keycloakUserId">
+                    <i class="fa-solid fa-message"></i> {{'PROFILE.SEND_MESSAGE' | translate}}
+                </button>
+                <button type="button" class="profile-button" *ngIf="user.idUser != keycloakUserId">
+                    <i class="fa-solid fa-phone-flip"></i> {{'PROFILE.CALL' | translate}}
+                </button>
             </div>
         </div>
 
