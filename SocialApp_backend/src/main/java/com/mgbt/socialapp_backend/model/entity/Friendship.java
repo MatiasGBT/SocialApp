@@ -33,7 +33,7 @@ public class Friendship implements Serializable {
     @Column(columnDefinition = "BOOLEAN", nullable = false)
     private Boolean status;
 
-    @Column(name = "date", nullable = false)
+    @Column(name = "date")
     @Temporal(value = TemporalType.DATE)
     private Date date;
 }
