@@ -16,7 +16,7 @@ export class UserService {
     private authService: AuthService) { }
 
   public getKeycloakUser(): Observable<User> {
-    return this.http.get<User>(`${this.baseUrl}/app/get/keycloak/${this.authService.getUsername()}`).pipe(
+    return this.http.get<User>(`${this.baseUrl}/app/get-user/keycloak/${this.authService.getUsername()}`).pipe(
       catchError(e => {
         window.location.reload();
         return throwError(()=>e);
@@ -25,7 +25,7 @@ export class UserService {
   }
 
   public getUser(id: number): Observable<User> {
-    return this.http.get<User>(`${this.baseUrl}/app/get/${id}`).pipe(
+    return this.http.get<User>(`${this.baseUrl}/app/get-user/${id}`).pipe(
       catchError(e => {
         this.router.navigate(['/index']); //Need a 404 page
         return throwError(()=>e);

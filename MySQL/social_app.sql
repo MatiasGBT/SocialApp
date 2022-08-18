@@ -64,7 +64,7 @@ CREATE TABLE `friendships` (
   `id_friendship` bigint NOT NULL AUTO_INCREMENT,
   `id_user_transmitter` bigint NOT NULL,
   `id_user_receiver` bigint NOT NULL,
-  `date` date NOT NULL,
+  `date` date,
   `status` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_friendship`),
   KEY `fk_user_transmitter` (`id_user_transmitter`),

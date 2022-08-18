@@ -22,16 +22,16 @@
                 <p *ngIf="user?.description">{{user.description}}</p>
             </div>
             <div id="profile-buttons">
-                <button type="button" class="profile-button edit-profile-button" [routerLink]="['edit']" *ngIf="user.idUser == keycloakUserId">
+                <button type="button" class="profile-button side-profile-button" [routerLink]="['edit']" *ngIf="user?.idUser == keycloakUserId">
                     <i class="fa-solid fa-pencil"></i> {{'PROFILE.EDIT_PROFILE' | translate}}
                 </button>
-                <button type="button" class="profile-button" *ngIf="user.idUser != keycloakUserId">
+                <button type="button" class="profile-button side-profile-button" (click)="addFriend()" *ngIf="user?.idUser != keycloakUserId && friendship?.status == false">
                     <i class="fa-solid fa-plus"></i> {{'PROFILE.ADD_FRIEND' | translate}}
                 </button>
-                <button type="button" class="profile-button" *ngIf="user.idUser != keycloakUserId">
+                <button type="button" class="profile-button" *ngIf="user?.idUser != keycloakUserId && friendship?.status == true">
                     <i class="fa-solid fa-message"></i> {{'PROFILE.SEND_MESSAGE' | translate}}
                 </button>
-                <button type="button" class="profile-button" *ngIf="user.idUser != keycloakUserId">
+                <button type="button" class="profile-button" *ngIf="user?.idUser != keycloakUserId && friendship?.status == true">
                     <i class="fa-solid fa-phone-flip"></i> {{'PROFILE.CALL' | translate}}
                 </button>
             </div>

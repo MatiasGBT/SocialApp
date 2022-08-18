@@ -34,7 +34,7 @@ public class AppController {
         }
     }
 
-    @GetMapping("/get/keycloak/{username}")
+    @GetMapping("/get-user/keycloak/{username}")
     @PreAuthorize("hasRole('user')")
     public ResponseEntity<?> getKeycloakUser(@PathVariable String username) {
         UserApp user;
@@ -53,7 +53,7 @@ public class AppController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @GetMapping("/get/{id}")
+    @GetMapping("/get-user/{id}")
     @PreAuthorize("hasRole('user')")
     public ResponseEntity<?> getUser(@PathVariable Long id) {
         UserApp user;
