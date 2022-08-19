@@ -47,7 +47,7 @@ export class NavbarComponent implements OnInit {
     
     this.people = this.control.valueChanges.pipe(
       map(value => typeof value === 'string' && value.length >= 3 ? value : value.name),
-      mergeMap(value =>  value ? this._filter(value) : [])
+      mergeMap(value => value ? this._filter(value) : [])
     );
   }
 
@@ -55,11 +55,17 @@ export class NavbarComponent implements OnInit {
     return this.userService.filterUsers(value);
   }
 
-  goToProfile(event: MatAutocompleteSelectedEvent) {
+  public goToProfile(event: MatAutocompleteSelectedEvent) {
     let user = event.option.value as User;
     this.router.navigate(['/profile', user.idUser])
     this.control.setValue('');
     event.option.focus();
     event.option.deselect();
+  }
+
+  public search(event) {
+    if (event.key === 'Enter' || event.keyCode == 13) {
+      this.router.navigate(['/search', this.control.value]);
+    }
   }
 }

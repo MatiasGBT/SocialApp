@@ -4,7 +4,6 @@ import { Friendship } from 'src/app/models/friendship';
 import { User } from 'src/app/models/user';
 import { FriendshipService } from 'src/app/services/friendship.service';
 import { UserService } from 'src/app/services/user.service';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-profile',
@@ -17,7 +16,7 @@ export class ProfileComponent implements OnInit {
   private id: number;
   public friendship: Friendship;
 
-  constructor(private userService: UserService, private activatedRout: ActivatedRoute,
+  constructor(private userService: UserService, private activatedRoute: ActivatedRoute,
     private friendshipService: FriendshipService) { }
 
   ngOnInit(): void {
@@ -25,7 +24,7 @@ export class ProfileComponent implements OnInit {
       this.user = data.user;
     });
 
-    this.activatedRout.params.subscribe(params => {
+    this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
       if (this.id) {
         this.userService.getUser(this.id).subscribe(user => this.user = user);
@@ -39,16 +38,7 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  addFriend() {
-    this.friendshipService.sendFriendRequest(this.id).subscribe(response => {
-      Swal.fire({
-        icon: response.send ? 'success' : 'info',
-        title: response.message,
-        showConfirmButton: false,
-        timer: 1250,
-        background: '#7f5af0',
-        color: 'white'
-      })
-    });
+  public addFriend(): void {
+    this.friendshipService.addFriend(this.id);
   }
 }

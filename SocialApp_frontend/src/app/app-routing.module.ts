@@ -6,6 +6,7 @@ import { NewpostComponent } from './components/newpost/newpost.component';
 import { NotifComponent } from './components/notif/notif.component';
 import { EditProfileComponent } from './components/profile/edit-profile/edit-profile.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { SearchUsersComponent } from './components/search-users/search-users.component';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
@@ -14,6 +15,7 @@ const routes: Routes = [
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard], data: {role: 'user'}},
   {path: 'profile/edit', component: EditProfileComponent},
   {path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard], data: {role: 'user'}},
+  {path: 'search/:name', component: SearchUsersComponent, canActivate: [AuthGuard], data: {role: 'user'}},
   {path: 'notif', component: NotifComponent, canActivate: [AuthGuard], data: {role: 'user'}},
   {path: 'config', component: ConfigComponent, canActivate: [AuthGuard], data: {role: 'user'}},
   {path: 'newpost', component: NewpostComponent, canActivate: [AuthGuard], data: {role: 'user'}}

@@ -20,6 +20,7 @@ import { EditProfileComponent } from './components/profile/edit-profile/edit-pro
 import { NgxPhotoEditorModule } from 'ngx-photo-editor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { SearchUsersComponent } from './components/search-users/search-users.component';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -50,7 +51,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     NotifComponent,
     ConfigComponent,
     NewpostComponent,
-    EditProfileComponent
+    EditProfileComponent,
+    SearchUsersComponent
   ],
   imports: [
     BrowserModule,

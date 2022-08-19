@@ -46,12 +46,17 @@ public class UserService implements IService<UserApp> {
                 !userFound.getSurname().equals(userFromToken.getSurname())) {
             userFound.setName(userFromToken.getName());
             userFound.setSurname(userFromToken.getSurname());
-            userFound = this.save(userFound);
+            this.save(userFound);
         }
     }
 
     @Transactional(readOnly = true)
     public List<UserApp> filter(String name, String keycloakName) {
         return repository.filter(name, keycloakName);
+    }
+
+    @Transactional(readOnly = true)
+    public List<UserApp> filterWithoutLimit(String name, String keycloakName) {
+        return repository.filterWithoutLimit(name, keycloakName);
     }
 }

@@ -11,9 +11,17 @@ public interface IUserRepository extends JpaRepository<UserApp, Long> {
     UserApp findByUsername(String username);
 
     @Query(value = "SELECT * FROM users u WHERE " +
-            "(u.name LIKE CONCAT('%',?1 ,'%') OR u.surname LIKE CONCAT('%',?1 ,'%')) AND " +
-            "u.username NOT LIKE CONCAT('%',?2 ,'%') AND " +
-            "u.deletion_date IS NULL",
+            "(u.name LIKE CONCAT('%',?1,'%') OR u.surname LIKE CONCAT('%',?1 ,'%')) AND " +
+            "u.username NOT LIKE CONCAT('%',?2,'%') AND " +
+            "u.deletion_date IS NULL " +
+            "LIMIT 0,5",
             nativeQuery = true)
     List<UserApp> filter(String name, String keycloakName);
+
+    @Query(value = "SELECT * FROM users u WHERE " +
+            "(u.name LIKE CONCAT('%',?1,'%') OR u.surname LIKE CONCAT('%',?1 ,'%')) AND " +
+            "u.username NOT LIKE CONCAT('%',?2,'%') AND " +
+            "u.deletion_date IS NULL",
+            nativeQuery = true)
+    List<UserApp> filterWithoutLimit(String name, String keycloakName);
 }

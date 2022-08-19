@@ -64,6 +64,11 @@
         "ACCOUNT_BUTTON": "Gerenciar usuário",
         "LOGOUT": "Sair da sessão"
     },
+    "SEARCH": {
+        "USERS_TITLE": "Usuários encontrados",
+        "NON_USERS_TITLE": "Nenhum usuário encontrado",
+        "NON_USERS_TEXT": "Tente outro nome para a busca"
+    },
     "LANGUAGES": {
         "en": "English",
         "es": "Español",

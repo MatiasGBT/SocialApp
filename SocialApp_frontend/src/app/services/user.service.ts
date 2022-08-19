@@ -43,6 +43,16 @@ export class UserService {
     );
   }
 
+  public filterUsersWithoutLimit(name: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/navbar/autocomplete/full/${name}&${this.authService.getUsername()}`).pipe(
+      map(response => response.users as User[]),
+      catchError(e => {
+        console.error(e.error);
+        return throwError(() => new Error(e));
+      })
+    );
+  }
+
   uploadNewUser(file: File, user: User): Observable<any> {
     let formData = new FormData();
     formData.append("file", file);

@@ -1,8 +1,8 @@
 <nav>
   <img src="https://via.placeholder.com/50" id="logo" [routerLink]="['/index']">
 
-  <input type="search" id="input-grid" [placeholder]="placeholder" [matAutocomplete]="auto" [formControl]="control"
-    matInput>
+  <input type="search" id="input-grid" [placeholder]="placeholder" [matAutocomplete]="auto"
+    [formControl]="control" matInput (keypress)="search($event)">
   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="goToProfile($event)">
     <mat-option *ngFor="let person of people | async" [value]="person">
       {{person.name}} {{person.surname}}
