@@ -13,5 +13,5 @@ public interface IService<E> {
 
     void delete(E entity);
 
-    E find(Long id);
+    E findById(Long id);
 }

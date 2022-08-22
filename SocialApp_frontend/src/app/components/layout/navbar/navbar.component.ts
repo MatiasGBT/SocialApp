@@ -64,7 +64,7 @@ export class NavbarComponent implements OnInit {
   }
 
   public search(event) {
-    if (event.key === 'Enter' || event.keyCode == 13) {
+    if ((event.key === 'Enter' || event.keyCode == 13) && this.control.value.length >= 3) {
       this.router.navigate(['/search', this.control.value]);
     }
   }

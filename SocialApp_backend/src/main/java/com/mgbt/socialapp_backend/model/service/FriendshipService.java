@@ -35,7 +35,7 @@ public class FriendshipService implements IService<Friendship> {
 
     @Override
     @Transactional(readOnly = true)
-    public Friendship find(Long id) {
+    public Friendship findById(Long id) {
         return repository.findById(id).orElse(null);
     }
 

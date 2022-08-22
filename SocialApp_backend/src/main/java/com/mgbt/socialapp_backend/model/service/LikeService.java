@@ -34,7 +34,7 @@ public class LikeService implements IService<Like> {
 
     @Override
     @Transactional(readOnly = true)
-    public Like find(Long id) {
+    public Like findById(Long id) {
         return repository.findById(id).orElse(null);
     }
 }

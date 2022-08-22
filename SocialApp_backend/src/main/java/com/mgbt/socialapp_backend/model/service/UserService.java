@@ -33,7 +33,7 @@ public class UserService implements IService<UserApp> {
 
     @Override
     @Transactional(readOnly = true)
-    public UserApp find(Long id) {
+    public UserApp findById(Long id) {
         return repository.findById(id).orElse(null);
     }
 

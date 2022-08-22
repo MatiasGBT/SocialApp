@@ -5,4 +5,5 @@ export class User {
     surname: string;
     photo: string;
     description: string;
+    isFriend: boolean;
 }

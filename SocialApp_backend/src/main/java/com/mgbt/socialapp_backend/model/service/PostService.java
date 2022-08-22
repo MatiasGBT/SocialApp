@@ -34,7 +34,7 @@ public class PostService implements IService<Post> {
 
     @Override
     @Transactional(readOnly = true)
-    public Post find(Long id) {
+    public Post findById(Long id) {
         return repository.findById(id).orElse(null);
     }
 }

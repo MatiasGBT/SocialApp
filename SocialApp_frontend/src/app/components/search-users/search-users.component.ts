@@ -19,9 +19,13 @@ export class SearchUsersComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       let name: string = params['name'];
       if (name) {
-        this.userService.filterUsersWithoutLimit(name).subscribe(users => {
-          this.users = users
-          console.log(this.users)
+        this.userService.filterUsersWithoutLimit(name).subscribe(response => {
+          this.users = response;
+          this.users.map(user => {
+            this.friendshipService.getFriendship(user.idUser).subscribe(friendship => {
+              friendship.status ? user.isFriend = true : user.isFriend = false
+            });
+          })
         });
       }
     });

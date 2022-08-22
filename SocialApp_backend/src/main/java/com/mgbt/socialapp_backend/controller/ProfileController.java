@@ -1,7 +1,6 @@
 package com.mgbt.socialapp_backend.controller;
 
-import com.mgbt.socialapp_backend.model.entity.Friendship;
-import com.mgbt.socialapp_backend.model.entity.UserApp;
+import com.mgbt.socialapp_backend.model.entity.*;
 import com.mgbt.socialapp_backend.model.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -90,7 +89,7 @@ public class ProfileController {
         Friendship friendship;
         try {
             userTransmitter = userService.findByUsername(usernameTransmitter);
-            userReceiver = userService.find(idReceiver);
+            userReceiver = userService.findById(idReceiver);
             friendship = friendshipService.findByUsers(userTransmitter, userReceiver);
         } catch (DataAccessException e) {
             response.put("message", "Database error");
@@ -121,7 +120,7 @@ public class ProfileController {
         Friendship friendship;
         try {
             userTransmitter = userService.findByUsername(usernameTransmitter);
-            userReceiver = userService.find(idReceiver);
+            userReceiver = userService.findById(idReceiver);
             friendship = friendshipService.findByUsers(userTransmitter, userReceiver);
         } catch (DataAccessException e) {
             Map<String, Object> response = new HashMap<>();

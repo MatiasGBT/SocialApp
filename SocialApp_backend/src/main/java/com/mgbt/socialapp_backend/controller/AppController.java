@@ -27,7 +27,7 @@ public class AppController {
             response.put("message", "User found");
             return new ResponseEntity<Map>(response, HttpStatus.OK);
         } else {
-            userFound = userService.save(user);
+            userService.save(user);
             response.put("message", "User created");
             response.put("status", HttpStatus.CREATED.value());
             return new ResponseEntity<Map>(response, HttpStatus.CREATED);
@@ -59,7 +59,7 @@ public class AppController {
         UserApp user;
         Map<String, Object> response = new HashMap<>();
         try {
-            user = userService.find(id);
+            user = userService.findById(id);
         } catch (DataAccessException e) {
             response.put("message", "Database error");
             response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());

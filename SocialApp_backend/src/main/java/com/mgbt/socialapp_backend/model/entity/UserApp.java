@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mgbt.socialapp_backend.model.entity.notification.Notification;
 import lombok.Data;
 import javax.persistence.*;
-import javax.validation.constraints.*;
 import java.io.*;
 import java.util.*;
 

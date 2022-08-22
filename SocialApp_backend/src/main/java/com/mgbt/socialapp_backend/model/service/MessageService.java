@@ -34,7 +34,7 @@ public class MessageService implements IService<Message> {
 
     @Override
     @Transactional(readOnly = true)
-    public Message find(Long id) {
+    public Message findById(Long id) {
         return repository.findById(id).orElse(null);
     }
 }
