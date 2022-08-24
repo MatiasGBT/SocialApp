@@ -36,21 +36,24 @@ public class ProfileController {
             String fileName;
             try {
                 fileName = uploadFileService.save(file);
-            } catch (IOException e) {
-                response.put("message", "File error");
+                UserApp user = userService.findByUsername(username);
+                String lastFileName = user.getPhoto();
+                uploadFileService.delete(lastFileName);
+                user.setPhoto(fileName);
+                user.setDescription(description);
+                user = userService.save(user);
+                response.put("user", user);
+                response.put("message", "File uploaded correctly: " + fileName);
+                return new ResponseEntity<Map>(response, HttpStatus.CREATED);
+            } catch (Exception e) {
+                response.put("message", "Database or File error");
                 response.put("error", e.getMessage());
                 return new ResponseEntity<Map>(response, HttpStatus.INTERNAL_SERVER_ERROR);
             }
-            UserApp user = userService.findByUsername(username);
-            String lastFileName = user.getPhoto();
-            uploadFileService.delete(lastFileName);
-            user.setPhoto(fileName);
-            user.setDescription(description);
-            user = userService.save(user);
-            response.put("user", user);
-            response.put("message", "File uploaded correctly: " + fileName);
+        } else {
+            response.put("error", "The file is empty");
+            return new ResponseEntity<Map>(response, HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<Map>(response, HttpStatus.CREATED);
     }
 
     @PostMapping("/edit/half")
@@ -58,12 +61,19 @@ public class ProfileController {
     public ResponseEntity<?> editProfile(@RequestParam("username") String username,
                                          @RequestParam("description") String description) {
         Map<String, Object> response = new HashMap<>();
-        UserApp user = userService.findByUsername(username);
-        user.setDescription(description);
-        user = userService.save(user);
-        response.put("user", user);
-        response.put("message", "Description changed correctly: " + user.getDescription());
-        return new ResponseEntity<Map>(response, HttpStatus.CREATED);
+        try {
+            UserApp user = userService.findByUsername(username);
+            user.setDescription(description);
+            user = userService.save(user);
+            response.put("user", user);
+            response.put("message", "Description changed correctly: " + user.getDescription());
+            return new ResponseEntity<Map>(response, HttpStatus.CREATED);
+        } catch (DataAccessException e) {
+            response = new HashMap<>();
+            response.put("message", "Database error");
+            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<Map>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/img/{fileName:.+}")

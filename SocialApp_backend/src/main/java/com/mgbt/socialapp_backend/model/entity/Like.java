@@ -1,6 +1,6 @@
 package com.mgbt.socialapp_backend.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 import javax.persistence.*;
 import java.io.*;
@@ -19,12 +19,13 @@ public class Like implements Serializable {
     private Long idLike;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+    @JsonIgnore
     @JoinColumn(name = "id_post", nullable = false)
     private Post post;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","username","description","posts",
+            "creationDate","deletionDate"})
     @JoinColumn(name = "id_user", nullable = false)
     private UserApp user;
 }

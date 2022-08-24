@@ -30,16 +30,12 @@ public class Post implements Serializable {
     private Date date;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","username","description","posts",
+            "creationDate","deletionDate"})
     @JoinColumn(name = "id_user", nullable = false)
     private UserApp user;
 
     @OneToMany(mappedBy="post", fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","post","user"})
     private List<Like> likes;
-
-    @OneToMany(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
-    @JoinColumn(name = "id_comment")
-    private List<Comment> comments;
 }

@@ -27,7 +27,7 @@
             <a [routerLink]="['/notif']" routerLinkActive="active">
                 <i class="fa-solid fa-bell"></i>
                 <p> {{'FOOTER.NOTIFICATIONS' | translate}}</p>
-                <span id="notifications_length" *ngIf="isNotificationsEnabled">3</span>
+                <span id="notifications_length" *ngIf="isNotificationsEnabled">{{notificationsNumber}}</span>
             </a>
         </li>
         <li id="configuration-link">

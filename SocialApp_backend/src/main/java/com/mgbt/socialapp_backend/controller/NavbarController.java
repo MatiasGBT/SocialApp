@@ -20,32 +20,28 @@ public class NavbarController {
     @GetMapping("/autocomplete/{name}&{keycloakName}")
     @PreAuthorize("hasRole('user')")
     public ResponseEntity<?> filter(@PathVariable String name, @PathVariable String keycloakName) {
-        List<UserApp> users;
-        Map<String, Object> response = new HashMap<>();
         try {
-            users = userService.filter(name, keycloakName);
+            List<UserApp> users = userService.filter(name, keycloakName);
+            return new ResponseEntity<>(users, HttpStatus.OK);
         } catch (DataAccessException e) {
+            Map<String, Object> response = new HashMap<>();
             response.put("message", "Database error");
             response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
             return new ResponseEntity<Map>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        response.put("users", users);
-        return new ResponseEntity<Map>(response, HttpStatus.OK);
     }
 
     @GetMapping("/autocomplete/full/{name}&{keycloakName}")
     @PreAuthorize("hasRole('user')")
     public ResponseEntity<?> filterWithoutLimit(@PathVariable String name, @PathVariable String keycloakName) {
-        List<UserApp> users;
-        Map<String, Object> response = new HashMap<>();
         try {
-            users = userService.filterWithoutLimit(name, keycloakName);
+            List<UserApp> users = userService.filterWithoutLimit(name, keycloakName);
+            return new ResponseEntity<>(users, HttpStatus.OK);
         } catch (DataAccessException e) {
+            Map<String, Object> response = new HashMap<>();
             response.put("message", "Database error");
             response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
             return new ResponseEntity<Map>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        response.put("users", users);
-        return new ResponseEntity<Map>(response, HttpStatus.OK);
     }
 }

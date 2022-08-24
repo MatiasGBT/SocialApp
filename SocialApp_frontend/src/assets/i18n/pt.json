@@ -51,6 +51,8 @@
         "LIKE_POST_TEXT": "Ver",
         "NEW_MESSAGE_TITLE": "enviou a você uma mensagem",
         "NEW_MESSAGE_TEXT": "Toque para vê-la",
+        "FRIEND_REQUEST_TITLE": "Nova solicitação de amizade",
+        "FRIEND_REQUEST_TEXT": "lhe enviou uma solicitação de amizade",
         "NOTIFICATIONS_DISABLED": "As notificações estão desativadas. Habilite-as na guia Configurações para exibi-las."
     },
     "SETTINGS": {

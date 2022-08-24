@@ -1,78 +1,32 @@
 <section id="section-notifications">
     <header>
         <h1>{{'NOTIFICATIONS.TITLE' | translate}}</h1>
-        <button class="delete-button delete-all-icon" *ngIf="isNotificationsEnabled">
+        <button class="button delete-all-button" *ngIf="isNotificationsEnabled">
             <i class="fa-solid fa-trash"></i> {{'NOTIFICATIONS.DELETE_ALL' | translate}}
         </button>
     </header>
 
     <div id="notifications" *ngIf="isNotificationsEnabled">
-        <div class="notification-box">
-            <i class="fa-solid fa-bell notif-icon"></i>
-            <div class="notification-data">
-                <h2>{{'NOTIFICATIONS.NEW_FRIEND_TITLE' | translate}}</h2>
-                <p>Usuario Amigo 10 {{'NOTIFICATIONS.NEW_FRIEND_TEXT' | translate}}</p>
-            </div>
-            <button class="delete-button delete-icon"><i class="fa-solid fa-trash"></i></button>
-        </div>
+        <div class="notification-box" *ngFor="let notification of notifications">
+            <i class="fa-solid fa-bell notif-icon" [ngStyle]="{'opacity':returnOpacity(notification)}"></i>
+            <div class="notification-data"  [ngStyle]="{'opacity':returnOpacity(notification)}">
+                <h2 *ngIf="notification?.friend">{{'NOTIFICATIONS.NEW_FRIEND_TITLE' | translate}}</h2>
+                <h2 *ngIf="notification?.post">{{'NOTIFICATIONS.LIKE_POST_TITLE' | translate}}</h2>
+                <h2 *ngIf="notification?.userTransmitter">{{notification.userTransmitter.name}} {{'NOTIFICATIONS.NEW_MESSAGE_TITLE' | translate}}</h2>
+                <h2 *ngIf="notification?.friendship">{{'NOTIFICATIONS.FRIEND_REQUEST_TITLE' | translate}}</h2>
 
-        <div class="notification-box">
-            <i class="fa-solid fa-bell notif-icon"></i>
-            <div class="notification-data">
-                <h2>{{'NOTIFICATIONS.LIKE_POST_TITLE' | translate}}</h2>
-                <p>{{'NOTIFICATIONS.LIKE_POST_TEXT' | translate}}</p>
+                <p *ngIf="notification?.friend">{{notification.friend.name}} {{notification.friend.surname}} 
+                    {{'NOTIFICATIONS.NEW_FRIEND_TEXT' | translate}}</p>
+                <p *ngIf="notification?.post">{{'NOTIFICATIONS.LIKE_POST_TEXT' | translate}}</p>
+                <p *ngIf="notification?.userTransmitter">{{'NOTIFICATIONS.NEW_MESSAGE_TEXT' | translate}}</p>
+                <p *ngIf="notification?.friendship">{{notification.friendship.userTransmitter.name}} 
+                    {{notification.friendship.userTransmitter.surname}} {{'NOTIFICATIONS.FRIEND_REQUEST_TEXT' | translate}}</p>
             </div>
-            <button class="delete-button delete-icon"><i class="fa-solid fa-trash"></i></button>
-        </div>
-
-        <div class="notification-box">
-            <i class="fa-solid fa-bell notif-icon"></i>
-            <div class="notification-data">
-                <h2>Amigo 3 {{'NOTIFICATIONS.NEW_MESSAGE_TITLE' | translate}}</h2>
-                <p>{{'NOTIFICATIONS.NEW_MESSAGE_TEXT' | translate}}</p>
+            <button *ngIf="!notification?.friendship" class="button delete-button"><i class="fa-solid fa-trash"></i></button>
+            <div *ngIf="notification?.friendship" class="friendship-buttons">
+                <button class="button delete-button"><i class="fa-solid fa-check"></i></button>
+                <button class="button delete-button"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <button class="delete-button delete-icon"><i class="fa-solid fa-trash"></i></button>
-        </div>
-
-        <div class="notification-box">
-            <i class="fa-solid fa-bell notif-icon"  style="opacity: 50%;"></i>
-            <div class="notification-data"  style="opacity: 50%;">
-                <h2>{{'NOTIFICATIONS.LIKE_POST_TITLE' | translate}}</h2>
-                <p>{{'NOTIFICATIONS.LIKE_POST_TEXT' | translate}}</p>
-            </div>
-            <button class="delete-button delete-icon"><i class="fa-solid fa-trash"></i></button>
-        </div>
-        <div class="notification-box">
-            <i class="fa-solid fa-bell notif-icon"  style="opacity: 50%;"></i>
-            <div class="notification-data"  style="opacity: 50%;">
-                <h2>{{'NOTIFICATIONS.LIKE_POST_TITLE' | translate}}</h2>
-                <p>{{'NOTIFICATIONS.LIKE_POST_TEXT' | translate}}</p>
-            </div>
-            <button class="delete-button delete-icon"><i class="fa-solid fa-trash"></i></button>
-        </div>
-        <div class="notification-box">
-            <i class="fa-solid fa-bell notif-icon"  style="opacity: 50%;"></i>
-            <div class="notification-data"  style="opacity: 50%;">
-                <h2>{{'NOTIFICATIONS.LIKE_POST_TITLE' | translate}}</h2>
-                <p>{{'NOTIFICATIONS.LIKE_POST_TEXT' | translate}}</p>
-            </div>
-            <button class="delete-button delete-icon"><i class="fa-solid fa-trash"></i></button>
-        </div>
-        <div class="notification-box">
-            <i class="fa-solid fa-bell notif-icon"  style="opacity: 50%;"></i>
-            <div class="notification-data"  style="opacity: 50%;">
-                <h2>{{'NOTIFICATIONS.LIKE_POST_TITLE' | translate}}</h2>
-                <p>{{'NOTIFICATIONS.LIKE_POST_TEXT' | translate}}</p>
-            </div>
-            <button class="delete-button delete-icon"><i class="fa-solid fa-trash"></i></button>
-        </div>
-        <div class="notification-box">
-            <i class="fa-solid fa-bell notif-icon"  style="opacity: 50%;"></i>
-            <div class="notification-data"  style="opacity: 50%;">
-                <h2>{{'NOTIFICATIONS.LIKE_POST_TITLE' | translate}}</h2>
-                <p>{{'NOTIFICATIONS.LIKE_POST_TEXT' | translate}}</p>
-            </div>
-            <button class="delete-button delete-icon"><i class="fa-solid fa-trash"></i></button>
         </div>
     </div>
 

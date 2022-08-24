@@ -36,7 +36,7 @@ public class UserApp implements Serializable {
     private String description; 
 
     @OneToMany(mappedBy="user", fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","user","comments"})
     private List<Post> posts;
 
     @Column(name = "creation_date")
@@ -46,12 +46,6 @@ public class UserApp implements Serializable {
     @Column(name = "deletion_date")
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date deletionDate;
-
-    @OneToMany(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
-    @JoinTable(name = "notifications", joinColumns = @JoinColumn(name = "id_user_receiver"),
-            uniqueConstraints = {@UniqueConstraint(columnNames = {"id_user_receiver"})})
-    private List<Notification> notifications;
 
     @PrePersist
     public void setUpCreationDate() {

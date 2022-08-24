@@ -2,16 +2,18 @@ package com.mgbt.socialapp_backend.model.entity.notification;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mgbt.socialapp_backend.model.entity.UserApp;
-import lombok.Data;
+import lombok.*;
 import javax.persistence.*;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-@Entity(name = "friend_notif")
+@Entity
 @DiscriminatorValue("friend_notif")
 public class NotificationFriend extends Notification {
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","username","description","posts",
+            "creationDate","deletionDate","photo"})
     @JoinColumn(name = "id_user_friend")
     private UserApp friend;
 }

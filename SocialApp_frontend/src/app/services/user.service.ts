@@ -35,7 +35,7 @@ export class UserService {
 
   public filterUsers(name: string): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/navbar/autocomplete/${name}&${this.authService.getUsername()}`).pipe(
-      map(response => response.users as User[]),
+      map(response => response as User[]),
       catchError(e => {
         console.error(e.error);
         return throwError(() => new Error(e));
@@ -45,7 +45,7 @@ export class UserService {
 
   public filterUsersWithoutLimit(name: string): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/navbar/autocomplete/full/${name}&${this.authService.getUsername()}`).pipe(
-      map(response => response.users as User[]),
+      map(response => response as User[]),
       catchError(e => {
         console.error(e.error);
         return throwError(() => new Error(e));

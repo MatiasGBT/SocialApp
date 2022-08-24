@@ -51,6 +51,8 @@
         "LIKE_POST_TEXT": "Ver",
         "NEW_MESSAGE_TITLE": "te envió un mensaje",
         "NEW_MESSAGE_TEXT": "Pulsa para verlo",
+        "FRIEND_REQUEST_TITLE": "Nueva petición de amistad",
+        "FRIEND_REQUEST_TEXT": "te envió una petición de amistad",
         "NOTIFICATIONS_DISABLED": "Las notificaciones están deshabilitadas. Actívalas en la pestaña de Configuración para visualizarlas."
     },
     "SETTINGS": {

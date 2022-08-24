@@ -51,6 +51,8 @@
         "LIKE_POST_TEXT": "¡Check it!",
         "NEW_MESSAGE_TITLE": "sent you a message",
         "NEW_MESSAGE_TEXT": "Touch to see it",
+        "FRIEND_REQUEST_TITLE": "New friend request",
+        "FRIEND_REQUEST_TEXT": "sent you a friend request",
         "NOTIFICATIONS_DISABLED": "Notifications are disabled. Activate them in the Settings tab to view them."
     },
     "SETTINGS": {

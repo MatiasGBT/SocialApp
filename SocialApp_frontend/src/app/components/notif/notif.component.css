@@ -27,7 +27,7 @@ h2 {
     margin-right: 15px;
 }
 
-.delete-button {
+.button {
     margin-left: auto;
     text-align: center;
     background: #7f5af0;
@@ -38,11 +38,11 @@ h2 {
     outline: none;
 }
 
-.delete-button:hover {
+.button:hover {
     transition: .3s;
 }
 
-.delete-all-icon {
+.delete-all-button {
     display: block;
     width: auto;
     height: 30px;
@@ -51,23 +51,32 @@ h2 {
     padding-right: 10px;
 }
 
-.delete-all-icon:hover {
+.delete-all-button:hover {
     background: #6f4ed1;
 }
 
-.delete-icon {
+.delete-button {
     border-radius: 50%;
     width: 50px;
     height: 50px;
 }
 
-.delete-icon:hover {
+.delete-button:hover {
     border-radius: 15px;
 }
 
 .notification-box {
     display: flex;
     align-items: center;
+}
+
+.friendship-buttons {
+    margin-left: auto;
+    display: flex;
+}
+
+.friendship-buttons button {
+    margin-left: 5px;
 }
 
 .notifications-disabled {
@@ -78,16 +87,7 @@ h2 {
     color: #7f5af0;
 }
 
-@media (min-width: 768px) {
-    .delete-icon {
-        transition: .3s;
-    }
-    
-    .delete-icon:hover {
-        opacity: 100%;
-        transition: .3s;
-    }
-}
+@media (min-width: 768px) {}
 
 @media (min-width: 1038px) {
     #section-notifications {
@@ -107,7 +107,7 @@ h2 {
         width: 60%;
     }
 
-    .delete-all-icon {
+    .delete-all-button {
         font-size: 1rem;
     }
 }

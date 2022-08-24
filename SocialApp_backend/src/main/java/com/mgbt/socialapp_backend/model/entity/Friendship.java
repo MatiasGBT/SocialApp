@@ -21,12 +21,14 @@ public class Friendship implements Serializable {
     private Long idFriendship;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","username","description","posts",
+            "creationDate","deletionDate"})
     @JoinColumn(name = "id_user_transmitter", nullable = false)
     private UserApp userTransmitter;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","username","description","posts",
+            "creationDate","deletionDate"})
     @JoinColumn(name = "id_user_receiver", nullable = false)
     private UserApp userReceiver;
 

@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.io.*;
+import java.util.Date;
 
 @Data
 @Entity
@@ -24,12 +25,18 @@ public class Message implements Serializable {
     private String text;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","username","description","posts",
+            "creationDate","deletionDate","photo"})
     @JoinColumn(name = "id_user_transmitter", nullable = false)
     private UserApp userTransmitter;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","username","description","posts",
+            "creationDate","deletionDate","photo"})
     @JoinColumn(name = "id_user_receiver", nullable = false)
     private UserApp userReceiver;
+
+    @Column(name = "date", nullable = false)
+    @Temporal(value = TemporalType.TIMESTAMP)
+    private Date date;
 }

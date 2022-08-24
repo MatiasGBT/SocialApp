@@ -23,7 +23,7 @@ export class SearchUsersComponent implements OnInit {
           this.users = response;
           this.users.map(user => {
             this.friendshipService.getFriendship(user.idUser).subscribe(friendship => {
-              friendship.status ? user.isFriend = true : user.isFriend = false
+              friendship.status ? user.isFriend = true : user.isFriend = false;
             });
           })
         });
