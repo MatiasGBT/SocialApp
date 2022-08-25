@@ -9,7 +9,6 @@ import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.*;
 
@@ -26,11 +25,10 @@ public class ProfileController {
     @Autowired
     private FriendshipService friendshipService;
 
-    @PostMapping("/edit/complete")
+    @PostMapping("/send-photo")
     @PreAuthorize("hasRole('user')")
     public ResponseEntity<?> editProfile(@RequestParam("file") MultipartFile file,
-                                         @RequestParam("username") String username,
-                                         @RequestParam("description") String description) {
+                                         @RequestParam("username") String username) {
         Map<String, Object> response = new HashMap<>();
         if (!file.isEmpty()) {
             String fileName;
@@ -40,7 +38,6 @@ public class ProfileController {
                 String lastFileName = user.getPhoto();
                 uploadFileService.delete(lastFileName);
                 user.setPhoto(fileName);
-                user.setDescription(description);
                 user = userService.save(user);
                 response.put("user", user);
                 response.put("message", "File uploaded correctly: " + fileName);
@@ -56,14 +53,13 @@ public class ProfileController {
         }
     }
 
-    @PostMapping("/edit/half")
+    @PutMapping("/edit")
     @PreAuthorize("hasRole('user')")
-    public ResponseEntity<?> editProfile(@RequestParam("username") String username,
-                                         @RequestParam("description") String description) {
+    public ResponseEntity<?> editProfile(@RequestBody UserApp userUpdated) {
         Map<String, Object> response = new HashMap<>();
         try {
-            UserApp user = userService.findByUsername(username);
-            user.setDescription(description);
+            UserApp user = userService.findByUsername(userUpdated.getUsername());
+            user.setDescription(userUpdated.getDescription());
             user = userService.save(user);
             response.put("user", user);
             response.put("message", "Description changed correctly: " + user.getDescription());

@@ -25,4 +25,18 @@ export class NotifComponent implements OnInit {
   public returnOpacity(notification: Notification) {
     return notification.isViewed ? '50%' : '100%';
   }
+
+  public deleteNotification(id: number): void {
+    this.notificationsService.delete(id).subscribe(response => {
+      console.log(response.message);
+      this.notifications = this.notifications.filter(n => n.idNotification !== response.id);
+    });
+  }
+
+  public deleteAllNotifications(): void {
+    this.notificationsService.deleteAll().subscribe(response => {
+      console.log(response.message);
+      this.notifications = this.notifications.filter(n => n?.friendship);
+    });
+  }
 }

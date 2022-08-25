@@ -19,6 +19,7 @@ export class EditProfileComponent implements OnInit {
   private applyBtn: string;
   private cancelBtn: string;
   output?: NgxCroppedEvent;
+  public noChanges: boolean = true;
 
   constructor(private translate: TranslateService, private userService: UserService,
     private fileEditorService: NgxPhotoEditorService, private router: Router) { }
@@ -28,15 +29,9 @@ export class EditProfileComponent implements OnInit {
     if (lang == null) {
       lang = "en";
     }
-    this.translate.get('PROFILE.EDIT.DESCRIPTION_PLACEHOLDER').subscribe((res: string) => {
-      this.placeholder = res;
-    });
-    this.translate.get('PROFILE.EDIT.APPLY_BUTTON').subscribe((res: string) => {
-      this.applyBtn = res;
-    });
-    this.translate.get('PROFILE.EDIT.CANCEL_BUTTON').subscribe((res: string) => {
-      this.cancelBtn = res;
-    });
+    this.translate.get('PROFILE.EDIT.DESCRIPTION_PLACEHOLDER').subscribe((res: string) => this.placeholder = res);
+    this.translate.get('PROFILE.EDIT.APPLY_BUTTON').subscribe((res: string) => this.applyBtn = res);
+    this.translate.get('PROFILE.EDIT.CANCEL_BUTTON').subscribe((res: string) => this.cancelBtn = res);
 
     this.userService.getKeycloakUser().subscribe(response => {
       this.user = response;
@@ -59,6 +54,7 @@ export class EditProfileComponent implements OnInit {
       this.output = data;
       this.file = this.output.file;
       this.user.photo = null; //This is done in order to remove the user's image from the view and add the uploaded from the input.
+      this.noChanges = false;
     });
   }
 
@@ -68,29 +64,6 @@ export class EditProfileComponent implements OnInit {
     }
     this.user.description = this.description;
 
-    if (!this.file) {
-      this.fireModal(
-        this.userService.uploadNewUserWithoutFile(this.user).subscribe(response => {
-          this.user = response.user as User;
-          console.log(response.message);
-          this.router.navigate(['/profile']);
-        })
-      );
-    } else {
-      this.fireModal(
-        this.userService.uploadNewUser(this.file, this.user).subscribe(response => {
-          this.user = response.user as User;
-          console.log(response.message);
-          this.userService.userChanger.emit({
-            user: this.user
-          });
-          this.router.navigate(['/profile']);
-        })
-      );
-    }
-  }
-
-  fireModal(executableFunction: any) {
     Swal.fire({
       icon: 'success',
       title: 'Changes saved',
@@ -99,7 +72,26 @@ export class EditProfileComponent implements OnInit {
       background: '#7f5af0',
       color: 'white'
     }).then(() => {
-      executableFunction;
-    })
+      this.userService.updateDescription(this.user).subscribe(response => {
+        this.user = response.user as User;
+        console.log(response.message);
+        this.router.navigate(['/profile']);
+
+        if (this.file) {
+          this.userService.sendNewPhoto(this.file).subscribe(response => {
+            this.user = response.user as User;
+            console.log(response.message);
+            this.userService.userChanger.emit({user: this.user});
+            this.router.navigate(['/profile']);
+          })
+        }
+      });
+    });
+  }
+
+  public checkChanges(): void {
+      if (this.description != undefined && this.description != this.user.description) {
+        this.noChanges = false;
+      }
   }
 }

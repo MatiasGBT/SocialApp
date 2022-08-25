@@ -43,4 +43,9 @@ public class NotificationService implements IService<Notification> {
     public List<Notification> findByUser(UserApp userReceiver) {
         return repository.findByUserReceiver(userReceiver);
     }
+
+    @Transactional
+    public void deleteAllByUser(Long id) {
+        repository.deleteAllByUser(id);
+    }
 }

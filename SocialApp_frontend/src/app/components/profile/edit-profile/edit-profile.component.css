@@ -60,6 +60,11 @@ textarea {
     transition: .3s;
 }
 
+#submit-changes:disabled {
+    background: #675991;
+    cursor: not-allowed;
+}
+
 #note {
     margin-top: 15px;
     margin-bottom: 60px;

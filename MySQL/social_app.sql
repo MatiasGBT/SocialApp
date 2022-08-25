@@ -48,8 +48,7 @@ CREATE TABLE `comments` (
   KEY `fk_user_comment` (`id_user`),
   KEY `fk_post_comment_idx` (`id_post`),
   CONSTRAINT `fk_post_comment` FOREIGN KEY (`id_post`) REFERENCES `posts` (`id_post`),
-  CONSTRAINT `fk_user_comment` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`),
-  CONSTRAINT `FKl54ubqj6ovdw3hhjeyo3mnlgi` FOREIGN KEY (`id_comment`) REFERENCES `posts` (`id_post`)
+  CONSTRAINT `fk_user_comment` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -64,14 +63,14 @@ CREATE TABLE `friendships` (
   `id_friendship` bigint NOT NULL AUTO_INCREMENT,
   `id_user_transmitter` bigint NOT NULL,
   `id_user_receiver` bigint NOT NULL,
-  `date` date,
+  `date` date DEFAULT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_friendship`),
   KEY `fk_user_transmitter` (`id_user_transmitter`),
   KEY `fk_user_receiver` (`id_user_receiver`),
   CONSTRAINT `fk_user_receiver` FOREIGN KEY (`id_user_receiver`) REFERENCES `users` (`id_user`),
   CONSTRAINT `fk_user_transmitter` FOREIGN KEY (`id_user_transmitter`) REFERENCES `users` (`id_user`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -105,6 +104,7 @@ CREATE TABLE `messages` (
   `text` varchar(50) NOT NULL,
   `id_user_receiver` bigint NOT NULL,
   `id_user_transmitter` bigint NOT NULL,
+  `date` datetime NOT NULL,
   PRIMARY KEY (`id_message`),
   KEY `fk_user_transmitter` (`id_user_transmitter`),
   KEY `fk_user_receiver` (`id_user_receiver`),
@@ -124,23 +124,24 @@ CREATE TABLE `notifications` (
   `id_notification` bigint NOT NULL AUTO_INCREMENT,
   `id_user_receiver` bigint NOT NULL,
   `is_viewed` tinyint(1) NOT NULL,
+  `date` datetime NOT NULL,
   `notification_type` varchar(50) NOT NULL,
   `id_user_friend` bigint DEFAULT NULL,
   `id_user_message_transmitter` bigint DEFAULT NULL,
   `id_post` bigint DEFAULT NULL,
-  `notifications_id_notification` bigint NOT NULL,
+  `id_friendship` bigint DEFAULT NULL,
   PRIMARY KEY (`id_notification`),
-  UNIQUE KEY `UKf1apk00b8csmxlqide8rrra56` (`id_user_receiver`),
-  UNIQUE KEY `UK_47yqfve80wbasx3x1txb7l2tw` (`notifications_id_notification`),
   KEY `fk_user_user-friend` (`id_user_friend`),
   KEY `fk_user_user-msg` (`id_user_message_transmitter`),
   KEY `fk_post_notification` (`id_post`),
-  CONSTRAINT `FK8gpn2jg1k3o48rpjge33tqvxa` FOREIGN KEY (`notifications_id_notification`) REFERENCES `notifications` (`id_notification`),
+  KEY `fk_friendship_notification_idx` (`id_friendship`),
+  KEY `fk_user-notif_notif_idx` (`id_user_receiver`),
+  CONSTRAINT `fk_friendship_notification` FOREIGN KEY (`id_friendship`) REFERENCES `friendships` (`id_friendship`),
   CONSTRAINT `fk_post_notification` FOREIGN KEY (`id_post`) REFERENCES `posts` (`id_post`),
-  CONSTRAINT `fk_user_notif-receiver` FOREIGN KEY (`id_user_receiver`) REFERENCES `users` (`id_user`),
+  CONSTRAINT `fk_user-notif_notif` FOREIGN KEY (`id_user_receiver`) REFERENCES `users` (`id_user`),
   CONSTRAINT `fk_user_user-friend` FOREIGN KEY (`id_user_friend`) REFERENCES `users` (`id_user`),
   CONSTRAINT `fk_user_user-msg` FOREIGN KEY (`id_user_message_transmitter`) REFERENCES `users` (`id_user`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -159,7 +160,7 @@ CREATE TABLE `posts` (
   PRIMARY KEY (`id_post`),
   KEY `fk_user_post` (`id_user`),
   CONSTRAINT `fk_user_post` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -179,8 +180,8 @@ CREATE TABLE `users` (
   `creation_date` datetime(6) DEFAULT NULL,
   `deletion_date` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`id_user`),
-  UNIQUE KEY `UK_r43af9ap4edm43mmtq01oddj6` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `UK_6dotkott2kjsp8vw4d0m25fb7` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -192,4 +193,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-08-08 18:40:03
+-- Dump completed on 2022-08-25  9:35:59

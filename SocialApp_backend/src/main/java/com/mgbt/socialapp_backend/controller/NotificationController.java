@@ -41,4 +41,37 @@ public class NotificationController {
         }
         return new ResponseEntity<>(notifications, HttpStatus.OK);
     }
+
+    @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('user')")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Notification notifcation = notificationService.findById(id);
+            response.put("id", notifcation.getIdNotification());
+            notificationService.delete(notifcation);
+            response.put("message", "Notification deleted");
+            return new ResponseEntity<Map>(response, HttpStatus.OK);
+        } catch (DataAccessException e) {
+            response.put("message", "Database error");
+            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<Map>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/delete-all/{username}")
+    @PreAuthorize("hasRole('user')")
+    public ResponseEntity<?> deleteAll(@PathVariable String username) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            UserApp user = userService.findByUsername(username);
+            notificationService.deleteAllByUser(user.getIdUser());
+            response.put("message", "Notification deleted");
+            return new ResponseEntity<Map>(response, HttpStatus.OK);
+        } catch (DataAccessException e) {
+            response.put("message", "Database error");
+            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<Map>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

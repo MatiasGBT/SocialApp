@@ -24,4 +24,20 @@ export class NotificationsService {
       })
     );
   }
+
+  public delete(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/notifications/delete/${id}`).pipe(
+      catchError(e => {
+        return throwError(() => e);
+      })
+    );
+  }
+
+  public deleteAll(): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/notifications/delete-all/${this.authService.getUsername()}`).pipe(
+      catchError(e => {
+        return throwError(() => e);
+      })
+    );
+  }
 }

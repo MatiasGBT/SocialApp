@@ -13,9 +13,11 @@
 
         <h2>{{'PROFILE.EDIT.DESCRIPTION_TITLE' | translate}}</h2>
         <textarea maxlength="200" placeholder="{{placeholder}}" 
-        [(ngModel)]="description" name="description"></textarea>
+        [(ngModel)]="description" name="description" (change)="checkChanges()"></textarea>
 
-        <button type="submit" id="submit-changes" (click)="editProfile()">{{'PROFILE.EDIT.EDIT_BUTTON' | translate}}</button>
+        <button type="submit" id="submit-changes" (click)="editProfile()" [disabled]="noChanges">
+            {{'PROFILE.EDIT.EDIT_BUTTON' | translate}}
+        </button>
 
         <p id="note">{{'PROFILE.EDIT.NOTE' | translate}}</p>
     </div>
