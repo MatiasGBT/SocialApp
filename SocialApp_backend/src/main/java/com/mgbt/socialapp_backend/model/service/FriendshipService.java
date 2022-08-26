@@ -40,7 +40,7 @@ public class FriendshipService implements IService<Friendship> {
     }
 
     @Transactional(readOnly = true)
-    public Friendship findByUsers(UserApp userTransmitter, UserApp userReceiver) {
-        return repository.findByUserTransmitterAndUserReceiver(userTransmitter, userReceiver);
+    public Friendship findByUsers(UserApp userReceiver, UserApp userTransmitter) {
+        return repository.findByUsers(userReceiver.getIdUser(), userTransmitter.getIdUser());
     }
 }

@@ -22,5 +22,9 @@ export class FooterComponent implements OnInit {
         this.notificationsNumber = this.notifications.filter(n => !n.isViewed).length;
       });
     }
+
+    this.notificationsService.notificationsChanger.subscribe(data => {
+      typeof(data) === 'boolean' ? this.isNotificationsEnabled = data : this.notificationsNumber = data.length;
+    });
   }
 }

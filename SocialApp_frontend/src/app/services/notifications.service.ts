@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { Notification } from '../models/notification';
 import { AuthService } from './auth.service';
@@ -9,6 +9,7 @@ import { AuthService } from './auth.service';
 })
 export class NotificationsService {
   private baseUrl: string = 'http://localhost:8090/api';
+  @Output() notificationsChanger: EventEmitter<any> = new EventEmitter();
 
   constructor(private authService: AuthService, private http: HttpClient) { }
 

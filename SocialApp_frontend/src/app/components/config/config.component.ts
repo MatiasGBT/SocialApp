@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { KeycloakService } from 'keycloak-angular';
+import { NotificationsService } from 'src/app/services/notifications.service';
 
 @Component({
   selector: 'app-config',
@@ -11,7 +12,8 @@ export class ConfigComponent implements OnInit {
   public inputCheck: boolean;
   public select: string;
 
-  constructor(public translate: TranslateService, private keycloakService: KeycloakService) {}
+  constructor(public translate: TranslateService, private keycloakService: KeycloakService,
+    private notificationServide: NotificationsService) {}
 
   ngOnInit(): void {
     const notifications = localStorage.getItem('notifications');
@@ -36,7 +38,7 @@ export class ConfigComponent implements OnInit {
       notif = 'off';
     }
     localStorage.setItem('notifications', notif);
-    window.location.reload();
+    this.notificationServide.notificationsChanger.emit(this.inputCheck);
   }
 
   changeLanguage() {

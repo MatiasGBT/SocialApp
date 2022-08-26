@@ -1,6 +1,6 @@
 package com.mgbt.socialapp_backend.controller;
 
-import com.mgbt.socialapp_backend.model.entity.UserApp;
+import com.mgbt.socialapp_backend.model.entity.*;
 import com.mgbt.socialapp_backend.model.entity.notification.Notification;
 import com.mgbt.socialapp_backend.model.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +20,9 @@ public class NotificationController {
 
     @Autowired
     private NotificationService notificationService;
+
+    @Autowired
+    private FriendshipService friendshipService;
 
     @GetMapping("/get/{username}")
     @PreAuthorize("hasRole('user')")
@@ -67,6 +70,24 @@ public class NotificationController {
             UserApp user = userService.findByUsername(username);
             notificationService.deleteAllByUser(user.getIdUser());
             response.put("message", "Notification deleted");
+            return new ResponseEntity<Map>(response, HttpStatus.OK);
+        } catch (DataAccessException e) {
+            response.put("message", "Database error");
+            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<Map>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/accept-request/{id}")
+    @PreAuthorize("hasRole('user')")
+    public ResponseEntity<?> acceptFriendRequest(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Friendship friendship = friendshipService.findById(id);
+            friendship.setStatus(true);
+            friendship.setDate(new Date());
+            friendshipService.save(friendship);
+            response.put("message", friendship.getUserTransmitter().getName() + " and you are friends now");
             return new ResponseEntity<Map>(response, HttpStatus.OK);
         } catch (DataAccessException e) {
             response.put("message", "Database error");

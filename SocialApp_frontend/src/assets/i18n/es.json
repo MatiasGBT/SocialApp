@@ -53,7 +53,8 @@
         "NEW_MESSAGE_TEXT": "Pulsa para verlo",
         "FRIEND_REQUEST_TITLE": "Nueva petición de amistad",
         "FRIEND_REQUEST_TEXT": "te envió una petición de amistad",
-        "NOTIFICATIONS_DISABLED": "Las notificaciones están deshabilitadas. Actívalas en la pestaña de Configuración para visualizarlas."
+        "NOTIFICATIONS_DISABLED": "Las notificaciones están deshabilitadas. Actívalas en la pestaña de Configuración para visualizarlas.",
+        "NO_NOTIFICATIONS": "No tienes notificaciones en este momento"
     },
     "SETTINGS": {
         "TITLE": "Configuración",

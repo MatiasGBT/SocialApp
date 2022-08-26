@@ -1,12 +1,14 @@
 <section id="section-notifications">
     <header>
         <h1>{{'NOTIFICATIONS.TITLE' | translate}}</h1>
-        <button class="button delete-all-button" *ngIf="isNotificationsEnabled" (click)="deleteAllNotifications()">
+        <button class="button delete-all-button" *ngIf="isNotificationsEnabled && notifications.length > 0"
+            (click)="deleteAllNotifications()">
             <i class="fa-solid fa-trash"></i> {{'NOTIFICATIONS.DELETE_ALL' | translate}}
         </button>
     </header>
 
     <div id="notifications" *ngIf="isNotificationsEnabled">
+        <p *ngIf="notifications.length == 0">{{'NOTIFICATIONS.NO_NOTIFICATIONS' | translate}}</p>
         <div class="notification-box" *ngFor="let notification of notifications">
             <i class="fa-solid fa-bell notif-icon" [ngStyle]="{'opacity':returnOpacity(notification)}"></i>
             <div class="notification-data"  [ngStyle]="{'opacity':returnOpacity(notification)}">
@@ -24,8 +26,8 @@
             </div>
             <button *ngIf="!notification?.friendship" class="button delete-button" (click)="deleteNotification(notification.idNotification)"><i class="fa-solid fa-trash"></i></button>
             <div *ngIf="notification?.friendship" class="friendship-buttons">
-                <button class="button delete-button"><i class="fa-solid fa-check"></i></button>
-                <button class="button delete-button"><i class="fa-solid fa-xmark"></i></button>
+                <button class="button delete-button" (click)="acceptFriendRequest(notification)"><i class="fa-solid fa-check"></i></button>
+                <button class="button delete-button" (click)="deleteNotification(notification.idNotification)"><i class="fa-solid fa-xmark"></i></button>
             </div>
         </div>
     </div>

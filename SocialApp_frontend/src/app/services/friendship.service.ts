@@ -44,4 +44,10 @@ export class FriendshipService {
       })
     );
   }
+
+  public acceptFriendRequest(id: number): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/notifications/accept-request/${id}`, null).pipe(
+      catchError(e => throwError(() => new Error(e)))
+    );
+  }
 }
