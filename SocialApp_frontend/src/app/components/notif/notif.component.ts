@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Notification } from 'src/app/models/notification';
 import { FriendshipService } from 'src/app/services/friendship.service';
 import { NotificationsService } from 'src/app/services/notifications.service';
@@ -14,7 +15,7 @@ export class NotifComponent implements OnInit {
   public notifications: Notification[] = [];
 
   constructor(private notificationsService: NotificationsService,
-    private friendshipService: FriendshipService) { }
+    private friendshipService: FriendshipService, private router: Router) { }
 
   ngOnInit(): void {
     this.isNotificationsEnabled = this.notificationsService.getNotificationsStatus();
@@ -34,7 +35,7 @@ export class NotifComponent implements OnInit {
     this.notificationsService.delete(id).subscribe(response => {
       console.log(response.message);
       this.notifications = this.notifications.filter(n => n.idNotification !== response.id);
-      this.notificationsService.notificationsChanger.emit(this.notifications.filter(n => !n.isViewed));
+      this.notificationsService.notificationsChanger.emit(this.notifications);
     });
   }
 
@@ -42,7 +43,7 @@ export class NotifComponent implements OnInit {
     this.notificationsService.deleteAll().subscribe(response => {
       console.log(response.message);
       this.notifications = this.notifications.filter(n => n?.friendship);
-      this.notificationsService.notificationsChanger.emit(this.notifications.filter(n => !n.isViewed));
+      this.notificationsService.notificationsChanger.emit(this.notifications);
     });
   }
 
@@ -59,9 +60,19 @@ export class NotifComponent implements OnInit {
         this.notificationsService.delete(notification.idNotification).subscribe(response => {
           console.log(response.message);
           this.notifications = this.notifications.filter(n => n?.friendship.idFriendship != notification.friendship.idFriendship);
-          this.notificationsService.notificationsChanger.emit(this.notifications.filter(n => !n.isViewed));
+          this.notificationsService.notificationsChanger.emit(this.notifications);
         })
       });
     });
+  }
+
+  public viewNotification(notification: Notification) {
+    if (!notification?.friendship) {
+      this.notificationsService.viewNotification(notification.idNotification).subscribe(response => console.log(response.message));
+      this.notificationsService.notificationsChanger.emit(this.notifications.filter(n => n.idNotification !== notification.idNotification));
+    }
+    if (notification?.friend) {
+      this.router.navigate(['/profile', notification.friend.idUser]);
+    }
   }
 }

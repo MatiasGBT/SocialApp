@@ -23,8 +23,13 @@ export class FooterComponent implements OnInit {
       });
     }
 
-    this.notificationsService.notificationsChanger.subscribe(data => {
-      typeof(data) === 'boolean' ? this.isNotificationsEnabled = data : this.notificationsNumber = data.length;
+    this.notificationsService.notificationsEnabled.subscribe(areEnabled => {
+      this.isNotificationsEnabled = areEnabled;
     });
+
+    this.notificationsService.notificationsChanger.subscribe(notifications => {
+      this.notifications = notifications.filter(n => !n.isViewed); /*The badge will not display viewed notifications*/
+      this.notificationsNumber = this.notifications.length;
+    })
   }
 }

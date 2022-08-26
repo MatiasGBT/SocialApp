@@ -1,6 +1,7 @@
 package com.mgbt.socialapp_backend.controller;
 
 import com.mgbt.socialapp_backend.model.entity.*;
+import com.mgbt.socialapp_backend.model.entity.notification.NotificationFriendship;
 import com.mgbt.socialapp_backend.model.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -24,6 +25,9 @@ public class ProfileController {
 
     @Autowired
     private FriendshipService friendshipService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @PostMapping("/send-photo")
     @PreAuthorize("hasRole('user')")
@@ -97,22 +101,26 @@ public class ProfileController {
             userTransmitter = userService.findByUsername(usernameTransmitter);
             userReceiver = userService.findById(idReceiver);
             friendship = friendshipService.findByUsers(userTransmitter, userReceiver);
+            if (friendship == null) {
+                friendship = new Friendship();
+                friendship.setUserReceiver(userReceiver);
+                friendship.setUserTransmitter(userTransmitter);
+                friendship.setStatus(false);
+                friendship = friendshipService.save(friendship);
+                NotificationFriendship notificationFriendship = new NotificationFriendship();
+                notificationFriendship.setUserReceiver(friendship.getUserReceiver());
+                notificationFriendship.setIsViewed(false);
+                notificationFriendship.setFriendship(friendship);
+                notificationService.save(notificationFriendship);
+                response.put("message", "The friend request was sent successfully");
+                response.put("send", true);
+            } else {
+                response.put("message", "You have already sent a friend request to this user");
+                response.put("send", false);
+            }
         } catch (DataAccessException e) {
             response.put("message", "Database error");
             response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
-            return new ResponseEntity<Map>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        if (friendship == null) {
-            friendship = new Friendship();
-            friendship.setUserReceiver(userReceiver);
-            friendship.setUserTransmitter(userTransmitter);
-            friendship.setStatus(false);
-            friendshipService.save(friendship);
-            response.put("message", "The friend request was sent successfully");
-            response.put("send", true);
-        } else {
-            response.put("message", "You have already sent a friend request to this user");
-            response.put("send", false);
         }
         return new ResponseEntity<Map>(response, HttpStatus.CREATED);
     }

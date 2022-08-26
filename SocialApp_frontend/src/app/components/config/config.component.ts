@@ -38,7 +38,7 @@ export class ConfigComponent implements OnInit {
       notif = 'off';
     }
     localStorage.setItem('notifications', notif);
-    this.notificationServide.notificationsChanger.emit(this.inputCheck);
+    this.notificationServide.notificationsEnabled.emit(this.inputCheck);
   }
 
   changeLanguage() {

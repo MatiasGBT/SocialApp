@@ -21,6 +21,12 @@ h2 {
 
 .notification-box {
     margin-top: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.notification-data {
+    cursor: pointer;
 }
 
 .notif-icon {
@@ -63,11 +69,6 @@ h2 {
 
 .delete-button:hover {
     border-radius: 15px;
-}
-
-.notification-box {
-    display: flex;
-    align-items: center;
 }
 
 .friendship-buttons {

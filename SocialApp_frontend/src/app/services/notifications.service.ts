@@ -10,6 +10,7 @@ import { AuthService } from './auth.service';
 export class NotificationsService {
   private baseUrl: string = 'http://localhost:8090/api';
   @Output() notificationsChanger: EventEmitter<any> = new EventEmitter();
+  @Output() notificationsEnabled: EventEmitter<any> = new EventEmitter();
 
   constructor(private authService: AuthService, private http: HttpClient) { }
 
@@ -36,6 +37,14 @@ export class NotificationsService {
 
   public deleteAll(): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/notifications/delete-all/${this.authService.getUsername()}`).pipe(
+      catchError(e => {
+        return throwError(() => e);
+      })
+    );
+  }
+
+  public viewNotification(id: number): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/notifications/view/${id}`, null).pipe(
       catchError(e => {
         return throwError(() => e);
       })

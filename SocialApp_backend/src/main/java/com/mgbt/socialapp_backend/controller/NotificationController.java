@@ -2,6 +2,7 @@ package com.mgbt.socialapp_backend.controller;
 
 import com.mgbt.socialapp_backend.model.entity.*;
 import com.mgbt.socialapp_backend.model.entity.notification.Notification;
+import com.mgbt.socialapp_backend.model.entity.notification.NotificationFriend;
 import com.mgbt.socialapp_backend.model.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -86,8 +87,30 @@ public class NotificationController {
             Friendship friendship = friendshipService.findById(id);
             friendship.setStatus(true);
             friendship.setDate(new Date());
-            friendshipService.save(friendship);
+            friendship = friendshipService.save(friendship);
+            NotificationFriend notificationFriend = new NotificationFriend();
+            notificationFriend.setIsViewed(false);
+            notificationFriend.setUserReceiver(friendship.getUserTransmitter());
+            notificationFriend.setFriend(friendship.getUserReceiver());
+            notificationService.save(notificationFriend);
             response.put("message", friendship.getUserTransmitter().getName() + " and you are friends now");
+            return new ResponseEntity<Map>(response, HttpStatus.OK);
+        } catch (DataAccessException e) {
+            response.put("message", "Database error");
+            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<Map>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/view/{id}")
+    @PreAuthorize("hasRole('user')")
+    public ResponseEntity<?> viewNotification(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Notification notification = notificationService.findById(id);
+            notification.setIsViewed(true);
+            notificationService.save(notification);
+            response.put("message", "Notification viewed, going to the corresponding page");
             return new ResponseEntity<Map>(response, HttpStatus.OK);
         } catch (DataAccessException e) {
             response.put("message", "Database error");
