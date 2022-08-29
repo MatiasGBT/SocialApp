@@ -1,4 +1,4 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -21,6 +21,7 @@ import { NgxPhotoEditorModule } from 'ngx-photo-editor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { SearchUsersComponent } from './components/search-users/search-users.component';
+import { LanguageInterceptor } from './interceptors/language';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -80,7 +81,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       useFactory: initializeKeycloak,
       multi: true,
       deps: [KeycloakService]
-    }
+    },
+    {provide: HTTP_INTERCEPTORS, useClass: LanguageInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })

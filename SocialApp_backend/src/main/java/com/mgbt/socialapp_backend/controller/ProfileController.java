@@ -4,6 +4,7 @@ import com.mgbt.socialapp_backend.model.entity.*;
 import com.mgbt.socialapp_backend.model.entity.notification.NotificationFriendship;
 import com.mgbt.socialapp_backend.model.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.core.io.Resource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.*;
@@ -29,10 +30,14 @@ public class ProfileController {
     @Autowired
     private NotificationService notificationService;
 
+    @Autowired
+    MessageSource messageSource;
+
     @PostMapping("/send-photo")
     @PreAuthorize("hasRole('user')")
     public ResponseEntity<?> editProfile(@RequestParam("file") MultipartFile file,
-                                         @RequestParam("username") String username) {
+                                         @RequestParam("username") String username,
+                                         Locale locale) {
         Map<String, Object> response = new HashMap<>();
         if (!file.isEmpty()) {
             String fileName;
@@ -44,40 +49,40 @@ public class ProfileController {
                 user.setPhoto(fileName);
                 user = userService.save(user);
                 response.put("user", user);
-                response.put("message", "File uploaded correctly: " + fileName);
+                response.put("message", messageSource.getMessage("profilecontroller.editProfile.post", null, locale) + fileName);
                 return new ResponseEntity<Map>(response, HttpStatus.CREATED);
             } catch (Exception e) {
-                response.put("message", "Database or File error");
+                response.put("message", messageSource.getMessage("error.databaseOrFile", null, locale));
                 response.put("error", e.getMessage());
                 return new ResponseEntity<Map>(response, HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } else {
-            response.put("error", "The file is empty");
+            response.put("error", messageSource.getMessage("error.fileEmpty", null, locale));
             return new ResponseEntity<Map>(response, HttpStatus.NO_CONTENT);
         }
     }
 
     @PutMapping("/edit")
     @PreAuthorize("hasRole('user')")
-    public ResponseEntity<?> editProfile(@RequestBody UserApp userUpdated) {
+    public ResponseEntity<?> editProfile(@RequestBody UserApp userUpdated, Locale locale) {
         Map<String, Object> response = new HashMap<>();
         try {
             UserApp user = userService.findByUsername(userUpdated.getUsername());
             user.setDescription(userUpdated.getDescription());
             user = userService.save(user);
             response.put("user", user);
-            response.put("message", "Description changed correctly: " + user.getDescription());
+            response.put("message", messageSource.getMessage("profilecontroller.editProfile.put", null, locale) + user.getDescription());
             return new ResponseEntity<Map>(response, HttpStatus.CREATED);
         } catch (DataAccessException e) {
             response = new HashMap<>();
-            response.put("message", "Database error");
+            response.put("message", messageSource.getMessage("error.database", null, locale));
             response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
             return new ResponseEntity<Map>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/img/{fileName:.+}")
-    public ResponseEntity<Resource> viewPhoto(@PathVariable String fileName) {
+    public ResponseEntity<Resource> viewPhoto(@PathVariable String fileName, Locale locale) {
         Resource resource = null;
         try {
             resource = uploadFileService.charge(fileName);
@@ -92,15 +97,13 @@ public class ProfileController {
     @PostMapping("/add-friend")
     @PreAuthorize("hasRole('user')")
     public ResponseEntity<?> addFriend(@RequestParam("idReceiver") Long idReceiver,
-                                       @RequestParam("usernameTransmitter") String usernameTransmitter) {
+                                       @RequestParam("usernameTransmitter") String usernameTransmitter,
+                                       Locale locale) {
         Map<String, Object> response = new HashMap<>();
-        UserApp userReceiver;
-        UserApp userTransmitter;
-        Friendship friendship;
         try {
-            userTransmitter = userService.findByUsername(usernameTransmitter);
-            userReceiver = userService.findById(idReceiver);
-            friendship = friendshipService.findByUsers(userTransmitter, userReceiver);
+            UserApp userTransmitter = userService.findByUsername(usernameTransmitter);
+            UserApp userReceiver = userService.findById(idReceiver);
+            Friendship friendship = friendshipService.findByUsers(userTransmitter, userReceiver);
             if (friendship == null) {
                 friendship = new Friendship();
                 friendship.setUserReceiver(userReceiver);
@@ -112,14 +115,14 @@ public class ProfileController {
                 notificationFriendship.setIsViewed(false);
                 notificationFriendship.setFriendship(friendship);
                 notificationService.save(notificationFriendship);
-                response.put("message", "The friend request was sent successfully");
+                response.put("message", messageSource.getMessage("profilecontroller.addFriend.notSent", null, locale));
                 response.put("send", true);
             } else {
-                response.put("message", "You have already sent a friend request to this user");
+                response.put("message", messageSource.getMessage("profilecontroller.addFriend.alreadySent", null, locale));
                 response.put("send", false);
             }
         } catch (DataAccessException e) {
-            response.put("message", "Database error");
+            response.put("message", messageSource.getMessage("error.database", null, locale));
             response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
         }
         return new ResponseEntity<Map>(response, HttpStatus.CREATED);
@@ -128,17 +131,16 @@ public class ProfileController {
     @GetMapping("/get-friendship/{idReceiver}&{usernameTransmitter}")
     @PreAuthorize("hasRole('user')")
     public ResponseEntity<?> getFriendship(@PathVariable Long idReceiver,
-                                           @PathVariable String usernameTransmitter) {
-        UserApp userReceiver;
-        UserApp userTransmitter;
+                                           @PathVariable String usernameTransmitter,
+                                           Locale locale) {
         Friendship friendship;
         try {
-            userTransmitter = userService.findByUsername(usernameTransmitter);
-            userReceiver = userService.findById(idReceiver);
+            UserApp userTransmitter = userService.findByUsername(usernameTransmitter);
+            UserApp userReceiver = userService.findById(idReceiver);
             friendship = friendshipService.findByUsers(userTransmitter, userReceiver);
         } catch (DataAccessException e) {
             Map<String, Object> response = new HashMap<>();
-            response.put("message", "Database error");
+            response.put("message", messageSource.getMessage("error.database", null, locale));
             response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
             return new ResponseEntity<Map>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
