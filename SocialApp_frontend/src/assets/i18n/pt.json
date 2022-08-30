@@ -39,7 +39,8 @@
             "PHOTO_BUTTON": "Selecione uma foto de perfil",
             "EDIT_BUTTON": "Editar perfil",
             "APPLY_BUTTON": "Aplicar",
-            "CANCEL_BUTTON": "Cancelar"
+            "CANCEL_BUTTON": "Cancelar",
+            "CHANGES_SAVED": "Usuário atualizado"
         }
     },
     "NOTIFICATIONS": {

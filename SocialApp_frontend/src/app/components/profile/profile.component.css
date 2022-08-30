@@ -47,6 +47,7 @@
     margin-top: 10px;
     padding-left: 25px;
     padding-right: 25px;
+    word-wrap: break-word; /*If the user puts a very long one-word description, this cuts it off so it doesn't overflow*/
 }
 
 button {

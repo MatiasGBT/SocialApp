@@ -47,18 +47,18 @@ public class ProfileController {
                 String lastFileName = user.getPhoto();
                 uploadFileService.delete(lastFileName);
                 user.setPhoto(fileName);
-                user = userService.save(user);
-                response.put("user", user);
+                userService.save(user);
+                response.put("photo", user.getPhoto());
                 response.put("message", messageSource.getMessage("profilecontroller.editProfile.post", null, locale) + fileName);
-                return new ResponseEntity<Map>(response, HttpStatus.CREATED);
+                return new ResponseEntity<>(response, HttpStatus.CREATED);
             } catch (Exception e) {
                 response.put("message", messageSource.getMessage("error.databaseOrFile", null, locale));
                 response.put("error", e.getMessage());
-                return new ResponseEntity<Map>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } else {
             response.put("error", messageSource.getMessage("error.fileEmpty", null, locale));
-            return new ResponseEntity<Map>(response, HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
         }
     }
 
@@ -69,20 +69,20 @@ public class ProfileController {
         try {
             UserApp user = userService.findByUsername(userUpdated.getUsername());
             user.setDescription(userUpdated.getDescription());
-            user = userService.save(user);
+            userService.save(user);
             response.put("user", user);
             response.put("message", messageSource.getMessage("profilecontroller.editProfile.put", null, locale) + user.getDescription());
-            return new ResponseEntity<Map>(response, HttpStatus.CREATED);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (DataAccessException e) {
             response = new HashMap<>();
             response.put("message", messageSource.getMessage("error.database", null, locale));
             response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
-            return new ResponseEntity<Map>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/img/{fileName:.+}")
-    public ResponseEntity<Resource> viewPhoto(@PathVariable String fileName, Locale locale) {
+    public ResponseEntity<Resource> viewPhoto(@PathVariable String fileName) {
         Resource resource = null;
         try {
             resource = uploadFileService.charge(fileName);
@@ -125,7 +125,7 @@ public class ProfileController {
             response.put("message", messageSource.getMessage("error.database", null, locale));
             response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
         }
-        return new ResponseEntity<Map>(response, HttpStatus.CREATED);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @GetMapping("/get-friendship/{idReceiver}&{usernameTransmitter}")
@@ -142,7 +142,7 @@ public class ProfileController {
             Map<String, Object> response = new HashMap<>();
             response.put("message", messageSource.getMessage("error.database", null, locale));
             response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
-            return new ResponseEntity<Map>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         if (friendship == null) {
             /*This will prevent the add friends buttons from not being displayed

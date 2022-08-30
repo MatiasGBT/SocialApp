@@ -29,12 +29,12 @@ public class AppController {
         if (userFound != null) {
             userService.checkIfUserIsPersisted(userFound, user); //Needed if the user updates their first and last name from Keycloak
             response.put("message", messageSource.getMessage("appcontroller.login.userfound", null, locale));
-            return new ResponseEntity<Map>(response, HttpStatus.OK);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             userService.save(user);
             response.put("message", messageSource.getMessage("appcontroller.login.usercreated", null, locale));
             response.put("status", HttpStatus.CREATED.value());
-            return new ResponseEntity<Map>(response, HttpStatus.CREATED);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
         }
     }
 
@@ -48,11 +48,11 @@ public class AppController {
         } catch (DataAccessException e) {
             response.put("message", messageSource.getMessage("error.database", null, locale));
             response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
-            return new ResponseEntity<Map>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         if (user == null) {
             response.put("message", messageSource.getMessage("error.usernotexist", null, locale));
-            return new ResponseEntity<Map>(response, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
@@ -67,11 +67,11 @@ public class AppController {
         } catch (DataAccessException e) {
             response.put("message", messageSource.getMessage("error.database", null, locale));
             response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
-            return new ResponseEntity<Map>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         if (user == null) {
             response.put("message", messageSource.getMessage("error.usernotexist", null, locale));
-            return new ResponseEntity<Map>(response, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(user, HttpStatus.OK);
     }

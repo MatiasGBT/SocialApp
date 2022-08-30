@@ -33,7 +33,7 @@ export class NavbarComponent implements OnInit {
 
     this.userService.getKeycloakUser().subscribe(response => this.user = response);
 
-    this.userService.userChanger.subscribe(data => this.user.photo = data.user.photo);
+    this.userService.userChanger.subscribe(data => this.user.photo = data.photo);
     
     this.people = this.control.valueChanges.pipe(
       map(value => typeof value === 'string' && value.length >= 3 ? value : value.name),

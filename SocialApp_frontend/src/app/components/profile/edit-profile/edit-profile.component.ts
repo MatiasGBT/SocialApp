@@ -18,6 +18,7 @@ export class EditProfileComponent implements OnInit {
   public placeholder: string;
   private applyBtn: string;
   private cancelBtn: string;
+  private changesSaved: string;
   output?: NgxCroppedEvent;
   public noChanges: boolean = true;
 
@@ -32,6 +33,7 @@ export class EditProfileComponent implements OnInit {
     this.translate.get('PROFILE.EDIT.DESCRIPTION_PLACEHOLDER').subscribe((res: string) => this.placeholder = res);
     this.translate.get('PROFILE.EDIT.APPLY_BUTTON').subscribe((res: string) => this.applyBtn = res);
     this.translate.get('PROFILE.EDIT.CANCEL_BUTTON').subscribe((res: string) => this.cancelBtn = res);
+    this.translate.get('PROFILE.EDIT.CHANGES_SAVED').subscribe((res: string) => this.changesSaved = res);
 
     this.userService.getKeycloakUser().subscribe(response => {
       this.user = response;
@@ -40,7 +42,7 @@ export class EditProfileComponent implements OnInit {
 
   }
 
-  fileChangeHandler(event: any) {
+  public fileChangeHandler(event: any) {
     this.fileEditorService.open(event, {
       aspectRatio: 4 / 4,
       autoCropArea: 1,
@@ -58,34 +60,21 @@ export class EditProfileComponent implements OnInit {
     });
   }
 
-  editProfile() {
+  public editProfile() {
     if (this.description == null || this.description == undefined) {
       this.description = "";
     }
-    this.user.description = this.description;
-
+    this.checkAndSaveDescription();
+    this.checkAndSaveProfilePhoto();
     Swal.fire({
       icon: 'success',
-      title: 'Changes saved',
+      title: this.changesSaved,
       showConfirmButton: false,
       timer: 1250,
       background: '#7f5af0',
       color: 'white'
     }).then(() => {
-      this.userService.updateDescription(this.user).subscribe(response => {
-        this.user = response.user as User;
-        console.log(response.message);
-        this.router.navigate(['/profile']);
-
-        if (this.file) {
-          this.userService.sendNewPhoto(this.file).subscribe(response => {
-            this.user = response.user as User;
-            console.log(response.message);
-            this.userService.userChanger.emit({user: this.user});
-            this.router.navigate(['/profile']);
-          })
-        }
-      });
+      this.router.navigate(['/profile']);
     });
   }
 
@@ -93,5 +82,23 @@ export class EditProfileComponent implements OnInit {
       if (this.description != undefined && this.description != this.user.description) {
         this.noChanges = false;
       }
+  }
+
+  private checkAndSaveDescription() {
+    if (this.description != this.user.description) {
+      this.user.description = this.description;
+      this.userService.updateDescription(this.user).subscribe(response => console.log(response.message));
+    }
+  }
+
+  private checkAndSaveProfilePhoto() {
+    setTimeout(() => {
+      if (this.file) {
+        this.userService.sendNewPhoto(this.file).subscribe(response => {
+          console.log(response.message);
+          this.userService.userChanger.emit({photo: response.photo});
+        });
+      }
+    }, 1000);
   }
 }

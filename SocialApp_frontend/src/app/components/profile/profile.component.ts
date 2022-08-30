@@ -21,7 +21,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.userChanger.subscribe(data => {
-      this.user = data.user;
+      this.user.photo = data.photo;
     });
 
     this.activatedRoute.params.subscribe(params => {
