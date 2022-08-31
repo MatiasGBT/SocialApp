@@ -15,6 +15,7 @@ export class ProfileComponent implements OnInit {
   public keycloakUserId: number;
   private id: number;
   public friendship: Friendship;
+  public friendsQuantity: number;
 
   constructor(private userService: UserService, private activatedRoute: ActivatedRoute,
     private friendshipService: FriendshipService) { }
@@ -27,12 +28,16 @@ export class ProfileComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
       if (this.id) {
-        this.userService.getUser(this.id).subscribe(user => this.user = user);
+        this.userService.getUser(this.id).subscribe(user => {
+          this.user = user;
+          this.getFriendsQuantity();
+        });
         this.friendshipService.getFriendship(this.id).subscribe(friendship => this.friendship = friendship);
       } else {
         this.userService.getKeycloakUser().subscribe(response => {
           this.user = response;
           this.keycloakUserId = response.idUser;
+          this.getFriendsQuantity();
         });
       }
     });
@@ -40,5 +45,11 @@ export class ProfileComponent implements OnInit {
 
   public addFriend(): void {
     this.friendshipService.addFriend(this.id);
+  }
+
+  private getFriendsQuantity() {
+    this.friendshipService.getFriendsQuantity(this.user.idUser).subscribe(friendsQuantity => {
+      this.friendsQuantity = friendsQuantity;
+    });
   }
 }

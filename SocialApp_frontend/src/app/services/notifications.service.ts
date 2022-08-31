@@ -24,7 +24,7 @@ export class NotificationsService {
     return this.http.get<Notification[]>(`${this.baseUrl}/notifications/get/${this.authService.getUsername()}`).pipe(
       catchError(e => {
         Swal.fire({
-          icon: 'error', title: e.message, text: e.error, showConfirmButton: false,
+          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
           timer: 1250, background: '#7f5af0', color: 'white'
         });
         return throwError(() => e);
@@ -36,7 +36,7 @@ export class NotificationsService {
     return this.http.delete<any>(`${this.baseUrl}/notifications/delete/${id}`).pipe(
       catchError(e => {
         Swal.fire({
-          icon: 'error', title: e.message, text: e.error, showConfirmButton: false,
+          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
           timer: 1250, background: '#7f5af0', color: 'white'
         });
         return throwError(() => e);
@@ -48,7 +48,7 @@ export class NotificationsService {
     return this.http.delete<any>(`${this.baseUrl}/notifications/delete-all/${this.authService.getUsername()}`).pipe(
       catchError(e => {
         Swal.fire({
-          icon: 'error', title: e.message, text: e.error, showConfirmButton: false,
+          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
           timer: 1250, background: '#7f5af0', color: 'white'
         });
         return throwError(() => e);
@@ -60,7 +60,7 @@ export class NotificationsService {
     return this.http.put<any>(`${this.baseUrl}/notifications/view/${id}`, null).pipe(
       catchError(e => {
         Swal.fire({
-          icon: 'error', title: e.message, text: e.error, showConfirmButton: false,
+          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
           timer: 1250, background: '#7f5af0', color: 'white'
         });
         return throwError(() => e);

@@ -71,6 +71,7 @@ public class AppController {
         }
         if (user == null) {
             response.put("message", messageSource.getMessage("error.usernotexist", null, locale));
+            response.put("error", messageSource.getMessage("error.usernotexist.redirect", null, locale));
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(user, HttpStatus.OK);

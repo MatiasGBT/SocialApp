@@ -16,4 +16,9 @@ public interface IFriendshipRepository extends JpaRepository<Friendship, Long> {
             "OR f.id_user_receiver = ?2 && f.id_user_transmitter = ?1",
             nativeQuery = true)
     Friendship findByUsers(Long idFriend1, Long idFriend2);
+
+    @Query(value = "SELECT COUNT(*) FROM friendships f WHERE " +
+            "(f.id_user_receiver = ?1 OR f.id_user_transmitter = ?1) && f.status = 1",
+            nativeQuery = true)
+    Integer friendsQuantity(Long idUser);
 }

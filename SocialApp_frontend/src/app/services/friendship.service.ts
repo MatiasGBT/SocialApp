@@ -33,7 +33,7 @@ export class FriendshipService {
     return this.http.post(`${this.baseUrl}/profile/add-friend`, formData).pipe(
       catchError(e => {
         Swal.fire({
-          icon: 'error', title: e.message, text: e.error, showConfirmButton: false,
+          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
           timer: 1250, background: '#7f5af0', color: 'white'
         });
         return throwError(() => new Error(e));
@@ -45,7 +45,7 @@ export class FriendshipService {
     return this.http.get<Friendship>(`${this.baseUrl}/profile/get-friendship/${idReceiver}&${this.authService.getUsername()}`).pipe(
       catchError(e => {
         Swal.fire({
-          icon: 'error', title: e.message, text: e.error, showConfirmButton: false,
+          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
           timer: 1250, background: '#7f5af0', color: 'white'
         });
         return throwError(()=>e);
@@ -55,7 +55,19 @@ export class FriendshipService {
 
   public acceptFriendRequest(id: number): Observable<any> {
     return this.http.put<any>(`${this.baseUrl}/notifications/accept-request/${id}`, null).pipe(
-      catchError(e => throwError(() => new Error(e)))
+      catchError(e => {
+        Swal.fire({
+          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
+          timer: 1250, background: '#7f5af0', color: 'white'
+        });
+        return throwError(()=>e);
+      })
+    );
+  }
+
+  public getFriendsQuantity(idUser: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/profile/get-friends-quantity/${idUser}`).pipe(
+      catchError(e => throwError(()=>e))
     );
   }
 }

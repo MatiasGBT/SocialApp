@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
 import { catchError, Observable, throwError } from 'rxjs';
+import Swal from 'sweetalert2';
 import { User } from '../models/user';
 
 @Injectable({
@@ -21,7 +22,9 @@ export class AuthService {
       this.createUserWithPayload(payload);
     }
     const httpHeaders = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': 'Basic ' + this.keycloakService.getToken()});
-    return this.http.post<any>(this.baseUrl + "login", this.user, {headers: httpHeaders});
+    return this.http.post<any>(this.baseUrl + "login", this.user, {headers: httpHeaders}).pipe(
+      catchError(e => throwError(() => new Error(e)))
+    );
   }
 
   public getUsername(): string {

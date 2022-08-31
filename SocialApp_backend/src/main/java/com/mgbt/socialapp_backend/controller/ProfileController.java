@@ -133,11 +133,13 @@ public class ProfileController {
     public ResponseEntity<?> getFriendship(@PathVariable Long idReceiver,
                                            @PathVariable String usernameTransmitter,
                                            Locale locale) {
-        Friendship friendship;
+        Friendship friendship = null;
         try {
             UserApp userTransmitter = userService.findByUsername(usernameTransmitter);
             UserApp userReceiver = userService.findById(idReceiver);
-            friendship = friendshipService.findByUsers(userTransmitter, userReceiver);
+            if (userTransmitter != null && userReceiver != null) {
+                friendship = friendshipService.findByUsers(userTransmitter, userReceiver);
+            }
         } catch (DataAccessException e) {
             Map<String, Object> response = new HashMap<>();
             response.put("message", messageSource.getMessage("error.database", null, locale));
@@ -151,5 +153,25 @@ public class ProfileController {
             friendship.setStatus(false);
         }
         return new ResponseEntity<>(friendship, HttpStatus.OK);
+    }
+
+    @GetMapping("/get-friends-quantity/{idUser}")
+    @PreAuthorize("hasRole('user')")
+    public ResponseEntity<?> getFriendship(@PathVariable Long idUser, Locale locale) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            UserApp user = userService.findById(idUser);
+            if (user != null) {
+                Integer friendsQuantity = friendshipService.friendsQuantity(user);
+                return new ResponseEntity<>(friendsQuantity, HttpStatus.OK);
+            } else {
+                response.put("message", messageSource.getMessage("error.usernotexist", null, locale));
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            }
+        } catch (DataAccessException e) {
+            response.put("message", messageSource.getMessage("error.database", null, locale));
+            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
