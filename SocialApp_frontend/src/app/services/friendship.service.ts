@@ -32,6 +32,10 @@ export class FriendshipService {
     formData.append("usernameTransmitter", this.authService.getUsername());
     return this.http.post(`${this.baseUrl}/profile/add-friend`, formData).pipe(
       catchError(e => {
+        Swal.fire({
+          icon: 'error', title: e.message, text: e.error, showConfirmButton: false,
+          timer: 1250, background: '#7f5af0', color: 'white'
+        });
         return throwError(() => new Error(e));
       })
     );
@@ -40,6 +44,10 @@ export class FriendshipService {
   public getFriendship(idReceiver: number): Observable<Friendship> {
     return this.http.get<Friendship>(`${this.baseUrl}/profile/get-friendship/${idReceiver}&${this.authService.getUsername()}`).pipe(
       catchError(e => {
+        Swal.fire({
+          icon: 'error', title: e.message, text: e.error, showConfirmButton: false,
+          timer: 1250, background: '#7f5af0', color: 'white'
+        });
         return throwError(()=>e);
       })
     );

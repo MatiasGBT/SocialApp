@@ -77,5 +77,9 @@
         "en": "English",
         "es": "Español",
         "pt": "Português (BR)"
+    },
+    "ERROR": {
+        "ROLE_TITLE": "Denied access",
+        "ROLE_TEXT": "You don't have access to this resource"
     }
 }

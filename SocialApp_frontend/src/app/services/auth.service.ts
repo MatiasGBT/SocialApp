@@ -29,6 +29,11 @@ export class AuthService {
     return payload.preferred_username;
   }
 
+  public hasRole(role: string): boolean {
+    let payload = this.obtainPayload(this.token);
+    return payload.resource_access.springback.roles.includes(role);
+  }
+
   private obtainPayload(access_token:string): any {
     return JSON.parse(window.atob(access_token.split(".")[1]));
   }

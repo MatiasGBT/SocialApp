@@ -8,6 +8,7 @@ import { EditProfileComponent } from './components/profile/edit-profile/edit-pro
 import { ProfileComponent } from './components/profile/profile.component';
 import { SearchUsersComponent } from './components/search-users/search-users.component';
 import { AuthGuard } from './guards/auth.guard';
+import { RoleGuard } from './guards/role.guard';
 
 const routes: Routes = [
   {path: '', redirectTo: 'index', pathMatch: 'full'},
@@ -16,7 +17,7 @@ const routes: Routes = [
   {path: 'profile/edit', component: EditProfileComponent},
   {path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard], data: {role: 'user'}},
   {path: 'search/:name', component: SearchUsersComponent, canActivate: [AuthGuard], data: {role: 'user'}},
-  {path: 'notif', component: NotifComponent, canActivate: [AuthGuard], data: {role: 'user'}},
+  {path: 'notif', component: NotifComponent, canActivate: [AuthGuard, RoleGuard], data: {role: 'user'}},
   {path: 'config', component: ConfigComponent, canActivate: [AuthGuard], data: {role: 'user'}},
   {path: 'newpost', component: NewpostComponent, canActivate: [AuthGuard], data: {role: 'user'}}
 ];

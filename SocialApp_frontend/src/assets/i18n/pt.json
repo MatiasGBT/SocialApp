@@ -77,5 +77,9 @@
         "en": "English",
         "es": "Español",
         "pt": "Português (BR)"
+    },
+    "ERROR": {
+        "ROLE_TITLE": "Acesso negado",
+        "ROLE_TEXT": "Você não tem acesso a este recurso"
     }
 }
