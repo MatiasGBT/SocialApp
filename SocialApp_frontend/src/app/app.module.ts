@@ -6,21 +6,21 @@ import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FooterComponent } from './components/layout/footer/footer.component';
-import { NavbarComponent } from './components/layout/navbar/navbar.component';
-import { IndexComponent } from './components/index/index.component';
-import { ProfileComponent } from './components/profile/profile.component';
+import { FooterComponent } from './pages/layout/footer/footer.component';
+import { NavbarComponent } from './pages/layout/navbar/navbar.component';
+import { IndexComponent } from './pages/index/index.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { NotifComponent } from './components/notif/notif.component';
-import { ConfigComponent } from './components/config/config.component';
-import { NewpostComponent } from './components/newpost/newpost.component';
+import { NotifComponent } from './pages/notif/notif.component';
+import { ConfigComponent } from './pages/config/config.component';
+import { NewpostComponent } from './pages/newpost/newpost.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
-import { EditProfileComponent } from './components/profile/edit-profile/edit-profile.component';
+import { EditProfileComponent } from './pages/profile/edit-profile/edit-profile.component';
 import { NgxPhotoEditorModule } from 'ngx-photo-editor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { SearchUsersComponent } from './components/search-users/search-users.component';
+import { SearchUsersComponent } from './pages/search-users/search-users.component';
 import { LanguageInterceptor } from './interceptors/language';
 
 function initializeKeycloak(keycloak: KeycloakService) {
