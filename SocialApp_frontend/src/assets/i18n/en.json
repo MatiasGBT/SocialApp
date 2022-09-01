@@ -29,6 +29,7 @@
         "SEND_MESSAGE": "Send message",
         "CALL": "Call",
         "POSTS": "Posts",
+        "NO_POSTS": "This user has no posts, it is empty!",
         "EDIT": {
             "TITLE": "Profile details",
             "PICTURE_TITLE": "Profile picture",

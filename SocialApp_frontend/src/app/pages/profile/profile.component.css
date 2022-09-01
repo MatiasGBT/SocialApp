@@ -54,17 +54,6 @@ button {
     cursor: pointer;
 }
 
-hr {
-    margin-top: 25px;
-    width: calc(100% - 50px);
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.publication-footer {
-    justify-content: space-between;
-}
-
 .profile-button {
     display: block;
     background: #7f5af0;
@@ -83,6 +72,25 @@ hr {
 .profile-button:hover {
     background: #6f4ed1;
     transition: .3s;
+}
+
+hr {
+    margin-top: 25px;
+    width: calc(100% - 50px);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#publications p {
+    padding-left: 25px;
+    padding-right: 25px;
+    margin-bottom: 25px;
+}
+
+#publications img {
+    width: 80vw;
+    display: block;
+    margin: auto;
 }
 
 .date {
@@ -117,6 +125,11 @@ hr {
     #profile-description {
         margin-top: 15px;
     }
+
+    #publications img {
+        height: 300px;
+        width: auto;
+    }
 }
 
 @media (min-width: 1038px) {
@@ -150,10 +163,6 @@ hr {
         margin-left: auto;
         margin-right: 25px; /*Same as padding*/
         width: 30%;
-    }
-
-    .publication {
-        width: 100%;
     }
 
     .users-aside {

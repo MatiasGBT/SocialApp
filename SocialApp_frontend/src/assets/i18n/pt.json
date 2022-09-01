@@ -29,6 +29,7 @@
         "SEND_MESSAGE": "Enviar mensagem",
         "CALL": "Chamar",
         "POSTS": "Publicações",
+        "NO_POSTS": "Este usuário não tem publicações, está vazio!",
         "EDIT": {
             "TITLE": "Detalhes do perfil",
             "PICTURE_TITLE": "Foto do perfil",

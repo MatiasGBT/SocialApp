@@ -22,6 +22,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { SearchUsersComponent } from './pages/search-users/search-users.component';
 import { LanguageInterceptor } from './interceptors/language';
+import { PostComponent } from './components/post/post.component';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -53,7 +54,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ConfigComponent,
     NewpostComponent,
     EditProfileComponent,
-    SearchUsersComponent
+    SearchUsersComponent,
+    PostComponent
   ],
   imports: [
     BrowserModule,

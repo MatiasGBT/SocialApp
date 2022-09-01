@@ -36,7 +36,8 @@ public class UserApp implements Serializable {
     private String description; 
 
     @OneToMany(mappedBy="user", fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","user","comments"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","username","description",
+            "posts","creationDate","deletionDate","comments"})
     private List<Post> posts;
 
     @Column(name = "creation_date")
@@ -47,8 +48,12 @@ public class UserApp implements Serializable {
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date deletionDate;
 
+    @Column(name = "is_checked", nullable = false, columnDefinition = "BOOLEAN")
+    private Boolean isChecked;
+
     @PrePersist
     public void setUpCreationDate() {
         this.creationDate = new Date();
+        this.isChecked = false;
     }
 }

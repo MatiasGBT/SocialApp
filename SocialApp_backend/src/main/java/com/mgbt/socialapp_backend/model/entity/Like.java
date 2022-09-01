@@ -25,7 +25,7 @@ public class Like implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"hibernateLazyInitializer","handler","username","description","posts",
-            "creationDate","deletionDate"})
+            "creationDate","deletionDate","isChecked"})
     @JoinColumn(name = "id_user", nullable = false)
     private UserApp user;
 }

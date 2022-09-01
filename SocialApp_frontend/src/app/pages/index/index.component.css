@@ -13,13 +13,4 @@
     #publications {
         width: 75%;
     }
-
-    .publication {
-        width: 100%;
-    }
-    
-    .publication-header p {
-        margin-left: 10px;
-        font-weight: bold;
-    }
 }

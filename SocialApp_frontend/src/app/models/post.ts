@@ -1,3 +1,4 @@
+import { Like } from "./like";
 import { User } from "./user";
 
 export class Post {
@@ -6,5 +7,5 @@ export class Post {
     photo: string;
     date: Date;
     user: User;
-    //likes: Like[];
+    likes: Like[];
 }
