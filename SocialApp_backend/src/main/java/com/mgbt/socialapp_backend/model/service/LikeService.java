@@ -37,4 +37,9 @@ public class LikeService implements IService<Like> {
     public Like findById(Long id) {
         return repository.findById(id).orElse(null);
     }
+
+    @Transactional(readOnly = true)
+    public Like findByPostAndUser(Long idPost, Long idUser) {
+        return repository.findByPostAndUser(idPost, idUser);
+    }
 }

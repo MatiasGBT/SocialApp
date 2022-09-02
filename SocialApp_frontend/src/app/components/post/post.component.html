@@ -1,7 +1,8 @@
 <div class="publication">
     <div class="publication-header">
         <figure class="publication-header-user">
-            <img *ngIf="post.user?.photo" src="http://localhost:8090/api/profile/img/{{post.user.photo}}">
+            <img *ngIf="post.user?.photo" src="http://localhost:8090/api/app/img/{{post.user.photo}}">
+            <img *ngIf="!post.user?.photo" src="http://localhost:8090/images/no-photo.jpg">
             <figcaption *ngIf="post.user?.name">{{post.user.name}}</figcaption>
             <i *ngIf="post.user?.isChecked" class="fa-solid fa-check"></i>
         </figure>
@@ -11,12 +12,12 @@
     </div>
     <div class="publication-body">
         <p *ngIf="post?.text">{{post.text}}</p>
-        <img *ngIf="!post?.photo" src="https://via.placeholder.com/200" draggable="false">
+        <img *ngIf="post?.photo" src="https://via.placeholder.com/200" draggable="false">
     </div>
     <div class="publication-footer">
         <span *ngIf="post?.likes">{{post.likes.length}}</span>
-        <i class="fa-regular fa-heart"></i>
-        <i class="fa-solid fa-heart"></i>
+        <i *ngIf="!isLiked" class="fa-regular fa-heart" (click)="likePost()"></i>
+        <i *ngIf="isLiked" class="fa-solid fa-heart" (click)="dislikePost()"></i>
         <i class="fa-solid fa-comment"></i>
         <i class="fa-solid fa-triangle-exclamation"></i>
     </div>

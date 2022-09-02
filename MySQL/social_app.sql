@@ -70,7 +70,7 @@ CREATE TABLE `friendships` (
   KEY `fk_user_receiver` (`id_user_receiver`),
   CONSTRAINT `fk_user_receiver` FOREIGN KEY (`id_user_receiver`) REFERENCES `users` (`id_user`),
   CONSTRAINT `fk_user_transmitter` FOREIGN KEY (`id_user_transmitter`) REFERENCES `users` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -141,7 +141,7 @@ CREATE TABLE `notifications` (
   CONSTRAINT `fk_user-notif_notif` FOREIGN KEY (`id_user_receiver`) REFERENCES `users` (`id_user`),
   CONSTRAINT `fk_user_user-friend` FOREIGN KEY (`id_user_friend`) REFERENCES `users` (`id_user`),
   CONSTRAINT `fk_user_user-msg` FOREIGN KEY (`id_user_message_transmitter`) REFERENCES `users` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -179,9 +179,10 @@ CREATE TABLE `users` (
   `description` varchar(200) DEFAULT NULL,
   `creation_date` datetime(6) DEFAULT NULL,
   `deletion_date` datetime(6) DEFAULT NULL,
+  `is_checked` tinyint NOT NULL,
   PRIMARY KEY (`id_user`),
   UNIQUE KEY `UK_6dotkott2kjsp8vw4d0m25fb7` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -193,4 +194,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-08-25  9:35:59
+-- Dump completed on 2022-09-01 16:27:24

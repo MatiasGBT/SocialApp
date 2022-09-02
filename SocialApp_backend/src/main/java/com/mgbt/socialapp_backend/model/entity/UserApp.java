@@ -36,7 +36,7 @@ public class UserApp implements Serializable {
     private String description; 
 
     @OneToMany(mappedBy="user", fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","username","description",
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","description",
             "posts","creationDate","deletionDate","comments"})
     private List<Post> posts;
 

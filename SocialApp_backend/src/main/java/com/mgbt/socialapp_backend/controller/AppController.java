@@ -1,18 +1,20 @@
 package com.mgbt.socialapp_backend.controller;
 
 import com.mgbt.socialapp_backend.model.entity.UserApp;
-import com.mgbt.socialapp_backend.model.service.UserService;
+import com.mgbt.socialapp_backend.model.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.core.io.Resource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.MalformedURLException;
 import java.util.*;
 
 @RestController
 @RequestMapping("api/app/")
-@PreAuthorize("isAuthenticated()")
 public class AppController {
 
     @Autowired
@@ -20,6 +22,9 @@ public class AppController {
 
     @Autowired
     MessageSource messageSource;
+
+    @Autowired
+    private IUploadFileService uploadFileService;
 
     @PostMapping("/login")
     @PreAuthorize("hasRole('user')")
@@ -75,5 +80,18 @@ public class AppController {
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @GetMapping("/img/{fileName:.+}")
+    public ResponseEntity<Resource> viewPhoto(@PathVariable String fileName) {
+        Resource resource = null;
+        try {
+            resource = uploadFileService.charge(fileName);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        HttpHeaders header = new HttpHeaders();
+        header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"");
+        return new ResponseEntity<>(resource, header, HttpStatus.OK);
     }
 }

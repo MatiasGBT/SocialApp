@@ -3,7 +3,7 @@
         <div id="profile">
             <div id="profile-header">
                 <figure id="profile-header-photo">
-                    <img *ngIf="user?.photo" src="http://localhost:8090/api/profile/img/{{user.photo}}" width="80px" height="80px">
+                    <img *ngIf="user?.photo" src="http://localhost:8090/api/app/img/{{user.photo}}" width="80px" height="80px">
                     <img *ngIf="!user?.photo" src="http://localhost:8090/images/no-photo.jpg" width="80px" height="80px">
                     <figcaption *ngIf="user?.name">{{user.name}} {{user.surname}}</figcaption>
                 </figure>

@@ -3,6 +3,7 @@
     padding-top: 25px;
     padding-left: 25px;
     padding-right: 25px;
+    font-size: 1.2rem;
 }
 
 .publication-header {
@@ -39,7 +40,7 @@
 }
 
 .publication-footer {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -47,11 +48,19 @@
 
 .publication-footer i {
     margin-left: 5px;
+    cursor: pointer;
+}
+
+@media (min-width: 768px) {
+    .publication-footer {
+        font-size: 1.2rem;
+    }
 }
 
 @media (min-width: 1038px) {
     .publication {
         width: 100%;
+        font-size: 1rem;
     }
     
     .publication-header p {

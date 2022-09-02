@@ -3,7 +3,7 @@
         <h1>{{'SEARCH.USERS_TITLE' | translate}}:</h1>
         <div  *ngFor="let user of users" class="user">
             <div class="personal-info" [routerLink]="['/profile', user.idUser]">
-                <img *ngIf="user?.photo" src="http://localhost:8090/api/profile/img/{{user.photo}}"
+                <img *ngIf="user?.photo" src="http://localhost:8090/api/app/img/{{user.photo}}"
                     alt="{{user.name}} {{user.surname}}" width="50px" height="50px">
                 <img *ngIf="!user?.photo" src="http://localhost:8090/images/no-photo.jpg" width="50px" height="50px">
                 <p>{{user.name}} {{user.surname}}</p>

@@ -5,13 +5,11 @@ import com.mgbt.socialapp_backend.model.entity.notification.NotificationFriendsh
 import com.mgbt.socialapp_backend.model.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.core.io.Resource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import java.net.MalformedURLException;
 import java.util.*;
 
 @RestController
@@ -79,19 +77,6 @@ public class ProfileController {
             response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-
-    @GetMapping("/img/{fileName:.+}")
-    public ResponseEntity<Resource> viewPhoto(@PathVariable String fileName) {
-        Resource resource = null;
-        try {
-            resource = uploadFileService.charge(fileName);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        HttpHeaders header = new HttpHeaders();
-        header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"");
-        return new ResponseEntity<>(resource, header, HttpStatus.OK);
     }
 
     @PostMapping("/add-friend")

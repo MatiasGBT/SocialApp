@@ -8,7 +8,7 @@
         <div class="image">
             <img *ngIf="!user?.photo" [src]="output?.base64" alt="">
             <img *ngIf="!user?.photo && !output?.base64" src="http://localhost:8090/images/no-photo.jpg">
-            <img *ngIf="user?.photo" src="http://localhost:8090/api/profile/img/{{user.photo}}" alt="">
+            <img *ngIf="user?.photo" src="http://localhost:8090/api/app/img/{{user.photo}}" alt="">
         </div>
 
         <h2>{{'PROFILE.EDIT.DESCRIPTION_TITLE' | translate}}</h2>
