@@ -56,7 +56,9 @@
         "FRIEND_REQUEST_TITLE": "Nova solicitação de amizade",
         "FRIEND_REQUEST_TEXT": "lhe enviou uma solicitação de amizade",
         "NOTIFICATIONS_DISABLED": "As notificações estão desativadas. Habilite-as na guia Configurações para exibi-las.",
-        "NO_NOTIFICATIONS": "Você não tem nenhuma notificação no momento"
+        "NO_NOTIFICATIONS": "Você não tem nenhuma notificação no momento",
+        "NO_NOTIFICATIONS_TO_DELETE_TITLE": "Você não tem notificações para eliminar",
+        "NO_NOTIFICATIONS_TO_DELETE_TEXT": "Lembre-se de que as solicitação de amizade não podem ser eliminadas, somente rejeitados"
     },
     "SETTINGS": {
         "TITLE": "Configuração",

@@ -56,7 +56,9 @@
         "FRIEND_REQUEST_TITLE": "Nueva petición de amistad",
         "FRIEND_REQUEST_TEXT": "te envió una petición de amistad",
         "NOTIFICATIONS_DISABLED": "Las notificaciones están deshabilitadas. Actívalas en la pestaña de Configuración para visualizarlas.",
-        "NO_NOTIFICATIONS": "No tienes notificaciones en este momento"
+        "NO_NOTIFICATIONS": "No tienes notificaciones en este momento",
+        "NO_NOTIFICATIONS_TO_DELETE_TITLE": "No tienes notificaciones para eliminar",
+        "NO_NOTIFICATIONS_TO_DELETE_TEXT": "Recuerda que las peticiones de amistad no pueden ser eliminadas, solo rechazadas"
     },
     "SETTINGS": {
         "TITLE": "Configuración",

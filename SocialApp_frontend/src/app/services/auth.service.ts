@@ -9,20 +9,17 @@ import { User } from '../models/user';
   providedIn: 'root'
 })
 export class AuthService {
-  private user: User;
   private token = this.keycloakService.getKeycloakInstance().token;
   private baseUrl = "http://localhost:8090/api/app/";
 
   constructor(private http: HttpClient, private keycloakService: KeycloakService) { }
 
   public login(): Observable<any> {
-    if (this.user == null) {
-      this.user = new User();
-      let payload = this.obtainPayload(this.token);
-      this.createUserWithPayload(payload);
-    }
+    let user = new User();
+    let payload = this.obtainPayload(this.token);
+    this.createUserWithPayload(payload, user);
     const httpHeaders = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': 'Basic ' + this.keycloakService.getToken()});
-    return this.http.post<any>(this.baseUrl + "login", this.user, {headers: httpHeaders}).pipe(
+    return this.http.post<any>(this.baseUrl + "login", user, {headers: httpHeaders}).pipe(
       catchError(e => throwError(() => new Error(e)))
     );
   }
@@ -41,9 +38,9 @@ export class AuthService {
     return JSON.parse(window.atob(access_token.split(".")[1]));
   }
 
-  private createUserWithPayload(payload) {
-    this.user.username = payload.preferred_username;
-    this.user.name = payload.given_name;
-    this.user.surname = payload.family_name;
+  private createUserWithPayload(payload, user: User) {
+    user.username = payload.preferred_username;
+    user.name = payload.given_name;
+    user.surname = payload.family_name;
   }
 }

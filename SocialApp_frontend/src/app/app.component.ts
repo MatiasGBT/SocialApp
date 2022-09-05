@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { User } from './models/user';
 import { AuthService } from './services/auth.service';
 
 @Component({
@@ -9,6 +10,7 @@ import { AuthService } from './services/auth.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  public user: User;
 
   constructor(private translate: TranslateService, private authService: AuthService,
     private router: Router) {
@@ -18,6 +20,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.authService.login().subscribe(response => {
       console.log(response.message);
+      this.user = response.user as User;
       if (response.status != undefined && response.status == 201) {
         this.router.navigate(['/profile/edit'])
       }

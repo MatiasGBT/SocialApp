@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Notification } from 'src/app/models/notification';
 import { FriendshipService } from 'src/app/services/friendship.service';
 import { NotificationsService } from 'src/app/services/notifications.service';
+import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -13,15 +15,20 @@ import Swal from 'sweetalert2';
 export class NotifComponent implements OnInit {
   public isNotificationsEnabled: boolean;
   public notifications: Notification[] = [];
+  private noNotificationsToDeleteTitle: string;
+  private noNotificationsToDeleteText: string;
 
-  constructor(private notificationsService: NotificationsService,
-    private friendshipService: FriendshipService, private router: Router) { }
+  constructor(private notificationsService: NotificationsService, private userService: UserService,
+    private friendshipService: FriendshipService, private router: Router,
+    private translate: TranslateService) { }
 
   ngOnInit(): void {
     this.isNotificationsEnabled = this.notificationsService.getNotificationsStatus();
-
     if (this.isNotificationsEnabled) {
-      this.notificationsService.getNotifications().subscribe(notifications => this.notifications = notifications);
+      this.userService.getKeycloakUser().subscribe(keycloakUser => {
+        let user = keycloakUser;
+        this.notificationsService.getNotifications(user).subscribe(notifications => this.notifications = notifications);
+      });
     }
 
     this.notificationsService.notificationsChanger.subscribe(isNotificationsEnabled => this.isNotificationsEnabled = isNotificationsEnabled);
@@ -40,11 +47,15 @@ export class NotifComponent implements OnInit {
   }
 
   public deleteAllNotifications(): void {
-    this.notificationsService.deleteAll().subscribe(response => {
-      console.log(response.message);
-      this.notifications = this.notifications.filter(n => n?.friendship);
-      this.notificationsService.notificationsChanger.emit(this.notifications);
-    });
+    if (this.notifications.filter(n => !n.friendship).length > 0) {
+      this.notificationsService.deleteAll().subscribe(response => {
+        console.log(response.message);
+        this.notifications = this.notifications.filter(n => n?.friendship);
+        this.notificationsService.notificationsChanger.emit(this.notifications);
+      });
+    } else {
+      this.showNoNotificationsModal();
+    }
   }
 
   public acceptFriendRequest(notification: Notification): void {
@@ -74,5 +85,20 @@ export class NotifComponent implements OnInit {
     if (notification?.friend) {
       this.router.navigate(['/profile', notification.friend.idUser]);
     }
+  }
+
+  private showNoNotificationsModal() {
+    const lang = localStorage.getItem('lang');
+    lang != null ? this.translate.use(lang) : this.translate.use('en');
+    this.translate.get('NOTIFICATIONS.NO_NOTIFICATIONS_TO_DELETE_TITLE').subscribe((res: string) => {
+      this.noNotificationsToDeleteTitle = res;
+    });
+    this.translate.get('NOTIFICATIONS.NO_NOTIFICATIONS_TO_DELETE_TEXT').subscribe((res: string) => {
+      this.noNotificationsToDeleteText = res;
+    });
+    Swal.fire({
+      icon: 'info', title: this.noNotificationsToDeleteTitle, text: this.noNotificationsToDeleteText,
+      showConfirmButton: false, timer: 1750, background: '#7f5af0', color: 'white'
+    });
   }
 }

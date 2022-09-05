@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable, Output } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, Observable, retry, throwError } from 'rxjs';
 import Swal from 'sweetalert2';
 import { Notification } from '../models/notification';
+import { User } from '../models/user';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -20,8 +21,8 @@ export class NotificationsService {
     return notificationsStatus == null || notificationsStatus == 'on';
   }
 
-  public getNotifications(): Observable<Notification[]> {
-    return this.http.get<Notification[]>(`${this.baseUrl}/notifications/get/${this.authService.getUsername()}`).pipe(
+  public getNotifications(user: User): Observable<Notification[]> {
+    return this.http.get<Notification[]>(`${this.baseUrl}/notifications/get/${user.username}`).pipe(
       catchError(e => {
         Swal.fire({
           icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,

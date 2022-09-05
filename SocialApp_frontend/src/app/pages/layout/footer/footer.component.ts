@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Notification } from 'src/app/models/notification';
+import { User } from 'src/app/models/user';
 import { NotificationsService } from 'src/app/services/notifications.service';
 
 @Component({
@@ -11,17 +12,12 @@ export class FooterComponent implements OnInit {
   public isNotificationsEnabled: boolean;
   public notificationsNumber: number;
   private notifications: Notification[] = [];
+  @Input() public user: User;
 
   constructor(private notificationsService: NotificationsService) { }
 
   ngOnInit(): void {
     this.isNotificationsEnabled = this.notificationsService.getNotificationsStatus();
-    if (this.isNotificationsEnabled) {
-      this.notificationsService.getNotifications().subscribe(notifications => {
-        this.notifications = notifications;
-        this.notificationsNumber = this.notifications.filter(n => !n.isViewed).length;
-      });
-    }
 
     this.notificationsService.notificationsEnabled.subscribe(areEnabled => {
       this.isNotificationsEnabled = areEnabled;
@@ -30,6 +26,15 @@ export class FooterComponent implements OnInit {
     this.notificationsService.notificationsChanger.subscribe(notifications => {
       this.notifications = notifications.filter(n => !n.isViewed); /*The badge will not display viewed notifications*/
       this.notificationsNumber = this.notifications.length;
-    })
+    });
+  }
+
+  ngOnChanges() {
+    if (this.isNotificationsEnabled && this.user) {
+      this.notificationsService.getNotifications(this.user).subscribe(notifications => {
+        this.notifications = notifications;
+        this.notificationsNumber = this.notifications.filter(n => !n.isViewed).length;
+      });
+    }
   }
 }

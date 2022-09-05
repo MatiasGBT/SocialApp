@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Router } from '@angular/router';
@@ -15,7 +15,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class NavbarComponent implements OnInit {
   public placeholder: string;
-  public user: User;
+  @Input() public user: User;
   public people: Observable<User[]>;
   control = new FormControl();
 
@@ -25,13 +25,10 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     const lang = localStorage.getItem('lang');
     lang != null ? this.translate.use(lang) : this.translate.use('en');
-    
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.translate.use(event.lang);
       this.translate.get('NAVBAR.SEARCH_PEOPLE').subscribe((res: string) => this.placeholder = res);
     });
-
-    this.userService.getKeycloakUser().subscribe(response => this.user = response);
 
     this.userService.userChanger.subscribe(data => this.user.photo = data.photo);
     
@@ -54,7 +51,7 @@ export class NavbarComponent implements OnInit {
   }
 
   public search(event) {
-    if ((event.key === 'Enter' || event.keyCode == 13) && this.control.value.length >= 3) {
+    if ((event.key === 'Enter' || event.keyCode == 13) && this.control.value && this.control.value.length >= 3) {
       this.router.navigate(['/search', this.control.value]);
     }
   }
