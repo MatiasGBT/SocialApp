@@ -28,6 +28,7 @@
         "ADD_FRIEND": "Adicionar amigo",
         "SEND_MESSAGE": "Enviar mensagem",
         "CALL": "Chamar",
+        "DELETE": "Eliminar dos amigos",
         "POSTS": "Publicações",
         "NO_POSTS": "Este usuário não tem publicações, está vazio!",
         "EDIT": {

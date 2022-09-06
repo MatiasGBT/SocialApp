@@ -8,6 +8,7 @@ import { EditProfileComponent } from './pages/profile/edit-profile/edit-profile.
 import { ProfileComponent } from './pages/profile/profile.component';
 import { SearchUsersComponent } from './pages/search-users/search-users.component';
 import { AuthGuard } from './guards/auth.guard';
+import { FullPostComponent } from './pages/full-post/full-post.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'index', pathMatch: 'full'},
@@ -18,7 +19,8 @@ const routes: Routes = [
   {path: 'search/:name', component: SearchUsersComponent, canActivate: [AuthGuard]},
   {path: 'notif', component: NotifComponent, canActivate: [AuthGuard]},
   {path: 'config', component: ConfigComponent, canActivate: [AuthGuard]},
-  {path: 'newpost', component: NewpostComponent, canActivate: [AuthGuard]}
+  {path: 'newpost', component: NewpostComponent, canActivate: [AuthGuard]},
+  {path: 'post/:id', component: FullPostComponent, canActivate: [AuthGuard]},
 ];
 
 @NgModule({

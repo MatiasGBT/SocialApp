@@ -21,6 +21,9 @@ export class FooterComponent implements OnInit {
 
     this.notificationsService.notificationsEnabled.subscribe(areEnabled => {
       this.isNotificationsEnabled = areEnabled;
+      if (this.isNotificationsEnabled) {
+        this.obtainNotifications();
+      }
     });
 
     this.notificationsService.notificationsChanger.subscribe(notifications => {
@@ -31,10 +34,14 @@ export class FooterComponent implements OnInit {
 
   ngOnChanges() {
     if (this.isNotificationsEnabled && this.user) {
-      this.notificationsService.getNotifications(this.user).subscribe(notifications => {
-        this.notifications = notifications;
-        this.notificationsNumber = this.notifications.filter(n => !n.isViewed).length;
-      });
+      this.obtainNotifications();
     }
+  }
+
+  private obtainNotifications(): void {
+    this.notificationsService.getNotifications(this.user).subscribe(notifications => {
+      this.notifications = notifications;
+      this.notificationsNumber = this.notifications.filter(n => !n.isViewed).length;
+    });
   }
 }

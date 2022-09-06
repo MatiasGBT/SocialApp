@@ -1,10 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { catchError, Observable, throwError } from 'rxjs';
 import Swal from 'sweetalert2';
-import { Like } from '../models/like';
 import { Post } from '../models/post';
-import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +11,20 @@ import { User } from '../models/user';
 export class PostService {
   private baseUrl: string = 'http://localhost:8090/api';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
+
+  public getPost(idPost: number): Observable<Post> {
+    return this.http.get<Post>(`${this.baseUrl}/posts/get-post/${idPost}`).pipe(
+      catchError(e => {
+        this.router.navigate(['/index']);
+        Swal.fire({
+          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
+          timer: 1250, background: '#7f5af0', color: 'white'
+        });
+        return throwError(() => e);
+      })
+    );
+  }
 
   public likePost(idPost: number, idUser: number): Observable<any> {
     let formData = new FormData();

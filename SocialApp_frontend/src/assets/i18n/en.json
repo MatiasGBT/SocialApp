@@ -28,6 +28,7 @@
         "ADD_FRIEND": "Add friend",
         "SEND_MESSAGE": "Send message",
         "CALL": "Call",
+        "DELETE": "Delete from friends",
         "POSTS": "Posts",
         "NO_POSTS": "This user has no posts, it is empty!",
         "EDIT": {

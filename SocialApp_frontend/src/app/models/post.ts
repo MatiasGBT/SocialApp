@@ -1,3 +1,4 @@
+import { Comment } from "./comment";
 import { Like } from "./like";
 import { User } from "./user";
 
@@ -8,4 +9,5 @@ export class Post {
     date: Date;
     user: User;
     likes: Like[];
+    comments: Comment[];
 }

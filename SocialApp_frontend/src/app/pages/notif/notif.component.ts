@@ -78,12 +78,15 @@ export class NotifComponent implements OnInit {
   }
 
   public viewNotification(notification: Notification) {
+    this.notificationsService.viewNotification(notification.idNotification).subscribe(response => console.log(response.message));
     if (!notification?.friendship) {
-      this.notificationsService.viewNotification(notification.idNotification).subscribe(response => console.log(response.message));
       this.notificationsService.notificationsChanger.emit(this.notifications.filter(n => n.idNotification !== notification.idNotification));
     }
     if (notification?.friend) {
       this.router.navigate(['/profile', notification.friend.idUser]);
+    }
+    if (notification?.post) {
+      this.router.navigate(['/post', notification.post.idPost]);
     }
   }
 

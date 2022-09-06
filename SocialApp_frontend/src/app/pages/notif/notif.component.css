@@ -1,5 +1,4 @@
 #section-notifications {
-    color: white;
     padding: 25px;
 }
 
@@ -37,7 +36,6 @@ h2 {
     margin-left: auto;
     text-align: center;
     background: #7f5af0;
-    color: white;
     cursor: pointer;
     transition: .3s;
     border: none;

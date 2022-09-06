@@ -38,5 +38,6 @@ public abstract class Notification implements Serializable {
     @PrePersist
     public void setUpCreationDate() {
         this.date = new Date();
+        this.isViewed = false;
     }
 }

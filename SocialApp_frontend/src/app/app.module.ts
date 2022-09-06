@@ -23,6 +23,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { SearchUsersComponent } from './pages/search-users/search-users.component';
 import { LanguageInterceptor } from './interceptors/language';
 import { PostComponent } from './components/post/post.component';
+import { FullPostComponent } from './pages/full-post/full-post.component';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -55,7 +56,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     NewpostComponent,
     EditProfileComponent,
     SearchUsersComponent,
-    PostComponent
+    PostComponent,
+    FullPostComponent
   ],
   imports: [
     BrowserModule,

@@ -34,6 +34,9 @@
                 <button type="button" class="profile-button" *ngIf="user?.idUser != keycloakUserId && friendship?.status == true">
                     <i class="fa-solid fa-phone-flip"></i> {{'PROFILE.CALL' | translate}}
                 </button>
+                <button type="button" class="profile-button" *ngIf="user?.idUser != keycloakUserId && friendship?.status == true">
+                    <i class="fa-solid fa-trash"></i> {{'PROFILE.DELETE' | translate}}
+                </button>
             </div>
         </div>
 

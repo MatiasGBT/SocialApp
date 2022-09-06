@@ -1,5 +1,4 @@
 #section-settings {
-    color: white;
     padding: 25px;
 }
 
@@ -85,7 +84,6 @@ h2 {
     content: 'ON';
     position: absolute;
     font-size: 10px;
-    color: white;
     top: 10px;
     left: 4px;
     opacity: 0;
@@ -100,7 +98,6 @@ h2 {
     outline: none;
     font-size: 1rem;
     background: #7f5af0;
-    color: white;
     border: none;
     border-radius: 10px;
     padding: 5px;
@@ -126,7 +123,6 @@ h2 {
     display: block;
     width: 139px; /*Same as select width*/
     background: #7f5af0;
-    color: white;
     font-size: 1rem;
     outline: none;
     border: none;

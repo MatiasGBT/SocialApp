@@ -39,4 +39,9 @@ public class Post implements Serializable {
     @JsonIgnoreProperties({"hibernateLazyInitializer","handler","post","name","surname","photo",
             "description","posts","isChecked","creationDate","deletionDate"})
     private List<Like> likes;
+
+    @OneToMany(mappedBy="post", fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","post",
+            "description","posts","isChecked","creationDate","deletionDate"})
+    private List<Comment> comments;
 }

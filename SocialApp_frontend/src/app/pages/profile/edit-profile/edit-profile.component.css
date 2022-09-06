@@ -1,5 +1,4 @@
 #section-edit-profile {
-    color: white;
     padding: 25px;
 }
 
@@ -45,7 +44,6 @@ textarea {
     width: 100%;
     font-size: 1rem;
     background: #7f5af0;
-    color: white;
     outline: none;
     border: none;
     border-radius: 10px;
