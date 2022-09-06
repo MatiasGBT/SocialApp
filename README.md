@@ -13,7 +13,7 @@ or download it as a ZIP file.
 After that, you will be able to deploy this app running the following command in
 the repository folder:  
 `docker compose up`  
-You will need to have Docker Desktop open and running when yo execute this command (and any other Docker command).
+You will need to have Docker Desktop open and running when you execute this command (and any other Docker command).
 
 
 The first time you run the application it will be slow because Docker needs to download and build the images specified in the `docker-compose.yml` file.  
@@ -41,7 +41,26 @@ You will be redirected to a registration page. Use false information (just to te
 - Password: *user123*
 - Confirm password: *user123*  
 After registering you will be able to use and explore the app.
+## Tech Stack
+
+**Client:** Angular
+
+**Server:** Java, Spring Boot
+
+**Authorization server:** Keycloak
+
+**Database:** MySQL
+## External utilities
+Utilities provided by other developers/designers used in this project:
+
+- [keycloak-angular](https://www.npmjs.com/package/keycloak-angular)
+- [ngx-translate](https://github.com/ngx-translate/core)
+- [ngx-dropzone](https://www.npmjs.com/package/ngx-dropzone)
+- [ngx-photo-editor](https://www.npmjs.com/package/ngx-photo-editor)
+- [Font Awesome 6](https://fontawesome.com/)
+- [Sweet Alert 2](https://sweetalert2.github.io/)
+- [Angular Material](https://material.angular.io/)
+- [unDraw](https://undraw.co/illustrations)
 ## Author
 
 [@MatiasGBT](https://github.com/MatiasGBT)
-
