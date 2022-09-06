@@ -47,9 +47,16 @@ export class ProfileComponent implements OnInit {
     this.friendshipService.addFriend(this.id);
   }
 
-  private getFriendsQuantity() {
+  private getFriendsQuantity(): void {
     this.friendshipService.getFriendsQuantity(this.user.idUser).subscribe(friendsQuantity => {
       this.friendsQuantity = friendsQuantity;
+    });
+  }
+
+  public deleteFriend(): void {
+    this.friendshipService.deleteFriendship(this.id).subscribe(response => {
+      console.log(response.message);
+      this.ngOnInit();
     });
   }
 }

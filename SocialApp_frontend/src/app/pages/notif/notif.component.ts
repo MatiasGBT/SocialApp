@@ -70,7 +70,7 @@ export class NotifComponent implements OnInit {
       }).then(() => {
         this.notificationsService.delete(notification.idNotification).subscribe(response => {
           console.log(response.message);
-          this.notifications = this.notifications.filter(n => n?.friendship.idFriendship != notification.friendship.idFriendship);
+          this.notifications = this.notifications.filter(n => n?.idNotification != notification.idNotification);
           this.notificationsService.notificationsChanger.emit(this.notifications);
         })
       });

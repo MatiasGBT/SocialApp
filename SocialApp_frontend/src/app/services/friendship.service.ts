@@ -70,4 +70,16 @@ export class FriendshipService {
       catchError(e => throwError(()=>e))
     );
   }
+
+  public deleteFriendship(idUserFriend: number): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/friend/delete/${idUserFriend}&${this.authService.getUsername()}`).pipe(
+      catchError(e => {
+        Swal.fire({
+          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
+          timer: 1250, background: '#7f5af0', color: 'white'
+        });
+        return throwError(()=>e);
+      })
+    );
+  }
 }

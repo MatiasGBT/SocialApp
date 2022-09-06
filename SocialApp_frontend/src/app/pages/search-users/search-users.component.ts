@@ -34,4 +34,11 @@ export class SearchUsersComponent implements OnInit {
   public addFriend(id: number): void {
     this.friendshipService.addFriend(id);
   }
+
+  public deleteFriend(id: number): void {
+    this.friendshipService.deleteFriendship(id).subscribe(response => {
+      console.log(response.message);
+      this.ngOnInit();
+    });
+  }
 }
