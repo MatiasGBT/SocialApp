@@ -1,7 +1,6 @@
 package com.mgbt.socialapp_backend.model.service;
 
-import com.mgbt.socialapp_backend.model.entity.Friendship;
-import com.mgbt.socialapp_backend.model.entity.UserApp;
+import com.mgbt.socialapp_backend.model.entity.*;
 import com.mgbt.socialapp_backend.model.repository.IFriendshipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,5 +46,10 @@ public class FriendshipService implements IService<Friendship> {
     @Transactional(readOnly = true)
     public Integer friendsQuantity(UserApp user) {
         return repository.friendsQuantity(user.getIdUser());
+    }
+
+    @Transactional(readOnly = true)
+    public List<Friendship> findFriendshipsByUser(Long idUser) {
+        return repository.findAllFriendsByUser(idUser);
     }
 }

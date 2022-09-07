@@ -12,7 +12,7 @@
                         <p *ngIf="user?.posts">{{user.posts.length}}</p>
                         <p>{{'PROFILE.NUMBER_OF_POSTS' | translate}}</p>
                     </div>
-                    <div>
+                    <div (click)="goToFriendsPage()">
                         <p>{{friendsQuantity}}</p>
                         <p>{{'PROFILE.NUMBER_OF_FRIENDS' | translate}}</p>
                     </div>

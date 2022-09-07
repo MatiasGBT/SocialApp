@@ -41,6 +41,7 @@
 
 #profile-header-data div {
     margin-right: 20px;
+    cursor: pointer;
 }
 
 #profile-description {

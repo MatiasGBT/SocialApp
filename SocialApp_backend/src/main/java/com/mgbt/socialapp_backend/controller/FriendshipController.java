@@ -1,5 +1,7 @@
 package com.mgbt.socialapp_backend.controller;
 
+import com.mgbt.socialapp_backend.model.entity.Friendship;
+import com.mgbt.socialapp_backend.model.entity.Post;
 import com.mgbt.socialapp_backend.model.entity.UserApp;
 import com.mgbt.socialapp_backend.model.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,20 @@ public class FriendshipController {
             response.put("message", messageSource.getMessage("friendshipcontroller.deleteFriendship", null, locale));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (DataAccessException e) {
+            response.put("message", messageSource.getMessage("error.database", null, locale));
+            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/get-friends/{idUser}")
+    @PreAuthorize("hasRole('user')")
+    public ResponseEntity<?> getFriendships(@PathVariable Long idUser, Locale locale) {
+        try {
+            List<Friendship> friendships = friendshipService.findFriendshipsByUser(idUser);
+            return new ResponseEntity<>(friendships, HttpStatus.OK);
+        } catch (DataAccessException e) {
+            Map<String, Object> response = new HashMap<>();
             response.put("message", messageSource.getMessage("error.database", null, locale));
             response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);

@@ -21,17 +21,9 @@ export class SearchUsersComponent implements OnInit {
       if (name) {
         this.userService.filterUsersWithoutLimit(name).subscribe(response => {
           this.users = response;
-          this.mapIfIsFriend();
+          this.friendshipService.setIsFriend(this.users);
         });
       }
-    });
-  }
-
-  private mapIfIsFriend() {
-    this.users.map(user => {
-      this.friendshipService.getFriendship(user.idUser).subscribe(friendship => {
-        friendship.status ? user.isFriend = true : user.isFriend = false;
-      });
     });
   }
 }

@@ -77,6 +77,11 @@
         "NON_USERS_TITLE": "No se encontraron usuarios",
         "NON_USERS_TEXT": "Prueba con otro nombre para la búsqueda"
     },
+    "FRIENDS": {
+        "TITLE": "Amigos del usuario",
+        "NON_FRIENDS_TITLE": "Este usuario no tiene amigos",
+        "NON_FRIENDS_TEXT": "¿Y si le envías una solicitud de amistad 😀?"
+    },
     "USER": {
         "DELETE_MODAL_TITLE": "¿Está seguro?",
         "DELETE_MODAL_TEXT": "Podrás reenviarle una solicitud de amistad a este usuario.",

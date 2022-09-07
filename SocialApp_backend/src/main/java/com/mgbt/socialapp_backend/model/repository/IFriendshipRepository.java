@@ -1,7 +1,6 @@
 package com.mgbt.socialapp_backend.model.repository;
 
 import com.mgbt.socialapp_backend.model.entity.Friendship;
-import com.mgbt.socialapp_backend.model.entity.UserApp;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -21,4 +20,9 @@ public interface IFriendshipRepository extends JpaRepository<Friendship, Long> {
             "(f.id_user_receiver = ?1 OR f.id_user_transmitter = ?1) && f.status = 1",
             nativeQuery = true)
     Integer friendsQuantity(Long idUser);
+
+    @Query(value = "SELECT * FROM friendships f " +
+            "WHERE (f.id_user_transmitter = ?1 OR f.id_user_receiver = ?1) AND f.status = 1",
+            nativeQuery = true)
+    List<Friendship> findAllFriendsByUser(Long idUser);
 }

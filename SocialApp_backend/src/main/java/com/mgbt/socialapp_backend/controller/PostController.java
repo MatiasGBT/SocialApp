@@ -37,7 +37,7 @@ public class PostController {
 
     @GetMapping("/get-post/{idPost}")
     @PreAuthorize("hasRole('user')")
-    public ResponseEntity<?> getUser(@PathVariable Long idPost, Locale locale) {
+    public ResponseEntity<?> getPost(@PathVariable Long idPost, Locale locale) {
         Post post;
         Map<String, Object> response = new HashMap<>();
         try {

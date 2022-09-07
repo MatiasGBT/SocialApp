@@ -9,6 +9,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { SearchUsersComponent } from './pages/search-users/search-users.component';
 import { AuthGuard } from './guards/auth.guard';
 import { FullPostComponent } from './pages/full-post/full-post.component';
+import { FriendsComponent } from './pages/friends/friends.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'index', pathMatch: 'full'},
@@ -16,11 +17,12 @@ const routes: Routes = [
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
   {path: 'profile/edit', component: EditProfileComponent},
   {path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard]},
+  {path: 'profile/friends/:id', component: FriendsComponent, canActivate: [AuthGuard]},
   {path: 'search/:name', component: SearchUsersComponent, canActivate: [AuthGuard]},
   {path: 'notif', component: NotifComponent, canActivate: [AuthGuard]},
   {path: 'config', component: ConfigComponent, canActivate: [AuthGuard]},
   {path: 'newpost', component: NewpostComponent, canActivate: [AuthGuard]},
-  {path: 'post/:id', component: FullPostComponent, canActivate: [AuthGuard]},
+  {path: 'post/:id', component: FullPostComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

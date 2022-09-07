@@ -25,6 +25,7 @@ import { LanguageInterceptor } from './interceptors/language';
 import { PostComponent } from './components/post/post.component';
 import { FullPostComponent } from './pages/full-post/full-post.component';
 import { UserComponent } from './components/user/user.component';
+import { FriendsComponent } from './pages/friends/friends.component';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -59,7 +60,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     SearchUsersComponent,
     PostComponent,
     FullPostComponent,
-    UserComponent
+    UserComponent,
+    FriendsComponent
   ],
   imports: [
     BrowserModule,

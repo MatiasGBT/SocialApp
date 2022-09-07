@@ -6,7 +6,7 @@
         <p>{{user.name}} {{user.surname}}</p>
     </div>
 
-    <div class="buttons">
+    <div class="buttons" *ngIf="user.username != authService.getUsername()">
         <button type="button" (click)="addFriend()" *ngIf="!user.isFriend">
             <i class="fas fa-plus"></i>
         </button>

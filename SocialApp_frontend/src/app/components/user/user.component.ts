@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { User } from 'src/app/models/user';
+import { AuthService } from 'src/app/services/auth.service';
 import { FriendshipService } from 'src/app/services/friendship.service';
 
 @Component({
@@ -10,7 +11,7 @@ import { FriendshipService } from 'src/app/services/friendship.service';
 export class UserComponent implements OnInit {
   @Input() public user: User;
 
-  constructor(private friendshipService: FriendshipService) { }
+  constructor(private friendshipService: FriendshipService, public authService: AuthService) { }
 
   ngOnInit(): void {
   }

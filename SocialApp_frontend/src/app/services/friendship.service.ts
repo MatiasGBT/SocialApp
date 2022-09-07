@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import Swal from 'sweetalert2';
 import { Friendship } from '../models/friendship';
+import { User } from '../models/user';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -111,5 +112,25 @@ export class FriendshipService {
     let text: string;
     this.translate.get(url).subscribe((res) => text = res);
     return text;
+  }
+
+  public getFriendships(idUser: number): Observable<Friendship[]> {
+    return this.http.get<Friendship[]>(`${this.baseUrl}/friend/get-friends/${idUser}`).pipe(
+      catchError(e => {
+        Swal.fire({
+          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
+          timer: 1250, background: '#7f5af0', color: 'white'
+        });
+        return throwError(()=>e);
+      })
+    );
+  }
+
+  public setIsFriend(users: User[]) {
+    users.map(user => {
+      this.getFriendship(user.idUser).subscribe(friendship => {
+        friendship.status ? user.isFriend = true : user.isFriend = false;
+      });
+    });
   }
 }

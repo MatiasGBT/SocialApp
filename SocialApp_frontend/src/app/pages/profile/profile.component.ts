@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Friendship } from 'src/app/models/friendship';
 import { User } from 'src/app/models/user';
 import { FriendshipService } from 'src/app/services/friendship.service';
@@ -18,7 +18,7 @@ export class ProfileComponent implements OnInit {
   public friendsQuantity: number;
 
   constructor(private userService: UserService, private activatedRoute: ActivatedRoute,
-    private friendshipService: FriendshipService) { }
+    private friendshipService: FriendshipService, private router: Router) { }
 
   ngOnInit(): void {
     this.userService.userChanger.subscribe(data => {
@@ -56,6 +56,14 @@ export class ProfileComponent implements OnInit {
   public async deleteFriend() {
     if (await this.friendshipService.askToDelete(this.id)) {
       this.friendship.status = false;
+    }
+  }
+
+  public goToFriendsPage(): void {
+    if (this.id) {
+      this.router.navigate(['profile/friends', this.id]);
+    } else {
+      this.router.navigate(['profile/friends', this.user.idUser]);
     }
   }
 }
