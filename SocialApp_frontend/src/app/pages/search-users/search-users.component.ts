@@ -21,24 +21,17 @@ export class SearchUsersComponent implements OnInit {
       if (name) {
         this.userService.filterUsersWithoutLimit(name).subscribe(response => {
           this.users = response;
-          this.users.map(user => {
-            this.friendshipService.getFriendship(user.idUser).subscribe(friendship => {
-              friendship.status ? user.isFriend = true : user.isFriend = false;
-            });
-          })
+          this.mapIfIsFriend();
         });
       }
     });
   }
 
-  public addFriend(id: number): void {
-    this.friendshipService.addFriend(id);
-  }
-
-  public deleteFriend(id: number): void {
-    this.friendshipService.deleteFriendship(id).subscribe(response => {
-      console.log(response.message);
-      this.ngOnInit();
+  private mapIfIsFriend() {
+    this.users.map(user => {
+      this.friendshipService.getFriendship(user.idUser).subscribe(friendship => {
+        friendship.status ? user.isFriend = true : user.isFriend = false;
+      });
     });
   }
 }

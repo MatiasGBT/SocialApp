@@ -53,10 +53,9 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  public deleteFriend(): void {
-    this.friendshipService.deleteFriendship(this.id).subscribe(response => {
-      console.log(response.message);
-      this.ngOnInit();
-    });
+  public async deleteFriend() {
+    if (await this.friendshipService.askToDelete(this.id)) {
+      this.friendship.status = false;
+    }
   }
 }

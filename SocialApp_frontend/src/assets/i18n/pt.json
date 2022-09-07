@@ -77,6 +77,12 @@
         "NON_USERS_TITLE": "Nenhum usuário encontrado",
         "NON_USERS_TEXT": "Tente outro nome para a busca"
     },
+    "USER": {
+        "DELETE_MODAL_TITLE": "Tem certeza?",
+        "DELETE_MODAL_TEXT": "Você poderá enviar uma solicitação de amizade a este usuário novamente.",
+        "DELETE_MODAL_SAVE_BTN": "Eliminar",
+        "DELETE_MODAL_CANCEL_BTN": "Cancelar"
+    },
     "LANGUAGES": {
         "en": "English",
         "es": "Español",

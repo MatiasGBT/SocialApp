@@ -1,29 +1,7 @@
 <section id="section-search-users">
     <div class="users" *ngIf="users?.length > 0">
         <h1>{{'SEARCH.USERS_TITLE' | translate}}:</h1>
-        <div  *ngFor="let user of users" class="user">
-            <div class="personal-info" [routerLink]="['/profile', user.idUser]">
-                <img *ngIf="user?.photo" src="http://localhost:8090/api/app/img/{{user.photo}}"
-                    alt="{{user.name}} {{user.surname}}" width="50px" height="50px">
-                <img *ngIf="!user?.photo" src="http://localhost:8090/images/no-photo.jpg" width="50px" height="50px">
-                <p>{{user.name}} {{user.surname}}</p>
-            </div>
-            
-            <div class="buttons">
-                <button type="button" (click)="addFriend(user.idUser)" *ngIf="!user.isFriend">
-                    <i class="fas fa-plus"></i>
-                </button>
-                <button type="button" *ngIf="user.isFriend">
-                    <i class="fas fa-message"></i>
-                </button>
-                <button type="button" *ngIf="user.isFriend">
-                    <i class="fas fa-phone-flip"></i>
-                </button>
-                <button type="button" (click)="deleteFriend(user.idUser)" *ngIf="user.isFriend">
-                    <i class="fas fa-trash"></i>
-                </button>
-            </div>
-        </div>
+        <user-comp [user]="user" *ngFor="let user of users"></user-comp>
     </div>
 
     <div class="users" *ngIf="users?.length == 0">

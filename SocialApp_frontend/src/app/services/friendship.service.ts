@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import Swal from 'sweetalert2';
 import { Friendship } from '../models/friendship';
@@ -11,7 +12,8 @@ import { AuthService } from './auth.service';
 export class FriendshipService {
   private baseUrl: string = 'http://localhost:8090/api';
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient, private authService: AuthService,
+          private translate: TranslateService) { }
 
   public addFriend(id: number) {
     this.sendFriendRequest(id).subscribe(response => {
@@ -71,7 +73,7 @@ export class FriendshipService {
     );
   }
 
-  public deleteFriendship(idUserFriend: number): Observable<any> {
+  private deleteFriendship(idUserFriend: number): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/friend/delete/${idUserFriend}&${this.authService.getUsername()}`).pipe(
       catchError(e => {
         Swal.fire({
@@ -81,5 +83,33 @@ export class FriendshipService {
         return throwError(()=>e);
       })
     );
+  }
+
+  public async askToDelete(idUserFriend: number) {
+    const lang = localStorage.getItem('lang');
+    lang != null ? this.translate.use(lang) : this.translate.use('en');
+    let modalTitle: string = this.translateModalText('USER.DELETE_MODAL_TITLE');
+    let modalText: string = this.translateModalText('USER.DELETE_MODAL_TEXT');
+    let modalBtnSave: string = this.translateModalText('USER.DELETE_MODAL_SAVE_BTN');
+    let modalBtnCancel: string = this.translateModalText('USER.DELETE_MODAL_CANCEL_BTN');
+
+    let isDeleted: boolean = false;
+    await Swal.fire({
+      icon: 'question', title: modalTitle, text: modalText,
+      showCancelButton: true, confirmButtonText: modalBtnSave, cancelButtonText: modalBtnCancel,
+      background: '#7f5af0', color: 'white', confirmButtonColor: '#d33', cancelButtonColor: '#2cb67d'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        isDeleted = true;
+        this.deleteFriendship(idUserFriend).subscribe(response => console.log(response.message));
+      }
+    });
+    return isDeleted;
+  }
+
+  private translateModalText(url: string): string {
+    let text: string;
+    this.translate.get(url).subscribe((res) => text = res);
+    return text;
   }
 }
