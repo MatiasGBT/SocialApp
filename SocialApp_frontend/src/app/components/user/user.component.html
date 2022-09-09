@@ -1,5 +1,5 @@
 <div class="user">
-    <div class="personal-info" [routerLink]="['/profile', user.idUser]">
+    <div class="personal-info" (click)="goToUser()">
         <img *ngIf="user?.photo" src="http://localhost:8090/api/app/img/{{user.photo}}"
             alt="{{user.name}} {{user.surname}}" width="50px" height="50px">
         <img *ngIf="!user?.photo" src="http://localhost:8090/images/no-photo.jpg" width="50px" height="50px">

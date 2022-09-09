@@ -19,37 +19,13 @@ export class FriendsComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
       let id = params['id'];
-      if (id) {
-        this.userService.getUser(id).subscribe(user => {
-          this.user = user;
-          this.setFriends();
+      this.userService.getUser(id).subscribe(user => {
+        this.user = user;
+        this.userService.getFriends(this.user.idUser).subscribe(friends => {
+          this.friends = friends;
+          this.friendshipService.setIsFriend(this.friends);
         });
-      } else {
-        this.userService.getKeycloakUser().subscribe(user => {
-          this.user = user;
-          this.setFriends();
-        });
-      }
-    });
-  }
-
-  /*
-    This method fetches all users who are friends of the selected user and adds them to the
-    list that will then be passed to the User component.
-    The problem is that the HTTP request brings a friendship relationship, so the system have
-    to check which user in the relationship is NOT the selected user in order to add him/her
-    to the list.
-  */
-  private setFriends(): void {
-    this.friendshipService.getFriendships(this.user.idUser).subscribe(friendships => {
-      friendships.forEach(f => {
-        if (f.userReceiver.idUser != this.user.idUser) {
-          this.friends.push(f.userReceiver);
-        } else {
-          this.friends.push(f.userTransmitter);
-        }
-        this.friendshipService.setIsFriend(this.friends);
-      })
+      });
     });
   }
 }

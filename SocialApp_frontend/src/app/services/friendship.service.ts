@@ -11,7 +11,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class FriendshipService {
-  private baseUrl: string = 'http://localhost:8090/api';
+  private baseUrl: string = 'http://localhost:8090/api/friend';
 
   constructor(private http: HttpClient, private authService: AuthService,
           private translate: TranslateService) { }
@@ -33,7 +33,7 @@ export class FriendshipService {
     let formData = new FormData();
     formData.append("idReceiver", idReceiver.toString());
     formData.append("usernameTransmitter", this.authService.getUsername());
-    return this.http.post(`${this.baseUrl}/profile/add-friend`, formData).pipe(
+    return this.http.post(`${this.baseUrl}/add-friend`, formData).pipe(
       catchError(e => {
         Swal.fire({
           icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
@@ -45,7 +45,7 @@ export class FriendshipService {
   }
 
   public getFriendship(idReceiver: number): Observable<Friendship> {
-    return this.http.get<Friendship>(`${this.baseUrl}/profile/get-friendship/${idReceiver}&${this.authService.getUsername()}`).pipe(
+    return this.http.get<Friendship>(`${this.baseUrl}/get/${idReceiver}&${this.authService.getUsername()}`).pipe(
       catchError(e => {
         Swal.fire({
           icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
@@ -57,7 +57,19 @@ export class FriendshipService {
   }
 
   public acceptFriendRequest(id: number): Observable<any> {
-    return this.http.put<any>(`${this.baseUrl}/notifications/accept-request/${id}`, null).pipe(
+    return this.http.put<any>(`${this.baseUrl}/accept-request/${id}`, null).pipe(
+      catchError(e => {
+        Swal.fire({
+          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
+          timer: 1250, background: '#7f5af0', color: 'white'
+        });
+        return throwError(()=>e);
+      })
+    );
+  }
+
+  public rejectFriendRequest(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/reject-request/${id}`).pipe(
       catchError(e => {
         Swal.fire({
           icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
@@ -69,13 +81,13 @@ export class FriendshipService {
   }
 
   public getFriendsQuantity(idUser: number): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/profile/get-friends-quantity/${idUser}`).pipe(
+    return this.http.get<any>(`${this.baseUrl}/get/friends/quantity/${idUser}`).pipe(
       catchError(e => throwError(()=>e))
     );
   }
 
   private deleteFriendship(idUserFriend: number): Observable<any> {
-    return this.http.delete<any>(`${this.baseUrl}/friend/delete/${idUserFriend}&${this.authService.getUsername()}`).pipe(
+    return this.http.delete<any>(`${this.baseUrl}/delete/${idUserFriend}&${this.authService.getUsername()}`).pipe(
       catchError(e => {
         Swal.fire({
           icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
@@ -112,18 +124,6 @@ export class FriendshipService {
     let text: string;
     this.translate.get(url).subscribe((res) => text = res);
     return text;
-  }
-
-  public getFriendships(idUser: number): Observable<Friendship[]> {
-    return this.http.get<Friendship[]>(`${this.baseUrl}/friend/get-friends/${idUser}`).pipe(
-      catchError(e => {
-        Swal.fire({
-          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
-          timer: 1250, background: '#7f5af0', color: 'white'
-        });
-        return throwError(()=>e);
-      })
-    );
   }
 
   public setIsFriend(users: User[]) {

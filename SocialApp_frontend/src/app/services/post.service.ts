@@ -9,12 +9,12 @@ import { Post } from '../models/post';
   providedIn: 'root'
 })
 export class PostService {
-  private baseUrl: string = 'http://localhost:8090/api';
+  private baseUrl: string = 'http://localhost:8090/api/posts';
 
   constructor(private http: HttpClient, private router: Router) { }
 
   public getPost(idPost: number): Observable<Post> {
-    return this.http.get<Post>(`${this.baseUrl}/posts/get-post/${idPost}`).pipe(
+    return this.http.get<Post>(`${this.baseUrl}/get/${idPost}`).pipe(
       catchError(e => {
         this.router.navigate(['/index']);
         Swal.fire({
@@ -30,7 +30,7 @@ export class PostService {
     let formData = new FormData();
     formData.append("idPost", idPost.toString());
     formData.append("idUser", idUser.toString());
-    return this.http.post<any>(`${this.baseUrl}/posts/like`, formData).pipe(
+    return this.http.post<any>(`${this.baseUrl}/like`, formData).pipe(
       catchError(e => {
         Swal.fire({
           icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
@@ -42,7 +42,7 @@ export class PostService {
   }
 
   public dislikePost(idPost: number, idUser: number): Observable<any> {
-    return this.http.delete<any>(`${this.baseUrl}/posts/like/${idPost}&${idUser}`).pipe(
+    return this.http.delete<any>(`${this.baseUrl}/dislike/${idPost}&${idUser}`).pipe(
       catchError(e => {
         Swal.fire({
           icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,

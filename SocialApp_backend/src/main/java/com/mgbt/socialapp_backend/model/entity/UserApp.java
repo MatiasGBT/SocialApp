@@ -1,8 +1,7 @@
 package com.mgbt.socialapp_backend.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.mgbt.socialapp_backend.model.entity.notification.Notification;
-import lombok.Data;
+import lombok.*;
 import javax.persistence.*;
 import java.io.*;
 import java.util.*;
@@ -10,6 +9,8 @@ import java.util.*;
 @Data
 @Entity
 @Table(name = "users")
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserApp implements Serializable {
 
     @Serial

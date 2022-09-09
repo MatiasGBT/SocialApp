@@ -35,7 +35,7 @@ public class PostController {
     @Autowired
     private IUploadFileService uploadFileService;
 
-    @GetMapping("/get-post/{idPost}")
+    @GetMapping("/get/{idPost}")
     @PreAuthorize("hasRole('user')")
     public ResponseEntity<?> getPost(@PathVariable Long idPost, Locale locale) {
         Post post;
@@ -79,7 +79,7 @@ public class PostController {
         }
     }
 
-    @DeleteMapping("/like/{idPost}&{idUser}")
+    @DeleteMapping("/dislike/{idPost}&{idUser}")
     public ResponseEntity<?> dislikePost(@PathVariable Long idPost, @PathVariable Long idUser,
                                          Locale locale) {
         Map<String, Object> response = new HashMap<>();

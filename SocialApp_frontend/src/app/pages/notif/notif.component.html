@@ -24,10 +24,10 @@
                 <p *ngIf="notification?.friendship">{{notification.friendship.userTransmitter.name}} 
                     {{notification.friendship.userTransmitter.surname}} {{'NOTIFICATIONS.FRIEND_REQUEST_TEXT' | translate}}</p>
             </div>
-            <button *ngIf="!notification?.friendship" class="button delete-button" (click)="deleteNotification(notification.idNotification)"><i class="fa-solid fa-trash"></i></button>
+            <button *ngIf="!notification?.friendship" class="button delete-button" (click)="deleteNotification(notification)"><i class="fa-solid fa-trash"></i></button>
             <div *ngIf="notification?.friendship" class="friendship-buttons">
                 <button class="button delete-button" (click)="acceptFriendRequest(notification)"><i class="fa-solid fa-check"></i></button>
-                <button class="button delete-button" (click)="deleteNotification(notification.idNotification)"><i class="fa-solid fa-xmark"></i></button>
+                <button class="button delete-button" (click)="deleteNotification(notification)"><i class="fa-solid fa-xmark"></i></button>
             </div>
         </div>
     </div>

@@ -5,11 +5,9 @@ import com.mgbt.socialapp_backend.model.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.core.io.Resource;
-import org.springframework.dao.DataAccessException;
 import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.net.MalformedURLException;
 import java.util.*;
 
@@ -27,7 +25,7 @@ public class AppController {
     private IUploadFileService uploadFileService;
 
     @PostMapping("/login")
-    @PreAuthorize("hasRole('user')")
+    @PreAuthorize("isAuthenticated() and hasRole('user')")
     public ResponseEntity<?> login(@RequestBody UserApp user, Locale locale) {
         UserApp userFound = userService.findByUsername(user.getUsername());
         Map<String, Object> response = new HashMap<>();
@@ -43,45 +41,6 @@ public class AppController {
             response.put("user", user);
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         }
-    }
-
-    @GetMapping("/get-user/keycloak/{username}")
-    @PreAuthorize("hasRole('user')")
-    public ResponseEntity<?> getKeycloakUser(@PathVariable String username, Locale locale) {
-        UserApp user;
-        Map<String, Object> response = new HashMap<>();
-        try {
-            user = userService.findByUsername(username);
-        } catch (DataAccessException e) {
-            response.put("message", messageSource.getMessage("error.database", null, locale));
-            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        if (user == null) {
-            response.put("message", messageSource.getMessage("error.usernotexist", null, locale));
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    }
-
-    @GetMapping("/get-user/{id}")
-    @PreAuthorize("hasRole('user')")
-    public ResponseEntity<?> getUser(@PathVariable Long id, Locale locale) {
-        UserApp user;
-        Map<String, Object> response = new HashMap<>();
-        try {
-            user = userService.findById(id);
-        } catch (DataAccessException e) {
-            response.put("message", messageSource.getMessage("error.database", null, locale));
-            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        if (user == null) {
-            response.put("message", messageSource.getMessage("error.usernotexist", null, locale));
-            response.put("error", messageSource.getMessage("error.usernotexist.redirect", null, locale));
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @GetMapping("/img/{fileName:.+}")

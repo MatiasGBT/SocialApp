@@ -38,11 +38,16 @@ export class NotifComponent implements OnInit {
     return notification.isViewed ? '50%' : '100%';
   }
 
-  public deleteNotification(id: number): void {
-    this.notificationsService.delete(id).subscribe(response => {
+  public deleteNotification(notification: Notification): void {
+    this.notificationsService.delete(notification.idNotification).subscribe(response => {
       console.log(response.message);
       this.notifications = this.notifications.filter(n => n.idNotification !== response.id);
       this.notificationsService.notificationsChanger.emit(this.notifications);
+      if (notification?.friendship) {
+        this.friendshipService.rejectFriendRequest(notification.friendship.idFriendship).subscribe(response => {
+          console.log(response.message)
+        });
+      }
     });
   }
 

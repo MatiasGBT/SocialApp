@@ -10,7 +10,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class NotificationsService {
-  private baseUrl: string = 'http://localhost:8090/api';
+  private baseUrl: string = 'http://localhost:8090/api/notifications';
   @Output() notificationsChanger: EventEmitter<any> = new EventEmitter();
   @Output() notificationsEnabled: EventEmitter<any> = new EventEmitter();
 
@@ -22,7 +22,7 @@ export class NotificationsService {
   }
 
   public getNotifications(user: User): Observable<Notification[]> {
-    return this.http.get<Notification[]>(`${this.baseUrl}/notifications/get/${user.username}`).pipe(
+    return this.http.get<Notification[]>(`${this.baseUrl}/get/${user.username}`).pipe(
       catchError(e => {
         Swal.fire({
           icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
@@ -34,7 +34,7 @@ export class NotificationsService {
   }
 
   public delete(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.baseUrl}/notifications/delete/${id}`).pipe(
+    return this.http.delete<any>(`${this.baseUrl}/delete/${id}`).pipe(
       catchError(e => {
         Swal.fire({
           icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
@@ -46,7 +46,7 @@ export class NotificationsService {
   }
 
   public deleteAll(): Observable<any> {
-    return this.http.delete<any>(`${this.baseUrl}/notifications/delete-all/${this.authService.getUsername()}`).pipe(
+    return this.http.delete<any>(`${this.baseUrl}/delete-all/${this.authService.getUsername()}`).pipe(
       catchError(e => {
         Swal.fire({
           icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
@@ -58,7 +58,7 @@ export class NotificationsService {
   }
 
   public viewNotification(id: number): Observable<any> {
-    return this.http.put<any>(`${this.baseUrl}/notifications/view/${id}`, null).pipe(
+    return this.http.put<any>(`${this.baseUrl}/view/${id}`, null).pipe(
       catchError(e => {
         Swal.fire({
           icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,

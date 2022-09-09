@@ -23,9 +23,6 @@ public class NotificationController {
     private NotificationService notificationService;
 
     @Autowired
-    private FriendshipService friendshipService;
-
-    @Autowired
     MessageSource messageSource;
 
     @GetMapping("/get/{username}")
@@ -74,30 +71,6 @@ public class NotificationController {
             UserApp user = userService.findByUsername(username);
             notificationService.deleteAllByUser(user.getIdUser());
             response.put("message", messageSource.getMessage("notificationcontroller.deleteAll", null, locale));
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (DataAccessException e) {
-            response.put("message", messageSource.getMessage("error.usernotexist", null, locale));
-            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @PutMapping("/accept-request/{id}")
-    @PreAuthorize("hasRole('user')")
-    public ResponseEntity<?> acceptFriendRequest(@PathVariable Long id, Locale locale) {
-        Map<String, Object> response = new HashMap<>();
-        try {
-            Friendship friendship = friendshipService.findById(id);
-            friendship.setStatus(true);
-            friendship.setDate(new Date());
-            friendship = friendshipService.save(friendship);
-            NotificationFriend notificationFriend = new NotificationFriend();
-            notificationFriend.setIsViewed(false);
-            notificationFriend.setUserReceiver(friendship.getUserTransmitter());
-            notificationFriend.setFriend(friendship.getUserReceiver());
-            notificationService.save(notificationFriend);
-            response.put("message", friendship.getUserTransmitter().getName() + " " +
-                    messageSource.getMessage("notificationcontroller.acceptFriendRequest", null, locale));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (DataAccessException e) {
             response.put("message", messageSource.getMessage("error.usernotexist", null, locale));

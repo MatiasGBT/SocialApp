@@ -10,13 +10,13 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class UserService {
-  private baseUrl: string = 'http://localhost:8090/api';
+  private baseUrl: string = 'http://localhost:8090/api/user';
   @Output() userChanger: EventEmitter<any> = new EventEmitter();
 
   constructor(private http: HttpClient, private authService: AuthService, private router: Router) { }
 
   public getKeycloakUser(): Observable<User> {
-    return this.http.get<User>(`${this.baseUrl}/app/get-user/keycloak/${this.authService.getUsername()}`).pipe(
+    return this.http.get<User>(`${this.baseUrl}/get/keycloak/${this.authService.getUsername()}`).pipe(
       catchError(e => {
         Swal.fire({
           icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
@@ -28,7 +28,7 @@ export class UserService {
   }
 
   public getUser(id: number): Observable<User> {
-    return this.http.get<User>(`${this.baseUrl}/app/get-user/${id}`).pipe(
+    return this.http.get<User>(`${this.baseUrl}/get/${id}`).pipe(
       catchError(e => {
         this.router.navigate(['/profile']);
         Swal.fire({
@@ -41,7 +41,7 @@ export class UserService {
   }
 
   public filterUsers(name: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/navbar/autocomplete/${name}&${this.authService.getUsername()}`).pipe(
+    return this.http.get<any>(`${this.baseUrl}/get/autocomplete/${name}&${this.authService.getUsername()}`).pipe(
       map(response => response as User[]),
       catchError(e => {
         Swal.fire({
@@ -54,7 +54,7 @@ export class UserService {
   }
 
   public filterUsersWithoutLimit(name: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/navbar/autocomplete/full/${name}&${this.authService.getUsername()}`).pipe(
+    return this.http.get<any>(`${this.baseUrl}/get/search/${name}&${this.authService.getUsername()}`).pipe(
       map(response => response as User[]),
       catchError(e => {
         Swal.fire({
@@ -70,7 +70,7 @@ export class UserService {
     let formData = new FormData();
     formData.append("file", file);
     formData.append("username", this.authService.getUsername())
-    return this.http.post<any>(`${this.baseUrl}/profile/send-photo`, formData).pipe(
+    return this.http.post<any>(`${this.baseUrl}/send-photo`, formData).pipe(
       catchError(e => {
         Swal.fire({
           icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
@@ -82,13 +82,25 @@ export class UserService {
   }
 
   public updateDescription(userUpdated: User): Observable<any> {
-    return this.http.put<any>(`${this.baseUrl}/profile/edit`, userUpdated).pipe(
+    return this.http.put<any>(`${this.baseUrl}/edit`, userUpdated).pipe(
       catchError(e => {
         Swal.fire({
           icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
           timer: 1250, background: '#7f5af0', color: 'white'
         });
         return throwError(() => e);
+      })
+    );
+  }
+
+  public getFriends(idUser: number): Observable<User[]> {
+    return this.http.get<User[]>(`${this.baseUrl}/get/friends/${idUser}`).pipe(
+      catchError(e => {
+        Swal.fire({
+          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
+          timer: 1250, background: '#7f5af0', color: 'white'
+        });
+        return throwError(()=>e);
       })
     );
   }
