@@ -21,6 +21,6 @@
         <i class="fa-solid fa-comment" [routerLink]="['/post', post.idPost]"></i>
         <a href="http://localhost:8090/api/posts/img/{{post.photo}}"><i *ngIf="post?.photo" class="fa-solid fa-download"></i></a>
         <i *ngIf="post.user.username != authService.getUsername()" class="fa-solid fa-triangle-exclamation"></i>
-        <i *ngIf="post.user.username == authService.getUsername()" class="fa-solid fa-trash"></i>
+        <i *ngIf="post.user.username == authService.getUsername()" class="fa-solid fa-trash" (click)="deletePost()"></i>
     </div>
 </div>

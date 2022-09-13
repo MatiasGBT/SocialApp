@@ -37,6 +37,8 @@ export class ProfileComponent implements OnInit {
         this.getKeycloakUser();
       }
     });
+
+    this.postService.deletePostEmitter.subscribe(post => this.posts = this.posts.filter(p => p.idPost != post.idPost));
   }
 
   public addFriend(): void {

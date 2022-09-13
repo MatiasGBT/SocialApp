@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, Observable, throwError } from 'rxjs';
 import Swal from 'sweetalert2';
@@ -11,6 +11,7 @@ import { AuthService } from './auth.service';
 })
 export class PostService {
   private baseUrl: string = 'http://localhost:8090/api/posts';
+  @Output() deletePostEmitter: EventEmitter<any> = new EventEmitter();
 
   constructor(private http: HttpClient, private router: Router,
     private authService: AuthService) { }
@@ -103,6 +104,18 @@ export class PostService {
     formData.append("file", file);
     formData.append("username", this.authService.getUsername());
     return this.http.post<any>(`${this.baseUrl}/post/file`, formData).pipe(
+      catchError(e => {
+        Swal.fire({
+          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
+          timer: 1250, background: '#7f5af0', color: 'white'
+        });
+        return throwError(() => e);
+      })
+    );
+  }
+
+  public deletePost(idPost: number): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/delete/${idPost}`).pipe(
       catchError(e => {
         Swal.fire({
           icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,

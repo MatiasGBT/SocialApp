@@ -91,6 +91,12 @@
         "DELETE_MODAL_SAVE_BTN": "Delete",
         "DELETE_MODAL_CANCEL_BTN": "Cancel"
     },
+    "POST": {
+        "MODAL_TITLE": "Are you sure?",
+        "MODAL_TEXT": "You will not be able to reverse this action",
+        "MODAL_BUTTON_DELETE": "Delete",
+        "MODAL_BUTTON_CANCEL": "Cancel"
+    },
     "LANGUAGES": {
         "en": "English",
         "es": "Español",
