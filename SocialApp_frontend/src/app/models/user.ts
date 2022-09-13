@@ -7,7 +7,6 @@ export class User {
     surname: string;
     photo: string;
     description: string;
-    posts: Post[];
     creationDate: Date;
     deletionDate: Date;
     isFriend: boolean;

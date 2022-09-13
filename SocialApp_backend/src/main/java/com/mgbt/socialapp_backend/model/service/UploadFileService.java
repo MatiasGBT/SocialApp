@@ -15,8 +15,8 @@ public class UploadFileService implements IUploadFileService {
     private final static String DIRECTORY_UPLOAD = "uploads";
 
     @Override
-    public Resource charge(String fileName) throws MalformedURLException {
-        Path filePath = getPath(fileName);
+    public Resource charge(String fileName, String finalDirectory) throws MalformedURLException {
+        Path filePath = getPath(fileName, finalDirectory);
         Resource resource = new UrlResource(filePath.toUri());
         if(!resource.exists() && !resource.isReadable()) {
             filePath = Paths.get("src/main/resources/static/images").resolve("no-photo.jpg").toAbsolutePath();
@@ -26,9 +26,9 @@ public class UploadFileService implements IUploadFileService {
     }
 
     @Override
-    public String save(MultipartFile file) throws IOException {
-        String fileName = UUID.randomUUID() + "_" +  file.getOriginalFilename().replace(" ", "");
-        Path filePath = getPath(fileName);
+    public String save(MultipartFile file, String finalDirectory) throws IOException {
+        String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename().replace(" ", "");
+        Path filePath = getPath(fileName, finalDirectory);
         Files.copy(file.getInputStream(), filePath);
         return fileName;
     }
@@ -47,7 +47,7 @@ public class UploadFileService implements IUploadFileService {
     }
 
     @Override
-    public Path getPath(String fileName) {
-        return Paths.get(DIRECTORY_UPLOAD).resolve(fileName).toAbsolutePath();
+    public Path getPath(String fileName, String finalDirectory) {
+        return Paths.get(DIRECTORY_UPLOAD + finalDirectory).resolve(fileName).toAbsolutePath();
     }
 }

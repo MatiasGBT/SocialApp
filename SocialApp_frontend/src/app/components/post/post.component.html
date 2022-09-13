@@ -1,7 +1,7 @@
 <div class="publication">
     <div class="publication-header">
         <figure class="publication-header-user">
-            <img *ngIf="post.user?.photo" src="http://localhost:8090/api/app/img/{{post.user.photo}}">
+            <img *ngIf="post.user?.photo" src="http://localhost:8090/api/user/img/{{post.user.photo}}">
             <img *ngIf="!post.user?.photo" src="http://localhost:8090/images/no-photo.jpg">
             <figcaption *ngIf="post.user?.name">{{post.user.name}}</figcaption>
             <i *ngIf="post.user?.isChecked" class="fa-solid fa-check"></i>
@@ -12,13 +12,15 @@
     </div>
     <div class="publication-body">
         <p *ngIf="post?.text">{{post.text}}</p>
-        <img *ngIf="post?.photo" src="https://via.placeholder.com/200" draggable="false">
+        <img *ngIf="post?.photo" src="http://localhost:8090/api/posts/img/{{post.photo}}" draggable="false">
     </div>
     <div class="publication-footer">
         <span *ngIf="post?.likes">{{post.likes.length}}</span>
         <i *ngIf="!isLiked" class="fa-regular fa-heart" (click)="likePost()"></i>
         <i *ngIf="isLiked" class="fa-solid fa-heart" (click)="dislikePost()"></i>
         <i class="fa-solid fa-comment" [routerLink]="['/post', post.idPost]"></i>
-        <i class="fa-solid fa-triangle-exclamation"></i>
+        <a href="http://localhost:8090/api/posts/img/{{post.photo}}"><i *ngIf="post?.photo" class="fa-solid fa-download"></i></a>
+        <i *ngIf="post.user.username != authService.getUsername()" class="fa-solid fa-triangle-exclamation"></i>
+        <i *ngIf="post.user.username == authService.getUsername()" class="fa-solid fa-trash"></i>
     </div>
 </div>

@@ -32,12 +32,12 @@ public class Friendship implements Serializable {
       in the UserController (getFriends method).
     */
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnoreProperties({"description","posts","creationDate","deletionDate","isChecked"})
+    @JsonIgnoreProperties({"description","creationDate","deletionDate","isChecked"})
     @JoinColumn(name = "id_user_transmitter", nullable = false)
     private UserApp userTransmitter;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnoreProperties({"description","posts","creationDate","deletionDate","isChecked"})
+    @JsonIgnoreProperties({"description","creationDate","deletionDate","isChecked"})
     @JoinColumn(name = "id_user_receiver", nullable = false)
     private UserApp userReceiver;
 

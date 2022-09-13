@@ -14,7 +14,10 @@
         "MESSAGE": "Post message",
         "PLACEHOLDER": "Write the text of the publication. Remember that it can only have a maximum of 200 characters.",
         "IMAGE": "Post image",
-        "DROP_IMAGE": "Drag and drop the image here"
+        "DROP_IMAGE": "Drag and drop the image here",
+        "PUBLISH_BUTTON": "Publish",
+        "MODAL_ERROR_TITLE": "Error",
+        "MODAL_ERROR_TEXT": "The publication must have a text or a photo"
     },
     "ASIDE": {
         "FEATURED_POST": "Featured post",

@@ -69,7 +69,7 @@ export class UserService {
   public sendNewPhoto(file: File): Observable<any> {
     let formData = new FormData();
     formData.append("file", file);
-    formData.append("username", this.authService.getUsername())
+    formData.append("username", this.authService.getUsername());
     return this.http.post<any>(`${this.baseUrl}/send-photo`, formData).pipe(
       catchError(e => {
         Swal.fire({

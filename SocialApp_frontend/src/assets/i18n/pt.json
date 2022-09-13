@@ -14,7 +14,10 @@
         "MESSAGE": "Mensagem da publicação",
         "PLACEHOLDER": "Escreva o texto da publicação. Lembre-se que ele só pode ter um máximo de 200 caracteres.",
         "IMAGE": "Imagem da publicação",
-        "DROP_IMAGE": "Arraste e solte a imagem aqui"
+        "DROP_IMAGE": "Arraste e solte a imagem aqui",
+        "PUBLISH_BUTTON": "Publicar",
+        "MODAL_ERROR_TITLE": "Erro",
+        "MODAL_ERROR_TEXT": "A publicação deve ter um texto ou uma foto"
     },
     "ASIDE": {
         "FEATURED_POST": "Publicação fixada",

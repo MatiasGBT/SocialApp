@@ -4,17 +4,19 @@ import com.mgbt.socialapp_backend.model.entity.*;
 import com.mgbt.socialapp_backend.model.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.core.io.Resource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.util.*;
 
 @RestController
 @RequestMapping("api/user/")
 public class UserController {
+
+    private final static String FINAL_DIRECTORY = "\\users\\";
 
     @Autowired
     private UserService userService;
@@ -95,7 +97,7 @@ public class UserController {
         if (!file.isEmpty()) {
             String fileName;
             try {
-                fileName = uploadFileService.save(file);
+                fileName = uploadFileService.save(file, FINAL_DIRECTORY);
                 UserApp user = userService.findByUsername(username);
                 String lastFileName = user.getPhoto();
                 uploadFileService.delete(lastFileName);
@@ -161,5 +163,19 @@ public class UserController {
             response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping("/img/{fileName:.+}")
+    public ResponseEntity<Resource> viewPhoto(@PathVariable String fileName) {
+        Resource resource = null;
+        HttpHeaders header = null;
+        try {
+            resource = uploadFileService.charge(fileName, FINAL_DIRECTORY);
+            header = new HttpHeaders();
+            header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(resource, header, HttpStatus.OK);
     }
 }

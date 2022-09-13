@@ -37,4 +37,9 @@ public class PostService implements IService<Post> {
     public Post findById(Long id) {
         return repository.findById(id).orElse(null);
     }
+
+    @Transactional(readOnly = true)
+    public List<Post> findByUserId(Long idUser) {
+        return repository.findByUser(idUser);
+    }
 }

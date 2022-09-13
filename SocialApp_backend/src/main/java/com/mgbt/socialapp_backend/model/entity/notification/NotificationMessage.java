@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class NotificationMessage extends Notification {
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","username","description","posts",
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","username","description",
             "creationDate","deletionDate","photo","isChecked"})
     @JoinColumn(name = "id_user_message_transmitter")
     private UserApp userTransmitter;

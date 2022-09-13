@@ -3,13 +3,13 @@
         <div id="profile">
             <div id="profile-header">
                 <figure id="profile-header-photo">
-                    <img *ngIf="user?.photo" src="http://localhost:8090/api/app/img/{{user.photo}}" width="80px" height="80px">
+                    <img *ngIf="user?.photo" src="http://localhost:8090/api/user/img/{{user.photo}}" width="80px" height="80px">
                     <img *ngIf="!user?.photo" src="http://localhost:8090/images/no-photo.jpg" width="80px" height="80px">
                     <figcaption *ngIf="user?.name">{{user.name}} {{user.surname}}</figcaption>
                 </figure>
                 <div id="profile-header-data">
                     <div>
-                        <p *ngIf="user?.posts">{{user.posts.length}}</p>
+                        <p *ngIf="posts">{{posts.length}}</p>
                         <p>{{'PROFILE.NUMBER_OF_POSTS' | translate}}</p>
                     </div>
                     <div (click)="goToFriendsPage()">
@@ -22,19 +22,19 @@
                 <p *ngIf="user?.description">{{user.description}}</p>
             </div>
             <div id="profile-buttons">
-                <button type="button" class="profile-button side-profile-button" [routerLink]="['edit']" *ngIf="user?.idUser == keycloakUserId">
+                <button type="button" class="profile-button side-profile-button" [routerLink]="['edit']" *ngIf="!friendship">
                     <i class="fa-solid fa-pencil"></i> {{'PROFILE.EDIT_PROFILE' | translate}}
                 </button>
-                <button type="button" class="profile-button side-profile-button" (click)="addFriend()" *ngIf="user?.idUser != keycloakUserId && friendship?.status == false">
+                <button type="button" class="profile-button side-profile-button" (click)="addFriend()" *ngIf="friendship?.status == false">
                     <i class="fa-solid fa-plus"></i> {{'PROFILE.ADD_FRIEND' | translate}}
                 </button>
-                <button type="button" class="profile-button" *ngIf="user?.idUser != keycloakUserId && friendship?.status == true">
+                <button type="button" class="profile-button" *ngIf="friendship?.status == true">
                     <i class="fa-solid fa-message"></i> {{'PROFILE.SEND_MESSAGE' | translate}}
                 </button>
-                <button type="button" class="profile-button" *ngIf="user?.idUser != keycloakUserId && friendship?.status == true">
+                <button type="button" class="profile-button" *ngIf="friendship?.status == true">
                     <i class="fa-solid fa-phone-flip"></i> {{'PROFILE.CALL' | translate}}
                 </button>
-                <button type="button" class="profile-button" *ngIf="user?.idUser != keycloakUserId && friendship?.status == true"
+                <button type="button" class="profile-button" *ngIf="friendship?.status == true"
                 (click)="deleteFriend()">
                     <i class="fa-solid fa-trash"></i> {{'PROFILE.DELETE' | translate}}
                 </button>
@@ -44,10 +44,10 @@
         <hr>
 
         <h3>{{'PROFILE.POSTS' | translate}}:</h3>
-        <div id="publications" *ngIf="user?.posts">
-            <post-comp *ngFor="let post of user.posts" [post]="post"></post-comp>
-            <p *ngIf="user?.posts.length==0">{{'PROFILE.NO_POSTS' | translate}}</p>
-            <img *ngIf="user?.posts.length==0" src="../../../assets/img/no_posts_bg.svg" alt="No posts">
+        <div id="publications" *ngIf="posts">
+            <post-comp *ngFor="let post of posts" [post]="post"></post-comp>
+            <p *ngIf="posts.length==0">{{'PROFILE.NO_POSTS' | translate}}</p>
+            <img *ngIf="posts.length==0" src="../../../assets/img/no_posts_bg.svg" alt="No posts">
         </div>
     </div>
 

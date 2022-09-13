@@ -13,7 +13,7 @@ export class PostComponent implements OnInit {
   @Input() public post: Post;
   public isLiked: boolean;
 
-  constructor(private authService: AuthService, private postService: PostService,
+  constructor(public authService: AuthService, private postService: PostService,
     private userService: UserService) { }
 
   ngOnInit(): void {
@@ -46,5 +46,4 @@ export class PostComponent implements OnInit {
       });
     }
   }
-
 }

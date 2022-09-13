@@ -2,7 +2,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
 import { catchError, Observable, throwError } from 'rxjs';
-import Swal from 'sweetalert2';
 import { User } from '../models/user';
 
 @Injectable({

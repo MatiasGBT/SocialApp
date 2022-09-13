@@ -34,12 +34,7 @@ public class UserApp implements Serializable {
     private String photo;
 
     @Column(name = "description")
-    private String description; 
-
-    @OneToMany(mappedBy="user", fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","description",
-            "posts","creationDate","deletionDate","comments"})
-    private List<Post> posts;
+    private String description;
 
     @Column(name = "creation_date")
     @Temporal(value = TemporalType.TIMESTAMP)

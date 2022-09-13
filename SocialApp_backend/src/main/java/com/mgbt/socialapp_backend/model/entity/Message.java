@@ -25,13 +25,13 @@ public class Message implements Serializable {
     private String text;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","username","description","posts",
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","username","description",
             "creationDate","deletionDate","photo"})
     @JoinColumn(name = "id_user_transmitter", nullable = false)
     private UserApp userTransmitter;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","username","description","posts",
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","username","description",
             "creationDate","deletionDate","photo"})
     @JoinColumn(name = "id_user_receiver", nullable = false)
     private UserApp userReceiver;

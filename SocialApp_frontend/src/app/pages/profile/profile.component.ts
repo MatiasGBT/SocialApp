@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Friendship } from 'src/app/models/friendship';
+import { Post } from 'src/app/models/post';
 import { User } from 'src/app/models/user';
 import { FriendshipService } from 'src/app/services/friendship.service';
+import { PostService } from 'src/app/services/post.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -12,13 +14,14 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class ProfileComponent implements OnInit {
   public user: User;
-  public keycloakUserId: number;
+  public posts: Post[] = [];
   private id: number;
   public friendship: Friendship;
   public friendsQuantity: number;
 
   constructor(private userService: UserService, private activatedRoute: ActivatedRoute,
-    private friendshipService: FriendshipService, private router: Router) { }
+    private friendshipService: FriendshipService, private router: Router,
+    private postService: PostService) { }
 
   ngOnInit(): void {
     this.userService.userChanger.subscribe(data => {
@@ -28,17 +31,10 @@ export class ProfileComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
       if (this.id) {
-        this.userService.getUser(this.id).subscribe(user => {
-          this.user = user;
-          this.getFriendsQuantity();
-        });
+        this.getUser();
         this.friendshipService.getFriendship(this.id).subscribe(friendship => this.friendship = friendship);
       } else {
-        this.userService.getKeycloakUser().subscribe(response => {
-          this.user = response;
-          this.keycloakUserId = response.idUser;
-          this.getFriendsQuantity();
-        });
+        this.getKeycloakUser();
       }
     });
   }
@@ -65,5 +61,25 @@ export class ProfileComponent implements OnInit {
     } else {
       this.router.navigate(['profile/friends', this.user.idUser]);
     }
+  }
+
+  private getUser() {
+    this.userService.getUser(this.id).subscribe(user => {
+      this.user = user;
+      this.getFriendsQuantity();
+      this.getPosts(this.user.idUser);
+    });
+  }
+
+  private getKeycloakUser() {
+    this.userService.getKeycloakUser().subscribe(user => {
+      this.user = user;
+      this.getFriendsQuantity();
+      this.getPosts(this.user.idUser);
+    });
+  }
+
+  private getPosts(idUser: number) {
+    this.postService.getPostsByUser(idUser).subscribe(posts => this.posts = posts);
   }
 }

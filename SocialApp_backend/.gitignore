@@ -34,7 +34,11 @@ build/
 ### VS Code ###
 .vscode/
 
-uploads/*.gif
-uploads/*.jpeg
-uploads/*.jpg
-uploads/*.png
+uploads/users/*.gif
+uploads/users/*.jpeg
+uploads/users/*.jpg
+uploads/users/*.png
+uploads/posts/*.gif
+uploads/posts/*.jpeg
+uploads/posts/*.jpg
+uploads/posts/*.png

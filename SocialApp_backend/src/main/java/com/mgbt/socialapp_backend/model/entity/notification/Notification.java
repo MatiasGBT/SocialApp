@@ -23,7 +23,7 @@ public abstract class Notification implements Serializable {
     private Long idNotification;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","username","description","posts",
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","username","description",
             "creationDate","deletionDate","name","surname","photo","isChecked"})
     @JoinColumn(name = "id_user_receiver", nullable = false)
     private UserApp userReceiver;
