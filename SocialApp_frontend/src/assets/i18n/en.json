@@ -85,6 +85,13 @@
         "NON_FRIENDS_TITLE": "This user has no friends",
         "NON_FRIENDS_TEXT": "What if you send him a friend request 😀?"
     },
+    "FULL_POST": {
+        "COMMENTS_TITLE": "Comments",
+        "CREATE_COMMENT_PLACEHOLDER": "Comment",
+        "SEE_ANSWERS_BTN": "See answers",
+        "REPLY_BTN": "Reply",
+        "NO_COMMENTS": "No comments, be the first!"
+    },
     "USER": {
         "DELETE_MODAL_TITLE": "Are you sure?",
         "DELETE_MODAL_TEXT": "You will be able to send a friend request to this user again.",

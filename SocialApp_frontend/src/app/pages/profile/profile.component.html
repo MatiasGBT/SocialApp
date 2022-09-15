@@ -6,6 +6,7 @@
                     <img *ngIf="user?.photo" src="http://localhost:8090/api/user/img/{{user.photo}}" width="80px" height="80px">
                     <img *ngIf="!user?.photo" src="http://localhost:8090/images/no-photo.jpg" width="80px" height="80px">
                     <figcaption *ngIf="user?.name">{{user.name}} {{user.surname}}</figcaption>
+                    <i *ngIf="user?.isChecked" class="fa-solid fa-check"></i>
                 </figure>
                 <div id="profile-header-data">
                     <div>

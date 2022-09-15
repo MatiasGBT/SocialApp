@@ -3,7 +3,6 @@ package com.mgbt.socialapp_backend.model.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import java.io.*;
 import java.util.Date;
 
@@ -21,7 +20,6 @@ public class Message implements Serializable {
     private Long idMessage;
 
     @Column(name = "text", nullable = false)
-    @NotEmpty(message = "El mensaje no puede estar vacío")
     private String text;
 
     @ManyToOne(fetch = FetchType.LAZY)

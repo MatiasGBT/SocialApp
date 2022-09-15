@@ -17,6 +17,7 @@
 .publication-header-user {
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 
 .publication-header-user img {

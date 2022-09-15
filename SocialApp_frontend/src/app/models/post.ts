@@ -9,5 +9,4 @@ export class Post {
     date: Date;
     user: User;
     likes: Like[];
-    comments: Comment[];
 }

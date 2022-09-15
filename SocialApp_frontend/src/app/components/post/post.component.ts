@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Post } from 'src/app/models/post';
 import { AuthService } from 'src/app/services/auth.service';
@@ -16,7 +17,8 @@ export class PostComponent implements OnInit {
   public isLiked: boolean;
 
   constructor(public authService: AuthService, private postService: PostService,
-    private userService: UserService, private translate: TranslateService) { }
+    private userService: UserService, private translate: TranslateService,
+    private router: Router) { }
 
   ngOnInit(): void {
     /*This is done to find out if the logged in user has liked this post so that the heart icon can be changed.*/
@@ -65,6 +67,16 @@ export class PostComponent implements OnInit {
       if (result.isConfirmed) {
         this.postService.deletePost(this.post.idPost).subscribe(response => console.log(response.message));
         this.postService.deletePostEmitter.emit(this.post);
+      }
+    });
+  }
+
+  public goToProfile() {
+    this.userService.getKeycloakUser().subscribe(user => {
+      if (user.idUser == this.post.user.idUser) {
+        this.router.navigate(['/profile']);
+      } else {
+        this.router.navigate(['/profile', this.post.user.idUser]);
       }
     });
   }

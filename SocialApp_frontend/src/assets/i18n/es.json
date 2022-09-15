@@ -85,6 +85,13 @@
         "NON_FRIENDS_TITLE": "Este usuario no tiene amigos",
         "NON_FRIENDS_TEXT": "¿Y si le envías una solicitud de amistad 😀?"
     },
+    "FULL_POST": {
+        "COMMENTS_TITLE": "Comentarios",
+        "CREATE_COMMENT_PLACEHOLDER": "Comentar",
+        "SEE_ANSWERS_BTN": "Ver respuestas",
+        "REPLY_BTN": "Responder",
+        "NO_COMMENTS": "No hay comentarios, ¡sé el primero!"
+    },
     "USER": {
         "DELETE_MODAL_TITLE": "¿Está seguro?",
         "DELETE_MODAL_TEXT": "Podrás reenviarle una solicitud de amistad a este usuario.",

@@ -1,6 +1,6 @@
 package com.mgbt.socialapp_backend.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 import javax.persistence.*;
 import java.io.*;
@@ -34,14 +34,13 @@ public class Post implements Serializable {
     @JoinColumn(name = "id_user", nullable = false)
     private UserApp user;
 
-    @OneToMany(mappedBy="post", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"hibernateLazyInitializer","handler","post","name","surname","photo",
-            "description","posts","isChecked","creationDate","deletionDate"})
+            "description","isChecked","creationDate","deletionDate"})
     private List<Like> likes;
 
-    @OneToMany(mappedBy="post", fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","post",
-            "description","posts","isChecked","creationDate","deletionDate"})
+    @OneToMany(mappedBy="post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Comment> comments;
 
     @PrePersist

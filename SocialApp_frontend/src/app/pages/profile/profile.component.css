@@ -32,6 +32,10 @@
     font-weight: bold;
 }
 
+#profile-header-photo i {
+    margin-left: 5px;
+}
+
 #profile-header-data {
     display: flex;
     align-items: center;

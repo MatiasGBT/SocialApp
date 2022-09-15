@@ -51,8 +51,8 @@ public class PostController {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         if (post == null) {
-            response.put("message", messageSource.getMessage("error.usernotexist", null, locale));
-            response.put("error", messageSource.getMessage("error.usernotexist.redirect", null, locale));
+            response.put("message", messageSource.getMessage("error.postnotexist", null, locale));
+            response.put("error", messageSource.getMessage("error.postnotexist.redirect", null, locale));
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(post, HttpStatus.OK);

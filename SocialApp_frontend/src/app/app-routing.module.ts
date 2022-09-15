@@ -22,6 +22,7 @@ const routes: Routes = [
   {path: 'notif', component: NotifComponent, canActivate: [AuthGuard]},
   {path: 'config', component: ConfigComponent, canActivate: [AuthGuard]},
   {path: 'newpost', component: NewpostComponent, canActivate: [AuthGuard]},
+  {path: 'post', component: FullPostComponent, canActivate: [AuthGuard]},
   {path: 'post/:id', component: FullPostComponent, canActivate: [AuthGuard]}
 ];
 
