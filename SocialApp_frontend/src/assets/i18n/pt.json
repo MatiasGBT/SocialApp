@@ -34,6 +34,7 @@
         "DELETE": "Eliminar dos amigos",
         "POSTS": "Publicações",
         "NO_POSTS": "Este usuário não tem publicações, está vazio!",
+        "GET_MORE_BTN": "Obter mais publicações",
         "EDIT": {
             "TITLE": "Detalhes do perfil",
             "PICTURE_TITLE": "Foto do perfil",
@@ -83,7 +84,9 @@
     "FRIENDS": {
         "TITLE": "Amigos do usuário",
         "NON_FRIENDS_TITLE": "Este usuário não tem amigos",
-        "NON_FRIENDS_TEXT": "E se você lhe enviar uma solicitação de amizade 😀?"
+        "NON_FRIENDS_TEXT": "E se você lhe enviar uma solicitação de amizade 😀?",
+        "NON_FRIENDS_KEYCLOAK_TITLE": "Você não tem amigos",
+        "NON_FRIENDS_KEYCLOAK_TEXT": "Não há tempo a perder, envie uma solicitação de amizade para alguém!"
     },
     "FULL_POST": {
         "COMMENTS_TITLE": "Comentários",

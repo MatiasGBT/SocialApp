@@ -18,6 +18,9 @@ export class ProfileComponent implements OnInit {
   private id: number;
   public friendship: Friendship;
   public friendsQuantity: number;
+  private postsLimit: number = 10;
+  public isLastPage: boolean;
+  public userPostQuantity: number;
 
   constructor(private userService: UserService, private activatedRoute: ActivatedRoute,
     private friendshipService: FriendshipService, private router: Router,
@@ -38,9 +41,13 @@ export class ProfileComponent implements OnInit {
       }
     });
 
-    this.postService.deletePostEmitter.subscribe(post => this.posts = this.posts.filter(p => p.idPost != post.idPost));
+    this.postService.deletePostEmitter.subscribe(post => {
+      this.posts = this.posts.filter(p => p.idPost != post.idPost);
+      this.userPostQuantity --;
+    });
   }
 
+  //#region Friendship
   public addFriend(): void {
     this.friendshipService.addFriend(this.id);
   }
@@ -64,12 +71,15 @@ export class ProfileComponent implements OnInit {
       this.router.navigate(['profile/friends', this.user.idUser]);
     }
   }
+  //#endregion
 
+  //#region User and posts
   private getUser() {
     this.userService.getUser(this.id).subscribe(user => {
       this.user = user;
       this.getFriendsQuantity();
-      this.getPosts(this.user.idUser);
+      this.getPosts(this.user.idUser, this.postsLimit);
+      this.postService.countPostByUser(this.user.idUser).subscribe(count => this.userPostQuantity = count);
     });
   }
 
@@ -77,11 +87,25 @@ export class ProfileComponent implements OnInit {
     this.userService.getKeycloakUser().subscribe(user => {
       this.user = user;
       this.getFriendsQuantity();
-      this.getPosts(this.user.idUser);
+      this.getPosts(this.user.idUser, this.postsLimit);
+      this.postService.countPostByUser(this.user.idUser).subscribe(count => this.userPostQuantity = count);
     });
   }
 
-  private getPosts(idUser: number) {
-    this.postService.getPostsByUser(idUser).subscribe(posts => this.posts = posts);
+  private getPosts(idUser: number, limit: number) {
+    this.postService.getPostsByUser(idUser, limit).subscribe(response => {
+      this.posts = response.posts;
+      this.isLastPage = response.isLastPage;
+    });
+  }
+  //#endregion
+
+  public moveToPosts() {
+    location.hash = '#posts';
+  }
+
+  public getNewPosts() {
+    this.postsLimit *= 2;
+    this.getPosts(this.user.idUser, this.postsLimit);
   }
 }

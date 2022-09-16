@@ -34,6 +34,7 @@
         "DELETE": "Delete from friends",
         "POSTS": "Posts",
         "NO_POSTS": "This user has no posts, it is empty!",
+        "GET_MORE_BTN": "Get more posts",
         "EDIT": {
             "TITLE": "Profile details",
             "PICTURE_TITLE": "Profile picture",
@@ -83,7 +84,9 @@
     "FRIENDS": {
         "TITLE": "User's friends",
         "NON_FRIENDS_TITLE": "This user has no friends",
-        "NON_FRIENDS_TEXT": "What if you send him a friend request 😀?"
+        "NON_FRIENDS_TEXT": "What if you send him a friend request 😀?",
+        "NON_FRIENDS_KEYCLOAK_TITLE": "You have no friends",
+        "NON_FRIENDS_KEYCLOAK_TEXT": "There's no time to lose, add someone!"
     },
     "FULL_POST": {
         "COMMENTS_TITLE": "Comments",

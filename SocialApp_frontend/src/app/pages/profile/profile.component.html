@@ -9,8 +9,8 @@
                     <i *ngIf="user?.isChecked" class="fa-solid fa-check"></i>
                 </figure>
                 <div id="profile-header-data">
-                    <div>
-                        <p *ngIf="posts">{{posts.length}}</p>
+                    <div (click)="moveToPosts()">
+                        <p *ngIf="userPostQuantity">{{userPostQuantity}}</p>
                         <p>{{'PROFILE.NUMBER_OF_POSTS' | translate}}</p>
                     </div>
                     <div (click)="goToFriendsPage()">
@@ -42,11 +42,13 @@
             </div>
         </div>
 
-        <hr>
+        <hr id="posts">
 
         <h3>{{'PROFILE.POSTS' | translate}}:</h3>
         <div id="publications" *ngIf="posts">
             <post-comp *ngFor="let post of posts" [post]="post"></post-comp>
+            <button (click)="getNewPosts()" *ngIf="!isLastPage">{{'PROFILE.GET_MORE_BTN' | translate}}</button>
+
             <p *ngIf="posts.length==0">{{'PROFILE.NO_POSTS' | translate}}</p>
             <img *ngIf="posts.length==0" src="../../../assets/img/no_posts_bg.svg" alt="No posts">
         </div>

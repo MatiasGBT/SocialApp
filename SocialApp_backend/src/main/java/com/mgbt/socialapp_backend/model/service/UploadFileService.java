@@ -18,8 +18,11 @@ public class UploadFileService implements IUploadFileService {
     public Resource charge(String fileName, String finalDirectory) throws MalformedURLException {
         Path filePath = getPath(fileName, finalDirectory);
         Resource resource = new UrlResource(filePath.toUri());
-        if(!resource.exists() && !resource.isReadable()) {
+        if(!resource.exists() && !resource.isReadable() && finalDirectory.contains("users")) {
             filePath = Paths.get("src/main/resources/static/images").resolve("no-photo.jpg").toAbsolutePath();
+            resource = new UrlResource(filePath.toUri());
+        } else if (!resource.exists() && !resource.isReadable() && finalDirectory.contains("posts")) {
+            filePath = Paths.get("src/main/resources/static/images").resolve("no-image.jpg").toAbsolutePath();
             resource = new UrlResource(filePath.toUri());
         }
         return resource;

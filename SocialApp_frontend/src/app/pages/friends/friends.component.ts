@@ -12,6 +12,7 @@ import { UserService } from 'src/app/services/user.service';
 export class FriendsComponent implements OnInit {
   public user: User;
   public friends: User[] = [];
+  public isTheKeycloakUser: boolean;
 
   constructor(private activatedRoute: ActivatedRoute, private userService: UserService,
     private friendshipService: FriendshipService) { }
@@ -19,12 +20,13 @@ export class FriendsComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
       let id = params['id'];
-      this.userService.getUser(id).subscribe(user => {
-        this.user = user;
-        this.userService.getFriends(this.user.idUser).subscribe(friends => {
-          this.friends = friends;
-          this.friendshipService.setIsFriend(this.friends);
-        });
+      this.userService.getUser(id).subscribe(user => this.user = user);
+      this.userService.getFriends(id).subscribe(friends => {
+        this.friends = friends;
+        this.friendshipService.setIsFriend(this.friends);
+      });
+      this.userService.getKeycloakUser().subscribe(user => {
+        id == user.idUser ? this.isTheKeycloakUser = true : this.isTheKeycloakUser = false
       });
     });
   }
