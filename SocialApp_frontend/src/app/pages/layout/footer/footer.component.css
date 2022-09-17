@@ -1,3 +1,9 @@
+#logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 5px;
+}
+
 footer {
     background: #24242b;
     font-size: 1.75rem;
