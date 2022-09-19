@@ -1,3 +1,34 @@
+#publications button {
+    width: calc(100% - 50px); /*100% - padding*/
+    background: #7f5af0;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    margin-left: 25px;
+    margin-top: 10px;
+    font-size: 1.25rem;
+    transition: .3s;
+}
+
+#publications button:hover {
+    background: #6f4ed1;
+    transition: .3s;
+}
+
+#no-more-posts {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+#no-more-posts img {
+    width: 75%;
+    margin-bottom: 15px;
+}
+
 @media (min-width: 768px) {
     #section-publications {
         display: flex;
@@ -7,10 +38,21 @@
         width: 100%;
         margin-bottom: 10px;
     }
+
+    #no-more-posts img {
+        width: 50%;
+    }
 }
 
 @media (min-width: 1038px) {
     #publications {
         width: 75%;
+    }
+
+    #publications button {
+        font-size: 1rem;
+        width: 30%;
+        height: 25px;
+        margin-top: 10px;
     }
 }

@@ -29,6 +29,18 @@ export class PostService {
     );
   }
 
+  public getFeedByUser(idUser: number, limit: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/get/feed/${idUser}&${limit}`).pipe(
+      catchError(e => {
+        Swal.fire({
+          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
+          timer: 1250, background: '#7f5af0', color: 'white'
+        });
+        return throwError(() => e);
+      })
+    );
+  }
+
   public getPostsByUser(idUser: number, limit: number): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/get/by-user/${idUser}&${limit}`).pipe(
       catchError(e => {
@@ -42,7 +54,7 @@ export class PostService {
   }
 
   public countPostByUser(idUser: number): Observable<number> {
-    return this.http.get<number>(`${this.baseUrl}/get/count/${idUser}`).pipe(
+    return this.http.get<number>(`${this.baseUrl}/get/count/posts/${idUser}`).pipe(
       catchError(e => {
         Swal.fire({
           icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,

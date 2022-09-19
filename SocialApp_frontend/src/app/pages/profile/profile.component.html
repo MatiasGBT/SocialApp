@@ -10,7 +10,7 @@
                 </figure>
                 <div id="profile-header-data">
                     <div (click)="moveToPosts()">
-                        <p *ngIf="userPostQuantity">{{userPostQuantity}}</p>
+                        <p *ngIf="userPostQuantity != undefined">{{userPostQuantity}}</p>
                         <p>{{'PROFILE.NUMBER_OF_POSTS' | translate}}</p>
                     </div>
                     <div (click)="goToFriendsPage()">

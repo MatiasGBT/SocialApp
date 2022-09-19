@@ -19,6 +19,9 @@
         "MODAL_ERROR_TITLE": "Error",
         "MODAL_ERROR_TEXT": "La publicación debe tener un texto o una foto"
     },
+    "INDEX": {
+        "NO_MORE_POSTS": "Ya has visto todas las publicaciones de tu feed 🙌"
+    },
     "ASIDE": {
         "FEATURED_POST": "Publicación destacada",
         "FEATURED_USERS": "Usuarios destacados",

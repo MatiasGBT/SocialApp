@@ -58,14 +58,14 @@ public class PostController {
         return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
-    @GetMapping("/get/by-user/{idUser}&{limit}")
+    @GetMapping("/get/feed/{idUser}&{limit}")
     @PreAuthorize("isAuthenticated() and hasRole('user')")
-    public ResponseEntity<?> getPostsByUser(@PathVariable Long idUser, @PathVariable Integer limit,
+    public ResponseEntity<?> getFeedByUser(@PathVariable Long idUser, @PathVariable Integer limit,
                                             Locale locale) {
         Map<String, Object> response = new HashMap<>();
         try {
-            List<Post> posts = postService.findByUserId(idUser, limit);
-            Integer postQuantity = postService.countPosts(idUser);
+            List<Post> posts = postService.findFeedByUserId(idUser, limit);
+            Integer postQuantity = postService.countUserFeed(idUser);
             boolean isLastPage = postQuantity == posts.size();
             response.put("posts", posts);
             response.put("isLastPage", isLastPage);
@@ -77,11 +77,44 @@ public class PostController {
         }
     }
 
-    @GetMapping("/get/count/{idUser}")
+    @GetMapping("/get/by-user/{idUser}&{limit}")
+    @PreAuthorize("isAuthenticated() and hasRole('user')")
+    public ResponseEntity<?> getPostsByUser(@PathVariable Long idUser, @PathVariable Integer limit,
+                                            Locale locale) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            List<Post> posts = postService.findByUserId(idUser, limit);
+            Integer postQuantity = postService.countUserPosts(idUser);
+            boolean isLastPage = postQuantity == posts.size();
+            response.put("posts", posts);
+            response.put("isLastPage", isLastPage);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (DataAccessException e) {
+            response.put("message", messageSource.getMessage("error.database", null, locale));
+            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/get/count/feed/{idUser}")
+    @PreAuthorize("isAuthenticated() and hasRole('user')")
+    public ResponseEntity<?> countFeedByUser(@PathVariable Long idUser, Locale locale) {
+        try {
+            Integer postQuantity = postService.countUserPosts(idUser);
+            return new ResponseEntity<>(postQuantity, HttpStatus.OK);
+        } catch (DataAccessException e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", messageSource.getMessage("error.database", null, locale));
+            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/get/count/posts/{idUser}")
     @PreAuthorize("isAuthenticated() and hasRole('user')")
     public ResponseEntity<?> countPostsByUser(@PathVariable Long idUser, Locale locale) {
         try {
-            Integer postQuantity = postService.countPosts(idUser);
+            Integer postQuantity = postService.countUserPosts(idUser);
             return new ResponseEntity<>(postQuantity, HttpStatus.OK);
         } catch (DataAccessException e) {
             Map<String, Object> response = new HashMap<>();
