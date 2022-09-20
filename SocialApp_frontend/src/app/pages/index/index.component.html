@@ -1,12 +1,9 @@
 <section id="section-publications">
     
     <div id="publications">
-        <post-comp *ngFor="let post of posts" [post]="post"></post-comp>
-        <button (click)="getNewPosts()" *ngIf="!isLastPage">{{'PROFILE.GET_MORE_BTN' | translate}}</button>
-        <div *ngIf="isLastPage" id="no-more-posts">
-            <img src="../../../assets/img/all_viewed.svg" alt="">
-            <p>{{'INDEX.NO_MORE_POSTS' | translate}}</p>
-        </div>
+        <posts-list-comp *ngIf="idUser" [idUser]="idUser" [page]="'feed'"></posts-list-comp>
+        <button class="old-feed-btn" (click)="getOldFeed()" *ngIf="isLastPage">{{'INDEX.GET_OLD_POSTS' | translate}}</button>
+        <posts-list-comp *ngIf="userWantsOldFeed" [idUser]="idUser" [page]="'feedOld'"></posts-list-comp>
     </div>
     
     <aside>

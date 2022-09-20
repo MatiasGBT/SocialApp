@@ -45,12 +45,8 @@
         <hr id="posts">
 
         <h3>{{'PROFILE.POSTS' | translate}}:</h3>
-        <div id="publications" *ngIf="posts">
-            <post-comp *ngFor="let post of posts" [post]="post"></post-comp>
-            <button (click)="getNewPosts()" *ngIf="!isLastPage">{{'PROFILE.GET_MORE_BTN' | translate}}</button>
-
-            <p *ngIf="posts.length==0">{{'PROFILE.NO_POSTS' | translate}}</p>
-            <img *ngIf="posts.length==0" src="../../../assets/img/no_posts_bg.svg" alt="No posts">
+        <div id="publications">
+            <posts-list-comp *ngIf="user?.idUser" [idUser]="user.idUser" [page]="'profile'"></posts-list-comp>
         </div>
     </div>
 

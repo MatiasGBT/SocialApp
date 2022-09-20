@@ -49,6 +49,16 @@ public class PostService implements IService<Post> {
     }
 
     @Transactional(readOnly = true)
+    public List<Post> findOldFeedByUserId(Long idUser, Integer limit) {
+        return repository.findOldFeedByUser(idUser, limit);
+    }
+
+    @Transactional(readOnly = true)
+    public Integer countOldUserFeed(Long idUser) {
+        return repository.countOldFeedByUser(idUser);
+    }
+
+    @Transactional(readOnly = true)
     public List<Post> findByUserId(Long idUser, Integer limit) {
         return repository.findByUser(idUser, limit);
     }

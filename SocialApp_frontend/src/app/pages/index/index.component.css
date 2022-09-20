@@ -1,32 +1,21 @@
-#publications button {
-    width: calc(100% - 50px); /*100% - padding*/
+.old-feed-btn {
     background: #7f5af0;
+    font-size: 1.25rem;
     border: none;
     outline: none;
     border-radius: 5px;
+    padding: 5px;
+    margin-top: 25px;
+    width: calc(100% - 50px); /*100% - margin left and right*/
     margin-left: 25px;
-    margin-top: 10px;
-    font-size: 1.25rem;
+    margin-right: 25px;
+    cursor: pointer;
     transition: .3s;
 }
 
-#publications button:hover {
+.old-feed-btn:hover {
     background: #6f4ed1;
     transition: .3s;
-}
-
-#no-more-posts {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    text-align: center;
-}
-
-#no-more-posts img {
-    width: 75%;
-    margin-bottom: 15px;
 }
 
 @media (min-width: 768px) {
@@ -39,8 +28,8 @@
         margin-bottom: 10px;
     }
 
-    #no-more-posts img {
-        width: 50%;
+    .old-feed-btn {
+        font-size: 1.2rem;
     }
 }
 
@@ -49,10 +38,8 @@
         width: 75%;
     }
 
-    #publications button {
+    .old-feed-btn {
         font-size: 1rem;
         width: 30%;
-        height: 25px;
-        margin-top: 10px;
     }
 }

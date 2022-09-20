@@ -85,35 +85,6 @@ hr {
     margin-right: auto;
 }
 
-#publications button {
-    width: calc(100% - 50px); /*100% - padding*/
-    background: #7f5af0;
-    border: none;
-    outline: none;
-    border-radius: 5px;
-    margin-left: 25px;
-    margin-top: 10px;
-    font-size: 1.25rem;
-    transition: .3s;
-}
-
-#publications button:hover {
-    background: #6f4ed1;
-    transition: .3s;
-}
-
-#publications p {
-    padding-left: 25px;
-    padding-right: 25px;
-    margin-bottom: 25px;
-}
-
-#publications img {
-    width: 80vw;
-    display: block;
-    margin: auto;
-}
-
 .date {
     margin-right: 10px;
 }
@@ -146,11 +117,6 @@ hr {
     #profile-description {
         margin-top: 15px;
     }
-
-    #publications img {
-        height: 300px;
-        width: auto;
-    }
 }
 
 @media (min-width: 1038px) {
@@ -178,13 +144,6 @@ hr {
         margin-left: 25px;
         margin-right: 25px;
         max-width: 50%;
-    }
-
-    #publications button {
-        font-size: 1rem;
-        width: 30%;
-        height: 25px;
-        margin-top: 10px;
     }
 
     .side-profile-button {

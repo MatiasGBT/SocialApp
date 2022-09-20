@@ -19,6 +19,9 @@ import java.util.*;
 public class PostController {
 
     private final static String FINAL_DIRECTORY = "\\posts\\";
+    private final static String INDEX_FEED_PAGE = "feed";
+    private final static String INDEX_OLD_FEED_PAGE = "feedOld";
+    private final static String PROFILE_PAGE = "profile";
 
     @Autowired
     private UserService userService;
@@ -58,34 +61,34 @@ public class PostController {
         return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
-    @GetMapping("/get/feed/{idUser}&{limit}")
+    @GetMapping("/get/posts/{idUser}&{limit}&{page}")
     @PreAuthorize("isAuthenticated() and hasRole('user')")
     public ResponseEntity<?> getFeedByUser(@PathVariable Long idUser, @PathVariable Integer limit,
-                                            Locale locale) {
+                                           @PathVariable String page, Locale locale) {
         Map<String, Object> response = new HashMap<>();
         try {
-            List<Post> posts = postService.findFeedByUserId(idUser, limit);
-            Integer postQuantity = postService.countUserFeed(idUser);
-            boolean isLastPage = postQuantity == posts.size();
-            response.put("posts", posts);
-            response.put("isLastPage", isLastPage);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (DataAccessException e) {
-            response.put("message", messageSource.getMessage("error.database", null, locale));
-            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @GetMapping("/get/by-user/{idUser}&{limit}")
-    @PreAuthorize("isAuthenticated() and hasRole('user')")
-    public ResponseEntity<?> getPostsByUser(@PathVariable Long idUser, @PathVariable Integer limit,
-                                            Locale locale) {
-        Map<String, Object> response = new HashMap<>();
-        try {
-            List<Post> posts = postService.findByUserId(idUser, limit);
-            Integer postQuantity = postService.countUserPosts(idUser);
-            boolean isLastPage = postQuantity == posts.size();
+            List<Post> posts = new ArrayList<>();
+            boolean isLastPage = true;
+            switch (page) {
+                case INDEX_FEED_PAGE: {
+                    posts = postService.findFeedByUserId(idUser, limit);
+                    Integer postQuantity = postService.countUserFeed(idUser);
+                    isLastPage = postQuantity == posts.size();
+                    break;
+                }
+                case INDEX_OLD_FEED_PAGE: {
+                    posts = postService.findOldFeedByUserId(idUser, limit);
+                    Integer postQuantity = postService.countOldUserFeed(idUser);
+                    isLastPage = postQuantity == posts.size();
+                    break;
+                }
+                case PROFILE_PAGE: {
+                    posts = postService.findByUserId(idUser, limit);
+                    Integer postQuantity = postService.countUserPosts(idUser);
+                    isLastPage = postQuantity == posts.size();
+                    break;
+                }
+            }
             response.put("posts", posts);
             response.put("isLastPage", isLastPage);
             return new ResponseEntity<>(response, HttpStatus.OK);

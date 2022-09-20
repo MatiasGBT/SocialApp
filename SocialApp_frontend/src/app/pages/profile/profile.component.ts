@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Friendship } from 'src/app/models/friendship';
-import { Post } from 'src/app/models/post';
 import { User } from 'src/app/models/user';
 import { FriendshipService } from 'src/app/services/friendship.service';
 import { PostService } from 'src/app/services/post.service';
@@ -14,11 +13,9 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class ProfileComponent implements OnInit {
   public user: User;
-  public posts: Post[] = [];
   private id: number;
   public friendship: Friendship;
   public friendsQuantity: number;
-  private postsLimit: number = 10;
   public isLastPage: boolean;
   public userPostQuantity: number;
 
@@ -41,10 +38,7 @@ export class ProfileComponent implements OnInit {
       }
     });
 
-    this.postService.deletePostEmitter.subscribe(post => {
-      this.posts = this.posts.filter(p => p.idPost != post.idPost);
-      this.userPostQuantity --;
-    });
+    this.postService.reducePostsQuantityEmitter.subscribe(() => this.userPostQuantity--);
   }
 
   //#region Friendship
@@ -78,7 +72,6 @@ export class ProfileComponent implements OnInit {
     this.userService.getUser(this.id).subscribe(user => {
       this.user = user;
       this.getFriendsQuantity();
-      this.getPosts(this.user.idUser, this.postsLimit);
       this.postService.countPostByUser(this.user.idUser).subscribe(count => this.userPostQuantity = count);
     });
   }
@@ -87,25 +80,12 @@ export class ProfileComponent implements OnInit {
     this.userService.getKeycloakUser().subscribe(user => {
       this.user = user;
       this.getFriendsQuantity();
-      this.getPosts(this.user.idUser, this.postsLimit);
       this.postService.countPostByUser(this.user.idUser).subscribe(count => this.userPostQuantity = count);
-    });
-  }
-
-  private getPosts(idUser: number, limit: number) {
-    this.postService.getPostsByUser(idUser, limit).subscribe(response => {
-      this.posts = response.posts;
-      this.isLastPage = response.isLastPage;
     });
   }
   //#endregion
 
   public moveToPosts() {
     location.hash = '#posts';
-  }
-
-  public getNewPosts() {
-    this.postsLimit *= 2;
-    this.getPosts(this.user.idUser, this.postsLimit);
   }
 }

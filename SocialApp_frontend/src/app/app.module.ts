@@ -26,6 +26,7 @@ import { PostComponent } from './components/post/post.component';
 import { FullPostComponent } from './pages/full-post/full-post.component';
 import { UserComponent } from './components/user/user.component';
 import { FriendsComponent } from './pages/friends/friends.component';
+import { PostsListComponent } from './components/posts-list/posts-list.component';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -61,7 +62,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     PostComponent,
     FullPostComponent,
     UserComponent,
-    FriendsComponent
+    FriendsComponent,
+    PostsListComponent
   ],
   imports: [
     BrowserModule,

@@ -12,6 +12,8 @@ import { AuthService } from './auth.service';
 export class PostService {
   private baseUrl: string = 'http://localhost:8090/api/posts';
   @Output() deletePostEmitter: EventEmitter<any> = new EventEmitter();
+  @Output() reducePostsQuantityEmitter: EventEmitter<any> = new EventEmitter();
+  @Output() isLastFeedPageEmitter: EventEmitter<any> = new EventEmitter();
 
   constructor(private http: HttpClient, private router: Router,
     private authService: AuthService) { }
@@ -29,20 +31,8 @@ export class PostService {
     );
   }
 
-  public getFeedByUser(idUser: number, limit: number): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/get/feed/${idUser}&${limit}`).pipe(
-      catchError(e => {
-        Swal.fire({
-          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
-          timer: 1250, background: '#7f5af0', color: 'white'
-        });
-        return throwError(() => e);
-      })
-    );
-  }
-
-  public getPostsByUser(idUser: number, limit: number): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/get/by-user/${idUser}&${limit}`).pipe(
+  public getPosts(idUser: number, limit: number, page: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/get/posts/${idUser}&${limit}&${page}`).pipe(
       catchError(e => {
         Swal.fire({
           icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,

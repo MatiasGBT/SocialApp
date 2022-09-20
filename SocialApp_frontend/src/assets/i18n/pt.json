@@ -20,7 +20,8 @@
         "MODAL_ERROR_TEXT": "A publicação deve ter um texto ou uma foto"
     },
     "INDEX": {
-        "NO_MORE_POSTS": "Você já viu todos as publicações em seu feed 🙌"
+        "NO_MORE_POSTS": "Você já viu todas as publicações em seu feed de hoje 🙌",
+        "GET_OLD_POSTS": "Obter publicações dos dias anteriores"
     },
     "ASIDE": {
         "FEATURED_POST": "Publicação fixada",
