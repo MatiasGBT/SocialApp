@@ -12,7 +12,7 @@ export class PostsListComponent implements OnInit {
   @Input() public page: string;
   public posts: Post[] = [];
   public isLastPage: boolean;
-  private limit: number = 10;
+  private from: number = 0;
 
   constructor(private postService: PostService) { }
 
@@ -26,13 +26,13 @@ export class PostsListComponent implements OnInit {
   }
 
   public getNewPosts() {
-    this.limit += 10;
+    this.from += 10;
     this.getPosts();
   }
 
   private getPosts() {
-    this.postService.getPosts(this.idUser, this.limit, this.page).subscribe(response => {
-      this.posts = response.posts;
+    this.postService.getPosts(this.idUser, this.from, this.page).subscribe(response => {
+      this.posts = this.posts.concat(response.posts);
       this.isLastPage = response.isLastPage;
       if (this.isLastPage && this.page == "feed") {
         this.postService.isLastFeedPageEmitter.emit(this.isLastPage);

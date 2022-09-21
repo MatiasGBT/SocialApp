@@ -61,32 +61,29 @@ public class PostController {
         return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
-    @GetMapping("/get/posts/{idUser}&{limit}&{page}")
+    @GetMapping("/get/posts/{idUser}&{from}&{page}")
     @PreAuthorize("isAuthenticated() and hasRole('user')")
-    public ResponseEntity<?> getFeedByUser(@PathVariable Long idUser, @PathVariable Integer limit,
+    public ResponseEntity<?> getFeedByUser(@PathVariable Long idUser, @PathVariable Integer from,
                                            @PathVariable String page, Locale locale) {
         Map<String, Object> response = new HashMap<>();
         try {
             List<Post> posts = new ArrayList<>();
             boolean isLastPage = true;
             switch (page) {
-                case INDEX_FEED_PAGE: {
-                    posts = postService.findFeedByUserId(idUser, limit);
-                    Integer postQuantity = postService.countUserFeed(idUser);
-                    isLastPage = postQuantity == posts.size();
-                    break;
+                case INDEX_FEED_PAGE -> {
+                    posts = postService.findFeedByUserId(idUser, from);
+                    Long lasPostId = postService.findLastIdPostFromUserFeed(idUser);
+                    isLastPage = postService.getIsLastPage(lasPostId, posts);
                 }
-                case INDEX_OLD_FEED_PAGE: {
-                    posts = postService.findOldFeedByUserId(idUser, limit);
-                    Integer postQuantity = postService.countOldUserFeed(idUser);
-                    isLastPage = postQuantity == posts.size();
-                    break;
+                case INDEX_OLD_FEED_PAGE -> {
+                    posts = postService.findOldFeedByUserId(idUser, from);
+                    Long lasPostId = postService.findLastIdPostFromOldUserFeed(idUser);
+                    isLastPage = postService.getIsLastPage(lasPostId, posts);
                 }
-                case PROFILE_PAGE: {
-                    posts = postService.findByUserId(idUser, limit);
-                    Integer postQuantity = postService.countUserPosts(idUser);
-                    isLastPage = postQuantity == posts.size();
-                    break;
+                case PROFILE_PAGE -> {
+                    posts = postService.findByUserId(idUser, from);
+                    Long lasPostId = postService.findLastIdPostFromUserPosts(idUser);
+                    isLastPage = postService.getIsLastPage(lasPostId, posts);
                 }
             }
             response.put("posts", posts);

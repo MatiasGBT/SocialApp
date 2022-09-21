@@ -31,8 +31,8 @@ export class PostService {
     );
   }
 
-  public getPosts(idUser: number, limit: number, page: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/get/posts/${idUser}&${limit}&${page}`).pipe(
+  public getPosts(idUser: number, from: number, page: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/get/posts/${idUser}&${from}&${page}`).pipe(
       catchError(e => {
         Swal.fire({
           icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,

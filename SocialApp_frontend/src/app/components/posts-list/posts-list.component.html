@@ -1,5 +1,5 @@
 <post-comp *ngFor="let post of posts" [post]="post"></post-comp>
-<button (click)="getNewPosts()" *ngIf="!isLastPage">{{'PROFILE.GET_MORE_BTN' | translate}}</button>
+<button (click)="getNewPosts()" *ngIf="!isLastPage && posts.length > 0">{{'PROFILE.GET_MORE_BTN' | translate}}</button>
 
 <div id="no-more-posts" *ngIf="isLastPage && page=='feed'">
     <img src="../../../assets/img/all_viewed.svg" alt="No posts">

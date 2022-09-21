@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { filter, Subscription } from 'rxjs';
 import { Friendship } from 'src/app/models/friendship';
 import { User } from 'src/app/models/user';
 import { FriendshipService } from 'src/app/services/friendship.service';
@@ -18,6 +19,7 @@ export class ProfileComponent implements OnInit {
   public friendsQuantity: number;
   public isLastPage: boolean;
   public userPostQuantity: number;
+  private subscriber: Subscription;
 
   constructor(private userService: UserService, private activatedRoute: ActivatedRoute,
     private friendshipService: FriendshipService, private router: Router,
@@ -39,6 +41,18 @@ export class ProfileComponent implements OnInit {
     });
 
     this.postService.reducePostsQuantityEmitter.subscribe(() => this.userPostQuantity--);
+
+    /*
+    This subscription serves to fix a bug that arises when we enter a user profile that is
+    not ours and, without changing page, we enter another user profile (from the navbar),
+    which caused the second user profile to show the posts of the first profile searched
+    because the user instance had already been obtained and initialising the component sets
+    the view first (which passed the previous user id to the list of posts) before the new
+    user instance is initialised.
+    */
+    this.subscriber = this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() =>  this.user = null);
   }
 
   //#region Friendship
@@ -88,4 +102,8 @@ export class ProfileComponent implements OnInit {
   public moveToPosts() {
     location.hash = '#posts';
   }
+
+  ngOnDestroy () {
+    this.subscriber?.unsubscribe();
+ }
 }
