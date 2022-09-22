@@ -41,7 +41,8 @@ DROP TABLE IF EXISTS `comments`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `comments` (
   `id_comment` bigint NOT NULL AUTO_INCREMENT,
-  `text` varchar(50) NOT NULL,
+  `text` varchar(100) NOT NULL,
+  `date` datetime NOT NULL,
   `id_user` bigint NOT NULL,
   `id_post` bigint NOT NULL,
   PRIMARY KEY (`id_comment`),
@@ -49,7 +50,7 @@ CREATE TABLE `comments` (
   KEY `fk_post_comment_idx` (`id_post`),
   CONSTRAINT `fk_post_comment` FOREIGN KEY (`id_post`) REFERENCES `posts` (`id_post`),
   CONSTRAINT `fk_user_comment` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,7 +71,7 @@ CREATE TABLE `friendships` (
   KEY `fk_user_receiver` (`id_user_receiver`),
   CONSTRAINT `fk_user_receiver` FOREIGN KEY (`id_user_receiver`) REFERENCES `users` (`id_user`),
   CONSTRAINT `fk_user_transmitter` FOREIGN KEY (`id_user_transmitter`) REFERENCES `users` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -89,7 +90,7 @@ CREATE TABLE `likes` (
   KEY `fk_user_like` (`id_user`),
   CONSTRAINT `fk_post_like` FOREIGN KEY (`id_post`) REFERENCES `posts` (`id_post`),
   CONSTRAINT `fk_user_like` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -123,7 +124,7 @@ DROP TABLE IF EXISTS `notifications`;
 CREATE TABLE `notifications` (
   `id_notification` bigint NOT NULL AUTO_INCREMENT,
   `id_user_receiver` bigint NOT NULL,
-  `is_viewed` tinyint(1) NOT NULL,
+  `is_viewed` tinyint(1) NOT NULL DEFAULT '0',
   `date` datetime NOT NULL,
   `notification_type` varchar(50) NOT NULL,
   `id_user_friend` bigint DEFAULT NULL,
@@ -141,7 +142,7 @@ CREATE TABLE `notifications` (
   CONSTRAINT `fk_user-notif_notif` FOREIGN KEY (`id_user_receiver`) REFERENCES `users` (`id_user`),
   CONSTRAINT `fk_user_user-friend` FOREIGN KEY (`id_user_friend`) REFERENCES `users` (`id_user`),
   CONSTRAINT `fk_user_user-msg` FOREIGN KEY (`id_user_message_transmitter`) REFERENCES `users` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=178 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -160,7 +161,44 @@ CREATE TABLE `posts` (
   PRIMARY KEY (`id_post`),
   KEY `fk_user_post` (`id_user`),
   CONSTRAINT `fk_user_post` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=197 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `report_reasons`
+--
+
+DROP TABLE IF EXISTS `report_reasons`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `report_reasons` (
+  `id_report_reason` int NOT NULL AUTO_INCREMENT,
+  `reason` varchar(45) NOT NULL,
+  PRIMARY KEY (`id_report_reason`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `reports`
+--
+
+DROP TABLE IF EXISTS `reports`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `reports` (
+  `id_report` bigint NOT NULL AUTO_INCREMENT,
+  `id_post` bigint NOT NULL,
+  `id_user` bigint NOT NULL,
+  `id_report_reason` int NOT NULL,
+  `extra_information` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id_report`),
+  KEY `fk_post_report_idx` (`id_post`),
+  KEY `fk_user_report_idx` (`id_user`),
+  KEY `fk_reason_report_idx` (`id_report_reason`),
+  CONSTRAINT `fk_post_report` FOREIGN KEY (`id_post`) REFERENCES `posts` (`id_post`),
+  CONSTRAINT `fk_reason_report` FOREIGN KEY (`id_report_reason`) REFERENCES `report_reasons` (`id_report_reason`),
+  CONSTRAINT `fk_user_report` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -182,7 +220,7 @@ CREATE TABLE `users` (
   `is_checked` tinyint NOT NULL,
   PRIMARY KEY (`id_user`),
   UNIQUE KEY `UK_6dotkott2kjsp8vw4d0m25fb7` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -194,4 +232,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-09-01 16:27:24
+-- Dump completed on 2022-09-22 17:39:56

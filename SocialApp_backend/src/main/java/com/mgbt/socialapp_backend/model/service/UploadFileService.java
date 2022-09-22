@@ -37,9 +37,9 @@ public class UploadFileService implements IUploadFileService {
     }
 
     @Override
-    public Boolean delete(String fileName) {
+    public Boolean delete(String fileName, String directory) {
         if(fileName !=null && fileName.length() >0) {
-            Path lastFilePath = Paths.get("uploads").resolve(fileName).toAbsolutePath();
+            Path lastFilePath = Paths.get("uploads" + directory).resolve(fileName).toAbsolutePath();
             File lastFile = lastFilePath.toFile();
             if(lastFile.exists() && lastFile.canRead()) {
                 lastFile.delete();

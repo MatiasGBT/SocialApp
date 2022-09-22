@@ -67,6 +67,10 @@ export class PostComponent implements OnInit {
       if (result.isConfirmed) {
         this.postService.deletePost(this.post.idPost).subscribe(response => console.log(response.message));
         this.postService.deletePostEmitter.emit(this.post);
+        this.postService.reducePostsQuantityEmitter.emit();
+        if (this.router.url.includes("post")) {
+          this.router.navigate(['/index']);
+        }
       }
     });
   }

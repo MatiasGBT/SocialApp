@@ -251,12 +251,14 @@ public class PostController {
     public ResponseEntity<?> deletePost(@PathVariable Long idPost, Locale locale) {
         Map<String, Object> response = new HashMap<>();
         try {
-            postService.delete(postService.findById(idPost));
+            Post post = postService.findById(idPost);
+            uploadFileService.delete(post.getPhoto(), FINAL_DIRECTORY);
+            postService.delete(post);
             response.put("message", messageSource.getMessage("postcontroller.deletePost", null, locale));
             return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (DataAccessException e) {
-            response.put("message", response.put("message", messageSource.getMessage("error.database", null, locale)));
-            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+        } catch (Exception e) {
+            response.put("message", response.put("message", messageSource.getMessage("error.databaseOrFile", null, locale)));
+            response.put("error", e.getMessage() + ": " + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

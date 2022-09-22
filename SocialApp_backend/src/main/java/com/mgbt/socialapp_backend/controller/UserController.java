@@ -100,7 +100,7 @@ public class UserController {
                 fileName = uploadFileService.save(file, FINAL_DIRECTORY);
                 UserApp user = userService.findByUsername(username);
                 String lastFileName = user.getPhoto();
-                uploadFileService.delete(lastFileName);
+                uploadFileService.delete(lastFileName, FINAL_DIRECTORY);
                 user.setPhoto(fileName);
                 userService.save(user);
                 response.put("photo", user.getPhoto());

@@ -1,6 +1,5 @@
 package com.mgbt.socialapp_backend.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import javax.persistence.*;
 import java.io.*;

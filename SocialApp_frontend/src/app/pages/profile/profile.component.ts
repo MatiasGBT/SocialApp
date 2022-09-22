@@ -99,8 +99,8 @@ export class ProfileComponent implements OnInit {
   }
   //#endregion
 
-  public moveToPosts() {
-    location.hash = '#posts';
+  public moveToPosts(el: HTMLElement) {
+    el.scrollIntoView({behavior: 'smooth'});
   }
 
   ngOnDestroy () {

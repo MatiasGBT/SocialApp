@@ -11,7 +11,7 @@ public interface IUploadFileService {
 
     String save(MultipartFile file, String finalDirectory) throws IOException;
 
-    Boolean delete(String fileName);
+    Boolean delete(String fileName, String directory);
 
     Path getPath(String fileName, String finalDirectory);
 }

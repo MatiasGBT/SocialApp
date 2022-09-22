@@ -9,18 +9,16 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class IndexComponent implements OnInit {
   public idUser: number;
-  public userWantsOldFeed: boolean = false;
+  public showOldFeed: boolean = false;
   public isLastPage: boolean;
 
   constructor(private userService: UserService, private postService: PostService) { }
 
   ngOnInit(): void {
     this.userService.getKeycloakUser().subscribe(user => this.idUser = user.idUser);
-    this.postService.isLastFeedPageEmitter.subscribe(isLastPage => this.isLastPage = isLastPage);
-  }
-
-  public getOldFeed() {
-    this.userWantsOldFeed = true;
-    this.isLastPage = false;
+    this.postService.isLastFeedPageEmitter.subscribe(isLastPage => {
+      this.isLastPage = isLastPage;
+      this.showOldFeed = true;
+    });
   }
 }

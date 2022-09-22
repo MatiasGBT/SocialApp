@@ -9,7 +9,7 @@
                     <i *ngIf="user?.isChecked" class="fa-solid fa-check"></i>
                 </figure>
                 <div id="profile-header-data">
-                    <div (click)="moveToPosts()">
+                    <div (click)="moveToPosts(posts)">
                         <p *ngIf="userPostQuantity != undefined">{{userPostQuantity}}</p>
                         <p>{{'PROFILE.NUMBER_OF_POSTS' | translate}}</p>
                     </div>
@@ -42,7 +42,7 @@
             </div>
         </div>
 
-        <hr id="posts">
+        <hr #posts>
 
         <h3>{{'PROFILE.POSTS' | translate}}:</h3>
         <div id="publications">

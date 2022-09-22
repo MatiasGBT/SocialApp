@@ -2,8 +2,7 @@
     
     <div id="publications">
         <posts-list-comp *ngIf="idUser" [idUser]="idUser" [page]="'feed'"></posts-list-comp>
-        <button class="old-feed-btn" (click)="getOldFeed()" *ngIf="isLastPage">{{'INDEX.GET_OLD_POSTS' | translate}}</button>
-        <posts-list-comp *ngIf="userWantsOldFeed" [idUser]="idUser" [page]="'feedOld'"></posts-list-comp>
+        <posts-list-comp *ngIf="showOldFeed" [idUser]="idUser" [page]="'feedOld'"></posts-list-comp>
     </div>
     
     <aside>
