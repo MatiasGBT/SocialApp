@@ -16,7 +16,7 @@ import java.util.*;
 @RequestMapping("api/user/")
 public class UserController {
 
-    private final static String FINAL_DIRECTORY = "\\users\\";
+    private final static String FINAL_DIRECTORY = "/users";
 
     @Autowired
     private UserService userService;
@@ -53,20 +53,15 @@ public class UserController {
     @GetMapping("/get/keycloak/{username}")
     @PreAuthorize("isAuthenticated() and hasRole('user')")
     public ResponseEntity<?> getKeycloakUser(@PathVariable String username, Locale locale) {
-        UserApp user;
-        Map<String, Object> response = new HashMap<>();
         try {
-            user = userService.findByUsername(username);
+            UserApp user = userService.findByUsername(username);
+            return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (DataAccessException e) {
+            Map<String, Object> response = new HashMap<>();
             response.put("message", messageSource.getMessage("error.database", null, locale));
             response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        if (user == null) {
-            response.put("message", messageSource.getMessage("error.usernotexist", null, locale));
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @GetMapping("/get/friends/{idUser}")

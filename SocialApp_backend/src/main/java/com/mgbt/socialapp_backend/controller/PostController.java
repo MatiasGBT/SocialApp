@@ -18,7 +18,7 @@ import java.util.*;
 @RequestMapping("api/posts/")
 public class PostController {
 
-    private final static String FINAL_DIRECTORY = "\\posts\\";
+    private final static String FINAL_DIRECTORY = "/posts";
     private final static String INDEX_FEED_PAGE = "feed";
     private final static String INDEX_OLD_FEED_PAGE = "feedOld";
     private final static String PROFILE_PAGE = "profile";
