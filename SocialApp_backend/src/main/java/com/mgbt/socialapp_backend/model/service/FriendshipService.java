@@ -47,9 +47,4 @@ public class FriendshipService implements IService<Friendship> {
     public Integer friendsQuantity(UserApp user) {
         return repository.friendsQuantity(user.getIdUser());
     }
-
-    @Transactional(readOnly = true)
-    public List<Friendship> findFriendshipsByUser(Long idUser) {
-        return repository.findAllFriendsByUser(idUser);
-    }
 }

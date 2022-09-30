@@ -1,9 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 import { Post } from 'src/app/models/post';
+import { Report } from 'src/app/models/report';
+import { ReportReason } from 'src/app/models/report-reason';
 import { AuthService } from 'src/app/services/auth.service';
 import { PostService } from 'src/app/services/post.service';
+import { ReportReasonService } from 'src/app/services/report-reason.service';
+import { ReportService } from 'src/app/services/report.service';
+import { TranslateExtensionService } from 'src/app/services/translate-extension.service';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
 
@@ -15,16 +19,22 @@ import Swal from 'sweetalert2';
 export class PostComponent implements OnInit {
   @Input() public post: Post;
   public isLiked: boolean;
+  public isReported: boolean;
 
   constructor(public authService: AuthService, private postService: PostService,
-    private userService: UserService, private translate: TranslateService,
-    private router: Router) { }
+    private userService: UserService, private reportService: ReportService,
+    private router: Router, private reportReasonService: ReportReasonService,
+    private translateExtensionService: TranslateExtensionService) { }
 
   ngOnInit(): void {
     /*This is done to find out if the logged in user has liked this post so that the heart icon can be changed.*/
     this.post.likes.find(l => l.user.username == this.authService.getUsername()) != undefined 
     ? this.isLiked = true
     : this.isLiked = false;
+
+    this.post.reports.find(r => r.user.username == this.authService.getUsername()) != undefined 
+    ? this.isReported = true
+    : this.isReported = false;
   }
 
   public likePost() {
@@ -52,16 +62,12 @@ export class PostComponent implements OnInit {
   }
 
   public deletePost() {
-    const lang = localStorage.getItem('lang');
-    lang != null ? this.translate.use(lang) : this.translate.use('en');
-    let modalTitle: string, modalText: string, modalBtnDelete: string, modalBtnCancel: string;
-    this.translate.get("POST.MODAL_TITLE").subscribe((res) => modalTitle = res);
-    this.translate.get("POST.MODAL_TEXT").subscribe((res) => modalText = res);
-    this.translate.get("POST.MODAL_BUTTON_DELETE").subscribe((res) => modalBtnDelete = res);
-    this.translate.get("POST.MODAL_BUTTON_CANCEL").subscribe((res) => modalBtnCancel = res);
     Swal.fire({
-      icon: 'warning', title: modalTitle, text: modalText,
-      showCancelButton: true, confirmButtonText: modalBtnDelete, cancelButtonText: modalBtnCancel,
+      icon: 'warning', showCancelButton: true,
+      title: this.translateExtensionService.translateModalText('POST.DELETE_MODAL_TITLE'),
+      text: this.translateExtensionService.translateModalText('POST.DELETE_MODAL_TEXT'),
+      confirmButtonText: this.translateExtensionService.translateModalText('POST.DELETE_MODAL_BUTTON_DELETE'),
+      cancelButtonText: this.translateExtensionService.translateModalText('POST.DELETE_MODAL_BUTTON_CANCEL'),
       background: '#7f5af0', color: 'white', confirmButtonColor: '#d33', cancelButtonColor: '#2cb67d'
     }).then((result) => {
       if (result.isConfirmed) {
@@ -84,4 +90,62 @@ export class PostComponent implements OnInit {
       }
     });
   }
+
+  //#region Report post
+  public reportPost() {
+    this.reportReasonService.getReasons().subscribe(reasons => {
+      this.showReportModal(reasons);
+    })
+  }
+
+  private async showReportModal(reasons: ReportReason[]) {
+    const { value: reason } = await Swal.fire({
+      title: this.translateExtensionService.translateModalText('POST.REPORT_MODAL_TITLE'),
+      input: 'select',
+      inputOptions: reasons.map(r => r.reason),
+      inputPlaceholder: this.translateExtensionService.translateModalText('POST.REPORT_MODAL_PLACEHOLDER'),
+      showCancelButton: true,
+      confirmButtonText: this.translateExtensionService.translateModalText('POST.REPORT_MODAL_BUTTON_REPORT'),
+      cancelButtonText: this.translateExtensionService.translateModalText('POST.REPORT_MODAL_BUTTON_CANCEL'),
+      inputValidator: (value) => {
+        return new Promise((resolve) => {
+          if (value === '') {
+            resolve(this.translateExtensionService.translateModalText('POST.REPORT_MODAL_ERROR'));
+          } else {
+            let report = new Report();
+            report.reportReason = reasons.find(r => r.idReportReason == parseInt(value) + 1); //+1 needed because in the database the values start with 1 and not 0
+            Swal.close();
+            this.showReportExtraInformationModal(report);
+          }
+        });
+      }
+    });
+  }
+
+  private async showReportExtraInformationModal(report: Report) {
+    const { value: text } = await Swal.fire({
+      input: 'textarea',
+      inputLabel: this.translateExtensionService.translateModalText('POST.REPORT_MODAL_EXTRAINFORMATION_TITLE'),
+      inputPlaceholder: this.translateExtensionService.translateModalText('POST.REPORT_MODAL_EXTRAINFORMATION_PLACEHOLDER'),
+      inputAttributes: {
+        'aria-label': this.translateExtensionService.translateModalText('POST.REPORT_MODAL_EXTRAINFORMATION_PLACEHOLDER')
+      }
+    });
+
+    if (text && text.length <= 50) {
+      report.extraInformation = text;
+    }
+    this.completeReport(report);
+  }
+
+  private completeReport(report: Report) {
+    this.userService.getKeycloakUser().subscribe(user => {
+      report.user = user;
+      report.post = this.post;
+      this.reportService.createReport(report).subscribe(response => console.log(response.message));
+    });
+    Swal.fire(this.translateExtensionService.translateModalText('POST.REPORT_MODAL_SUCCESS'));
+    this.isReported = true;
+  }
+  //#endregion
 }

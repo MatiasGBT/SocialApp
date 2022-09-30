@@ -23,8 +23,6 @@ export class NavbarComponent implements OnInit {
     private router: Router) {}
 
   ngOnInit(): void {
-    const lang = localStorage.getItem('lang');
-    lang != null ? this.translate.use(lang) : this.translate.use('en');
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.translate.use(event.lang);
       this.translate.get('NAVBAR.SEARCH_PEOPLE').subscribe((res: string) => this.placeholder = res);

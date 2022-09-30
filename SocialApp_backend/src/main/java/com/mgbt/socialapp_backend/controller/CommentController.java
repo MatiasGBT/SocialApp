@@ -41,7 +41,7 @@ public class CommentController {
         Map<String, Object> response = new HashMap<>();
         try {
             commentService.save(comment);
-            response.put("message", messageSource.getMessage("commentcontroller.createComment", null, locale));
+            response.put("message", messageSource.getMessage("commentController.createComment", null, locale));
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (Exception e) {
             response.put("message", messageSource.getMessage("error.databaseOrFile", null, locale));

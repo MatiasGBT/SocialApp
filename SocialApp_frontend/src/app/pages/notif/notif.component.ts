@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Notification } from 'src/app/models/notification';
 import { FriendshipService } from 'src/app/services/friendship.service';
 import { NotificationsService } from 'src/app/services/notifications.service';
+import { TranslateExtensionService } from 'src/app/services/translate-extension.service';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
 
@@ -15,12 +15,10 @@ import Swal from 'sweetalert2';
 export class NotifComponent implements OnInit {
   public isNotificationsEnabled: boolean;
   public notifications: Notification[] = [];
-  private noNotificationsToDeleteTitle: string;
-  private noNotificationsToDeleteText: string;
 
   constructor(private notificationsService: NotificationsService, private userService: UserService,
     private friendshipService: FriendshipService, private router: Router,
-    private translate: TranslateService) { }
+    private translateExtensionService: TranslateExtensionService) { }
 
   ngOnInit(): void {
     this.isNotificationsEnabled = this.notificationsService.getNotificationsStatus();
@@ -96,16 +94,10 @@ export class NotifComponent implements OnInit {
   }
 
   private showNoNotificationsModal() {
-    const lang = localStorage.getItem('lang');
-    lang != null ? this.translate.use(lang) : this.translate.use('en');
-    this.translate.get('NOTIFICATIONS.NO_NOTIFICATIONS_TO_DELETE_TITLE').subscribe((res: string) => {
-      this.noNotificationsToDeleteTitle = res;
-    });
-    this.translate.get('NOTIFICATIONS.NO_NOTIFICATIONS_TO_DELETE_TEXT').subscribe((res: string) => {
-      this.noNotificationsToDeleteText = res;
-    });
     Swal.fire({
-      icon: 'info', title: this.noNotificationsToDeleteTitle, text: this.noNotificationsToDeleteText,
+      icon: 'info',
+      title: this.translateExtensionService.translateModalText('NOTIFICATIONS.NO_NOTIFICATIONS_TO_DELETE_TITLE'),
+      text: this.translateExtensionService.translateModalText('NOTIFICATIONS.NO_NOTIFICATIONS_TO_DELETE_TEXT'),
       showConfirmButton: false, timer: 1750, background: '#7f5af0', color: 'white'
     });
   }

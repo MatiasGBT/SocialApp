@@ -18,9 +18,6 @@ class UserServiceTest {
     private UserApp john;
     private UserApp albert;
     private UserApp laura;
-    private Friendship juanAndJohn;
-    private Friendship juanAndAlbert;
-    private Friendship juanAndLaura;
 
     @Mock
     private IUserRepository userRepository;
@@ -34,9 +31,6 @@ class UserServiceTest {
         this.john = new UserApp(2L, "jdoe", "John", "Doe", null, null, new Date(), new Date(), true);
         this.albert = new UserApp(3L, "awesker", "Albert", "Wesker", null, null, new Date(), new Date(), true);
         this.laura = new UserApp(4L, "lflores", "Laura", "Flores", null, null, new Date(), new Date(), false);
-        this.juanAndJohn = new Friendship(1L, juan, john, true, new Date());
-        this.juanAndAlbert = new Friendship(2L, albert, juan, true, new Date());
-        this.juanAndLaura = new Friendship(2L, juan, laura, false, null);
     }
 
     /*
@@ -79,21 +73,5 @@ class UserServiceTest {
         assertEquals("jpablo", this.juan.getUsername());
         assertEquals("Chris", this.juan.getName());
         assertEquals("Redfield", this.juan.getSurname());
-    }
-
-    /*
-      This method returns a list of users that are friends of the user with the specified id.
-      It is important to note that it should not return the selected user itself, as friendship
-      relationships have two users (transmitter and receiver), where one is the selected user.
-      Note: There is no need to filter relationships with positive status (friend request accepted)
-      as these are already filtered out in the database query (ex: juanAndLaura).
-    */
-    @Test
-    void getFriendsMustReturnJohnAndAlbert() {
-        List<UserApp> juanFriends = userService.getFriends(Arrays.asList(juanAndJohn, juanAndAlbert), juan.getIdUser());
-        assertTrue(juanFriends.contains(john));
-        assertTrue(juanFriends.contains(albert));
-        assertFalse(juanFriends.contains(laura));
-        assertFalse(juanFriends.contains(juan));
     }
 }

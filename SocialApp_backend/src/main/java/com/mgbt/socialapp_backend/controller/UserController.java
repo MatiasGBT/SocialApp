@@ -43,8 +43,8 @@ public class UserController {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         if (user == null) {
-            response.put("message", messageSource.getMessage("error.usernotexist", null, locale));
-            response.put("error", messageSource.getMessage("error.usernotexist.redirect", null, locale));
+            response.put("message", messageSource.getMessage("error.userNotExist", null, locale));
+            response.put("error", messageSource.getMessage("error.userNotExist.redirect", null, locale));
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(user, HttpStatus.OK);
@@ -68,8 +68,7 @@ public class UserController {
     @PreAuthorize("isAuthenticated() and hasRole('user')")
     public ResponseEntity<?> getFriends(@PathVariable Long idUser, Locale locale) {
         try {
-            List<Friendship> friendships = friendshipService.findFriendshipsByUser(idUser);
-            List<UserApp> friends = userService.getFriends(friendships, idUser);
+            List<UserApp> friends = userService.getFriends(idUser);
             return new ResponseEntity<>(friends, HttpStatus.OK);
         } catch (DataAccessException e) {
             Map<String, Object> response = new HashMap<>();
@@ -99,7 +98,7 @@ public class UserController {
                 user.setPhoto(fileName);
                 userService.save(user);
                 response.put("photo", user.getPhoto());
-                response.put("message", messageSource.getMessage("usercontroller.editProfile.post", null, locale) + fileName);
+                response.put("message", messageSource.getMessage("userController.editProfile.post", null, locale) + fileName);
                 return new ResponseEntity<>(response, HttpStatus.CREATED);
             } catch (Exception e) {
                 response.put("message", messageSource.getMessage("error.databaseOrFile", null, locale));
@@ -107,7 +106,7 @@ public class UserController {
                 return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } else {
-            response.put("error", messageSource.getMessage("error.fileEmpty", null, locale));
+            response.put("error", messageSource.getMessage("error.emptyFile", null, locale));
             return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
         }
     }
@@ -121,7 +120,7 @@ public class UserController {
             user.setDescription(userUpdated.getDescription());
             userService.save(user);
             response.put("user", user);
-            response.put("message", messageSource.getMessage("usercontroller.editProfile.put", null, locale) + user.getDescription());
+            response.put("message", messageSource.getMessage("userController.editProfile.put", null, locale) + user.getDescription());
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (DataAccessException e) {
             response = new HashMap<>();

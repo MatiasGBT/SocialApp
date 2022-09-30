@@ -1,10 +1,13 @@
 package com.mgbt.socialapp_backend.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.mgbt.socialapp_backend.model.entity.notification.NotificationFriendship;
 import lombok.*;
 import javax.persistence.*;
 import java.io.*;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -26,18 +29,15 @@ public class Friendship implements Serializable {
     @Column(name="id_friendship")
     private Long idFriendship;
 
-    /*
-      The userTransmitter and userReceiver properties must be of type EAGER because
-      they will be required to be used to obtain the friends list of the selected user
-      in the UserController (getFriends method).
-    */
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnoreProperties({"description","creationDate","deletionDate","isChecked"})
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","description","creationDate"
+            ,"deletionDate","isChecked"})
     @JoinColumn(name = "id_user_transmitter", nullable = false)
     private UserApp userTransmitter;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnoreProperties({"description","creationDate","deletionDate","isChecked"})
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","description","creationDate",
+            "deletionDate","isChecked"})
     @JoinColumn(name = "id_user_receiver", nullable = false)
     private UserApp userReceiver;
 
@@ -48,4 +48,8 @@ public class Friendship implements Serializable {
     @Column(name = "date")
     @Temporal(value = TemporalType.DATE)
     private Date date;
+
+    @OneToMany(mappedBy="friendship", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<NotificationFriendship> notifications;
 }

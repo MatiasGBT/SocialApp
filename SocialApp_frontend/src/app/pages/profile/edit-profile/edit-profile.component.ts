@@ -26,10 +26,6 @@ export class EditProfileComponent implements OnInit {
     private fileEditorService: NgxPhotoEditorService, private router: Router) { }
 
   ngOnInit(): void {
-    let lang = localStorage.getItem("lang");
-    if (lang == null) {
-      lang = "en";
-    }
     this.translate.get('PROFILE.EDIT.DESCRIPTION_PLACEHOLDER').subscribe((res: string) => this.placeholder = res);
     this.translate.get('PROFILE.EDIT.APPLY_BUTTON').subscribe((res: string) => this.applyBtn = res);
     this.translate.get('PROFILE.EDIT.CANCEL_BUTTON').subscribe((res: string) => this.cancelBtn = res);
@@ -39,7 +35,6 @@ export class EditProfileComponent implements OnInit {
       this.user = response;
       this.description = this.user.description;
     });
-
   }
 
   public fileChangeHandler(event: any) {
@@ -67,12 +62,8 @@ export class EditProfileComponent implements OnInit {
     this.checkAndSaveDescription();
     this.checkAndSaveProfilePhoto();
     Swal.fire({
-      icon: 'success',
-      title: this.changesSaved,
-      showConfirmButton: false,
-      timer: 1250,
-      background: '#7f5af0',
-      color: 'white'
+      icon: 'success', title: this.changesSaved, showConfirmButton: false,
+      timer: 1250, background: '#7f5af0', color: 'white'
     }).then(() => {
       this.router.navigate(['/profile']);
     });
@@ -92,13 +83,11 @@ export class EditProfileComponent implements OnInit {
   }
 
   private checkAndSaveProfilePhoto() {
-    setTimeout(() => {
-      if (this.file) {
-        this.userService.sendNewPhoto(this.file).subscribe(response => {
-          console.log(response.message);
-          this.userService.userChanger.emit({photo: response.photo});
-        });
-      }
-    }, 1000);
+    if (this.file) {
+      this.userService.sendNewPhoto(this.file).subscribe(response => {
+        console.log(response.message);
+        this.userService.userChanger.emit({photo: response.photo});
+      });
+    }
   }
 }

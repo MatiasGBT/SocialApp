@@ -60,9 +60,6 @@ export class FullPostComponent implements OnInit {
   }
 
   private translateCreateCommentPlaceholder() {
-    const lang = localStorage.getItem('lang');
-    lang != null ? this.translate.use(lang) : this.translate.use('en');
-    this.translate.use(lang);
     this.translate.get('FULL_POST.CREATE_COMMENT_PLACEHOLDER').subscribe((res: string) => this.commentPlaceholder = res);
   }
 }

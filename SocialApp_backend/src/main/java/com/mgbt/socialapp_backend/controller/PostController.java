@@ -54,8 +54,8 @@ public class PostController {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         if (post == null) {
-            response.put("message", messageSource.getMessage("error.postnotexist", null, locale));
-            response.put("error", messageSource.getMessage("error.postnotexist.redirect", null, locale));
+            response.put("message", messageSource.getMessage("error.postNotExist", null, locale));
+            response.put("error", messageSource.getMessage("error.postNotExist.redirect", null, locale));
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(post, HttpStatus.OK);
@@ -140,7 +140,7 @@ public class PostController {
             notificationPost.setPost(post);
             notificationPost.setUserReceiver(post.getUser());
             this.notificationService.save(notificationPost);
-            response.put("message", messageSource.getMessage("postcontroller.likePost", null, locale));
+            response.put("message", messageSource.getMessage("postController.likePost", null, locale));
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (DataAccessException e) {
             response.put("message", response.put("message", messageSource.getMessage("error.database", null, locale)));
@@ -157,7 +157,7 @@ public class PostController {
         try {
             Like like = likeService.findByPostAndUser(idPost, idUser);
             likeService.delete(like);
-            response.put("message", messageSource.getMessage("postcontroller.dislikePost", null, locale));
+            response.put("message", messageSource.getMessage("postController.dislikePost", null, locale));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (DataAccessException e) {
             response.put("message", response.put("message", messageSource.getMessage("error.database", null, locale)));
@@ -182,7 +182,7 @@ public class PostController {
                 String fileName = uploadFileService.save(file, FINAL_DIRECTORY);
                 post.setPhoto(fileName);
                 postService.save(post);
-                response.put("message", messageSource.getMessage("postcontroller.createPostError", null, locale) + fileName);
+                response.put("message", messageSource.getMessage("postController.createPostError", null, locale) + fileName);
                 response.put("idPost", post.getIdPost());
                 return new ResponseEntity<>(response, HttpStatus.CREATED);
             } catch (Exception e) {
@@ -191,7 +191,7 @@ public class PostController {
                 return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } else {
-            response.put("error", messageSource.getMessage("error.fileEmpty", null, locale));
+            response.put("error", messageSource.getMessage("error.emptyFile", null, locale));
             return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
         }
     }
@@ -208,7 +208,7 @@ public class PostController {
             post.setText(text);
             post.setUser(user);
             postService.save(post);
-            response.put("message", messageSource.getMessage("postcontroller.createPostError", null, locale));
+            response.put("message", messageSource.getMessage("postController.createPostError", null, locale));
             response.put("idPost", post.getIdPost());
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -232,7 +232,7 @@ public class PostController {
                 String fileName = uploadFileService.save(file, FINAL_DIRECTORY);
                 post.setPhoto(fileName);
                 postService.save(post);
-                response.put("message", messageSource.getMessage("postcontroller.createPostError", null, locale) + fileName);
+                response.put("message", messageSource.getMessage("postController.createPostError", null, locale) + fileName);
                 response.put("idPost", post.getIdPost());
                 return new ResponseEntity<>(response, HttpStatus.CREATED);
             } catch (Exception e) {
@@ -241,7 +241,7 @@ public class PostController {
                 return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } else {
-            response.put("error", messageSource.getMessage("error.fileEmpty", null, locale));
+            response.put("error", messageSource.getMessage("error.emptyFile", null, locale));
             return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
         }
     }
@@ -254,7 +254,7 @@ public class PostController {
             Post post = postService.findById(idPost);
             uploadFileService.delete(post.getPhoto(), FINAL_DIRECTORY);
             postService.delete(post);
-            response.put("message", messageSource.getMessage("postcontroller.deletePost", null, locale));
+            response.put("message", messageSource.getMessage("postController.deletePost", null, locale));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response.put("message", response.put("message", messageSource.getMessage("error.databaseOrFile", null, locale)));

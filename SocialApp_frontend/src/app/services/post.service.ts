@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, Observable, throwError } from 'rxjs';
-import Swal from 'sweetalert2';
 import { Post } from '../models/post';
 import { AuthService } from './auth.service';
+import { CatchErrorService } from './catch-error.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,16 +16,13 @@ export class PostService {
   @Output() isLastFeedPageEmitter: EventEmitter<any> = new EventEmitter();
 
   constructor(private http: HttpClient, private router: Router,
-    private authService: AuthService) { }
+    private authService: AuthService, private catchErrorService: CatchErrorService) { }
 
   public getPost(idPost: number): Observable<Post> {
     return this.http.get<Post>(`${this.baseUrl}/get/${idPost}`).pipe(
       catchError(e => {
         this.router.navigate(['/index']);
-        Swal.fire({
-          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
-          timer: 1250, background: '#7f5af0', color: 'white'
-        });
+        this.catchErrorService.showErrorModal(e);
         return throwError(() => e);
       })
     );
@@ -34,10 +31,7 @@ export class PostService {
   public getPosts(idUser: number, from: number, page: string): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/get/posts/${idUser}&${from}&${page}`).pipe(
       catchError(e => {
-        Swal.fire({
-          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
-          timer: 1250, background: '#7f5af0', color: 'white'
-        });
+        this.catchErrorService.showErrorModal(e);
         return throwError(() => e);
       })
     );
@@ -46,10 +40,7 @@ export class PostService {
   public countPostByUser(idUser: number): Observable<number> {
     return this.http.get<number>(`${this.baseUrl}/get/count/posts/${idUser}`).pipe(
       catchError(e => {
-        Swal.fire({
-          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
-          timer: 1250, background: '#7f5af0', color: 'white'
-        });
+        this.catchErrorService.showErrorModal(e);
         return throwError(() => e);
       })
     );
@@ -61,10 +52,7 @@ export class PostService {
     formData.append("idUser", idUser.toString());
     return this.http.post<any>(`${this.baseUrl}/like`, formData).pipe(
       catchError(e => {
-        Swal.fire({
-          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
-          timer: 1250, background: '#7f5af0', color: 'white'
-        });
+        this.catchErrorService.showErrorModal(e);
         return throwError(() => new Error(e));
       })
     );
@@ -73,10 +61,7 @@ export class PostService {
   public dislikePost(idPost: number, idUser: number): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/dislike/${idPost}&${idUser}`).pipe(
       catchError(e => {
-        Swal.fire({
-          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
-          timer: 1250, background: '#7f5af0', color: 'white'
-        });
+        this.catchErrorService.showErrorModal(e);
         return throwError(() => new Error(e));
       })
     );
@@ -89,10 +74,7 @@ export class PostService {
     formData.append("username", this.authService.getUsername());
     return this.http.post<any>(`${this.baseUrl}/post`, formData).pipe(
       catchError(e => {
-        Swal.fire({
-          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
-          timer: 1250, background: '#7f5af0', color: 'white'
-        });
+        this.catchErrorService.showErrorModal(e);
         return throwError(() => e);
       })
     );
@@ -104,10 +86,7 @@ export class PostService {
     formData.append("username", this.authService.getUsername());
     return this.http.post<any>(`${this.baseUrl}/post/text`, formData).pipe(
       catchError(e => {
-        Swal.fire({
-          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
-          timer: 1250, background: '#7f5af0', color: 'white'
-        });
+        this.catchErrorService.showErrorModal(e);
         return throwError(() => e);
       })
     );
@@ -119,10 +98,7 @@ export class PostService {
     formData.append("username", this.authService.getUsername());
     return this.http.post<any>(`${this.baseUrl}/post/file`, formData).pipe(
       catchError(e => {
-        Swal.fire({
-          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
-          timer: 1250, background: '#7f5af0', color: 'white'
-        });
+        this.catchErrorService.showErrorModal(e);
         return throwError(() => e);
       })
     );
@@ -131,10 +107,7 @@ export class PostService {
   public deletePost(idPost: number): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/delete/${idPost}`).pipe(
       catchError(e => {
-        Swal.fire({
-          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
-          timer: 1250, background: '#7f5af0', color: 'white'
-        });
+        this.catchErrorService.showErrorModal(e);
         return throwError(() => e);
       })
     );

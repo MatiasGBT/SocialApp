@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
-import Swal from 'sweetalert2';
 import { Comment } from '../models/comment';
+import { CatchErrorService } from './catch-error.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,15 +10,12 @@ import { Comment } from '../models/comment';
 export class CommentService {
   private baseUrl = "http://localhost:8090/api/comments/";
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private catchErrorService: CatchErrorService) { }
 
   public getComments(idPost: number): Observable<Comment[]> {
     return this.http.get<Comment[]>(`${this.baseUrl}get/${idPost}`).pipe(
       catchError(e => {
-        Swal.fire({
-          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
-          timer: 1250, background: '#7f5af0', color: 'white'
-        });
+        this.catchErrorService.showErrorModal(e);
         return throwError(() => e);
       })
     );
@@ -27,10 +24,7 @@ export class CommentService {
   public createComment(comment: Comment): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}post`, comment).pipe(
       catchError(e => {
-        Swal.fire({
-          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
-          timer: 1250, background: '#7f5af0', color: 'white'
-        });
+        this.catchErrorService.showErrorModal(e);
         return throwError(() => e);
       })
     );

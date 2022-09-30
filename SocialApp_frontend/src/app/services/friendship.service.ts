@@ -1,20 +1,23 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import Swal from 'sweetalert2';
 import { Friendship } from '../models/friendship';
 import { User } from '../models/user';
 import { AuthService } from './auth.service';
+import { CatchErrorService } from './catch-error.service';
+import { TranslateExtensionService } from './translate-extension.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FriendshipService {
   private baseUrl: string = 'http://localhost:8090/api/friend';
+  @Output() friendshipDeletedEmitter: EventEmitter<any> = new EventEmitter();
 
   constructor(private http: HttpClient, private authService: AuthService,
-          private translate: TranslateService) { }
+          private translateExtensionService: TranslateExtensionService,
+          private catchErrorService: CatchErrorService) { }
 
   public addFriend(id: number) {
     this.sendFriendRequest(id).subscribe(response => {
@@ -35,10 +38,7 @@ export class FriendshipService {
     formData.append("usernameTransmitter", this.authService.getUsername());
     return this.http.post(`${this.baseUrl}/add-friend`, formData).pipe(
       catchError(e => {
-        Swal.fire({
-          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
-          timer: 1250, background: '#7f5af0', color: 'white'
-        });
+        this.catchErrorService.showErrorModal(e);
         return throwError(() => new Error(e));
       })
     );
@@ -47,10 +47,7 @@ export class FriendshipService {
   public getFriendship(idReceiver: number): Observable<Friendship> {
     return this.http.get<Friendship>(`${this.baseUrl}/get/${idReceiver}&${this.authService.getUsername()}`).pipe(
       catchError(e => {
-        Swal.fire({
-          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
-          timer: 1250, background: '#7f5af0', color: 'white'
-        });
+        this.catchErrorService.showErrorModal(e);
         return throwError(()=>e);
       })
     );
@@ -59,10 +56,7 @@ export class FriendshipService {
   public acceptFriendRequest(id: number): Observable<any> {
     return this.http.put<any>(`${this.baseUrl}/accept-request/${id}`, null).pipe(
       catchError(e => {
-        Swal.fire({
-          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
-          timer: 1250, background: '#7f5af0', color: 'white'
-        });
+        this.catchErrorService.showErrorModal(e);
         return throwError(()=>e);
       })
     );
@@ -71,10 +65,7 @@ export class FriendshipService {
   public rejectFriendRequest(id: number): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/reject-request/${id}`).pipe(
       catchError(e => {
-        Swal.fire({
-          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
-          timer: 1250, background: '#7f5af0', color: 'white'
-        });
+        this.catchErrorService.showErrorModal(e);
         return throwError(()=>e);
       })
     );
@@ -89,41 +80,26 @@ export class FriendshipService {
   private deleteFriendship(idUserFriend: number): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/delete/${idUserFriend}&${this.authService.getUsername()}`).pipe(
       catchError(e => {
-        Swal.fire({
-          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
-          timer: 1250, background: '#7f5af0', color: 'white'
-        });
+        this.catchErrorService.showErrorModal(e);
         return throwError(()=>e);
       })
     );
   }
 
-  public async askToDelete(idUserFriend: number) {
-    const lang = localStorage.getItem('lang');
-    lang != null ? this.translate.use(lang) : this.translate.use('en');
-    let modalTitle: string = this.translateModalText('USER.DELETE_MODAL_TITLE');
-    let modalText: string = this.translateModalText('USER.DELETE_MODAL_TEXT');
-    let modalBtnSave: string = this.translateModalText('USER.DELETE_MODAL_SAVE_BTN');
-    let modalBtnCancel: string = this.translateModalText('USER.DELETE_MODAL_CANCEL_BTN');
-
-    let isDeleted: boolean = false;
-    await Swal.fire({
-      icon: 'question', title: modalTitle, text: modalText,
-      showCancelButton: true, confirmButtonText: modalBtnSave, cancelButtonText: modalBtnCancel,
+  public askToDelete(idUserFriend: number): void {
+    Swal.fire({
+      icon: 'question', showCancelButton: true,
+      title: this.translateExtensionService.translateModalText('USER.DELETE_MODAL_TITLE'),
+      text: this.translateExtensionService.translateModalText('USER.DELETE_MODAL_TEXT'),
+      confirmButtonText: this.translateExtensionService.translateModalText('USER.DELETE_MODAL_SAVE_BTN'),
+      cancelButtonText: this.translateExtensionService.translateModalText('USER.DELETE_MODAL_CANCEL_BTN'),
       background: '#7f5af0', color: 'white', confirmButtonColor: '#d33', cancelButtonColor: '#2cb67d'
     }).then((result) => {
       if (result.isConfirmed) {
-        isDeleted = true;
         this.deleteFriendship(idUserFriend).subscribe(response => console.log(response.message));
+        this.friendshipDeletedEmitter.emit();
       }
     });
-    return isDeleted;
-  }
-
-  private translateModalText(url: string): string {
-    let text: string;
-    this.translate.get(url).subscribe((res) => text = res);
-    return text;
   }
 
   public setIsFriend(users: User[]) {

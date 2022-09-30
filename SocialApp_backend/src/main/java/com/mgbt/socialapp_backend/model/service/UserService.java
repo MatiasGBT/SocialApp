@@ -60,23 +60,8 @@ public class UserService implements IService<UserApp> {
         return repository.filterWithoutLimit(name, keycloakName);
     }
 
-    /*
-        This method is used to go through all the friendships a user has and return
-        all the users who are friends with the selected user without counting him/her.
-        This is because, to get the list of friends the user has, you have to get all
-        his friendships, which have two users each (the transmitter and the receiver),
-        and one of those users is the selected user, who does not have to be added to
-        the list because the selected user is not a friend of himself.
-    */
-    public List<UserApp> getFriends(List<Friendship> friendships, Long idUser) {
-        List<UserApp> friends = new ArrayList<>();
-        friendships.forEach(f -> {
-            if (!f.getUserReceiver().getIdUser().equals(idUser)) {
-                friends.add(f.getUserReceiver());
-            } else {
-                friends.add(f.getUserTransmitter());
-            }
-        });
-        return friends;
+    @Transactional(readOnly = true)
+    public List<UserApp> getFriends(Long idUser) {
+        return repository.findFriendsByUser(idUser);
     }
 }

@@ -10,7 +10,7 @@ import { NotificationsService } from 'src/app/services/notifications.service';
 })
 export class ConfigComponent implements OnInit {
   public inputCheck: boolean;
-  public select: string;
+  public selectedLanguage: string;
 
   constructor(public translate: TranslateService, private keycloakService: KeycloakService,
     private notificationServide: NotificationsService) {}
@@ -23,11 +23,11 @@ export class ConfigComponent implements OnInit {
       this.inputCheck = false;
     }
 
-    this.select = localStorage.getItem('lang');
-    if (this.select != null && this.translate.currentLang != this.select) {
+    this.selectedLanguage = localStorage.getItem('lang');
+    if (this.selectedLanguage != null && this.translate.currentLang != this.selectedLanguage) {
       this.changeLanguage();
-    } else if(this.select == null) {
-      this.select = 'en';
+    } else if(this.selectedLanguage == null) {
+      this.selectedLanguage = 'en';
     }
   }
 
@@ -42,8 +42,8 @@ export class ConfigComponent implements OnInit {
   }
 
   changeLanguage() {
-    this.translate.use(this.select);
-    localStorage.setItem('lang', this.select);
+    this.translate.use(this.selectedLanguage);
+    localStorage.setItem('lang', this.selectedLanguage);
   }
 
   manageAccount() {

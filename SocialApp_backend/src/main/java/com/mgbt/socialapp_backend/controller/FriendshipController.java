@@ -76,10 +76,10 @@ public class FriendshipController {
                 notificationFriendship.setIsViewed(false);
                 notificationFriendship.setFriendship(friendship);
                 notificationService.save(notificationFriendship);
-                response.put("message", messageSource.getMessage("friendshipcontroller.addFriend.notSent", null, locale));
+                response.put("message", messageSource.getMessage("friendshipController.addFriend.notSent", null, locale));
                 response.put("send", true);
             } else {
-                response.put("message", messageSource.getMessage("friendshipcontroller.addFriend.alreadySent", null, locale));
+                response.put("message", messageSource.getMessage("friendshipController.addFriend.alreadySent", null, locale));
                 response.put("send", false);
             }
         } catch (DataAccessException e) {
@@ -104,10 +104,10 @@ public class FriendshipController {
             notificationFriend.setFriend(friendship.getUserReceiver());
             notificationService.save(notificationFriend);
             response.put("message", friendship.getUserTransmitter().getName() + " " +
-                    messageSource.getMessage("friendshipcontroller.acceptFriendRequest", null, locale));
+                    messageSource.getMessage("friendshipController.acceptFriendRequest", null, locale));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (DataAccessException e) {
-            response.put("message", messageSource.getMessage("error.usernotexist", null, locale));
+            response.put("message", messageSource.getMessage("error.userNotExist", null, locale));
             response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -119,7 +119,7 @@ public class FriendshipController {
         Map<String, Object> response = new HashMap<>();
         try {
             this.friendshipService.delete(friendshipService.findById(idFriendship));
-            response.put("message", messageSource.getMessage("friendshipcontroller.deleteFriendship", null, locale));
+            response.put("message", messageSource.getMessage("friendshipController.deleteFriendship", null, locale));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (DataAccessException e) {
             response.put("message", messageSource.getMessage("error.database", null, locale));
@@ -138,7 +138,7 @@ public class FriendshipController {
             UserApp userFriend = userService.findById(idUserFriend);
             UserApp userKeycloak = userService.findByUsername(keycloakUsername);
             friendshipService.delete(friendshipService.findByUsers(userFriend, userKeycloak));
-            response.put("message", messageSource.getMessage("friendshipcontroller.deleteFriendship", null, locale));
+            response.put("message", messageSource.getMessage("friendshipController.deleteFriendship", null, locale));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (DataAccessException e) {
             response.put("message", messageSource.getMessage("error.database", null, locale));
@@ -157,7 +157,7 @@ public class FriendshipController {
                 Integer friendsQuantity = friendshipService.friendsQuantity(user);
                 return new ResponseEntity<>(friendsQuantity, HttpStatus.OK);
             } else {
-                response.put("message", messageSource.getMessage("error.usernotexist", null, locale));
+                response.put("message", messageSource.getMessage("error.userNotExist", null, locale));
                 return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
             }
         } catch (DataAccessException e) {

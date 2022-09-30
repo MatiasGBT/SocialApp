@@ -105,10 +105,18 @@
         "DELETE_MODAL_CANCEL_BTN": "Cancelar"
     },
     "POST": {
-        "MODAL_TITLE": "Tem certeza?",
-        "MODAL_TEXT": "Você não será capaz de reverter esta ação",
-        "MODAL_BUTTON_DELETE": "Eliminar",
-        "MODAL_BUTTON_CANCEL": "Cancelar"
+        "DELETE_MODAL_TITLE": "Tem certeza?",
+        "DELETE_MODAL_TEXT": "Você não será capaz de reverter esta ação",
+        "DELETE_MODAL_BUTTON_DELETE": "Eliminar",
+        "DELETE_MODAL_BUTTON_CANCEL": "Cancelar",
+        "REPORT_MODAL_TITLE": "Por que você quer relatar esta publicação?",
+        "REPORT_MODAL_PLACEHOLDER": "Selecione um motivo",
+        "REPORT_MODAL_ERROR": "Você precisa selecionar uma opção válida",
+        "REPORT_MODAL_EXTRAINFORMATION_TITLE": "Você quer escrever informação adicional sobre o relatório?",
+        "REPORT_MODAL_EXTRAINFORMATION_PLACEHOLDER": "Isto é opcional. Máx. 50 caracteres.",
+        "REPORT_MODAL_SUCCESS": "A publicação foi relatada com sucesso",
+        "REPORT_MODAL_BUTTON_REPORT": "Relatar",
+        "REPORT_MODAL_BUTTON_CANCEL": "Cancelar"
     },
     "LANGUAGES": {
         "en": "English",

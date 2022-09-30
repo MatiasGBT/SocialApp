@@ -105,10 +105,18 @@
         "DELETE_MODAL_CANCEL_BTN": "Cancel"
     },
     "POST": {
-        "MODAL_TITLE": "Are you sure?",
-        "MODAL_TEXT": "You will not be able to reverse this action",
-        "MODAL_BUTTON_DELETE": "Delete",
-        "MODAL_BUTTON_CANCEL": "Cancel"
+        "DELETE_MODAL_TITLE": "Are you sure?",
+        "DELETE_MODAL_TEXT": "You will not be able to reverse this action",
+        "DELETE_MODAL_BUTTON_DELETE": "Delete",
+        "DELETE_MODAL_BUTTON_CANCEL": "Cancel",
+        "REPORT_MODAL_TITLE": "Why do you want to report this publication?",
+        "REPORT_MODAL_PLACEHOLDER": "Select a reason",
+        "REPORT_MODAL_ERROR": "You need to select a valid option",
+        "REPORT_MODAL_EXTRAINFORMATION_TITLE": "Do you want to write extra information about the report?",
+        "REPORT_MODAL_EXTRAINFORMATION_PLACEHOLDER": "This is optional. Max. 50 characters.",
+        "REPORT_MODAL_SUCCESS": "The publication has been successfully reported",
+        "REPORT_MODAL_BUTTON_REPORT": "Report",
+        "REPORT_MODAL_BUTTON_CANCEL": "Cancel"
     },
     "LANGUAGES": {
         "en": "English",

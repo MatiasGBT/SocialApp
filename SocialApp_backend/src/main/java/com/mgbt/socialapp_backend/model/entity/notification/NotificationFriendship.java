@@ -12,7 +12,8 @@ import javax.persistence.*;
 public class NotificationFriendship extends Notification {
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","userReceiver","date"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","idUser","username","photo",
+            "description","creationDate","deletionDate","isChecked","userReceiver","date"})
     @JoinColumn(name = "id_friendship")
     private Friendship friendship;
 }

@@ -201,6 +201,7 @@ CREATE TABLE `reports` (
   `id_user` bigint NOT NULL,
   `id_report_reason` int NOT NULL,
   `extra_information` varchar(50) DEFAULT NULL,
+  `date` datetime NOT NULL,
   PRIMARY KEY (`id_report`),
   KEY `fk_post_report_idx` (`id_post`),
   KEY `fk_user_report_idx` (`id_user`),

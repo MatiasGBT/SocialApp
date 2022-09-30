@@ -30,9 +30,8 @@ export class UserComponent implements OnInit {
     this.friendshipService.addFriend(this.user.idUser);
   }
 
-  public async deleteFriend() {
-    if (await this.friendshipService.askToDelete(this.user.idUser)) {
-      this.user.isFriend = false;
-    }
+  public deleteFriend() {
+    this.friendshipService.askToDelete(this.user.idUser);
+    this.friendshipService.friendshipDeletedEmitter.subscribe(() => this.user.isFriend = false);
   }
 }

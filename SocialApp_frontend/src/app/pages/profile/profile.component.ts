@@ -66,10 +66,9 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  public async deleteFriend() {
-    if (await this.friendshipService.askToDelete(this.id)) {
-      this.friendship.status = false;
-    }
+  public deleteFriend() {
+    this.friendshipService.askToDelete(this.id);
+    this.friendshipService.friendshipDeletedEmitter.subscribe(() => this.friendship.status = false);
   }
 
   public goToFriendsPage(): void {

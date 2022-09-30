@@ -1,6 +1,7 @@
 package com.mgbt.socialapp_backend.model.entity;
 
 import com.fasterxml.jackson.annotation.*;
+import com.mgbt.socialapp_backend.model.entity.notification.NotificationPost;
 import lombok.Data;
 import javax.persistence.*;
 import java.io.*;
@@ -42,6 +43,14 @@ public class Post implements Serializable {
     @OneToMany(mappedBy="post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Comment> comments;
+
+    @OneToMany(mappedBy="post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<NotificationPost> notifications;
+
+    @OneToMany(mappedBy="post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","post","reportReason","extraInformation"})
+    private List<Report> reports;
 
     @PrePersist
     public void setUpCreationDate() {

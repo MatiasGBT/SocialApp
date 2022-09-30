@@ -40,7 +40,7 @@ public class NotificationController {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         if (user == null) {
-            response.put("message", messageSource.getMessage("error.usernotexist", null, locale));
+            response.put("message", messageSource.getMessage("error.userNotExist", null, locale));
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(notifications, HttpStatus.OK);
@@ -54,10 +54,10 @@ public class NotificationController {
             Notification notification = notificationService.findById(id);
             response.put("id", notification.getIdNotification());
             notificationService.delete(notification);
-            response.put("message", messageSource.getMessage("notificationcontroller.delete", null, locale));
+            response.put("message", messageSource.getMessage("notificationController.delete", null, locale));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (DataAccessException e) {
-            response.put("message", messageSource.getMessage("error.usernotexist", null, locale));
+            response.put("message", messageSource.getMessage("error.userNotExist", null, locale));
             response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -70,10 +70,10 @@ public class NotificationController {
         try {
             UserApp user = userService.findByUsername(username);
             notificationService.deleteAllByUser(user.getIdUser());
-            response.put("message", messageSource.getMessage("notificationcontroller.deleteAll", null, locale));
+            response.put("message", messageSource.getMessage("notificationController.deleteAll", null, locale));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (DataAccessException e) {
-            response.put("message", messageSource.getMessage("error.usernotexist", null, locale));
+            response.put("message", messageSource.getMessage("error.userNotExist", null, locale));
             response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -87,10 +87,10 @@ public class NotificationController {
             Notification notification = notificationService.findById(id);
             notification.setIsViewed(true);
             notificationService.save(notification);
-            response.put("message", messageSource.getMessage("notificationcontroller.viewNotification", null, locale));
+            response.put("message", messageSource.getMessage("notificationController.viewNotification", null, locale));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (DataAccessException e) {
-            response.put("message", messageSource.getMessage("error.usernotexist", null, locale));
+            response.put("message", messageSource.getMessage("error.userNotExist", null, locale));
             response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }

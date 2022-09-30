@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import javax.persistence.*;
 import java.io.*;
+import java.util.Date;
 
 @Data
 @Entity
@@ -25,7 +26,7 @@ public class Report implements Serializable {
     private Post post;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","username","description",
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","name","surname","description",
             "photo","creationDate","deletionDate"})
     @JoinColumn(name = "id_user", nullable = false)
     private UserApp user;
@@ -37,4 +38,13 @@ public class Report implements Serializable {
 
     @Column(name = "extra_information")
     private String extraInformation;
+
+    @Column(name = "date", nullable = false)
+    @Temporal(value = TemporalType.TIMESTAMP)
+    private Date date;
+
+    @PrePersist
+    public void setUpCreationDate() {
+        this.date = new Date();
+    }
 }

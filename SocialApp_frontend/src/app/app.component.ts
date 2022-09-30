@@ -24,6 +24,14 @@ export class AppComponent implements OnInit {
       if (response.status != undefined && response.status == 201) {
         this.router.navigate(['/profile/edit'])
       }
-    })
+    });
+
+    const lang = localStorage.getItem('lang');
+    if (lang != null) {
+      this.translate.use(lang);
+    } else {
+      this.translate.use('en');
+      localStorage.setItem('lang', 'en');
+    }
   }
 }

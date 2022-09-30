@@ -19,10 +19,6 @@ export class NewpostComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    let lang = localStorage.getItem("lang");
-    if (lang == null) {
-      lang = "en";
-    }
     this.translate.get('NEWPOST.PLACEHOLDER').subscribe((res: string) => this.placeholder = res);
   }
 
@@ -54,8 +50,6 @@ export class NewpostComponent implements OnInit {
   }
 
   private fireErrorModal() {
-    const lang = localStorage.getItem('lang');
-    lang != null ? this.translate.use(lang) : this.translate.use('en');
     let titleError: string, textError: string;
     this.translate.get("NEWPOST.MODAL_ERROR_TITLE").subscribe((res) => titleError = res);
     this.translate.get("NEWPOST.MODAL_ERROR_TEXT").subscribe((res) => textError = res);
