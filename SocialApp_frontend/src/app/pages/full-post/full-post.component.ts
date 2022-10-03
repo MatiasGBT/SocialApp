@@ -38,21 +38,16 @@ export class FullPostComponent implements OnInit {
     });
   }
 
-  public goToProfile(idUserComment: number) {
-    if (this.keycloakUser.idUser == idUserComment) {
-      this.router.navigate(['/profile']);
-    } else {
-      this.router.navigate(['/profile', idUserComment]);
-    }
-  }
-
   public createComment() {
     if (this.createdComment.text?.length >= 1 && this.createdComment.text?.length <= 100) {
       this.createdComment.user = this.keycloakUser;
       this.createdComment.post = this.post;
-      this.createdComment.date = new Date();
-      this.commentService.createComment(this.createdComment).subscribe(response => {
+      //Sends 0 because it is a parent comment (not a reply to another comment).
+      this.commentService.createComment(this.createdComment, 0).subscribe(response => {
         console.log(response.message);
+        this.createdComment.date = new Date;
+        this.createdComment.idComment = response.idComment;
+        this.createdComment.answersQuantity = 0;
         this.comments.unshift(this.createdComment);
         this.createdComment = new Comment;
       });

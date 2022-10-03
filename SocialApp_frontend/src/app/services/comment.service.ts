@@ -21,8 +21,8 @@ export class CommentService {
     );
   }
 
-  public createComment(comment: Comment): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}post`, comment).pipe(
+  public createComment(comment: Comment, idSourceComment: number): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}post/${idSourceComment}`, comment).pipe(
       catchError(e => {
         this.catchErrorService.showErrorModal(e);
         return throwError(() => e);

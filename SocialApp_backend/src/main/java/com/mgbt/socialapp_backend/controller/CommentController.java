@@ -35,13 +35,22 @@ public class CommentController {
         }
     }
 
-    @PostMapping("/post")
+    @PostMapping("/post/{idSourceComment}")
     @PreAuthorize("hasRole('user')")
-    public ResponseEntity<?> createComment(@RequestBody Comment comment, Locale locale) {
+    public ResponseEntity<?> createComment(@RequestBody Comment comment,
+                                           @PathVariable Long idSourceComment,
+                                           Locale locale) {
         Map<String, Object> response = new HashMap<>();
         try {
-            commentService.save(comment);
+            Long idComment = commentService.save(comment).getIdComment();
+            //If the idSourceComment is not 0, the comment sent from the frontend is a reply from another comment.
+            if (idSourceComment != 0) {
+                Comment sourceComment = commentService.findById(idSourceComment);
+                sourceComment.getAnswers().add(comment);
+                commentService.save(sourceComment);
+            }
             response.put("message", messageSource.getMessage("commentController.createComment", null, locale));
+            response.put("idComment", idComment);
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (Exception e) {
             response.put("message", messageSource.getMessage("error.databaseOrFile", null, locale));

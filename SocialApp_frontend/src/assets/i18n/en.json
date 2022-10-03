@@ -94,8 +94,6 @@
     "FULL_POST": {
         "COMMENTS_TITLE": "Comments",
         "CREATE_COMMENT_PLACEHOLDER": "Comment",
-        "SEE_ANSWERS_BTN": "See answers",
-        "REPLY_BTN": "Reply",
         "NO_COMMENTS": "No comments, be the first!"
     },
     "USER": {
@@ -113,10 +111,18 @@
         "REPORT_MODAL_PLACEHOLDER": "Select a reason",
         "REPORT_MODAL_ERROR": "You need to select a valid option",
         "REPORT_MODAL_EXTRAINFORMATION_TITLE": "Do you want to write extra information about the report?",
-        "REPORT_MODAL_EXTRAINFORMATION_PLACEHOLDER": "This is optional. Max. 50 characters.",
+        "REPORT_MODAL_EXTRAINFORMATION_PLACEHOLDER": "This is optional. Max. 200 characters.",
         "REPORT_MODAL_SUCCESS": "The publication has been successfully reported",
         "REPORT_MODAL_BUTTON_REPORT": "Report",
         "REPORT_MODAL_BUTTON_CANCEL": "Cancel"
+    },
+    "COMMENT": {
+        "SEE_ANSWERS_BTN": "See answers",
+        "REPLY_BTN": "Reply",
+        "REPLY_MODAL_TITLE": "Write a reply to this comment",
+        "REPLY_MODAL_TEXT": "Max. 100 characters.",
+        "REPLY_MODAL_REPLY_BUTTON": "Reply",
+        "REPLY_MODAL_CANCEL_BUTTON": "Cancel"
     },
     "LANGUAGES": {
         "en": "English",

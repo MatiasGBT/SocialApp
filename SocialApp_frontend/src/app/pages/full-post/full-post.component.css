@@ -51,48 +51,6 @@
     transition: .3s;
 }
 
-.comment {
-    margin-top: 20px;
-}
-
-.comment-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.comment-header-user {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-}
-
-.comment-header-user img {
-    border-radius: 50%;
-    margin-right: 5px;
-    width: 35px;
-    height: 35px;
-}
-
-.comment-header-user i {
-    margin-left: 5px;
-}
-
-.comment-body {
-    margin-top: 5px;
-}
-
-.comment-footer {
-    margin-top: 5px;
-}
-
-.comment-footer a {
-    color: #7f5af0;
-    text-decoration: none;
-    margin-right: 15px;
-}
-
 #no-comments {
     margin-top: 15px;
 }

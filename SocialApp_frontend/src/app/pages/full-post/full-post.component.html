@@ -6,27 +6,11 @@
 
         <div id="create-comment">
             <img *ngIf="keycloakUser?.photo" src="http://localhost:8090/api/user/img/{{keycloakUser.photo}}" draggable="false">
-            <input maxlength="50" [placeholder]="commentPlaceholder" [(ngModel)]="createdComment.text">
+            <input maxlength="100" [placeholder]="commentPlaceholder" [(ngModel)]="createdComment.text">
             <button (click)="createComment()"><i class="fa-solid fa-paper-plane"></i></button>
         </div>
 
-        <div class="comment" *ngFor="let comment of comments">
-            <div class="comment-header">
-                <div class="comment-header-user" (click)="goToProfile(comment.user.idUser)">
-                    <img src="http://localhost:8090/api/user/img/{{comment.user.photo}}">
-                    <p>{{comment.user.name}} {{comment.user.surname}}</p>
-                    <i *ngIf="comment.user?.isChecked" class="fa-solid fa-check"></i>
-                </div>
-                <p>{{comment.date | date:'short'}}</p>
-            </div>
-            <div class="comment-body">
-                <p>{{comment.text}}</p>
-            </div>
-            <div class="comment-footer">
-                <a *ngIf="comment.answersQuantity > 0" [routerLink]="['/index']"><i class="fa-solid fa-down-long"></i> {{'FULL_POST.SEE_ANSWERS_BTN' | translate}}</a>
-                <a [routerLink]="['/index']"><i class="fa-solid fa-reply"></i> {{'FULL_POST.REPLY_BTN' | translate}}</a>
-            </div>
-        </div>
+        <comment-comp *ngFor="let comment of comments" [comment]="comment" [keycloakUser]="keycloakUser"></comment-comp>
 
         <div *ngIf="comments.length == 0" id="no-comments">
             <p>{{'FULL_POST.NO_COMMENTS' | translate}}</p>

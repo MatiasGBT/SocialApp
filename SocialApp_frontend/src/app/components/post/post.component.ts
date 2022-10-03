@@ -123,17 +123,18 @@ export class PostComponent implements OnInit {
   }
 
   private async showReportExtraInformationModal(report: Report) {
-    const { value: text } = await Swal.fire({
+    const { value: extraInformation } = await Swal.fire({
       input: 'textarea',
       inputLabel: this.translateExtensionService.translateModalText('POST.REPORT_MODAL_EXTRAINFORMATION_TITLE'),
       inputPlaceholder: this.translateExtensionService.translateModalText('POST.REPORT_MODAL_EXTRAINFORMATION_PLACEHOLDER'),
       inputAttributes: {
-        'aria-label': this.translateExtensionService.translateModalText('POST.REPORT_MODAL_EXTRAINFORMATION_PLACEHOLDER')
+        'aria-label': this.translateExtensionService.translateModalText('POST.REPORT_MODAL_EXTRAINFORMATION_PLACEHOLDER'),
+        maxlength: "200"
       }
     });
 
-    if (text && text.length <= 50) {
-      report.extraInformation = text;
+    if (extraInformation && extraInformation.length <= 50) {
+      report.extraInformation = extraInformation;
     }
     this.completeReport(report);
   }
