@@ -22,9 +22,6 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    private FriendshipService friendshipService;
-
-    @Autowired
     private IUploadFileService uploadFileService;
 
     @Autowired
@@ -69,6 +66,21 @@ public class UserController {
     public ResponseEntity<?> getFriends(@PathVariable Long idUser, Locale locale) {
         try {
             List<UserApp> friends = userService.getFriends(idUser);
+            return new ResponseEntity<>(friends, HttpStatus.OK);
+        } catch (DataAccessException e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", messageSource.getMessage("error.database", null, locale));
+            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/get/may-know/{idUser}&{idKeycloakUser}")
+    @PreAuthorize("isAuthenticated() and hasRole('user')")
+    public ResponseEntity<?> getUsersYouMayKnow(@PathVariable Long idUser, @PathVariable Long idKeycloakUser,
+                                                Locale locale) {
+        try {
+            List<UserApp> friends = userService.getUsersYouMayKnow(idUser, idKeycloakUser);
             return new ResponseEntity<>(friends, HttpStatus.OK);
         } catch (DataAccessException e) {
             Map<String, Object> response = new HashMap<>();

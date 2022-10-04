@@ -14,6 +14,8 @@ import Swal from 'sweetalert2';
 export class CommentComponent implements OnInit {
   @Input() public comment: Comment;
   @Input() public keycloakUser: User;
+  @Input() public commentLevel: number;
+  public replies: Comment[];
 
   constructor(private router: Router, private commentService: CommentService,
     private translateExtensionService: TranslateExtensionService) { }
@@ -55,8 +57,20 @@ export class CommentComponent implements OnInit {
       comment.post = this.comment.post;
       this.commentService.createComment(comment, this.comment.idComment).subscribe(response => {
         console.log(response.message);
-        this.comment.answersQuantity++;
+        this.showReplies();
       });
+    }
+  }
+
+  public showReplies() {
+    //If the level of the comment is 7, the system cannot display his replies due to UI/UX issues.
+    if (this.commentLevel < 7) {
+      this.commentService.getReplies(this.comment.idComment).subscribe(comments => {
+        this.replies = comments;
+        this.comment.answersQuantity = 0;
+      });
+    } else {
+      this.router.navigate(['/comment/', this.comment.idComment]);
     }
   }
 }

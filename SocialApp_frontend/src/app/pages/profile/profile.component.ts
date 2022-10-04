@@ -19,6 +19,7 @@ export class ProfileComponent implements OnInit {
   public friendsQuantity: number;
   public isLastPage: boolean;
   public userPostQuantity: number;
+  public usersYouMayKnow: User[] = [];
   private subscriber: Subscription;
 
   constructor(private userService: UserService, private activatedRoute: ActivatedRoute,
@@ -86,6 +87,7 @@ export class ProfileComponent implements OnInit {
       this.user = user;
       this.getFriendsQuantity();
       this.postService.countPostByUser(this.user.idUser).subscribe(count => this.userPostQuantity = count);
+      this.getUsersYouMayKnow();
     });
   }
 
@@ -95,6 +97,17 @@ export class ProfileComponent implements OnInit {
       this.getFriendsQuantity();
       this.postService.countPostByUser(this.user.idUser).subscribe(count => this.userPostQuantity = count);
     });
+  }
+
+  private getUsersYouMayKnow() {
+    this.userService.getKeycloakUser().subscribe(user => {
+      let keycloakUserId = user.idUser;
+      this.userService.getUsersYouMayKnow(this.user.idUser, keycloakUserId).subscribe(usersYouMayKnow => this.usersYouMayKnow = usersYouMayKnow);
+    });
+  }
+
+  public goToProfile(userYouMayKnow: User) {
+    this.router.navigate(['/profile', userYouMayKnow.idUser]);
   }
   //#endregion
 

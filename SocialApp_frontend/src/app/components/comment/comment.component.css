@@ -26,6 +26,10 @@
     margin-left: 5px;
 }
 
+.comment-header-date {
+    text-align: end;
+}
+
 .comment-body {
     margin-top: 5px;
 }
@@ -42,4 +46,21 @@
     border: none;
     margin-right: 15px;
     cursor: pointer;
+}
+
+.comment-replies {
+    padding-left: calc(5% - 2px);
+    border-left: 2px solid #7f5af0;
+}
+
+@media (min-width: 768px) {
+    .comment-replies {
+        padding-left: calc(3% - 2px);
+    }
+}
+
+@media (min-width: 1038px) {
+    .comment-replies {
+        padding-left: calc(2% - 2px);
+    }
 }

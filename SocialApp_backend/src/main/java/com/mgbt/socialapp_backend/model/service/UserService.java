@@ -64,4 +64,9 @@ public class UserService implements IService<UserApp> {
     public List<UserApp> getFriends(Long idUser) {
         return repository.findFriendsByUser(idUser);
     }
+
+    @Transactional(readOnly = true)
+    public List<UserApp> getUsersYouMayKnow(Long idUser, Long idKeycloakUser) {
+        return repository.findUsersYouMayKnowByUser(idUser, idKeycloakUser);
+    }
 }

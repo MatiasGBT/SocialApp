@@ -5,13 +5,16 @@
             <p>{{comment.user.name}} {{comment.user.surname}}</p>
             <i *ngIf="comment.user?.isChecked" class="fa-solid fa-check"></i>
         </div>
-        <p>{{comment.date | date:'short'}}</p>
+        <p class="comment-header-date">{{comment.date | date:'short'}}</p>
     </div>
     <div class="comment-body">
         <p>{{comment.text}}</p>
     </div>
     <div class="comment-footer">
-        <button *ngIf="comment.answersQuantity > 0" [routerLink]="['/index']"><i class="fa-solid fa-down-long"></i> {{'COMMENT.SEE_ANSWERS_BTN' | translate}}</button>
+        <button (click)="showReplies()" *ngIf="comment.answersQuantity > 0"><i class="fa-solid fa-down-long"></i> {{'COMMENT.SEE_ANSWERS_BTN' | translate}}</button>
         <button (click)="showReplyModal()"><i class="fa-solid fa-reply"></i> {{'COMMENT.REPLY_BTN' | translate}}</button>
+    </div>
+    <div class="comment-replies" *ngIf="replies">
+        <comment-comp *ngFor="let reply of replies" [comment]="reply" [keycloakUser]="keycloakUser" [commentLevel]="commentLevel + 1"></comment-comp>
     </div>
 </div>

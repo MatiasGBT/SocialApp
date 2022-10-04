@@ -31,4 +31,13 @@ public interface IUserRepository extends JpaRepository<UserApp, Long> {
             "AND u.id_user != ?1 AND f.status = 1",
             nativeQuery = true)
     List<UserApp> findFriendsByUser(Long idUser);
+
+    @Query(value = "SELECT u.* FROM friendships f " +
+            "INNER JOIN users u ON f.id_user_transmitter = u.id_user " +
+            "OR f.id_user_receiver = u.id_user " +
+            "WHERE (f.id_user_transmitter = ?1 OR f.id_user_receiver = ?1) " +
+            "AND (f.id_user_transmitter != ?2 AND f.id_user_receiver != ?2) " +
+            "AND u.id_user != ?1 AND f.status = 1",
+            nativeQuery = true)
+    List<UserApp> findUsersYouMayKnowByUser(Long idUser, Long idKeycloakUser);
 }

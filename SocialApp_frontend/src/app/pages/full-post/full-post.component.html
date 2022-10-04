@@ -10,7 +10,7 @@
             <button (click)="createComment()"><i class="fa-solid fa-paper-plane"></i></button>
         </div>
 
-        <comment-comp *ngFor="let comment of comments" [comment]="comment" [keycloakUser]="keycloakUser"></comment-comp>
+        <comment-comp *ngFor="let comment of comments" [comment]="comment" [keycloakUser]="keycloakUser" [commentLevel]="0"></comment-comp>
 
         <div *ngIf="comments.length == 0" id="no-comments">
             <p>{{'FULL_POST.NO_COMMENTS' | translate}}</p>

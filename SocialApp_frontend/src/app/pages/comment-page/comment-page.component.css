@@ -1,0 +1,11 @@
+#comments {
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 5px;
+}
+
+@media (min-width: 1038px) {
+    section {
+        width: 60%;
+    }
+}

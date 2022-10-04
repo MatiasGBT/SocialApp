@@ -117,7 +117,7 @@
         "REPORT_MODAL_BUTTON_CANCEL": "Cancel"
     },
     "COMMENT": {
-        "SEE_ANSWERS_BTN": "See answers",
+        "SEE_ANSWERS_BTN": "See replies",
         "REPLY_BTN": "Reply",
         "REPLY_MODAL_TITLE": "Write a reply to this comment",
         "REPLY_MODAL_TEXT": "Max. 100 characters.",

@@ -13,7 +13,7 @@ export class CommentService {
   constructor(private http: HttpClient, private catchErrorService: CatchErrorService) { }
 
   public getComments(idPost: number): Observable<Comment[]> {
-    return this.http.get<Comment[]>(`${this.baseUrl}get/${idPost}`).pipe(
+    return this.http.get<Comment[]>(`${this.baseUrl}get/by-post/${idPost}`).pipe(
       catchError(e => {
         this.catchErrorService.showErrorModal(e);
         return throwError(() => e);
@@ -23,6 +23,24 @@ export class CommentService {
 
   public createComment(comment: Comment, idSourceComment: number): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}post/${idSourceComment}`, comment).pipe(
+      catchError(e => {
+        this.catchErrorService.showErrorModal(e);
+        return throwError(() => e);
+      })
+    );
+  }
+
+  public getComment(idComment: number): Observable<Comment> {
+    return this.http.get<Comment>(`${this.baseUrl}get/${idComment}`).pipe(
+      catchError(e => {
+        this.catchErrorService.showErrorModal(e);
+        return throwError(() => e);
+      })
+    );
+  }
+
+  public getReplies(idComment: number): Observable<Comment[]> {
+    return this.http.get<Comment[]>(`${this.baseUrl}get/answers/${idComment}`).pipe(
       catchError(e => {
         this.catchErrorService.showErrorModal(e);
         return throwError(() => e);

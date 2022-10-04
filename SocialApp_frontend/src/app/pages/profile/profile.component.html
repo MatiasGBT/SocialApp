@@ -51,47 +51,15 @@
     </div>
 
     <aside>
-        <h2>{{'ASIDE.USERS_MAYBE' | translate}}:</h2>
-        <figure class="users-aside">
-            <img src="https://via.placeholder.com/30">
-            <figcaption>Usuario Amigo 1</figcaption><i class="fa-solid fa-check" style="display: none;"></i>
-        </figure>
-        <figure class="users-aside">
-            <img src="https://via.placeholder.com/30">
-            <figcaption>Usuario Amigo 2</figcaption><i class="fa-solid fa-check" style="display: none;"></i>
-        </figure>
-        <figure class="users-aside">
-            <img src="https://via.placeholder.com/30">
-            <figcaption>Usuario Amigo 3</figcaption><i class="fa-solid fa-check" style="display: none;"></i>
-        </figure>
-        <figure class="users-aside">
-            <img src="https://via.placeholder.com/30">
-            <figcaption>Usuario Amigo 4</figcaption><i class="fa-solid fa-check" style="display: none;"></i>
-        </figure>
-        <figure class="users-aside">
-            <img src="https://via.placeholder.com/30">
-            <figcaption>Usuario Amigo 5</figcaption><i class="fa-solid fa-check" style="display: none;"></i>
-        </figure>
-        <figure class="users-aside">
-            <img src="https://via.placeholder.com/30">
-            <figcaption>Usuario Amigo 6</figcaption><i class="fa-solid fa-check" style="display: none;"></i>
-        </figure>
-        <figure class="users-aside">
-            <img src="https://via.placeholder.com/30">
-            <figcaption>Usuario Amigo 7</figcaption><i class="fa-solid fa-check" style="display: none;"></i>
-        </figure>
-        <figure class="users-aside">
-            <img src="https://via.placeholder.com/30">
-            <figcaption>Usuario Amigo 8</figcaption><i class="fa-solid fa-check" style="display: none;"></i>
-        </figure>
-        <figure class="users-aside">
-            <img src="https://via.placeholder.com/30">
-            <figcaption>Usuario Amigo 9</figcaption><i class="fa-solid fa-check" style="display: none;"></i>
-        </figure>
-        <figure class="users-aside">
-            <img src="https://via.placeholder.com/30">
-            <figcaption>Usuario Amigo 10</figcaption><i class="fa-solid fa-check" style="display: none;"></i>
-        </figure>
+        <div *ngIf="usersYouMayKnow?.length > 0">
+            <h2>{{'ASIDE.USERS_MAYBE' | translate}}:</h2>
+            <figure class="users-aside" *ngFor="let userYouMayKnow of usersYouMayKnow" (click)="goToProfile(userYouMayKnow)">
+                <img *ngIf="userYouMayKnow?.photo" src="http://localhost:8090/api/user/img/{{userYouMayKnow.photo}}">
+                <img *ngIf="!userYouMayKnow?.photo" src="http://localhost:8090/images/no-photo.jpg">
+                <figcaption>{{userYouMayKnow.name}} {{userYouMayKnow.surname}}</figcaption><i class="fa-solid fa-check" style="display: none;"></i>
+            </figure>
+        </div>
+        <img *ngIf="usersYouMayKnow?.length == 0" src="../../../assets/img/no_users_you_may_know_BG.svg" alt="This user has no other users that you may know of." id="aside-img" draggable="false">
     </aside>
 </section>
 

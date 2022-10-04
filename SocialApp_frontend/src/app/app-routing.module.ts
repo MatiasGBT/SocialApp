@@ -10,6 +10,7 @@ import { SearchUsersComponent } from './pages/search-users/search-users.componen
 import { AuthGuard } from './guards/auth.guard';
 import { FullPostComponent } from './pages/full-post/full-post.component';
 import { FriendsComponent } from './pages/friends/friends.component';
+import { CommentPageComponent } from './pages/comment-page/comment-page.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'index', pathMatch: 'full'},
@@ -23,7 +24,8 @@ const routes: Routes = [
   {path: 'config', component: ConfigComponent, canActivate: [AuthGuard]},
   {path: 'newpost', component: NewpostComponent, canActivate: [AuthGuard]},
   {path: 'post', component: FullPostComponent, canActivate: [AuthGuard]},
-  {path: 'post/:id', component: FullPostComponent, canActivate: [AuthGuard]}
+  {path: 'post/:id', component: FullPostComponent, canActivate: [AuthGuard]},
+  {path: 'comment/:id', component: CommentPageComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

@@ -21,12 +21,40 @@ public class CommentController {
     @Autowired
     MessageSource messageSource;
 
-    @GetMapping("/get/{idPost}")
+    @GetMapping("/get/by-post/{idPost}")
     @PreAuthorize("hasRole('user')")
     public ResponseEntity<?> getComments(@PathVariable Long idPost, Locale locale) {
         try {
             List<Comment> comments = commentService.toList(idPost);
             return new ResponseEntity<>(comments, HttpStatus.OK);
+        } catch (DataAccessException e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", messageSource.getMessage("error.database", null, locale));
+            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/get/{idComment}")
+    @PreAuthorize("hasRole('user')")
+    public ResponseEntity<?> getComment(@PathVariable Long idComment, Locale locale) {
+        try {
+            Comment comment = commentService.findById(idComment);
+            return new ResponseEntity<>(comment, HttpStatus.OK);
+        } catch (DataAccessException e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", messageSource.getMessage("error.database", null, locale));
+            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/get/answers/{idComment}")
+    @PreAuthorize("hasRole('user')")
+    public ResponseEntity<?> getAnswers(@PathVariable Long idComment, Locale locale) {
+        try {
+            Comment comment = commentService.findById(idComment);
+            return new ResponseEntity<>(comment.getAnswers(), HttpStatus.OK);
         } catch (DataAccessException e) {
             Map<String, Object> response = new HashMap<>();
             response.put("message", messageSource.getMessage("error.database", null, locale));
@@ -53,7 +81,7 @@ public class CommentController {
             response.put("idComment", idComment);
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (Exception e) {
-            response.put("message", messageSource.getMessage("error.databaseOrFile", null, locale));
+            response.put("message", messageSource.getMessage("error.database", null, locale));
             response.put("error", e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }

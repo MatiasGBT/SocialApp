@@ -104,4 +104,16 @@ export class UserService {
       })
     );
   }
+
+  public getUsersYouMayKnow(idUser: number, idKeycloakUser: number): Observable<User[]> {
+    return this.http.get<User[]>(`${this.baseUrl}/get/may-know/${idUser}&${idKeycloakUser}`).pipe(
+      catchError(e => {
+        Swal.fire({
+          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
+          timer: 1250, background: '#7f5af0', color: 'white'
+        });
+        return throwError(()=>e);
+      })
+    );
+  }
 }
