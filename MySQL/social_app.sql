@@ -19,15 +19,15 @@
 -- Table structure for table `answers`
 --
 
-DROP TABLE IF EXISTS `answers`;
+DROP TABLE IF EXISTS `replies`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `answers` (
+CREATE TABLE `replies` (
   `id_comment` bigint NOT NULL,
-  `id_answer` bigint NOT NULL,
+  `id_reply` bigint NOT NULL,
   UNIQUE KEY `UK_edgft57yym1su35ox8iagf2lp` (`id_answer`),
   UNIQUE KEY `UK8fwpmxowqbk75v70r7nwiqjny` (`id_comment`,`id_answer`),
-  CONSTRAINT `fk_comment_answer` FOREIGN KEY (`id_answer`) REFERENCES `comments` (`id_comment`),
+  CONSTRAINT `fk_comment_reply` FOREIGN KEY (`id_reply`) REFERENCES `comments` (`id_comment`),
   CONSTRAINT `fk_comment_comment` FOREIGN KEY (`id_comment`) REFERENCES `comments` (`id_comment`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -131,12 +131,15 @@ CREATE TABLE `notifications` (
   `id_user_message_transmitter` bigint DEFAULT NULL,
   `id_post` bigint DEFAULT NULL,
   `id_friendship` bigint DEFAULT NULL,
+  `id_comment` bigint DEFAULT NULL,
   PRIMARY KEY (`id_notification`),
   KEY `fk_user_user-friend` (`id_user_friend`),
   KEY `fk_user_user-msg` (`id_user_message_transmitter`),
   KEY `fk_post_notification` (`id_post`),
   KEY `fk_friendship_notification_idx` (`id_friendship`),
   KEY `fk_user-notif_notif_idx` (`id_user_receiver`),
+  KEY `fk_comment_notif_idx` (`id_comment`),
+  CONSTRAINT `fk_comment_notif` FOREIGN KEY (`id_comment`) REFERENCES `comments` (`id_comment`),
   CONSTRAINT `fk_friendship_notification` FOREIGN KEY (`id_friendship`) REFERENCES `friendships` (`id_friendship`),
   CONSTRAINT `fk_post_notification` FOREIGN KEY (`id_post`) REFERENCES `posts` (`id_post`),
   CONSTRAINT `fk_user-notif_notif` FOREIGN KEY (`id_user_receiver`) REFERENCES `users` (`id_user`),

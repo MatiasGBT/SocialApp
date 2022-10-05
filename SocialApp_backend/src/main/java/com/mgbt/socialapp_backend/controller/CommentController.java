@@ -1,7 +1,8 @@
 package com.mgbt.socialapp_backend.controller;
 
 import com.mgbt.socialapp_backend.model.entity.Comment;
-import com.mgbt.socialapp_backend.model.service.CommentService;
+import com.mgbt.socialapp_backend.model.entity.notification.NotificationComment;
+import com.mgbt.socialapp_backend.model.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.dao.DataAccessException;
@@ -17,6 +18,9 @@ public class CommentController {
 
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @Autowired
     MessageSource messageSource;
@@ -49,12 +53,12 @@ public class CommentController {
         }
     }
 
-    @GetMapping("/get/answers/{idComment}")
+    @GetMapping("/get/replies/{idComment}")
     @PreAuthorize("hasRole('user')")
-    public ResponseEntity<?> getAnswers(@PathVariable Long idComment, Locale locale) {
+    public ResponseEntity<?> getReplies(@PathVariable Long idComment, Locale locale) {
         try {
             Comment comment = commentService.findById(idComment);
-            return new ResponseEntity<>(comment.getAnswers(), HttpStatus.OK);
+            return new ResponseEntity<>(comment.getReplies(), HttpStatus.OK);
         } catch (DataAccessException e) {
             Map<String, Object> response = new HashMap<>();
             response.put("message", messageSource.getMessage("error.database", null, locale));
@@ -74,8 +78,12 @@ public class CommentController {
             //If the idSourceComment is not 0, the comment sent from the frontend is a reply from another comment.
             if (idSourceComment != 0) {
                 Comment sourceComment = commentService.findById(idSourceComment);
-                sourceComment.getAnswers().add(comment);
+                sourceComment.getReplies().add(comment);
                 commentService.save(sourceComment);
+                NotificationComment notificationComment = new NotificationComment();
+                notificationComment.setComment(sourceComment);
+                notificationComment.setUserReceiver(sourceComment.getUser());
+                notificationService.save(notificationComment);
             }
             response.put("message", messageSource.getMessage("commentController.createComment", null, locale));
             response.put("idComment", idComment);

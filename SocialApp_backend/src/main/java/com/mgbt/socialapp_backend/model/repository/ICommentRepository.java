@@ -9,7 +9,7 @@ import java.util.List;
 public interface ICommentRepository  extends JpaRepository<Comment, Long> {
 
     @Query(value = "SELECT c.* FROM comments c " +
-            "WHERE c.id_comment NOT IN (SELECT a.id_answer FROM answers a) " +
+            "WHERE c.id_comment NOT IN (SELECT a.id_reply FROM replies a) " +
             "AND c.id_post = ? " +
             "ORDER BY c.date DESC",
             nativeQuery = true)

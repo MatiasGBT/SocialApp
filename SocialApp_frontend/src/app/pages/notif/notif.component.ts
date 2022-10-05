@@ -91,6 +91,9 @@ export class NotifComponent implements OnInit {
     if (notification?.post) {
       this.router.navigate(['/post', notification.post.idPost]);
     }
+    if (notification?.comment) {
+      this.router.navigate(['/comment', notification.comment.idComment]);
+    }
   }
 
   private showNoNotificationsModal() {

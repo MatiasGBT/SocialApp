@@ -40,17 +40,17 @@ public class Comment implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
-    @JoinTable(name = "answers", joinColumns = @JoinColumn(name = "id_comment"),
-            inverseJoinColumns = @JoinColumn(name = "id_answer"),
-            uniqueConstraints = {@UniqueConstraint(columnNames = {"id_comment", "id_answer"})})
-    private List<Comment> answers;
+    @JoinTable(name = "replies", joinColumns = @JoinColumn(name = "id_comment"),
+            inverseJoinColumns = @JoinColumn(name = "id_reply"),
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"id_comment", "id_reply"})})
+    private List<Comment> replies;
 
     @PrePersist
     public void setUpCreationDate() {
         this.date = new Date();
     }
 
-    public Integer getAnswersQuantity() {
-        return this.answers.size();
+    public Integer getRepliesQuantity() {
+        return this.replies.size();
     }
 }

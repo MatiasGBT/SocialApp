@@ -63,6 +63,8 @@
         "NEW_MESSAGE_TEXT": "Toque para vê-la",
         "FRIEND_REQUEST_TITLE": "Nova solicitação de amizade",
         "FRIEND_REQUEST_TEXT": "lhe enviou uma solicitação de amizade",
+        "COMMENT_TITLE": "Alguém respondeu ao seu comentário",
+        "COMMENT_TEXT": "Toque para vê-lo",
         "NOTIFICATIONS_DISABLED": "As notificações estão desativadas. Habilite-as na guia Configurações para exibi-las.",
         "NO_NOTIFICATIONS": "Você não tem nenhuma notificação no momento",
         "NO_NOTIFICATIONS_TO_DELETE_TITLE": "Você não tem notificações para eliminar",

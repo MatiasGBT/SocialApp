@@ -67,7 +67,7 @@ export class CommentComponent implements OnInit {
     if (this.commentLevel < 7) {
       this.commentService.getReplies(this.comment.idComment).subscribe(comments => {
         this.replies = comments;
-        this.comment.answersQuantity = 0;
+        this.comment.repliesQuantity = 0;
       });
     } else {
       this.router.navigate(['/comment/', this.comment.idComment]);

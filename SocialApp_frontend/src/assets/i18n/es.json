@@ -63,6 +63,8 @@
         "NEW_MESSAGE_TEXT": "Pulsa para verlo",
         "FRIEND_REQUEST_TITLE": "Nueva petición de amistad",
         "FRIEND_REQUEST_TEXT": "te envió una petición de amistad",
+        "COMMENT_TITLE": "Alguien respondió tu comentario",
+        "COMMENT_TEXT": "Pulsa para verlo",
         "NOTIFICATIONS_DISABLED": "Las notificaciones están deshabilitadas. Actívalas en la pestaña de Configuración para visualizarlas.",
         "NO_NOTIFICATIONS": "No tienes notificaciones en este momento",
         "NO_NOTIFICATIONS_TO_DELETE_TITLE": "No tienes notificaciones para eliminar",

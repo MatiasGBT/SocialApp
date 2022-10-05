@@ -47,7 +47,7 @@ public class UserApp implements Serializable {
     private Boolean isChecked;
 
     @PrePersist
-    public void setUpCreationDate() {
+    public void setUp() {
         this.creationDate = new Date();
         this.isChecked = false;
     }

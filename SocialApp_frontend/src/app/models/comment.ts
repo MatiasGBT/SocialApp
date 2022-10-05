@@ -8,5 +8,5 @@ export class Comment {
     post: Post;
     answers: Comment[];
     date: Date;
-    answersQuantity: number;
+    repliesQuantity: number;
 }

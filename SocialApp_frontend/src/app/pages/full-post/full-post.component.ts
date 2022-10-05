@@ -47,7 +47,7 @@ export class FullPostComponent implements OnInit {
         console.log(response.message);
         this.createdComment.date = new Date;
         this.createdComment.idComment = response.idComment;
-        this.createdComment.answersQuantity = 0;
+        this.createdComment.repliesQuantity = 0;
         this.comments.unshift(this.createdComment);
         this.createdComment = new Comment;
       });
