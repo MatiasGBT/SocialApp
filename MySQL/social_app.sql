@@ -25,8 +25,8 @@ DROP TABLE IF EXISTS `replies`;
 CREATE TABLE `replies` (
   `id_comment` bigint NOT NULL,
   `id_reply` bigint NOT NULL,
-  UNIQUE KEY `UK_edgft57yym1su35ox8iagf2lp` (`id_answer`),
-  UNIQUE KEY `UK8fwpmxowqbk75v70r7nwiqjny` (`id_comment`,`id_answer`),
+  UNIQUE KEY `UK_edgft57yym1su35ox8iagf2lp` (`id_reply`),
+  UNIQUE KEY `UK8fwpmxowqbk75v70r7nwiqjny` (`id_comment`,`id_reply`),
   CONSTRAINT `fk_comment_reply` FOREIGN KEY (`id_reply`) REFERENCES `comments` (`id_comment`),
   CONSTRAINT `fk_comment_comment` FOREIGN KEY (`id_comment`) REFERENCES `comments` (`id_comment`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
