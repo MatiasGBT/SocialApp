@@ -1,7 +1,8 @@
 <div class="comment" *ngIf="comment">
     <div class="comment-header">
         <div class="comment-header-user" (click)="goToProfile()">
-            <img src="http://localhost:8090/api/user/img/{{comment.user.photo}}">
+            <img *ngIf="comment?.user?.photo" src="http://localhost:8090/api/user/img/{{comment.user.photo}}">
+            <img *ngIf="!comment?.user?.photo" src="http://localhost:8090/images/no-photo.jpg">
             <p>{{comment.user.name}} {{comment.user.surname}}</p>
             <i *ngIf="comment.user?.isChecked" class="fa-solid fa-check"></i>
         </div>
