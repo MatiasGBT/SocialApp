@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { User } from './models/user';
 import { AuthService } from './services/auth.service';
+import { WebsocketService } from './services/websocket.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,7 @@ export class AppComponent implements OnInit {
   public user: User;
 
   constructor(private translate: TranslateService, private authService: AuthService,
-    private router: Router) {
+    private router: Router, private webSocketService: WebsocketService) {
     translate.addLangs(['en', 'es', 'pt']);
   }
   
@@ -33,5 +34,7 @@ export class AppComponent implements OnInit {
       this.translate.use('en');
       localStorage.setItem('lang', 'en');
     }
+
+    this.webSocketService.startConnection();
   }
 }

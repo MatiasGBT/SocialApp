@@ -5,6 +5,7 @@ import { FriendshipService } from 'src/app/services/friendship.service';
 import { NotificationsService } from 'src/app/services/notifications.service';
 import { TranslateExtensionService } from 'src/app/services/translate-extension.service';
 import { UserService } from 'src/app/services/user.service';
+import { WebsocketService } from 'src/app/services/websocket.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -18,7 +19,8 @@ export class NotifComponent implements OnInit {
 
   constructor(private notificationsService: NotificationsService, private userService: UserService,
     private friendshipService: FriendshipService, private router: Router,
-    private translateExtensionService: TranslateExtensionService) { }
+    private translateExtensionService: TranslateExtensionService,
+    private webSocketService: WebsocketService) { }
 
   ngOnInit(): void {
     this.isNotificationsEnabled = this.notificationsService.getNotificationsStatus();
@@ -63,6 +65,7 @@ export class NotifComponent implements OnInit {
 
   public acceptFriendRequest(notification: Notification): void {
     this.friendshipService.acceptFriendRequest(notification.friendship.idFriendship).subscribe(response => {
+      this.webSocketService.newNotification(notification.friendship.userTransmitter);
       Swal.fire({
         icon: 'success',
         title: response.message,

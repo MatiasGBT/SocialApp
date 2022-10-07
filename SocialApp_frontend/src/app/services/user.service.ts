@@ -1,10 +1,10 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, map, Observable, throwError } from 'rxjs';
-import Swal from 'sweetalert2';
 import { User } from '../models/user';
 import { AuthService } from './auth.service';
+import { CatchErrorService } from './catch-error.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,15 +13,13 @@ export class UserService {
   private baseUrl: string = 'http://localhost:8090/api/user';
   @Output() userChanger: EventEmitter<any> = new EventEmitter();
 
-  constructor(private http: HttpClient, private authService: AuthService, private router: Router) { }
+  constructor(private http: HttpClient, private authService: AuthService, private router: Router,
+    private catchErrorService: CatchErrorService) { }
 
   public getKeycloakUser(): Observable<User> {
     return this.http.get<User>(`${this.baseUrl}/get/keycloak/${this.authService.getUsername()}`).pipe(
       catchError(e => {
-        Swal.fire({
-          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
-          timer: 1250, background: '#7f5af0', color: 'white'
-        });
+        this.catchErrorService.showErrorModal(e);
         return throwError(() => e);
       })
     );
@@ -31,10 +29,7 @@ export class UserService {
     return this.http.get<User>(`${this.baseUrl}/get/${id}`).pipe(
       catchError(e => {
         this.router.navigate(['/profile']);
-        Swal.fire({
-          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
-          timer: 1250, background: '#7f5af0', color: 'white'
-        });
+        this.catchErrorService.showErrorModal(e);
         return throwError(() => e);
       })
     );
@@ -44,10 +39,7 @@ export class UserService {
     return this.http.get<any>(`${this.baseUrl}/get/autocomplete/${name}&${this.authService.getUsername()}`).pipe(
       map(response => response as User[]),
       catchError(e => {
-        Swal.fire({
-          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
-          timer: 1250, background: '#7f5af0', color: 'white'
-        });
+        this.catchErrorService.showErrorModal(e);
         return throwError(() => e);
       })
     );
@@ -57,10 +49,7 @@ export class UserService {
     return this.http.get<any>(`${this.baseUrl}/get/search/${name}&${this.authService.getUsername()}`).pipe(
       map(response => response as User[]),
       catchError(e => {
-        Swal.fire({
-          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
-          timer: 1250, background: '#7f5af0', color: 'white'
-        });
+        this.catchErrorService.showErrorModal(e);
         return throwError(() => e);
       })
     );
@@ -72,10 +61,7 @@ export class UserService {
     formData.append("username", this.authService.getUsername());
     return this.http.post<any>(`${this.baseUrl}/send-photo`, formData).pipe(
       catchError(e => {
-        Swal.fire({
-          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
-          timer: 1250, background: '#7f5af0', color: 'white'
-        });
+        this.catchErrorService.showErrorModal(e);
         return throwError(() => e);
       })
     );
@@ -84,10 +70,7 @@ export class UserService {
   public updateDescription(userUpdated: User): Observable<any> {
     return this.http.put<any>(`${this.baseUrl}/edit`, userUpdated).pipe(
       catchError(e => {
-        Swal.fire({
-          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
-          timer: 1250, background: '#7f5af0', color: 'white'
-        });
+        this.catchErrorService.showErrorModal(e);
         return throwError(() => e);
       })
     );
@@ -96,10 +79,7 @@ export class UserService {
   public getFriends(idUser: number): Observable<User[]> {
     return this.http.get<User[]>(`${this.baseUrl}/get/friends/${idUser}`).pipe(
       catchError(e => {
-        Swal.fire({
-          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
-          timer: 1250, background: '#7f5af0', color: 'white'
-        });
+        this.catchErrorService.showErrorModal(e);
         return throwError(()=>e);
       })
     );
@@ -108,10 +88,7 @@ export class UserService {
   public getUsersYouMayKnow(idUser: number, idKeycloakUser: number): Observable<User[]> {
     return this.http.get<User[]>(`${this.baseUrl}/get/may-know/${idUser}&${idKeycloakUser}`).pipe(
       catchError(e => {
-        Swal.fire({
-          icon: 'error', title: e.error.message, text: e.error.error, showConfirmButton: false,
-          timer: 1250, background: '#7f5af0', color: 'white'
-        });
+        this.catchErrorService.showErrorModal(e);
         return throwError(()=>e);
       })
     );

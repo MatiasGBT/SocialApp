@@ -1,5 +1,6 @@
 #section-notifications {
     padding: 25px;
+    margin-bottom: 60px;
 }
 
 header {
@@ -86,7 +87,11 @@ h2 {
     color: #7f5af0;
 }
 
-@media (min-width: 768px) {}
+@media (min-width: 768px) {
+    #section-notifications {
+        margin-bottom: 0;
+    }
+}
 
 @media (min-width: 1038px) {
     #section-notifications {

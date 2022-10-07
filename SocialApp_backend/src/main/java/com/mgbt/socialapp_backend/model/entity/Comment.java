@@ -23,7 +23,7 @@ public class Comment implements Serializable {
     private String text;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","username","description",
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","description",
         "creationDate","deletionDate"})
     @JoinColumn(name = "id_user", nullable = false)
     private UserApp user;

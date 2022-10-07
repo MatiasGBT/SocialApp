@@ -6,6 +6,7 @@ import { User } from 'src/app/models/user';
 import { FriendshipService } from 'src/app/services/friendship.service';
 import { PostService } from 'src/app/services/post.service';
 import { UserService } from 'src/app/services/user.service';
+import { WebsocketService } from 'src/app/services/websocket.service';
 
 @Component({
   selector: 'app-profile',
@@ -24,7 +25,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(private userService: UserService, private activatedRoute: ActivatedRoute,
     private friendshipService: FriendshipService, private router: Router,
-    private postService: PostService) { }
+    private postService: PostService, private webSocketService: WebsocketService) { }
 
   ngOnInit(): void {
     this.userService.userChanger.subscribe(data => {
@@ -59,6 +60,7 @@ export class ProfileComponent implements OnInit {
   //#region Friendship
   public addFriend(): void {
     this.friendshipService.addFriend(this.id);
+    this.webSocketService.newNotification(this.user);
   }
 
   private getFriendsQuantity(): void {
@@ -85,8 +87,7 @@ export class ProfileComponent implements OnInit {
   private getUser() {
     this.userService.getUser(this.id).subscribe(user => {
       this.user = user;
-      this.getFriendsQuantity();
-      this.postService.countPostByUser(this.user.idUser).subscribe(count => this.userPostQuantity = count);
+      this.getProfileHeaderData();
       this.getUsersYouMayKnow();
     });
   }
@@ -94,9 +95,13 @@ export class ProfileComponent implements OnInit {
   private getKeycloakUser() {
     this.userService.getKeycloakUser().subscribe(user => {
       this.user = user;
-      this.getFriendsQuantity();
-      this.postService.countPostByUser(this.user.idUser).subscribe(count => this.userPostQuantity = count);
+      this.getProfileHeaderData();
     });
+  }
+
+  private getProfileHeaderData() {
+    this.getFriendsQuantity();
+    this.postService.countPostByUser(this.user.idUser).subscribe(count => this.userPostQuantity = count);
   }
 
   private getUsersYouMayKnow() {

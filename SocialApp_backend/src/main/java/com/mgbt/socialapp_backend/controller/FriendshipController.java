@@ -79,7 +79,11 @@ public class FriendshipController {
                 response.put("message", messageSource.getMessage("friendshipController.addFriend.notSent", null, locale));
                 response.put("send", true);
             } else {
-                response.put("message", messageSource.getMessage("friendshipController.addFriend.alreadySent", null, locale));
+                if (friendship.getUserTransmitter().getIdUser() == userTransmitter.getIdUser()) {
+                    response.put("message", messageSource.getMessage("friendshipController.addFriend.alreadySent", null, locale));
+                } else {
+                    response.put("message", messageSource.getMessage("friendshipController.addFriend.alreadySentByTheOtherUser", null, locale));
+                }
                 response.put("send", false);
             }
         } catch (DataAccessException e) {

@@ -32,7 +32,7 @@ public interface IPostRepository extends JpaRepository<Post, Long> {
             "p.id_user = f.id_user_receiver " +
             "WHERE (f.id_user_transmitter = ?1 OR f.id_user_receiver = ?1) " +
             "AND p.id_user != ?1 " +
-            "AND DATE(p.date) BETWEEN DATE_SUB(CURDATE(), INTERVAL 3 DAY) AND DATE_SUB(CURDATE(), INTERVAL 1 DAY) " +
+            "AND DATE(p.date) != CURDATE() " +
             "ORDER BY p.date DESC, p.id_post DESC LIMIT ?2,10",
             nativeQuery = true)
     List<Post> findOldFeedByUser(Long idUser, Integer from);
@@ -42,7 +42,7 @@ public interface IPostRepository extends JpaRepository<Post, Long> {
             "p.id_user = f.id_user_receiver " +
             "WHERE (f.id_user_transmitter = ?1 OR f.id_user_receiver = ?1) " +
             "AND p.id_user != ?1 " +
-            "AND DATE(p.date) BETWEEN DATE_SUB(CURDATE(), INTERVAL 3 DAY) AND DATE_SUB(CURDATE(), INTERVAL 1 DAY)",
+            "AND DATE(p.date) != CURDATE()",
             nativeQuery = true)
     Long findLastIdPostFromOldFeedByUser(Long idUser);
 

@@ -26,10 +26,13 @@ export class FooterComponent implements OnInit {
       }
     });
 
+    //This code detects when a user sees one of his notifications, which causes the badge number to be reduced.
     this.notificationsService.notificationsChanger.subscribe(notifications => {
-      this.notifications = notifications.filter(n => !n.isViewed); /*The badge will not display viewed notifications*/
+      this.notifications = notifications.filter(n => !n.isViewed);
       this.notificationsNumber = this.notifications.length;
     });
+
+    this.notificationsService.newNotification.subscribe(() => this.notificationsNumber++);
   }
 
   ngOnChanges() {

@@ -4,6 +4,7 @@ import { Comment } from 'src/app/models/comment';
 import { User } from 'src/app/models/user';
 import { CommentService } from 'src/app/services/comment.service';
 import { TranslateExtensionService } from 'src/app/services/translate-extension.service';
+import { WebsocketService } from 'src/app/services/websocket.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -18,7 +19,8 @@ export class CommentComponent implements OnInit {
   public replies: Comment[];
 
   constructor(private router: Router, private commentService: CommentService,
-    private translateExtensionService: TranslateExtensionService) { }
+    private translateExtensionService: TranslateExtensionService,
+    private webSocketService: WebsocketService) { }
 
   ngOnInit(): void {
   }
@@ -57,6 +59,7 @@ export class CommentComponent implements OnInit {
       comment.post = this.comment.post;
       this.commentService.createComment(comment, this.comment.idComment).subscribe(response => {
         console.log(response.message);
+        this.webSocketService.newNotification(this.comment.user);
         this.showReplies();
       });
     }

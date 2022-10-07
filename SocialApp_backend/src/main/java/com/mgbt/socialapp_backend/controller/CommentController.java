@@ -42,15 +42,21 @@ public class CommentController {
     @GetMapping("/get/{idComment}")
     @PreAuthorize("hasRole('user')")
     public ResponseEntity<?> getComment(@PathVariable Long idComment, Locale locale) {
+        Map<String, Object> response = new HashMap<>();
+        Comment comment;
         try {
-            Comment comment = commentService.findById(idComment);
-            return new ResponseEntity<>(comment, HttpStatus.OK);
+            comment = commentService.findById(idComment);
         } catch (DataAccessException e) {
-            Map<String, Object> response = new HashMap<>();
             response.put("message", messageSource.getMessage("error.database", null, locale));
             response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+        if (comment == null) {
+            response.put("message", messageSource.getMessage("error.commentNotExist", null, locale));
+            response.put("error", messageSource.getMessage("error.commentNotExist.redirect", null, locale));
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(comment, HttpStatus.OK);
     }
 
     @GetMapping("/get/replies/{idComment}")

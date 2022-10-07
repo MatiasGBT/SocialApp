@@ -9,6 +9,7 @@ import { ReportReasonService } from 'src/app/services/report-reason.service';
 import { ReportService } from 'src/app/services/report.service';
 import { TranslateExtensionService } from 'src/app/services/translate-extension.service';
 import { UserService } from 'src/app/services/user.service';
+import { WebsocketService } from 'src/app/services/websocket.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -24,7 +25,8 @@ export class PostComponent implements OnInit {
   constructor(public authService: AuthService, private postService: PostService,
     private userService: UserService, private reportService: ReportService,
     private router: Router, private reportReasonService: ReportReasonService,
-    private translateExtensionService: TranslateExtensionService) { }
+    private translateExtensionService: TranslateExtensionService,
+    private webSocketService: WebsocketService) { }
 
   ngOnInit(): void {
     /*This is done to find out if the logged in user has liked this post so that the heart icon can be changed.*/
@@ -44,6 +46,7 @@ export class PostComponent implements OnInit {
           console.log(response.message);
           this.isLiked = true;
           this.post.likes.length += 1;
+          this.webSocketService.newNotification(this.post.user);
         });
       });
     }
