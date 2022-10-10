@@ -5,8 +5,8 @@
         <h2>{{'FULL_POST.COMMENTS_TITLE' | translate}}:</h2>
 
         <div id="create-comment">
-            <img *ngIf="keycloakUser?.photo" src="http://localhost:8090/api/user/img/{{keycloakUser.photo}}" draggable="false">
-            <img *ngIf="!keycloakUser?.photo" src="http://localhost:8090/images/no-photo.jpg" draggable="false">
+            <img *ngIf="keycloakUser?.photo" src="http://localhost:8090/api/user/img/{{keycloakUser.photo}}">
+            <img *ngIf="!keycloakUser?.photo" src="http://localhost:8090/images/no-photo.jpg">
             <input maxlength="100" [placeholder]="commentPlaceholder" [(ngModel)]="createdComment.text">
             <button (click)="createComment()"><i class="fa-solid fa-paper-plane"></i></button>
         </div>
@@ -15,7 +15,7 @@
 
         <div *ngIf="comments.length == 0" id="no-comments">
             <p>{{'FULL_POST.NO_COMMENTS' | translate}}</p>
-            <img src="../../../assets/img/no_comments_bg.svg" alt="No comments" draggable="false">
+            <img src="../../../assets/img/no_comments_bg.svg" alt="No comments">
         </div>
 
     </div>

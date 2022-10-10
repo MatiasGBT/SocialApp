@@ -72,18 +72,18 @@ public class PostController {
             switch (page) {
                 case INDEX_FEED_PAGE -> {
                     posts = postService.findFeedByUserId(idUser, from);
-                    Long lasPostId = postService.findLastIdPostFromUserFeed(idUser);
-                    isLastPage = postService.getIsLastPage(lasPostId, posts);
+                    Long lastIdPost = postService.findLastIdPostFromUserFeed(idUser);
+                    isLastPage = postService.getIsLastPage(lastIdPost, posts);
                 }
                 case INDEX_OLD_FEED_PAGE -> {
                     posts = postService.findOldFeedByUserId(idUser, from);
-                    Long lasPostId = postService.findLastIdPostFromOldUserFeed(idUser);
-                    isLastPage = postService.getIsLastPage(lasPostId, posts);
+                    Long lastIdPost = postService.findLastIdPostFromOldUserFeed(idUser);
+                    isLastPage = postService.getIsLastPage(lastIdPost, posts);
                 }
                 case PROFILE_PAGE -> {
                     posts = postService.findByUserId(idUser, from);
-                    Long lasPostId = postService.findLastIdPostFromUserPosts(idUser);
-                    isLastPage = postService.getIsLastPage(lasPostId, posts);
+                    Long lastIdPost = postService.findLastIdPostFromUserPosts(idUser);
+                    isLastPage = postService.getIsLastPage(lastIdPost, posts);
                 }
             }
             response.put("posts", posts);

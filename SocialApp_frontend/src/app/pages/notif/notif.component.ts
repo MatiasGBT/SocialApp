@@ -97,13 +97,16 @@ export class NotifComponent implements OnInit {
     if (notification?.comment) {
       this.router.navigate(['/comment', notification.comment.idComment]);
     }
+    if (notification?.userTransmitter) {
+      this.router.navigate(['/profile/chat', notification.userTransmitter.idUser]);
+    }
   }
 
   private showNoNotificationsModal() {
     Swal.fire({
       icon: 'info',
-      title: this.translateExtensionService.translateModalText('NOTIFICATIONS.NO_NOTIFICATIONS_TO_DELETE_TITLE'),
-      text: this.translateExtensionService.translateModalText('NOTIFICATIONS.NO_NOTIFICATIONS_TO_DELETE_TEXT'),
+      title: this.translateExtensionService.getTranslatedStringByUrl('NOTIFICATIONS.NO_NOTIFICATIONS_TO_DELETE_TITLE'),
+      text: this.translateExtensionService.getTranslatedStringByUrl('NOTIFICATIONS.NO_NOTIFICATIONS_TO_DELETE_TEXT'),
       showConfirmButton: false, timer: 1750, background: '#7f5af0', color: 'white'
     });
   }

@@ -29,6 +29,8 @@ import { FriendsComponent } from './pages/friends/friends.component';
 import { PostsListComponent } from './components/posts-list/posts-list.component';
 import { CommentComponent } from './components/comment/comment.component';
 import { CommentPageComponent } from './pages/comment-page/comment-page.component';
+import { ChatComponent } from './pages/profile/chat/chat.component';
+import { MessageComponent } from './components/message/message.component';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -67,7 +69,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     FriendsComponent,
     PostsListComponent,
     CommentComponent,
-    CommentPageComponent
+    CommentPageComponent,
+    ChatComponent,
+    MessageComponent
   ],
   imports: [
     BrowserModule,

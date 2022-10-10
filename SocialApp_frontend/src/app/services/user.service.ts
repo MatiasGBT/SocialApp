@@ -12,6 +12,8 @@ import { CatchErrorService } from './catch-error.service';
 export class UserService {
   private baseUrl: string = 'http://localhost:8090/api/user';
   @Output() userChanger: EventEmitter<any> = new EventEmitter();
+  @Output() userConnectEvent: EventEmitter<any> = new EventEmitter();
+  @Output() userDisconnectEvent: EventEmitter<any> = new EventEmitter();
 
   constructor(private http: HttpClient, private authService: AuthService, private router: Router,
     private catchErrorService: CatchErrorService) { }

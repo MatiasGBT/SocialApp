@@ -37,4 +37,9 @@ public class Message implements Serializable {
     @Column(name = "date", nullable = false)
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date date;
+
+    @PrePersist
+    public void setUpCreationDate() {
+        this.date = new Date();
+    }
 }

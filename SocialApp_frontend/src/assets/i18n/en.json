@@ -126,6 +126,12 @@
         "REPLY_MODAL_REPLY_BUTTON": "Reply",
         "REPLY_MODAL_CANCEL_BUTTON": "Cancel"
     },
+    "WEBSOCKET": {
+        "NEW_NOTIFICATION": "New notification",
+        "CONNECTED_STATUS": "Online",
+        "DISCONNECTED_STATUS": "Offline",
+        "WRITING_STATUS": "Writing..."
+    },
     "LANGUAGES": {
         "en": "English",
         "es": "Español",

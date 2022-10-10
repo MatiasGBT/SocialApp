@@ -28,8 +28,8 @@
         "USERS_MAYBE": "Quizá conozcas a"
     },
     "PROFILE": {
-        "NUMBER_OF_POSTS": "Cant. publicaciones",
-        "NUMBER_OF_FRIENDS": "Cant. amigos",
+        "NUMBER_OF_POSTS": "Publicaciones",
+        "NUMBER_OF_FRIENDS": "Amigos",
         "EDIT_PROFILE": "Editar perfil",
         "ADD_FRIEND": "Agregar amigo",
         "SEND_MESSAGE": "Enviar mensaje",
@@ -125,6 +125,12 @@
         "REPLY_MODAL_TEXT": "Máx. 100 caracteres.",
         "REPLY_MODAL_REPLY_BUTTON": "Responder",
         "REPLY_MODAL_CANCEL_BUTTON": "Cancelar"
+    },
+    "WEBSOCKET": {
+        "NEW_NOTIFICATION": "Nueva notificación",
+        "CONNECTED_STATUS": "En línea",
+        "DISCONNECTED_STATUS": "Desconectado",
+        "WRITING_STATUS": "Escribiendo..."
     },
     "LANGUAGES": {
         "en": "English",

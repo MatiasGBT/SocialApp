@@ -12,7 +12,7 @@
     </div>
     <div class="publication-body">
         <p *ngIf="post?.text">{{post.text}}</p>
-        <img *ngIf="post?.photo" src="http://localhost:8090/api/posts/img/{{post.photo}}" draggable="false">
+        <img *ngIf="post?.photo" src="http://localhost:8090/api/posts/img/{{post.photo}}">
     </div>
     <div class="publication-footer">
         <span *ngIf="post?.likes">{{post.likes.length}}</span>

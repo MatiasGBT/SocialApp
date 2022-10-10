@@ -10,7 +10,7 @@
         <button type="button" (click)="addFriend()" *ngIf="!user.isFriend">
             <i class="fas fa-plus"></i>
         </button>
-        <button type="button" *ngIf="user.isFriend">
+        <button type="button" *ngIf="user.isFriend" [routerLink]="['/profile/chat', user.idUser]">
             <i class="fas fa-message"></i>
         </button>
         <button type="button" *ngIf="user.isFriend">

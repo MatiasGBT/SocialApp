@@ -13,7 +13,7 @@ import { WebsocketService } from 'src/app/services/websocket.service';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css', '../../../assets/index_profile.css']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
   public user: User;
   private id: number;
   public friendship: Friendship;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { User } from './models/user';
@@ -34,7 +34,12 @@ export class AppComponent implements OnInit {
       this.translate.use('en');
       localStorage.setItem('lang', 'en');
     }
-
+    
     this.webSocketService.startConnection();
+  }
+
+  @HostListener('window:beforeunload')
+  onUnload() {
+    this.webSocketService.endConnection();
   }
 }

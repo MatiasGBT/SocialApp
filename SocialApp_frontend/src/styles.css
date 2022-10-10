@@ -24,6 +24,10 @@ h1, h2, h3, h4, h5 {
     font-weight: 400;
 }
 
+img {
+    -webkit-user-drag: none;
+}
+
 ::placeholder {
     color: rgb(209, 209, 209);
 }

@@ -1,0 +1,8 @@
+<div class="message" *ngIf="message" [ngStyle]="{
+        'background-color': (message.userTransmitter.idUser==keycloakUser.idUser) ? '#7f5af0' : '#2e2e36',
+        'margin-left': (message.userTransmitter.idUser==keycloakUser.idUser) ? 'auto' : '0',
+        'border-radius': (message.userTransmitter.idUser==keycloakUser.idUser) ? '15px 2px 15px 15px' : '2px 15px 15px 15px'
+        }">
+    <p class="message-text">{{message.text}}</p>
+    <p class="message-date">{{message.date | date:'short'}}</p>
+</div>

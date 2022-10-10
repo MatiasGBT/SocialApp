@@ -67,10 +67,10 @@ export class PostComponent implements OnInit {
   public deletePost() {
     Swal.fire({
       icon: 'warning', showCancelButton: true,
-      title: this.translateExtensionService.translateModalText('POST.DELETE_MODAL_TITLE'),
-      text: this.translateExtensionService.translateModalText('POST.DELETE_MODAL_TEXT'),
-      confirmButtonText: this.translateExtensionService.translateModalText('POST.DELETE_MODAL_BUTTON_DELETE'),
-      cancelButtonText: this.translateExtensionService.translateModalText('POST.DELETE_MODAL_BUTTON_CANCEL'),
+      title: this.translateExtensionService.getTranslatedStringByUrl('POST.DELETE_MODAL_TITLE'),
+      text: this.translateExtensionService.getTranslatedStringByUrl('POST.DELETE_MODAL_TEXT'),
+      confirmButtonText: this.translateExtensionService.getTranslatedStringByUrl('POST.DELETE_MODAL_BUTTON_DELETE'),
+      cancelButtonText: this.translateExtensionService.getTranslatedStringByUrl('POST.DELETE_MODAL_BUTTON_CANCEL'),
       background: '#7f5af0', color: 'white', confirmButtonColor: '#d33', cancelButtonColor: '#2cb67d'
     }).then((result) => {
       if (result.isConfirmed) {
@@ -103,17 +103,17 @@ export class PostComponent implements OnInit {
 
   private async showReportModal(reasons: ReportReason[]) {
     const { value: reason } = await Swal.fire({
-      title: this.translateExtensionService.translateModalText('POST.REPORT_MODAL_TITLE'),
+      title: this.translateExtensionService.getTranslatedStringByUrl('POST.REPORT_MODAL_TITLE'),
       input: 'select',
       inputOptions: reasons.map(r => r.reason),
-      inputPlaceholder: this.translateExtensionService.translateModalText('POST.REPORT_MODAL_PLACEHOLDER'),
+      inputPlaceholder: this.translateExtensionService.getTranslatedStringByUrl('POST.REPORT_MODAL_PLACEHOLDER'),
       showCancelButton: true,
-      confirmButtonText: this.translateExtensionService.translateModalText('POST.REPORT_MODAL_BUTTON_REPORT'),
-      cancelButtonText: this.translateExtensionService.translateModalText('POST.REPORT_MODAL_BUTTON_CANCEL'),
+      confirmButtonText: this.translateExtensionService.getTranslatedStringByUrl('POST.REPORT_MODAL_BUTTON_REPORT'),
+      cancelButtonText: this.translateExtensionService.getTranslatedStringByUrl('POST.REPORT_MODAL_BUTTON_CANCEL'),
       inputValidator: (value) => {
         return new Promise((resolve) => {
           if (value === '') {
-            resolve(this.translateExtensionService.translateModalText('POST.REPORT_MODAL_ERROR'));
+            resolve(this.translateExtensionService.getTranslatedStringByUrl('POST.REPORT_MODAL_ERROR'));
           } else {
             let report = new Report();
             report.reportReason = reasons.find(r => r.idReportReason == parseInt(value) + 1); //+1 needed because in the database the values start with 1 and not 0
@@ -128,10 +128,10 @@ export class PostComponent implements OnInit {
   private async showReportExtraInformationModal(report: Report) {
     const { value: extraInformation } = await Swal.fire({
       input: 'textarea',
-      inputLabel: this.translateExtensionService.translateModalText('POST.REPORT_MODAL_EXTRAINFORMATION_TITLE'),
-      inputPlaceholder: this.translateExtensionService.translateModalText('POST.REPORT_MODAL_EXTRAINFORMATION_PLACEHOLDER'),
+      inputLabel: this.translateExtensionService.getTranslatedStringByUrl('POST.REPORT_MODAL_EXTRAINFORMATION_TITLE'),
+      inputPlaceholder: this.translateExtensionService.getTranslatedStringByUrl('POST.REPORT_MODAL_EXTRAINFORMATION_PLACEHOLDER'),
       inputAttributes: {
-        'aria-label': this.translateExtensionService.translateModalText('POST.REPORT_MODAL_EXTRAINFORMATION_PLACEHOLDER'),
+        'aria-label': this.translateExtensionService.getTranslatedStringByUrl('POST.REPORT_MODAL_EXTRAINFORMATION_PLACEHOLDER'),
         maxlength: "200"
       }
     });
@@ -148,7 +148,7 @@ export class PostComponent implements OnInit {
       report.post = this.post;
       this.reportService.createReport(report).subscribe(response => console.log(response.message));
     });
-    Swal.fire(this.translateExtensionService.translateModalText('POST.REPORT_MODAL_SUCCESS'));
+    Swal.fire(this.translateExtensionService.getTranslatedStringByUrl('POST.REPORT_MODAL_SUCCESS'));
     this.isReported = true;
   }
   //#endregion

@@ -1,0 +1,19 @@
+.message {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 10px;
+    max-width: 60%;
+    margin: 5px 0;
+    word-wrap: break-word;
+}
+
+.message-text {
+    max-width: 100%;
+}
+
+.message-date {
+    font-size: 1rem;
+    color: darkgray;
+}

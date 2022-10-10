@@ -89,10 +89,10 @@ export class FriendshipService {
   public askToDelete(idUserFriend: number): void {
     Swal.fire({
       icon: 'question', showCancelButton: true,
-      title: this.translateExtensionService.translateModalText('USER.DELETE_MODAL_TITLE'),
-      text: this.translateExtensionService.translateModalText('USER.DELETE_MODAL_TEXT'),
-      confirmButtonText: this.translateExtensionService.translateModalText('USER.DELETE_MODAL_SAVE_BTN'),
-      cancelButtonText: this.translateExtensionService.translateModalText('USER.DELETE_MODAL_CANCEL_BTN'),
+      title: this.translateExtensionService.getTranslatedStringByUrl('USER.DELETE_MODAL_TITLE'),
+      text: this.translateExtensionService.getTranslatedStringByUrl('USER.DELETE_MODAL_TEXT'),
+      confirmButtonText: this.translateExtensionService.getTranslatedStringByUrl('USER.DELETE_MODAL_SAVE_BTN'),
+      cancelButtonText: this.translateExtensionService.getTranslatedStringByUrl('USER.DELETE_MODAL_CANCEL_BTN'),
       background: '#7f5af0', color: 'white', confirmButtonColor: '#d33', cancelButtonColor: '#2cb67d'
     }).then((result) => {
       if (result.isConfirmed) {

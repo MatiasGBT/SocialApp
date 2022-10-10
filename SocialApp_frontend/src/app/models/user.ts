@@ -11,4 +11,5 @@ export class User {
     deletionDate: Date;
     isFriend: boolean;
     isChecked: boolean;
+    isConnected: boolean;
 }

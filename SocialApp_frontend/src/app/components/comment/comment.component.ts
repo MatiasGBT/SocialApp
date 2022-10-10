@@ -35,15 +35,15 @@ export class CommentComponent implements OnInit {
 
   public async showReplyModal() {
     const { value: commentText } = await Swal.fire({
-      title: this.translateExtensionService.translateModalText("COMMENT.REPLY_MODAL_TITLE"),
+      title: this.translateExtensionService.getTranslatedStringByUrl("COMMENT.REPLY_MODAL_TITLE"),
       input: 'textarea',
-      inputLabel: this.translateExtensionService.translateModalText("COMMENT.REPLY_MODAL_TEXT"),
+      inputLabel: this.translateExtensionService.getTranslatedStringByUrl("COMMENT.REPLY_MODAL_TEXT"),
       inputAttributes: {maxlength: "100"},
       showCancelButton: true,
       background: '#7f5af0', color: 'white',
       confirmButtonColor: '#2cb67d', cancelButtonColor: '#d33',
-      confirmButtonText: this.translateExtensionService.translateModalText('COMMENT.REPLY_MODAL_REPLY_BUTTON'),
-      cancelButtonText: this.translateExtensionService.translateModalText('COMMENT.REPLY_MODAL_CANCEL_BUTTON')
+      confirmButtonText: this.translateExtensionService.getTranslatedStringByUrl('COMMENT.REPLY_MODAL_REPLY_BUTTON'),
+      cancelButtonText: this.translateExtensionService.getTranslatedStringByUrl('COMMENT.REPLY_MODAL_CANCEL_BUTTON')
     });
     
     if (commentText) {

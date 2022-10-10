@@ -14,7 +14,7 @@
             <div class="notification-data" (click)="viewNotification(notification)"  [ngStyle]="{'opacity':returnOpacity(notification)}">
                 <h2 *ngIf="notification?.friend">{{'NOTIFICATIONS.NEW_FRIEND_TITLE' | translate}}</h2>
                 <h2 *ngIf="notification?.post">{{'NOTIFICATIONS.LIKE_POST_TITLE' | translate}}</h2>
-                <h2 *ngIf="notification?.userTransmitter">{{notification.userTransmitter.name}} {{'NOTIFICATIONS.NEW_MESSAGE_TITLE' | translate}}</h2>
+                <h2 *ngIf="notification?.userTransmitter">{{notification.userTransmitter.name}} {{notification.userTransmitter.surname}} {{'NOTIFICATIONS.NEW_MESSAGE_TITLE' | translate}}</h2>
                 <h2 *ngIf="notification?.friendship">{{'NOTIFICATIONS.FRIEND_REQUEST_TITLE' | translate}}</h2>
                 <h2 *ngIf="notification?.comment">{{'NOTIFICATIONS.COMMENT_TITLE' | translate}}</h2>
 
