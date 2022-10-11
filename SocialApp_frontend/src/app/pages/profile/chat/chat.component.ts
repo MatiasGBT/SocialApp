@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Friendship } from 'src/app/models/friendship';
 import { Message } from 'src/app/models/message';
@@ -14,7 +14,7 @@ import { WebsocketService } from 'src/app/services/websocket.service';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
 })
-export class ChatComponent implements OnInit, AfterViewChecked {
+export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
   public keycloakUser: User;
   public friend: User;
   public message: Message = new Message;
@@ -55,6 +55,10 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.scrollToBottom();
   }
 
+  ngOnDestroy(): void {
+      this.webSocketService.quitChat(this.friend);
+  }
+
   private scrollToBottom() {
     if (this.messages.length !== 0 && !this.scrollDisabled) {
       this.scrollChat.nativeElement.scrollTop = this.scrollChat.nativeElement.scrollHeight;
@@ -81,7 +85,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       this.keycloakUser = friendship.userReceiver;
       this.friend = friendship.userTransmitter;
     }
-    this.webSocketService.subscribeToChat(this.friend);
+    this.webSocketService.openChat(this.friend);
     this.messageService.getMessagesByUsers(this.keycloakUser.idUser, this.friend.idUser, this.page).subscribe(response => {
       this.messages = response.messages.reverse();
       this.isLastPage = response.isLastPage;

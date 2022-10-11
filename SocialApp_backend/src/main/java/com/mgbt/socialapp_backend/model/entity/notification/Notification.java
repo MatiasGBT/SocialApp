@@ -24,7 +24,7 @@ public abstract class Notification implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"hibernateLazyInitializer","handler","username","description",
-            "creationDate","deletionDate","name","surname","photo","isChecked"})
+            "creationDate","deletionDate","name","surname","photo","isChecked","isConnected"})
     @JoinColumn(name = "id_user_receiver", nullable = false)
     private UserApp userReceiver;
 

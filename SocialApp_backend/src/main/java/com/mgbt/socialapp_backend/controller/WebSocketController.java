@@ -25,14 +25,16 @@ public class WebSocketController {
         return "200";
     }
 
-    @MessageMapping("/chat/message/{usernameTransmitter}/{usernameReceiver}")
+    @MessageMapping("/chat/message/{usernameTransmitter}/{usernameReceiver}/{friendIsInChat}")
     @SendTo({"/ws/chat/message/{usernameReceiver}/{usernameTransmitter}"})
-    public Message sendMessage(Message message) {
+    public Message sendMessage(@DestinationVariable String friendIsInChat, Message message) {
         messageService.save(message);
-        NotificationMessage notification = new NotificationMessage();
-        notification.setUserTransmitter(message.getUserTransmitter());
-        notification.setUserReceiver(message.getUserReceiver());
-        notificationService.save(notification);
+        if (!Boolean.parseBoolean(friendIsInChat)) {
+            NotificationMessage notification = new NotificationMessage();
+            notification.setUserTransmitter(message.getUserTransmitter());
+            notification.setUserReceiver(message.getUserReceiver());
+            notificationService.save(notification);
+        }
         return message;
     }
 
@@ -58,5 +60,17 @@ public class WebSocketController {
         user.setIsConnected(false);
         userService.save(user);
         return "200";
+    }
+
+    @MessageMapping("/chat/inChat/{usernameTransmitter}/{usernameReceiver}")
+    @SendTo({"/ws/chat/inChat/{usernameReceiver}/{usernameTransmitter}"})
+    public String userIsInChat() {
+        return "true";
+    }
+
+    @MessageMapping("/chat/outChat/{usernameTransmitter}/{usernameReceiver}")
+    @SendTo({"/ws/chat/inChat/{usernameReceiver}/{usernameTransmitter}"})
+    public String userIsNotInChat() {
+        return "false";
     }
 }

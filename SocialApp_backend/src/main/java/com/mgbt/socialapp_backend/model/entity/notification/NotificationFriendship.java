@@ -13,7 +13,7 @@ public class NotificationFriendship extends Notification {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"hibernateLazyInitializer","handler","idUser","username","photo",
-            "description","creationDate","deletionDate","isChecked","userReceiver","date"})
+            "description","creationDate","deletionDate","isChecked","userReceiver","date","isConnected"})
     @JoinColumn(name = "id_friendship")
     private Friendship friendship;
 }

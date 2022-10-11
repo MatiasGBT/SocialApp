@@ -18,6 +18,8 @@ export class WebsocketService {
   private friendDisconnected: StompSubscription;
   private messageSubscription: StompSubscription;
   private writingStatusSubscription: StompSubscription;
+  private friendIsInChatSubscription: StompSubscription;
+  private friendIsInChat: string = "false";
 
   constructor(private notificationsService: NotificationsService, private authService: AuthService,
     private messageService: MessageService, private userService: UserService,
@@ -28,7 +30,6 @@ export class WebsocketService {
     this.stopmJsClient.webSocketFactory = () => {
       return new SockJS("http://localhost:8090/ws");
     }
-
     this.stopmJsClient.onConnect = (frame) => {
       this.stopmJsClient.subscribe(`/ws/notifications/${this.authService.getUsername()}`, e => {
         if (e.body == "200") {
@@ -38,11 +39,6 @@ export class WebsocketService {
       });
       this.stopmJsClient.publish({ destination: `/ws-app/chat/connect/${this.authService.getUsername()}` });
     }
-
-    this.stopmJsClient.onDisconnect = (frame) => {
-      console.log("onDisconnect")
-    }
-
     this.stopmJsClient.activate();
   }
 
@@ -51,13 +47,15 @@ export class WebsocketService {
   }
 
   public newNotification(userReceiver: User) {
-    this.stopmJsClient.publish({ destination: `/ws-app/notifications/${userReceiver.username}`});
+    if (this.friendIsInChat !== 'true') {
+      this.stopmJsClient.publish({ destination: `/ws-app/notifications/${userReceiver.username}`});
+    }
   }
 
   //#region Subscribe to a chat
-  public subscribeToChat(userFriend: User) {
+  public openChat(userFriend: User) {
     this.unsubscribeFromChat();
-    this.subscribe(userFriend);
+    this.subscribeToChat(userFriend);
   }
 
   private unsubscribeFromChat() {
@@ -65,25 +63,41 @@ export class WebsocketService {
     this.friendDisconnected?.unsubscribe();
     this.messageSubscription?.unsubscribe();
     this.writingStatusSubscription?.unsubscribe();
+    this.friendIsInChatSubscription?.unsubscribe();
   }
 
-  private subscribe(userFriend: User) {
+  private subscribeToChat(userFriend: User) {
+    this.subscribeToFriendIsConnected(userFriend);
+    this.subscribeToFriendIsDisconnected(userFriend);
+    this.subscribeToMessage(userFriend);
+    this.subscribeToWritingStatus(userFriend);
+    this.subscribeAndPublishIsInChatStatus(userFriend);
+  }
+
+  //#region Private subscriptions
+  private subscribeToFriendIsConnected(userFriend: User) {
     this.friendConnected = this.stopmJsClient.subscribe(`/ws/chat/connect/${userFriend.username}`, e => {
       if (e.body == "200") {
         this.userService.userConnectEvent.emit();
       }
     });
+  }
 
+  private subscribeToFriendIsDisconnected(userFriend: User) {
     this.friendDisconnected = this.stopmJsClient.subscribe(`/ws/chat/disconnect/${userFriend.username}`, e => {
       if (e.body == "200") {
         this.userService.userDisconnectEvent.emit();
       }
     });
+  }
 
+  private subscribeToMessage(userFriend: User) {
     this.messageSubscription = this.stopmJsClient.subscribe(`/ws/chat/message/${this.authService.getUsername()}/${userFriend.username}`, e => {
       this.messageService.newMessageEvent.emit(JSON.parse(e.body) as Message);
     });
+  }
 
+  private subscribeToWritingStatus(userFriend: User) {
     this.writingStatusSubscription = this.stopmJsClient.subscribe(`/ws/chat/writing/${this.authService.getUsername()}/${userFriend.username}`, e => {
       if (e.body == "200") {
         userFriend.isConnected = null;
@@ -91,13 +105,26 @@ export class WebsocketService {
       }
     });
   }
+
+  private subscribeAndPublishIsInChatStatus(userFriend: User) {
+    this.friendIsInChatSubscription = this.stopmJsClient.subscribe(`/ws/chat/inChat/${this.authService.getUsername()}/${userFriend.username}`, e => {
+      this.friendIsInChat = e.body;
+    });
+
+    this.stopmJsClient.publish({ destination: `/ws-app/chat/inChat/${this.authService.getUsername()}/${userFriend.username}` });
+  }
+  //#endregion
   //#endregion
 
   public sendMessage(userReceiver: User, message: Message) {
-    this.stopmJsClient.publish({ destination: `/ws-app/chat/message/${this.authService.getUsername()}/${userReceiver.username}`, body: JSON.stringify(message)});
+    this.stopmJsClient.publish({ destination: `/ws-app/chat/message/${this.authService.getUsername()}/${userReceiver.username}/${this.friendIsInChat}`, body: JSON.stringify(message)});
   }
 
   public userIsWriting(userReceiver: User) {
     this.stopmJsClient.publish({ destination: `/ws-app/chat/writing/${this.authService.getUsername()}/${userReceiver.username}` });
+  }
+
+  public quitChat(userReceiver: User) {
+    this.stopmJsClient.publish({ destination: `/ws-app/chat/outChat/${this.authService.getUsername()}/${userReceiver.username}` });
   }
 }

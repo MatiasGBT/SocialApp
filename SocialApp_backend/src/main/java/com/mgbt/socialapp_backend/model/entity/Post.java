@@ -31,7 +31,8 @@ public class Post implements Serializable {
     private Date date;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","description","creationDate","deletionDate"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","description","creationDate",
+            "deletionDate","isConnected"})
     @JoinColumn(name = "id_user", nullable = false)
     private UserApp user;
 
