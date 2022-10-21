@@ -61,6 +61,7 @@ Utilities provided by other developers/designers used in this project:
 - [Sweet Alert 2](https://sweetalert2.github.io/)
 - [Angular Material](https://material.angular.io/)
 - [unDraw](https://undraw.co/illustrations)
+- [Peer JS](https://peerjs.com/)
 ## Author
 
 [@MatiasGBT](https://github.com/MatiasGBT)
