@@ -232,7 +232,7 @@ CREATE TABLE `users` (
   `creation_date` datetime(6) DEFAULT NULL,
   `deletion_date` datetime(6) DEFAULT NULL,
   `is_checked` tinyint NOT NULL,
-  `is_connected` tinyint NOT NULL,
+  `status` varchar(15) NOT NULL DEFAULT 'Disconnected',
   PRIMARY KEY (`id_user`),
   UNIQUE KEY `UK_6dotkott2kjsp8vw4d0m25fb7` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
