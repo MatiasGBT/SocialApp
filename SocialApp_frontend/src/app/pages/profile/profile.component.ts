@@ -3,6 +3,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 import { Friendship } from 'src/app/models/friendship';
 import { User } from 'src/app/models/user';
+import { CallService } from 'src/app/services/call.service';
 import { FriendshipService } from 'src/app/services/friendship.service';
 import { PostService } from 'src/app/services/post.service';
 import { UserService } from 'src/app/services/user.service';
@@ -25,7 +26,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   constructor(private userService: UserService, private activatedRoute: ActivatedRoute,
     private friendshipService: FriendshipService, private router: Router,
-    private postService: PostService, private webSocketService: WebsocketService) { }
+    private postService: PostService, private webSocketService: WebsocketService,
+    private callService: CallService) { }
 
   ngOnInit(): void {
     this.userService.userChanger.subscribe(data => {
@@ -89,6 +91,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       this.user = user;
       this.getProfileHeaderData();
       this.getUsersYouMayKnow();
+      this.callService.subscribeToEvents();
     });
   }
 
@@ -120,7 +123,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
     el.scrollIntoView({behavior: 'smooth'});
   }
 
+  public callFriend() {
+    this.callService.callFriend(this.user);
+  }
+
   ngOnDestroy () {
     this.subscriber?.unsubscribe();
- }
+    this.callService.unsubscribeFromEvents();
+  }
 }

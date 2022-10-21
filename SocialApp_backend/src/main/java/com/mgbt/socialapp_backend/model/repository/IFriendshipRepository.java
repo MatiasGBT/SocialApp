@@ -10,8 +10,8 @@ import java.util.List;
 public interface IFriendshipRepository extends JpaRepository<Friendship, Long> {
 
     @Query(value = "SELECT * FROM friendships f WHERE " +
-            "f.id_user_receiver = ?1 && f.id_user_transmitter = ?2 " +
-            "OR f.id_user_receiver = ?2 && f.id_user_transmitter = ?1",
+            "(f.id_user_receiver = ?1 AND f.id_user_transmitter = ?2) " +
+            "OR (f.id_user_receiver = ?2 AND f.id_user_transmitter = ?1)",
             nativeQuery = true)
     Friendship findByUsers(Long idFriend1, Long idFriend2);
 

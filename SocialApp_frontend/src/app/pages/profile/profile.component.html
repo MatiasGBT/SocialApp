@@ -32,7 +32,7 @@
                 <button type="button" class="profile-button" *ngIf="friendship?.status == true && user?.idUser" [routerLink]="['/profile/chat', user.idUser]">
                     <i class="fa-solid fa-message"></i> {{'PROFILE.SEND_MESSAGE' | translate}}
                 </button>
-                <button type="button" class="profile-button" *ngIf="friendship?.status == true">
+                <button type="button" class="profile-button" *ngIf="friendship?.status == true" (click)="callFriend()">
                     <i class="fa-solid fa-phone-flip"></i> {{'PROFILE.CALL' | translate}}
                 </button>
                 <button type="button" class="profile-button" *ngIf="friendship?.status == true"

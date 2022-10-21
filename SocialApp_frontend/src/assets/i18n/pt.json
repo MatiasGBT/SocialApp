@@ -126,11 +126,25 @@
         "REPLY_MODAL_REPLY_BUTTON": "Responder",
         "REPLY_MODAL_CANCEL_BUTTON": "Cancelar"
     },
+    "CALL": {
+        "IS_CALLING_YOU_TITLE": " está chamando você",
+        "IS_CALLING_YOU_TEXT": "Você quer atender a chamada?",
+        "IS_CALLING_YOU_CONFIRM_BUTTON": "Sim",
+        "IS_CALLING_YOU_REJECT_BUTTON": "Não",
+        "JOINING_CALL": "Entrando na chamada...",
+        "USER_DISCONNECTED": "O usuário está desconectado",
+        "USER_ON_CALL": "O usuário está em outra chamada",
+        "CALLING_TITLE": "Chamando a ",
+        "CALLING_TEXT": "Por favor, aguarde...",
+        "FRIEND_REJECTED": "O usuário rejeitou a chamada",
+        "END_CALL": "O usuário finalizou a chamada"
+    },
     "WEBSOCKET": {
         "NEW_NOTIFICATION": "Nova notificação",
         "CONNECTED_STATUS": "Online",
         "DISCONNECTED_STATUS": "Offline",
-        "WRITING_STATUS": "Escrevendo..."
+        "WRITING_STATUS": "Escrevendo...",
+        "ONCALL_STATUS": "Em chamada"
     },
     "LANGUAGES": {
         "en": "English",

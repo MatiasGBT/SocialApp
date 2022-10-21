@@ -46,9 +46,9 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
       this.scrollDisabled = false;
     });
 
-    this.userService.userConnectEvent.subscribe(() => this.friend.isConnected = true);
+    this.userService.userConnectEvent.subscribe(() => this.friend.status = "Connected");
 
-    this.userService.userDisconnectEvent.subscribe(() => this.friend.isConnected = false);
+    this.userService.userDisconnectEvent.subscribe(() => this.friend.status = "Disconnected");
   }
 
   ngAfterViewChecked(): void {
@@ -70,14 +70,14 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
   private getFriendship(id: number) {
     this.friendshipService.getFriendship(id).subscribe(friendship => {
       if (friendship.status) {
-        this.setUsersAndGetMessages(friendship);
+        this.setUsers(friendship);
       } else {
         this.router.navigate(['/profile']);
       }
     });
   }
 
-  private setUsersAndGetMessages(friendship: Friendship) {
+  private setUsers(friendship: Friendship) {
     if (friendship?.userTransmitter.username == this.authService.getUsername()) {
       this.keycloakUser = friendship.userTransmitter;
       this.friend = friendship.userReceiver;
@@ -85,7 +85,11 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
       this.keycloakUser = friendship.userReceiver;
       this.friend = friendship.userTransmitter;
     }
-    this.webSocketService.openChat(this.friend);
+    this.initChat();
+  }
+
+  private initChat() {
+    this.webSocketService.enterChat(this.friend);
     this.messageService.getMessagesByUsers(this.keycloakUser.idUser, this.friend.idUser, this.page).subscribe(response => {
       this.messages = response.messages.reverse();
       this.isLastPage = response.isLastPage;

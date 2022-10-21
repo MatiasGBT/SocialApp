@@ -12,6 +12,7 @@ import { FullPostComponent } from './pages/full-post/full-post.component';
 import { FriendsComponent } from './pages/friends/friends.component';
 import { CommentPageComponent } from './pages/comment-page/comment-page.component';
 import { ChatComponent } from './pages/profile/chat/chat.component';
+import { CallComponent } from './pages/profile/call/call.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'index', pathMatch: 'full'},
@@ -21,6 +22,8 @@ const routes: Routes = [
   {path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard]},
   {path: 'profile/friends/:id', component: FriendsComponent, canActivate: [AuthGuard]},
   {path: 'profile/chat/:id', component: ChatComponent, canActivate: [AuthGuard]},
+  {path: 'profile/call/:id', component: CallComponent, canActivate: [AuthGuard]},
+  {path: 'profile/call/:id/:peerId', component: CallComponent, canActivate: [AuthGuard]},
   {path: 'search/:name', component: SearchUsersComponent, canActivate: [AuthGuard]},
   {path: 'notif', component: NotifComponent, canActivate: [AuthGuard]},
   {path: 'config', component: ConfigComponent, canActivate: [AuthGuard]},

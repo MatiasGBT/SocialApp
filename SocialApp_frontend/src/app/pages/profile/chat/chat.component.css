@@ -72,9 +72,10 @@
     width: 40px;
     height: 40px;
     background: #7f5af0;
-    border-radius: 50px;
+    border-radius: 50%;
     border: none;
     transition: .3s;
+    cursor: pointer;
 }
 
 #chat-footer button:hover {

@@ -31,6 +31,7 @@ import { CommentComponent } from './components/comment/comment.component';
 import { CommentPageComponent } from './pages/comment-page/comment-page.component';
 import { ChatComponent } from './pages/profile/chat/chat.component';
 import { MessageComponent } from './components/message/message.component';
+import { CallComponent } from './pages/profile/call/call.component';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -71,7 +72,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     CommentComponent,
     CommentPageComponent,
     ChatComponent,
-    MessageComponent
+    MessageComponent,
+    CallComponent
   ],
   imports: [
     BrowserModule,

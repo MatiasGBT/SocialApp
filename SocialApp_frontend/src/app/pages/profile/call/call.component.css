@@ -1,0 +1,133 @@
+#section-call {
+    padding: 0;
+    font-size: 1.25rem;
+}
+
+#call {
+    width: 100%;
+}
+
+#call-header {
+    background: #2e2e36;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+
+#friend-data {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+#friend-data img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    margin-right: 5px;
+}
+
+#call-body {
+    width: 100%;
+    /*100vh - 60px from navbar - 60px from #call-header - 60px from #call-footer - 60px from footer*/
+    height: calc(100vh - 60px - 60px - 60px - 60px);
+}
+
+#call-body div {
+    width: 100%;
+    height: 50%;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#call-body div img {
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    border-radius: 50%;
+}
+
+#call-body video {
+    width: 100%;
+    height: 100%;
+}
+
+#call-footer {
+    background: transparent;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#call-footer button {
+    width: 40px;
+    height: 40px;
+    margin-left: 5px;
+    margin-right: 5px;
+    background: #7f5af0;
+    border-radius: 50%;
+    border: none;
+    transition: .3s;
+    cursor: pointer;
+}
+
+#call-footer button:hover {
+    background: #6f4ed1;
+    transition: .3s;
+}
+
+#end-call-button {
+    background: #9b111e !important;
+}
+
+#end-call-button:hover {
+    background: #750d17 !important;
+}
+
+aside {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    #call-body {
+        /*100vh - 60px from navbar - 60px from #call-header - 60px from #call-footer*/
+        height: calc(100vh - 60px - 60px - 60px);
+    }
+}
+
+@media (min-width: 1038px) {
+    #section-call {
+        display: flex;
+    }
+
+    #call {
+        width: 75%;
+    }
+
+    #call-body {
+        display: flex;
+        align-items: center;
+    }
+
+    aside {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 15px;
+        width: 25%;
+        height: calc(100vh - 60px);
+        background: #2e2e36;
+    }
+
+    aside img {
+        width: 100%;
+    }
+}

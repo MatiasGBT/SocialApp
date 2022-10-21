@@ -46,13 +46,13 @@ public class UserApp implements Serializable {
     @Column(name = "is_checked", nullable = false, columnDefinition = "BOOLEAN")
     private Boolean isChecked;
 
-    @Column(name = "is_connected", nullable = false, columnDefinition = "BOOLEAN")
-    private Boolean isConnected;
+    @Column(name = "status", nullable = false)
+    private String status;
 
     @PrePersist
     public void setUp() {
         this.creationDate = new Date();
         this.isChecked = false;
-        this.isConnected = true;
+        this.status = "Connected";
     }
 }
