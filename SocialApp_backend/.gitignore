@@ -42,3 +42,7 @@ uploads/posts/*.gif
 uploads/posts/*.jpeg
 uploads/posts/*.jpg
 uploads/posts/*.png
+uploads/messages/*.gif
+uploads/messages/*.jpeg
+uploads/messages/*.jpg
+uploads/messages/*.png

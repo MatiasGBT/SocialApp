@@ -28,7 +28,6 @@ public class WebSocketController {
     @MessageMapping("/chat/message/{usernameTransmitter}/{usernameReceiver}/{friendIsInChat}")
     @SendTo({"/ws/chat/message/{usernameReceiver}/{usernameTransmitter}"})
     public Message sendMessage(@DestinationVariable String friendIsInChat, Message message) {
-        messageService.save(message);
         try {
             boolean friendInChat = Boolean.parseBoolean(friendIsInChat);
             if (!friendInChat) {
@@ -40,6 +39,12 @@ public class WebSocketController {
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
         }
+        return message;
+    }
+
+    @MessageMapping("/chat/message/delete/{usernameTransmitter}/{usernameReceiver}")
+    @SendTo({"/ws/chat/message/delete/{usernameReceiver}/{usernameTransmitter}"})
+    public Message deleteMessage(Message message) {
         return message;
     }
 

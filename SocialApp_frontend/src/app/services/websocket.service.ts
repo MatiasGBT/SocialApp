@@ -20,6 +20,7 @@ export class WebsocketService {
   private friendConnected: StompSubscription;
   private friendDisconnected: StompSubscription;
   private messageSubscription: StompSubscription;
+  private deleteMessageSubscription: StompSubscription;
   private writingStatusSubscription: StompSubscription;
   private friendIsInChatSubscription: StompSubscription;
   private friendIsInChat: string = "false";
@@ -125,6 +126,7 @@ export class WebsocketService {
     this.friendConnected?.unsubscribe();
     this.friendDisconnected?.unsubscribe();
     this.messageSubscription?.unsubscribe();
+    this.deleteMessageSubscription?.unsubscribe();
     this.writingStatusSubscription?.unsubscribe();
     this.friendIsInChatSubscription?.unsubscribe();
   }
@@ -133,6 +135,7 @@ export class WebsocketService {
     this.subscribeToFriendIsConnected(userFriend);
     this.subscribeToFriendIsDisconnected(userFriend);
     this.subscribeToMessage(userFriend);
+    this.subscribeToDeleteMessage(userFriend);
     this.subscribeToWritingStatus(userFriend);
     this.subscribeAndPublishIsInChatStatus(userFriend);
   }
@@ -160,6 +163,12 @@ export class WebsocketService {
     });
   }
 
+  private subscribeToDeleteMessage(userFriend: User) {
+    this.deleteMessageSubscription = this.stopmJsClient.subscribe(`/ws/chat/message/delete/${this.authService.getUsername()}/${userFriend.username}`, e => {
+      this.messageService.deleteMessageEvent.emit(JSON.parse(e.body) as Message);
+    });
+  }
+
   private subscribeToWritingStatus(userFriend: User) {
     this.writingStatusSubscription = this.stopmJsClient.subscribe(`/ws/chat/writing/${this.authService.getUsername()}/${userFriend.username}`, e => {
       if (e.body == "200") {
@@ -180,6 +189,10 @@ export class WebsocketService {
 
   public sendMessage(userReceiver: User, message: Message) {
     this.stopmJsClient.publish({ destination: `/ws-app/chat/message/${this.authService.getUsername()}/${userReceiver.username}/${this.friendIsInChat}`, body: JSON.stringify(message)});
+  }
+
+  public deleteMessage(userReceiver: User, message: Message) {
+    this.stopmJsClient.publish({ destination: `/ws-app/chat/message/delete/${this.authService.getUsername()}/${userReceiver.username}`, body: JSON.stringify(message)});
   }
 
   public userIsWriting(userReceiver: User) {

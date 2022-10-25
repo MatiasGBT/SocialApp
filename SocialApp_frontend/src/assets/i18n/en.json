@@ -118,6 +118,12 @@
         "REPORT_MODAL_BUTTON_REPORT": "Report",
         "REPORT_MODAL_BUTTON_CANCEL": "Cancel"
     },
+    "MESSAGE": {
+        "DELETE_MODAL_TITLE": "Are you sure you want to delete this message?",
+        "DELETE_MODAL_TEXT": "This action cannot be undone",
+        "DELETE_MODAL_BUTTON_DELETE": "Delete",
+        "DELETE_MODAL_BUTTON_CANCEL": "Cancel"
+    },
     "COMMENT": {
         "SEE_ANSWERS_BTN": "See replies",
         "REPLY_BTN": "Reply",
@@ -125,6 +131,11 @@
         "REPLY_MODAL_TEXT": "Max. 100 characters.",
         "REPLY_MODAL_REPLY_BUTTON": "Reply",
         "REPLY_MODAL_CANCEL_BUTTON": "Cancel"
+    },
+    "CHAT": {
+        "INVALID_MESSAGE_MODAL_TITLE": "Error",
+        "INVALID_MESSAGE_MODAL_TEXT": "The message must have a text or a photo",
+        "INVALID_FORMAT": "Invalid file format, must be an image"
     },
     "CALL": {
         "IS_CALLING_YOU_TITLE": " is calling you",

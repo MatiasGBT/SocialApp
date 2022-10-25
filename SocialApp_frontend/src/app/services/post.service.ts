@@ -80,30 +80,6 @@ export class PostService {
     );
   }
 
-  public createPostWithoutFile(postText: string): Observable<any> {
-    let formData = new FormData();
-    formData.append("text", postText);
-    formData.append("username", this.authService.getUsername());
-    return this.http.post<any>(`${this.baseUrl}/post/text`, formData).pipe(
-      catchError(e => {
-        this.catchErrorService.showErrorModal(e);
-        return throwError(() => e);
-      })
-    );
-  }
-
-  public createPostWithoutText(file: File): Observable<any> {
-    let formData = new FormData();
-    formData.append("file", file);
-    formData.append("username", this.authService.getUsername());
-    return this.http.post<any>(`${this.baseUrl}/post/file`, formData).pipe(
-      catchError(e => {
-        this.catchErrorService.showErrorModal(e);
-        return throwError(() => e);
-      })
-    );
-  }
-
   public deletePost(idPost: number): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/delete/${idPost}`).pipe(
       catchError(e => {

@@ -59,7 +59,7 @@
 }
 
 #chat-footer input {
-    width: calc(100% - 45px); /*100% - #chat-footer button width + 5px extra*/
+    width: calc(100% - 40px - 40px - 5px); /*100% - #chat-footer buttons width + 5px extra*/
     height: 40px;
     border: 2px solid #7f5af0;
     outline: none;
@@ -81,6 +81,13 @@
 #chat-footer button:hover {
     background: #6f4ed1;
     transition: .3s;
+}
+
+#delete-file-button {
+    position: absolute;
+    background: red;
+    width: 10px;
+    height: 10px;
 }
 
 aside {

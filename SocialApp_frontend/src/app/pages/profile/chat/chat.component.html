@@ -19,6 +19,9 @@
         </div>
         <div id="chat-footer">
             <input type="text" name="message" [(ngModel)]="message.text" maxlength="50" (keypress)="userIsWriting($event)">
+            <input #messagePhoto type="file" accept="image/png, image/gif, image/jpeg, image/jpg" (change)="selectPhoto($event)" style="display: none;">
+            <button *ngIf="file" (click)="unselectFile()"><i class="fa-solid fa-xmark"></i></button>
+            <button *ngIf="!file" (click)="messagePhoto.click()"><i class="fa-solid fa-image"></i></button>
             <button (click)="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
         </div>
     </div>

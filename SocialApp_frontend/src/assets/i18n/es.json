@@ -118,6 +118,12 @@
         "REPORT_MODAL_BUTTON_REPORT": "Reportar",
         "REPORT_MODAL_BUTTON_CANCEL": "Cancelar"
     },
+    "MESSAGE": {
+        "DELETE_MODAL_TITLE": "¿Estás seguro de que quieres eliminar este mensaje?",
+        "DELETE_MODAL_TEXT": "Esta acción no se podrá deshacer",
+        "DELETE_MODAL_BUTTON_DELETE": "Eliminar",
+        "DELETE_MODAL_BUTTON_CANCEL": "Cancelar"
+    },
     "COMMENT": {
         "SEE_ANSWERS_BTN": "Ver respuestas",
         "REPLY_BTN": "Responder",
@@ -125,6 +131,11 @@
         "REPLY_MODAL_TEXT": "Máx. 100 caracteres.",
         "REPLY_MODAL_REPLY_BUTTON": "Responder",
         "REPLY_MODAL_CANCEL_BUTTON": "Cancelar"
+    },
+    "CHAT": {
+        "INVALID_MESSAGE_MODAL_TITLE": "Error",
+        "INVALID_MESSAGE_MODAL_TEXT": "El mensaje debe tener un texto o una foto",
+        "INVALID_FORMAT": "Formato de archivo inválido, tiene que ser una imagen"
     },
     "CALL": {
         "IS_CALLING_YOU_TITLE": " te está llamando",

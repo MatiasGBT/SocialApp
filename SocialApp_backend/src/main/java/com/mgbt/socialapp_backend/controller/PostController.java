@@ -168,81 +168,28 @@ public class PostController {
 
     @PostMapping("/post")
     @PreAuthorize("hasRole('user')")
-    public ResponseEntity<?> createPost(@RequestParam("file") MultipartFile file,
+    public ResponseEntity<?> createPost(@RequestParam(value = "file", required = false) MultipartFile file,
                                         @RequestParam("text") String text,
                                         @RequestParam("username") String username,
                                         Locale locale) {
-        Map<String, Object> response = new HashMap<>();
-        if (!file.isEmpty()) {
-            try {
-                UserApp user = userService.findByUsername(username);
-                Post post = new Post();
-                post.setText(text);
-                post.setUser(user);
-                String fileName = uploadFileService.save(file, FINAL_DIRECTORY);
-                post.setPhoto(fileName);
-                postService.save(post);
-                response.put("message", messageSource.getMessage("postController.createPostError", null, locale) + fileName);
-                response.put("idPost", post.getIdPost());
-                return new ResponseEntity<>(response, HttpStatus.CREATED);
-            } catch (Exception e) {
-                response.put("message", messageSource.getMessage("error.databaseOrFile", null, locale));
-                response.put("error", e.getMessage());
-                return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        } else {
-            response.put("error", messageSource.getMessage("error.emptyFile", null, locale));
-            return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
-        }
-    }
-
-    @PostMapping("/post/text")
-    @PreAuthorize("isAuthenticated() and hasRole('user')")
-    public ResponseEntity<?> createPostWithoutFile(@RequestParam("text") String text,
-                                                   @RequestParam("username") String username,
-                                                   Locale locale) {
         Map<String, Object> response = new HashMap<>();
         try {
             UserApp user = userService.findByUsername(username);
             Post post = new Post();
             post.setText(text);
             post.setUser(user);
+            if (file != null && !file.isEmpty()) {
+                String fileName = uploadFileService.save(file, FINAL_DIRECTORY);
+                post.setPhoto(fileName);
+            }
             postService.save(post);
-            response.put("message", messageSource.getMessage("postController.createPostError", null, locale));
+            response.put("message", messageSource.getMessage("postController.createPost", null, locale));
             response.put("idPost", post.getIdPost());
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (Exception e) {
             response.put("message", messageSource.getMessage("error.databaseOrFile", null, locale));
             response.put("error", e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @PostMapping("/post/file")
-    @PreAuthorize("hasRole('user')")
-    public ResponseEntity<?> createPostWithoutText(@RequestParam("file") MultipartFile file,
-                                                   @RequestParam("username") String username,
-                                                   Locale locale) {
-        Map<String, Object> response = new HashMap<>();
-        if (!file.isEmpty()) {
-            try {
-                UserApp user = userService.findByUsername(username);
-                Post post = new Post();
-                post.setUser(user);
-                String fileName = uploadFileService.save(file, FINAL_DIRECTORY);
-                post.setPhoto(fileName);
-                postService.save(post);
-                response.put("message", messageSource.getMessage("postController.createPostError", null, locale) + fileName);
-                response.put("idPost", post.getIdPost());
-                return new ResponseEntity<>(response, HttpStatus.CREATED);
-            } catch (Exception e) {
-                response.put("message", messageSource.getMessage("error.databaseOrFile", null, locale));
-                response.put("error", e.getMessage());
-                return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        } else {
-            response.put("error", messageSource.getMessage("error.emptyFile", null, locale));
-            return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
         }
     }
 

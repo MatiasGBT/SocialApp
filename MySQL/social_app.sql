@@ -106,6 +106,7 @@ CREATE TABLE `messages` (
   `id_user_receiver` bigint NOT NULL,
   `id_user_transmitter` bigint NOT NULL,
   `date` datetime NOT NULL,
+  `photo` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id_message`),
   KEY `fk_user_transmitter` (`id_user_transmitter`),
   KEY `fk_user_receiver` (`id_user_receiver`),

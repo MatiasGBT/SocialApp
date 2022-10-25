@@ -6,4 +6,5 @@ export class Message {
     userTransmitter: User;
     userReceiver: User;
     date: Date;
+    photo: string;
 }

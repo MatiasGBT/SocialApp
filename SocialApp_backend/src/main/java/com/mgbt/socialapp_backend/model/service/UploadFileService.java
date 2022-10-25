@@ -20,7 +20,7 @@ public class UploadFileService implements IUploadFileService {
         if(!resource.exists() && !resource.isReadable() && finalDirectory.contains("users")) {
             filePath = Paths.get("src/main/resources/static/images").resolve("no-photo.jpg").toAbsolutePath();
             resource = new UrlResource(filePath.toUri());
-        } else if (!resource.exists() && !resource.isReadable() && finalDirectory.contains("posts")) {
+        } else if (!resource.exists() && !resource.isReadable() && (finalDirectory.contains("posts") || (finalDirectory.contains("messages")))) {
             filePath = Paths.get("src/main/resources/static/images").resolve("no-image.jpg").toAbsolutePath();
             resource = new UrlResource(filePath.toUri());
         }
@@ -37,7 +37,7 @@ public class UploadFileService implements IUploadFileService {
 
     @Override
     public Boolean delete(String fileName, String directory) {
-        if(fileName !=null && fileName.length() >0) {
+        if(fileName != null && fileName.length() > 0) {
             Path lastFilePath = Paths.get("uploads" + directory).resolve(fileName).toAbsolutePath();
             File lastFile = lastFilePath.toFile();
             if(lastFile.exists() && lastFile.canRead()) {

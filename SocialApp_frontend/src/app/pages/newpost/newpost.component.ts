@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { PostService } from 'src/app/services/post.service';
+import { TranslateExtensionService } from 'src/app/services/translate-extension.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -16,7 +17,7 @@ export class NewpostComponent implements OnInit {
   public publishBtnText: string;
 
   constructor(private translate: TranslateService, private postService: PostService,
-    private router: Router) { }
+    private router: Router, private translateExtensionService: TranslateExtensionService) { }
 
   ngOnInit(): void {
     this.translate.get('NEWPOST.PLACEHOLDER').subscribe((res: string) => this.placeholder = res);
@@ -40,45 +41,26 @@ export class NewpostComponent implements OnInit {
   public createPost() {
     if (this.postText == null && this.files[0] == null) {
       this.fireErrorModal();
-    } else if (this.postText != null && this.files[0] != null) {
-      this.createCompletePost();
-    } else if (this.postText != null && this.files[0] == null) {
-      this.createPostWithoutFile();
-    } else if (this.postText == null && this.files[0] != null) {
-      this.createPostWithoutText();
+    } else {
+      this.sendPost();
     }
   }
 
   private fireErrorModal() {
-    let titleError: string, textError: string;
-    this.translate.get("NEWPOST.MODAL_ERROR_TITLE").subscribe((res) => titleError = res);
-    this.translate.get("NEWPOST.MODAL_ERROR_TEXT").subscribe((res) => textError = res);
     Swal.fire({
-      icon: 'error', title: titleError, text: textError, showConfirmButton: false,
-      timer: 1250, background: '#7f5af0', color: 'white'
+      title: this.translateExtensionService.getTranslatedStringByUrl("NEWPOST.MODAL_ERROR_TITLE"),
+      text: this.translateExtensionService.getTranslatedStringByUrl("NEWPOST.MODAL_ERROR_TEXT"),
+      icon: 'error', showConfirmButton: false, timer: 1250, background: '#7f5af0', color: 'white'
     });
   }
 
-  private createCompletePost() {
+  private sendPost() {
+    if (!this.postText) {
+      this.postText = "";
+    }
     this.postService.createPost(this.postText, this.files[0]).subscribe(response => {
       console.log(response.message);
       this.postText = "";
-      this.files = [];
-      this.router.navigate(['post/', response.idPost]);
-    });
-  }
-
-  private createPostWithoutFile() {
-    this.postService.createPostWithoutFile(this.postText).subscribe(response => {
-      console.log(response.message);
-      this.postText = "";
-      this.router.navigate(['post/', response.idPost]);
-    });
-  }
-
-  private createPostWithoutText() {
-    this.postService.createPostWithoutText(this.files[0]).subscribe(response => {
-      console.log(response.message);
       this.files = [];
       this.router.navigate(['post/', response.idPost]);
     });
