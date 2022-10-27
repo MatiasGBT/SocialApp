@@ -110,6 +110,20 @@ public class PostController {
         }
     }
 
+    @GetMapping("/get/popular")
+    @PreAuthorize("isAuthenticated() and hasRole('user')")
+    public ResponseEntity<?> getTheMostPopularPostFromToday(Locale locale) {
+        try {
+            Post popularPost = postService.findTheMostPopularPostsFromToday();
+            return new ResponseEntity<>(popularPost, HttpStatus.OK);
+        } catch (DataAccessException e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", messageSource.getMessage("error.database", null, locale));
+            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/get/count/posts/{idUser}")
     @PreAuthorize("isAuthenticated() and hasRole('user')")
     public ResponseEntity<?> countPostsByUser(@PathVariable Long idUser, Locale locale) {
@@ -136,10 +150,12 @@ public class PostController {
             like.setPost(post);
             like.setUser(user);
             this.likeService.save(like);
-            NotificationPost notificationPost = new NotificationPost();
-            notificationPost.setPost(post);
-            notificationPost.setUserReceiver(post.getUser());
-            this.notificationService.save(notificationPost);
+            if (post.getUser().getIdUser() != user.getIdUser()) {
+                NotificationPost notificationPost = new NotificationPost();
+                notificationPost.setPost(post);
+                notificationPost.setUserReceiver(post.getUser());
+                this.notificationService.save(notificationPost);
+            }
             response.put("message", messageSource.getMessage("postController.likePost", null, locale));
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (DataAccessException e) {

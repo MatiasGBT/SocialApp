@@ -7,35 +7,7 @@
     
     <aside>
         <h2>{{'ASIDE.FEATURED_POST' | translate}}</h2>
-        <div class="publication" style="padding-top: 5px;">
-            <div class="publication-header">
-                <figure class="publication-header-user">
-                    <img src="https://via.placeholder.com/30">
-                    <figcaption>FC Barcelona</figcaption><i class="fa-solid fa-check"></i>
-                </figure>
-            </div>
-            <div class="publication-body">
-                <p>Agreement in principle for the transfer of Robert Lewandowski</p>
-                <img src="https://via.placeholder.com/200">
-            </div>
-            <div class="publication-footer">
-                1.267.485 <i class="fa-solid fa-heart"></i>
-            </div>
-        </div>
-
-        <h2>{{'ASIDE.FEATURED_USERS' | translate}}</h2>
-        <figure class="users-aside">
-            <img src="https://via.placeholder.com/30">
-            <figcaption>FC Barcelona</figcaption><i class="fa-solid fa-check"></i>
-        </figure>
-        <figure class="users-aside">
-            <img src="https://via.placeholder.com/30">
-            <figcaption>Real Madrid CF</figcaption><i class="fa-solid fa-check"></i>
-        </figure>
-        <figure class="users-aside">
-            <img src="https://via.placeholder.com/30">
-            <figcaption>G2 Esports</figcaption><i class="fa-solid fa-check"></i>
-        </figure>
+        <post-comp *ngIf="popularPost" [post]="popularPost"></post-comp>
     </aside>
 
 </section>

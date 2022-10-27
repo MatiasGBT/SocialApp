@@ -95,4 +95,9 @@ public class PostService implements IService<Post> {
         return postsPage.get(postsPage.size()-1).getIdPost().equals(lastId);
     }
     //</editor-fold>
+
+    @Transactional(readOnly = true)
+    public Post findTheMostPopularPostsFromToday() {
+        return repository.findTheMostPopularPostFromToday();
+    }
 }

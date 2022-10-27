@@ -52,7 +52,7 @@ export class ConfigComponent implements OnInit {
   }
 
   logout() {
-    this.webSocketService.endConnection();
     this.keycloakService.logout();
+    this.webSocketService.endConnection();
   }
 }

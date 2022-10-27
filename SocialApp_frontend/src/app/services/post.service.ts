@@ -37,6 +37,15 @@ export class PostService {
     );
   }
 
+  public getTheMostPopularPostFromToday(): Observable<Post> {
+    return this.http.get<Post>(`${this.baseUrl}/get/popular`).pipe(
+      catchError(e => {
+        this.catchErrorService.showErrorModal(e);
+        return throwError(() => e);
+      })
+    );
+  }
+
   public countPostByUser(idUser: number): Observable<number> {
     return this.http.get<number>(`${this.baseUrl}/get/count/posts/${idUser}`).pipe(
       catchError(e => {

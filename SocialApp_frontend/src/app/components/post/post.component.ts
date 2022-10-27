@@ -46,7 +46,9 @@ export class PostComponent implements OnInit {
           console.log(response.message);
           this.isLiked = true;
           this.post.likes.length += 1;
-          this.webSocketService.newNotification(this.post.user);
+          if (this.post.user.username != this.authService.getUsername()) {
+            this.webSocketService.newNotification(this.post.user);
+          }
         });
       });
     }

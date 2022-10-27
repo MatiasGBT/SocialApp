@@ -14,6 +14,7 @@ public interface IPostRepository extends JpaRepository<Post, Long> {
             "WHERE (f.id_user_transmitter = ?1 OR f.id_user_receiver = ?1) " +
             "AND p.id_user != ?1 " +
             "AND DATE(p.date) = CURDATE() " +
+            "AND f.status = 1 " +
             "ORDER BY p.date DESC, p.id_post DESC LIMIT ?2,10",
             nativeQuery = true)
     List<Post> findFeedByUser(Long idUser, Integer from);
@@ -23,6 +24,7 @@ public interface IPostRepository extends JpaRepository<Post, Long> {
             "p.id_user = f.id_user_receiver " +
             "WHERE (f.id_user_transmitter = ?1 OR f.id_user_receiver = ?1) " +
             "AND p.id_user != ?1 " +
+            "AND f.status = 1 " +
             "AND DATE(p.date) = CURDATE()",
             nativeQuery = true)
     Long findLastIdPostFromFeedByUser(Long idUser);
@@ -33,6 +35,7 @@ public interface IPostRepository extends JpaRepository<Post, Long> {
             "WHERE (f.id_user_transmitter = ?1 OR f.id_user_receiver = ?1) " +
             "AND p.id_user != ?1 " +
             "AND DATE(p.date) != CURDATE() " +
+            "AND f.status = 1 " +
             "ORDER BY p.date DESC, p.id_post DESC LIMIT ?2,10",
             nativeQuery = true)
     List<Post> findOldFeedByUser(Long idUser, Integer from);
@@ -42,6 +45,7 @@ public interface IPostRepository extends JpaRepository<Post, Long> {
             "p.id_user = f.id_user_receiver " +
             "WHERE (f.id_user_transmitter = ?1 OR f.id_user_receiver = ?1) " +
             "AND p.id_user != ?1 " +
+            "AND f.status = 1 " +
             "AND DATE(p.date) != CURDATE()",
             nativeQuery = true)
     Long findLastIdPostFromOldFeedByUser(Long idUser);
@@ -55,4 +59,14 @@ public interface IPostRepository extends JpaRepository<Post, Long> {
 
     @Query(value = "SELECT COUNT(*) FROM posts p WHERE p.id_user = ?", nativeQuery = true)
     Integer countPostsByUser(Long idUser);
+
+    @Query(value = "SELECT p.*, COUNT(l.id_like) as total_likes FROM posts p " +
+            "INNER JOIN users u ON p.id_user = u.id_user " +
+            "INNER JOIN likes l ON p.id_post = l.id_post " +
+            "WHERE u.is_checked = 1 " +
+            "AND DATE(p.date) = CURDATE() " +
+            "GROUP BY (p.id_post) " +
+            "ORDER BY total_likes DESC, p.date ASC LIMIT 1",
+            nativeQuery = true)
+    Post findTheMostPopularPostFromToday();
 }
