@@ -46,3 +46,5 @@ uploads/messages/*.gif
 uploads/messages/*.jpeg
 uploads/messages/*.jpg
 uploads/messages/*.png
+!uploads/posts/79b2a43b-1b31-4be8-bd67-9c9c9e536881_fdgh.png
+!uploads/users/b4b7cac7-433a-4ef3-be1a-4ffc93de7352_1666966437308.jpeg
