@@ -52,10 +52,38 @@ public interface IPostRepository extends JpaRepository<Post, Long> {
 
     @Query(value = "SELECT p.* FROM posts p WHERE p.id_user = ?1 ORDER BY p.date DESC, p.id_post DESC LIMIT ?2,10",
             nativeQuery = true)
-    List<Post> findByUser(Long idUser, Integer from);
+    List<Post> findPostsByUser(Long idUser, Integer from);
 
     @Query(value = "SELECT MIN(p.id_post) FROM posts p WHERE p.id_user = ?", nativeQuery = true)
     Long findLastIdPostFromPostsByUser(Long idUser);
+
+    @Query(value = "SELECT p.* FROM posts p " +
+            "INNER JOIN likes l ON p.id_post = l.id_post " +
+            "WHERE l.id_user = ?1 " +
+            "ORDER BY l.date DESC " +
+            "LIMIT ?2,10", nativeQuery = true)
+    List<Post> findLikedPostsByUser(Long idUser, Integer from);
+
+    @Query(value = "SELECT p.id_post FROM posts p " +
+            "INNER JOIN likes l ON p.id_post = l.id_post " +
+            "WHERE l.id_user = ? LIMIT 1", nativeQuery = true)
+    Long findLastIdPostFromLikedPostsByUser(Long idUser);
+
+    @Query(value = "SELECT p.* FROM posts p " +
+            "INNER JOIN users u ON p.id_user = u.id_user " +
+            "WHERE u.is_checked = 1 " +
+            "AND p.id_post != 1 " +
+            "AND DATE(p.date) = CURDATE() " +
+            "ORDER BY p.date DESC " +
+            "LIMIT ?,10", nativeQuery = true)
+    List<Post> findNoFriendsFeed(Integer from);
+
+    @Query(value = "SELECT MIN(p.id_post) FROM posts p " +
+            "INNER JOIN users u ON p.id_user = u.id_user " +
+            "WHERE u.is_checked = 1 " +
+            "AND p.id_post != 1 " +
+            "AND DATE(p.date) = CURDATE()", nativeQuery = true)
+    Long findLastIdPostFromNoFriendsFeed(Long idUser);
 
     @Query(value = "SELECT COUNT(*) FROM posts p WHERE p.id_user = ?", nativeQuery = true)
     Integer countPostsByUser(Long idUser);

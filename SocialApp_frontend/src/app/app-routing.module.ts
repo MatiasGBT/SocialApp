@@ -13,12 +13,14 @@ import { FriendsComponent } from './pages/friends/friends.component';
 import { CommentPageComponent } from './pages/comment-page/comment-page.component';
 import { ChatComponent } from './pages/profile/chat/chat.component';
 import { CallComponent } from './pages/profile/call/call.component';
+import { LikedPostsComponent } from './pages/profile/liked-posts/liked-posts.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'index', pathMatch: 'full'},
   {path: 'index', component: IndexComponent, canActivate: [AuthGuard]},
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
   {path: 'profile/edit', component: EditProfileComponent, canActivate: [AuthGuard]},
+  {path: 'profile/liked', component: LikedPostsComponent, canActivate: [AuthGuard]},
   {path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard]},
   {path: 'profile/friends/:id', component: FriendsComponent, canActivate: [AuthGuard]},
   {path: 'profile/chat/:id', component: ChatComponent, canActivate: [AuthGuard]},

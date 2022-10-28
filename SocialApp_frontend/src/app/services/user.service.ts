@@ -57,7 +57,20 @@ export class UserService {
     );
   }
 
-  public sendNewPhoto(file: File): Observable<any> {
+  public updateProfile(file: File, description: string): Observable<any> {
+    let formData = new FormData();
+    formData.append("file", file);
+    formData.append("description", description);
+    formData.append("username", this.authService.getUsername());
+    return this.http.post<any>(`${this.baseUrl}/update`, formData).pipe(
+      catchError(e => {
+        this.catchErrorService.showErrorModal(e);
+        return throwError(() => e);
+      })
+    );
+  }
+
+  /*public sendNewPhoto(file: File): Observable<any> {
     let formData = new FormData();
     formData.append("file", file);
     formData.append("username", this.authService.getUsername());
@@ -76,7 +89,7 @@ export class UserService {
         return throwError(() => e);
       })
     );
-  }
+  }*/
 
   public getFriends(idUser: number): Observable<User[]> {
     return this.http.get<User[]>(`${this.baseUrl}/get/friends/${idUser}`).pipe(

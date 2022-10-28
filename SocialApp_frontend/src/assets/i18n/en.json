@@ -24,13 +24,13 @@
     },
     "ASIDE": {
         "FEATURED_POST": "Featured post",
-        "FEATURED_USERS": "Featured users",
         "USERS_MAYBE": "Users you may know"
     },
     "PROFILE": {
         "NUMBER_OF_POSTS": "Posts",
         "NUMBER_OF_FRIENDS": "Friends",
         "EDIT_PROFILE": "Edit profile",
+        "LIKED_POSTS_BUTTON": "See posts you liked",
         "ADD_FRIEND": "Add friend",
         "SEND_MESSAGE": "Send message",
         "CALL": "Call",
@@ -50,6 +50,9 @@
             "APPLY_BUTTON": "Apply",
             "CANCEL_BUTTON": "Cancel",
             "CHANGES_SAVED": "Changes saved"
+        },
+        "LIKED_POSTS": {
+            "NO_POSTS": "You haven't liked any post yet, what are you waiting for?"
         }
     },
     "NOTIFICATIONS": {

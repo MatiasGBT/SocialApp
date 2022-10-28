@@ -59,8 +59,24 @@ export class EditProfileComponent implements OnInit {
     if (this.description == null || this.description == undefined) {
       this.description = "";
     }
-    this.checkAndSaveDescription();
-    this.checkAndSaveProfilePhoto();
+    this.updateProfile();
+    this.fireSuccessModal();
+  }
+
+  private updateProfile() {
+    this.userService.updateProfile(this.file, this.description).subscribe(response => {
+      console.log(response.message);
+      if (response?.photo) {
+        console.log(response.photo);
+        this.userService.userChanger.emit({photo: response.photo});
+      }
+      if (response?.description) {
+        console.log(response.description);
+      }
+    });
+  }
+
+  private fireSuccessModal() {
     Swal.fire({
       icon: 'success', title: this.changesSaved, showConfirmButton: false,
       timer: 1250, background: '#7f5af0', color: 'white'
@@ -70,24 +86,8 @@ export class EditProfileComponent implements OnInit {
   }
 
   public checkChanges(): void {
-      if (this.description != undefined && this.description != this.user.description) {
-        this.noChanges = false;
-      }
-  }
-
-  private checkAndSaveDescription() {
-    if (this.description != this.user.description) {
-      this.user.description = this.description;
-      this.userService.updateDescription(this.user).subscribe(response => console.log(response.message));
+    if (this.description != undefined && this.description != this.user.description) {
+      this.noChanges = false;
     }
-  }
-
-  private checkAndSaveProfilePhoto() {
-    if (this.file) {
-      this.userService.sendNewPhoto(this.file).subscribe(response => {
-        console.log(response.message);
-        this.userService.userChanger.emit({photo: response.photo});
-      });
-    }
-  }
+}
 }

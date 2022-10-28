@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Post } from 'src/app/models/post';
 import { PostService } from 'src/app/services/post.service';
 
@@ -13,6 +13,8 @@ export class PostsListComponent implements OnInit {
   public posts: Post[] = [];
   public isLastPage: boolean;
   private from: number = 0;
+  @Output() noTodayFeedEvent = new EventEmitter<string>();
+  @Output() noOldFeedEvent = new EventEmitter<string>();
 
   constructor(private postService: PostService) { }
 
@@ -32,6 +34,12 @@ export class PostsListComponent implements OnInit {
       this.isLastPage = response.isLastPage;
       if (this.isLastPage && this.page == "feed") {
         this.postService.isLastFeedPageEmitter.emit(this.isLastPage);
+      }
+      if (this.page == "feed" && this.posts.length == 0) {
+        this.noTodayFeedEvent.emit();
+      }
+      if (this.page == "feedOld" && this.posts.length == 0) {
+        this.noOldFeedEvent.emit();
       }
     });
   }

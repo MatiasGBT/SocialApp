@@ -74,13 +74,33 @@ public class PostService implements IService<Post> {
     }
 
     @Transactional(readOnly = true)
-    public List<Post> findByUserId(Long idUser, Integer from) {
-        return repository.findByUser(idUser, from);
+    public List<Post> findPostsByUserId(Long idUser, Integer from) {
+        return repository.findPostsByUser(idUser, from);
     }
 
     @Transactional(readOnly = true)
     public Long findLastIdPostFromUserPosts(Long idUser) {
         return repository.findLastIdPostFromPostsByUser(idUser);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Post> findLikedPostsByUserId(Long idUser, Integer from) {
+        return repository.findLikedPostsByUser(idUser, from);
+    }
+
+    @Transactional(readOnly = true)
+    public Long findLastIdPostFromLikedPostsUser(Long idUser) {
+        return repository.findLastIdPostFromLikedPostsByUser(idUser);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Post> findNoFriendsFeed(Integer from) {
+        return repository.findNoFriendsFeed(from);
+    }
+
+    @Transactional(readOnly = true)
+    public Long findLastIdPostFromNoFriendsFeed(Long idUser) {
+        return repository.findLastIdPostFromNoFriendsFeed(idUser);
     }
 
     public boolean getIsLastPage(Long lastId, List<Post> postsPage) {

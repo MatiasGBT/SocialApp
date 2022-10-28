@@ -1,0 +1,33 @@
+#posts-list {
+    width: 100%;
+}
+
+aside {
+    display: none;
+}
+
+@media (min-width: 1038px) {
+    #section-liked-posts {
+        display: flex;
+    }
+
+    #posts-list {
+        width: 75%;
+    }
+    
+    aside {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 15px;
+        width: 25%;
+        height: calc(100vh - 60px);
+        background: #2e2e36;
+        position: sticky;
+        top: 60px;
+    }
+
+    aside img {
+        width: 100%;
+    }
+}

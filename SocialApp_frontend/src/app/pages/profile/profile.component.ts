@@ -19,7 +19,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
   private id: number;
   public friendship: Friendship;
   public friendsQuantity: number;
-  public isLastPage: boolean;
   public userPostQuantity: number;
   public usersYouMayKnow: User[] = [];
   private subscriber: Subscription;

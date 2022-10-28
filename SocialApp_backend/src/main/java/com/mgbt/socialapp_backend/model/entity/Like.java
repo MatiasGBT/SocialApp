@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 import javax.persistence.*;
 import java.io.*;
+import java.util.Date;
 
 @Data
 @Entity
@@ -28,4 +29,13 @@ public class Like implements Serializable {
             "photo","creationDate","deletionDate","isChecked","isConnected"})
     @JoinColumn(name = "id_user", nullable = false)
     private UserApp user;
+
+    @Column(name = "date")
+    @Temporal(value = TemporalType.TIMESTAMP)
+    private Date date;
+
+    @PrePersist
+    public void setUpCreationDate() {
+        this.date = new Date();
+    }
 }

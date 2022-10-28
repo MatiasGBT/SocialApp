@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Post } from 'src/app/models/post';
-import { User } from 'src/app/models/user';
 import { PostService } from 'src/app/services/post.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -14,6 +13,9 @@ export class IndexComponent implements OnInit {
   public showOldFeed: boolean = false;
   public isLastPage: boolean;
   public popularPost: Post;
+  private noTodayFeed: boolean = false;
+  public showNoFriendsFeed: boolean = false;
+  public welcomePost: Post;
 
   constructor(private userService: UserService, private postService: PostService) { }
 
@@ -26,5 +28,16 @@ export class IndexComponent implements OnInit {
     this.postService.getTheMostPopularPostFromToday().subscribe(popularPost => {
       this.popularPost = popularPost;
     });
+  }
+
+  public updateNoTodayFeed() {
+    this.noTodayFeed = true;
+  }
+
+  public updateNoOldFeed() {
+    if (this.noTodayFeed) {
+      this.showNoFriendsFeed = true;
+      this.postService.getPost(1).subscribe(post => this.welcomePost = post);
+    }
   }
 }

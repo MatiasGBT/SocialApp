@@ -21,7 +21,9 @@ public class PostController {
     private final static String FINAL_DIRECTORY = "/posts";
     private final static String INDEX_FEED_PAGE = "feed";
     private final static String INDEX_OLD_FEED_PAGE = "feedOld";
+    private final static String INDEX_NO_FRIENDS = "noFriends";
     private final static String PROFILE_PAGE = "profile";
+    private final static String LIKED_POSTS_PAGE = "likedPosts";
 
     @Autowired
     private UserService userService;
@@ -80,9 +82,19 @@ public class PostController {
                     Long lastIdPost = postService.findLastIdPostFromOldUserFeed(idUser);
                     isLastPage = postService.getIsLastPage(lastIdPost, posts);
                 }
+                case INDEX_NO_FRIENDS -> {
+                    posts = postService.findNoFriendsFeed(from);
+                    Long lastIdPost = postService.findLastIdPostFromNoFriendsFeed(idUser);
+                    isLastPage = postService.getIsLastPage(lastIdPost, posts);
+                }
                 case PROFILE_PAGE -> {
-                    posts = postService.findByUserId(idUser, from);
+                    posts = postService.findPostsByUserId(idUser, from);
                     Long lastIdPost = postService.findLastIdPostFromUserPosts(idUser);
+                    isLastPage = postService.getIsLastPage(lastIdPost, posts);
+                }
+                case LIKED_POSTS_PAGE -> {
+                    posts = postService.findLikedPostsByUserId(idUser, from);
+                    Long lastIdPost = postService.findLastIdPostFromLikedPostsUser(idUser);
                     isLastPage = postService.getIsLastPage(lastIdPost, posts);
                 }
             }
@@ -150,7 +162,7 @@ public class PostController {
             like.setPost(post);
             like.setUser(user);
             this.likeService.save(like);
-            if (post.getUser().getIdUser() != user.getIdUser()) {
+            if (!post.getUser().getIdUser().equals(user.getIdUser())) {
                 NotificationPost notificationPost = new NotificationPost();
                 notificationPost.setPost(post);
                 notificationPost.setUserReceiver(post.getUser());

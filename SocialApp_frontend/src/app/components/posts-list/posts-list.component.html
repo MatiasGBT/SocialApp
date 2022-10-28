@@ -6,7 +6,12 @@
     <p>{{'INDEX.NO_MORE_POSTS' | translate}}</p>
 </div>
 
-<div id="no-user-posts">
-    <p *ngIf="posts.length==0 && page=='profile'">{{'PROFILE.NO_POSTS' | translate}}</p>
-    <img *ngIf="posts.length==0 && page=='profile'" src="../../../assets/img/no_posts_bg.svg" alt="No posts">
+<div id="no-user-posts" *ngIf="posts.length==0 && page=='profile'">
+    <p>{{'PROFILE.NO_POSTS' | translate}}</p>
+    <img src="../../../assets/img/no_posts_bg.svg" alt="No posts">
+</div>
+
+<div id="no-liked-posts" *ngIf="posts.length==0 && page=='likedPosts'">
+    <p>{{'PROFILE.LIKED_POSTS.NO_POSTS' | translate}}</p>
+    <img src="../../../assets/img/no_liked_posts_bg.svg" alt="No posts">
 </div>

@@ -23,8 +23,11 @@
                 <p *ngIf="user?.description">{{user.description}}</p>
             </div>
             <div id="profile-buttons">
-                <button type="button" class="profile-button side-profile-button" [routerLink]="['edit']" *ngIf="!friendship">
+                <button type="button" class="profile-button" [routerLink]="['edit']" *ngIf="!friendship">
                     <i class="fa-solid fa-pencil"></i> {{'PROFILE.EDIT_PROFILE' | translate}}
+                </button>
+                <button type="button" class="profile-button" [routerLink]="['liked']" *ngIf="!friendship">
+                    <i class="fa-solid fa-heart"></i> {{'PROFILE.LIKED_POSTS_BUTTON' | translate}}
                 </button>
                 <button type="button" class="profile-button side-profile-button" (click)="addFriend()" *ngIf="friendship?.status == false">
                     <i class="fa-solid fa-plus"></i> {{'PROFILE.ADD_FRIEND' | translate}}

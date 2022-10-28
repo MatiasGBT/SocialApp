@@ -1,13 +1,19 @@
 <section id="section-publications">
     
     <div id="publications">
-        <posts-list-comp *ngIf="idUser" [idUser]="idUser" [page]="'feed'"></posts-list-comp>
-        <posts-list-comp *ngIf="showOldFeed" [idUser]="idUser" [page]="'feedOld'"></posts-list-comp>
+        <posts-list-comp *ngIf="idUser" [idUser]="idUser" [page]="'feed'" (noTodayFeedEvent)="updateNoTodayFeed()"></posts-list-comp>
+        <posts-list-comp *ngIf="showOldFeed" [idUser]="idUser" [page]="'feedOld'" (noOldFeedEvent)="updateNoOldFeed()"></posts-list-comp>
+
+        <post-comp *ngIf="showNoFriendsFeed && welcomePost" [post]="welcomePost"></post-comp>
+        <posts-list-comp *ngIf="showNoFriendsFeed" [idUser]="idUser" [page]="'noFriends'"></posts-list-comp>
     </div>
     
     <aside>
-        <h2>{{'ASIDE.FEATURED_POST' | translate}}</h2>
-        <post-comp *ngIf="popularPost" [post]="popularPost"></post-comp>
+        <div *ngIf="popularPost">
+            <h2>{{'ASIDE.FEATURED_POST' | translate}}</h2>
+            <post-comp [post]="popularPost"></post-comp>
+        </div>
+        <img *ngIf="!popularPost" src="../../../assets/img/no_featured_post_bg.svg" alt="No featured post image">
     </aside>
 
 </section>

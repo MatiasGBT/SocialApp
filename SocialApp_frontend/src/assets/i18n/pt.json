@@ -24,13 +24,13 @@
     },
     "ASIDE": {
         "FEATURED_POST": "Publicação fixada",
-        "FEATURED_USERS": "Usuários fixados",
         "USERS_MAYBE": "Talvez você conheça a"
     },
     "PROFILE": {
         "NUMBER_OF_POSTS": "Publicações",
         "NUMBER_OF_FRIENDS": "Amigos",
         "EDIT_PROFILE": "Editar o perfil",
+        "LIKED_POSTS_BUTTON": "Ver publicações curtidas",
         "ADD_FRIEND": "Adicionar amigo",
         "SEND_MESSAGE": "Enviar mensagem",
         "CALL": "Chamar",
@@ -50,6 +50,9 @@
             "APPLY_BUTTON": "Aplicar",
             "CANCEL_BUTTON": "Cancelar",
             "CHANGES_SAVED": "Usuário atualizado"
+        },
+        "LIKED_POSTS": {
+            "NO_POSTS": "Você ainda não gostou de nenhuma publicação, do que está esperando?"
         }
     },
     "NOTIFICATIONS": {

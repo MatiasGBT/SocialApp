@@ -30,6 +30,23 @@ button:hover {
     margin: auto;
 }
 
+#no-liked-posts {
+    height: calc(100vh - 60px - 60px); /*100vh - navbar height - footer height*/
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 15px;
+    text-align: center;
+}
+
+#no-liked-posts img {
+    height: auto;
+    width: 100%;
+    margin-top: 15px;
+}
+
 #no-more-posts {
     width: 100%;
     display: flex;
@@ -60,6 +77,16 @@ button:hover {
         width: auto;
     }
 
+    #no-liked-posts {
+        height: calc(100vh - 60px); /*100vh - navbar height*/
+        padding: 0;
+    }
+
+    #no-liked-posts img {
+        height: auto;
+        width: 80%;
+    }
+
     #no-more-posts img {
         width: 50%;
     }
@@ -79,5 +106,10 @@ button:hover {
 
     #no-more-posts p {
         font-size: 1rem;
+    }
+
+    #no-liked-posts img {
+        height: 60%;
+        width: auto;
     }
 }

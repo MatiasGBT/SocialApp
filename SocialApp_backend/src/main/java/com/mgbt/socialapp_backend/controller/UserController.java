@@ -93,51 +93,34 @@ public class UserController {
     /*
      If we ask the user to be authorised to make a request to this endpoint, the application will
      not work, so do not put @PreAuthorize("isAuthenticated()") in this controller.
+     This endpoint needs to be Post and not Put because an image file has to be sent.
     */
-    @PostMapping("/send-photo")
+    @PostMapping("/update")
     @PreAuthorize("hasRole('user')")
-    public ResponseEntity<?> editProfileSendNewPhoto(@RequestParam("file") MultipartFile file,
+    public ResponseEntity<?> editProfileSendNewPhoto(@RequestParam(value = "file", required = false) MultipartFile file,
+                                         @RequestParam(value = "description", required = false) String description,
                                          @RequestParam("username") String username,
                                          Locale locale) {
         Map<String, Object> response = new HashMap<>();
-        if (!file.isEmpty()) {
-            String fileName;
-            try {
-                fileName = uploadFileService.save(file, FINAL_DIRECTORY);
-                UserApp user = userService.findByUsername(username);
+        try {
+            UserApp user = userService.findByUsername(username);
+            if (file != null && !file.isEmpty()) {
+                String fileName = uploadFileService.save(file, FINAL_DIRECTORY);
                 String lastFileName = user.getPhoto();
                 uploadFileService.delete(lastFileName, FINAL_DIRECTORY);
                 user.setPhoto(fileName);
-                userService.save(user);
                 response.put("photo", user.getPhoto());
-                response.put("message", messageSource.getMessage("userController.editProfile.post", null, locale) + fileName);
-                return new ResponseEntity<>(response, HttpStatus.CREATED);
-            } catch (Exception e) {
-                response.put("message", messageSource.getMessage("error.databaseOrFile", null, locale));
-                response.put("error", e.getMessage());
-                return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
             }
-        } else {
-            response.put("error", messageSource.getMessage("error.emptyFile", null, locale));
-            return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
-        }
-    }
-
-    @PutMapping("/edit")
-    @PreAuthorize("isAuthenticated() and hasRole('user')")
-    public ResponseEntity<?> editProfile(@RequestBody UserApp userUpdated, Locale locale) {
-        Map<String, Object> response = new HashMap<>();
-        try {
-            UserApp user = userService.findByUsername(userUpdated.getUsername());
-            user.setDescription(userUpdated.getDescription());
+            if (description != null && !description.equals(user.getDescription())) {
+                user.setDescription(description);
+                response.put("description", user.getDescription());
+            }
             userService.save(user);
-            response.put("user", user);
-            response.put("message", messageSource.getMessage("userController.editProfile.put", null, locale) + user.getDescription());
+            response.put("message", messageSource.getMessage("userController.editProfile", null, locale));
             return new ResponseEntity<>(response, HttpStatus.CREATED);
-        } catch (DataAccessException e) {
-            response = new HashMap<>();
-            response.put("message", messageSource.getMessage("error.database", null, locale));
-            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+        } catch (Exception e) {
+            response.put("message", messageSource.getMessage("error.databaseOrFile", null, locale));
+            response.put("error", e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

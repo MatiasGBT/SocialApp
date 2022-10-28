@@ -24,13 +24,13 @@
     },
     "ASIDE": {
         "FEATURED_POST": "Publicación destacada",
-        "FEATURED_USERS": "Usuarios destacados",
         "USERS_MAYBE": "Quizá conozcas a"
     },
     "PROFILE": {
         "NUMBER_OF_POSTS": "Publicaciones",
         "NUMBER_OF_FRIENDS": "Amigos",
         "EDIT_PROFILE": "Editar perfil",
+        "LIKED_POSTS_BUTTON": "Ver publicaciones que te gustaron",
         "ADD_FRIEND": "Agregar amigo",
         "SEND_MESSAGE": "Enviar mensaje",
         "CALL": "Llamar",
@@ -50,6 +50,9 @@
             "APPLY_BUTTON": "Aplicar",
             "CANCEL_BUTTON": "Cancelar",
             "CHANGES_SAVED": "Cambios guardados"
+        },
+        "LIKED_POSTS": {
+            "NO_POSTS": "Todavía no le diste like a ninguna publicación, ¿qué esperas?"
         }
     },
     "NOTIFICATIONS": {
