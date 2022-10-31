@@ -1,7 +1,7 @@
 package com.mgbt.socialapp_backend.controller;
 
+import com.mgbt.socialapp_backend.exceptions.FileNameTooLong;
 import com.mgbt.socialapp_backend.model.entity.*;
-import com.mgbt.socialapp_backend.model.entity.notification.NotificationPost;
 import com.mgbt.socialapp_backend.model.service.IUploadFileService;
 import com.mgbt.socialapp_backend.model.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +30,6 @@ public class PostController {
 
     @Autowired
     private PostService postService;
-
-    @Autowired
-    private LikeService likeService;
-
-    @Autowired
-    private NotificationService notificationService;
 
     @Autowired
     MessageSource messageSource;
@@ -150,50 +144,6 @@ public class PostController {
         }
     }
 
-    @PostMapping("/like")
-    @PreAuthorize("isAuthenticated() and hasRole('user')")
-    public ResponseEntity<?> likePost(@RequestParam("idPost") Long idPost,
-                                      @RequestParam("idUser") Long idUser, Locale locale) {
-        Map<String, Object> response = new HashMap<>();
-        try {
-            Post post = postService.findById(idPost);
-            UserApp user = userService.findById(idUser);
-            Like like = new Like();
-            like.setPost(post);
-            like.setUser(user);
-            this.likeService.save(like);
-            if (!post.getUser().getIdUser().equals(user.getIdUser())) {
-                NotificationPost notificationPost = new NotificationPost();
-                notificationPost.setPost(post);
-                notificationPost.setUserReceiver(post.getUser());
-                this.notificationService.save(notificationPost);
-            }
-            response.put("message", messageSource.getMessage("postController.likePost", null, locale));
-            return new ResponseEntity<>(response, HttpStatus.CREATED);
-        } catch (DataAccessException e) {
-            response.put("message", response.put("message", messageSource.getMessage("error.database", null, locale)));
-            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @DeleteMapping("/dislike/{idPost}&{idUser}")
-    @PreAuthorize("isAuthenticated() and hasRole('user')")
-    public ResponseEntity<?> dislikePost(@PathVariable Long idPost, @PathVariable Long idUser,
-                                         Locale locale) {
-        Map<String, Object> response = new HashMap<>();
-        try {
-            Like like = likeService.findByPostAndUser(idPost, idUser);
-            likeService.delete(like);
-            response.put("message", messageSource.getMessage("postController.dislikePost", null, locale));
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (DataAccessException e) {
-            response.put("message", response.put("message", messageSource.getMessage("error.database", null, locale)));
-            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
     @PostMapping("/post")
     @PreAuthorize("hasRole('user')")
     public ResponseEntity<?> createPost(@RequestParam(value = "file", required = false) MultipartFile file,
@@ -214,6 +164,10 @@ public class PostController {
             response.put("message", messageSource.getMessage("postController.createPost", null, locale));
             response.put("idPost", post.getIdPost());
             return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } catch (FileNameTooLong e) {
+            response.put("message", messageSource.getMessage("error.nameTooLong", null, locale));
+            response.put("error", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             response.put("message", messageSource.getMessage("error.databaseOrFile", null, locale));
             response.put("error", e.getMessage());

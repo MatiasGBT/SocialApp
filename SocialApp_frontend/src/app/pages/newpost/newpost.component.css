@@ -11,6 +11,7 @@ h2 {
 
 textarea {
     margin-top: 5px;
+    padding: 5px;
     resize: none;
     font-size: 1rem;
     width: 100%;

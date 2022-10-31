@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
     this.authService.login().subscribe(response => {
       console.log(response.message);
       this.user = response.user as User;
-      if (response.status != undefined && response.status == 201) {
+      if (response?.status && response.status == 201) {
         this.router.navigate(['/profile/edit'])
       }
     });

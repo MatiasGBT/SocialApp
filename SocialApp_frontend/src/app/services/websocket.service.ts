@@ -172,8 +172,8 @@ export class WebsocketService {
   private subscribeToWritingStatus(userFriend: User) {
     this.writingStatusSubscription = this.stopmJsClient.subscribe(`/ws/chat/writing/${this.authService.getUsername()}/${userFriend.username}`, e => {
       if (e.body == "200") {
-        userFriend.status = "Writing";
-        setTimeout(() => { userFriend.status = "Connected" }, 3000);
+        userFriend.status.text = "Writing";
+        setTimeout(() => { userFriend.status.text = "Connected" }, 3000);
       }
     });
   }

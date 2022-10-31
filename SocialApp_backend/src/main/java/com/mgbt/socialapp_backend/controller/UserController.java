@@ -1,5 +1,6 @@
 package com.mgbt.socialapp_backend.controller;
 
+import com.mgbt.socialapp_backend.exceptions.FileNameTooLong;
 import com.mgbt.socialapp_backend.model.entity.*;
 import com.mgbt.socialapp_backend.model.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,6 +119,10 @@ public class UserController {
             userService.save(user);
             response.put("message", messageSource.getMessage("userController.editProfile", null, locale));
             return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } catch (FileNameTooLong e) {
+            response.put("message", messageSource.getMessage("error.nameTooLong", null, locale));
+            response.put("error", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             response.put("message", messageSource.getMessage("error.databaseOrFile", null, locale));
             response.put("error", e.getMessage());

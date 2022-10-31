@@ -1,5 +1,6 @@
 package com.mgbt.socialapp_backend.model.service;
 
+import com.mgbt.socialapp_backend.exceptions.FileNameTooLong;
 import org.springframework.core.io.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,9 +31,18 @@ public class UploadFileService implements IUploadFileService {
     @Override
     public String save(MultipartFile file, String finalDirectory) throws IOException {
         String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename().replace(" ", "");
-        Path filePath = getPath(fileName, finalDirectory);
-        Files.copy(file.getInputStream(), filePath);
-        return fileName;
+        /*
+        The application creates a random UUID of 37 characters which is added to the image name
+        (and its extension) so that, rounding up, only a 60 character name can be placed as the
+        database supports 100 characters.
+        */
+        if (fileName.length() > 100) {
+            throw new FileNameTooLong("The file name is too long (max 60 characters)");
+        } else {
+            Path filePath = getPath(fileName, finalDirectory);
+            Files.copy(file.getInputStream(), filePath);
+            return fileName;
+        }
     }
 
     @Override

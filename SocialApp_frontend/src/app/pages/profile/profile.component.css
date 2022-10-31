@@ -55,6 +55,11 @@
     word-wrap: break-word; /*If the user puts a very long one-word description, this cuts it off so it doesn't overflow*/
 }
 
+#friendship-date {
+    text-align: end;
+    color: darkgray;
+}
+
 button {
     cursor: pointer;
 }

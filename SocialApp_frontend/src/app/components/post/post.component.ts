@@ -4,6 +4,7 @@ import { Post } from 'src/app/models/post';
 import { Report } from 'src/app/models/report';
 import { ReportReason } from 'src/app/models/report-reason';
 import { AuthService } from 'src/app/services/auth.service';
+import { LikeService } from 'src/app/services/like.service';
 import { PostService } from 'src/app/services/post.service';
 import { ReportReasonService } from 'src/app/services/report-reason.service';
 import { ReportService } from 'src/app/services/report.service';
@@ -26,7 +27,7 @@ export class PostComponent implements OnInit {
     private userService: UserService, private reportService: ReportService,
     private router: Router, private reportReasonService: ReportReasonService,
     private translateExtensionService: TranslateExtensionService,
-    private webSocketService: WebsocketService) { }
+    private webSocketService: WebsocketService, private likeService: LikeService) { }
 
   ngOnInit(): void {
     /*This is done to find out if the logged in user has liked this post so that the heart icon can be changed.*/
@@ -42,7 +43,7 @@ export class PostComponent implements OnInit {
   public likePost() {
     if (!this.isLiked) {
       this.userService.getKeycloakUser().subscribe(user => {
-        this.postService.likePost(this.post.idPost, user.idUser).subscribe(response => {
+        this.likeService.likePost(this.post.idPost, user.idUser).subscribe(response => {
           console.log(response.message);
           this.isLiked = true;
           this.post.likes.length += 1;
@@ -57,7 +58,7 @@ export class PostComponent implements OnInit {
   public dislikePost() {
     if (this.isLiked) {
       this.userService.getKeycloakUser().subscribe(user => {
-        this.postService.dislikePost(this.post.idPost, user.idUser).subscribe(response => {
+        this.likeService.dislikePost(this.post.idPost, user.idUser).subscribe(response => {
           console.log(response.message);
           this.isLiked = false;
           this.post.likes.length -= 1;

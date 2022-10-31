@@ -228,6 +228,31 @@ CREATE TABLE `reports` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `status`
+--
+
+DROP TABLE IF EXISTS `status`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `status` (
+  `id_status` int NOT NULL AUTO_INCREMENT,
+  `text` varchar(15) NOT NULL,
+  PRIMARY KEY (`id_status`),
+  UNIQUE KEY `text_UNIQUE` (`text`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `status`
+--
+
+LOCK TABLES `status` WRITE;
+/*!40000 ALTER TABLE `status` DISABLE KEYS */;
+INSERT INTO `status` VALUES (1,'Connected'),(2,'Disconnected'),(3,'On call');
+/*!40000 ALTER TABLE `status` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `users`
 --
 
@@ -241,12 +266,14 @@ CREATE TABLE `users` (
   `surname` varchar(50) NOT NULL,
   `photo` varchar(100) DEFAULT NULL,
   `description` varchar(200) DEFAULT NULL,
-  `creation_date` datetime(6) DEFAULT NULL,
+  `creation_date` datetime(6) NOT NULL,
   `deletion_date` datetime(6) DEFAULT NULL,
   `is_checked` tinyint NOT NULL,
-  `status` varchar(15) NOT NULL DEFAULT 'Disconnected',
+  `id_status` int NOT NULL DEFAULT '2',
   PRIMARY KEY (`id_user`),
-  UNIQUE KEY `UK_6dotkott2kjsp8vw4d0m25fb7` (`username`)
+  UNIQUE KEY `UK_6dotkott2kjsp8vw4d0m25fb7` (`username`),
+  KEY `fk_status_user_idx` (`id_status`),
+  CONSTRAINT `fk_status_user` FOREIGN KEY (`id_status`) REFERENCES `status` (`id_status`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

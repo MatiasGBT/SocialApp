@@ -1,4 +1,4 @@
-import { Post } from "./post";
+import { Status } from "./status";
 
 export class User {
     idUser: number;
@@ -11,5 +11,5 @@ export class User {
     deletionDate: Date;
     isFriend: boolean;
     isChecked: boolean;
-    status: string;
+    status: Status;
 }

@@ -53,9 +53,9 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
       this.messages = this.messages.filter(msg => msg.idMessage != message.idMessage);
     });
 
-    this.userService.userConnectEvent.subscribe(() => this.friend.status = "Connected");
+    this.userService.userConnectEvent.subscribe(() => this.friend.status.text = "Connected");
 
-    this.userService.userDisconnectEvent.subscribe(() => this.friend.status = "Disconnected");
+    this.userService.userDisconnectEvent.subscribe(() => this.friend.status.text = "Disconnected");
   }
 
   ngAfterViewChecked(): void {

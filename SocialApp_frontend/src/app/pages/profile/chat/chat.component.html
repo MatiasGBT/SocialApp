@@ -7,10 +7,10 @@
                 <p>{{friend.name}} {{friend.surname}}</p>
             </div>
             <div id="friend-status">
-                <p *ngIf="friend.status == 'Connected'">{{'WEBSOCKET.CONNECTED_STATUS' | translate}}</p>
-                <p *ngIf="friend.status == 'Disconnected'">{{'WEBSOCKET.DISCONNECTED_STATUS' | translate}}</p>
-                <p *ngIf="friend.status == 'Writing'">{{'WEBSOCKET.WRITING_STATUS' | translate}}</p>
-                <p *ngIf="friend.status == 'On call'">{{'WEBSOCKET.ONCALL_STATUS' | translate}}</p>
+                <p *ngIf="friend.status.text == 'Connected'">{{'WEBSOCKET.CONNECTED_STATUS' | translate}}</p>
+                <p *ngIf="friend.status.text == 'Disconnected'">{{'WEBSOCKET.DISCONNECTED_STATUS' | translate}}</p>
+                <p *ngIf="friend.status.text == 'Writing'">{{'WEBSOCKET.WRITING_STATUS' | translate}}</p>
+                <p *ngIf="friend.status.text == 'On call'">{{'WEBSOCKET.ONCALL_STATUS' | translate}}</p>
             </div>
         </div>
         <div id="chat-body" *ngIf="keycloakUser" #scrollChat (scroll)="getMoreMessagesIfTheUserScrollToTop()">

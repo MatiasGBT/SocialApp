@@ -55,27 +55,6 @@ export class PostService {
     );
   }
 
-  public likePost(idPost: number, idUser: number): Observable<any> {
-    let formData = new FormData();
-    formData.append("idPost", idPost.toString());
-    formData.append("idUser", idUser.toString());
-    return this.http.post<any>(`${this.baseUrl}/like`, formData).pipe(
-      catchError(e => {
-        this.catchErrorService.showErrorModal(e);
-        return throwError(() => new Error(e));
-      })
-    );
-  }
-
-  public dislikePost(idPost: number, idUser: number): Observable<any> {
-    return this.http.delete<any>(`${this.baseUrl}/dislike/${idPost}&${idUser}`).pipe(
-      catchError(e => {
-        this.catchErrorService.showErrorModal(e);
-        return throwError(() => new Error(e));
-      })
-    );
-  }
-
   public createPost(postText: string, file: File): Observable<any> {
     let formData = new FormData();
     formData.append("file", file);

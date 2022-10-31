@@ -21,6 +21,7 @@
             </div>
             <div id="profile-description">
                 <p *ngIf="user?.description">{{user.description}}</p>
+                <p *ngIf="friendship?.date" id="friendship-date">{{'PROFILE.FRIENDS_SINCE' | translate}} {{friendship.date | date:'shortDate'}}</p>
             </div>
             <div id="profile-buttons">
                 <button type="button" class="profile-button" [routerLink]="['edit']" *ngIf="!friendship">

@@ -46,13 +46,14 @@ public class UserApp implements Serializable {
     @Column(name = "is_checked", nullable = false, columnDefinition = "BOOLEAN")
     private Boolean isChecked;
 
-    @Column(name = "status", nullable = false)
-    private String status;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_status", nullable = false)
+    private Status status;
 
     @PrePersist
     public void setUp() {
         this.creationDate = new Date();
         this.isChecked = false;
-        this.status = "Connected";
+        this.status = new Status(1L, "Connected");
     }
 }

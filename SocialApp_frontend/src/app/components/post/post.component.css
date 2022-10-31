@@ -35,6 +35,14 @@
     margin-left: 5px;
 }
 
+.publication-header-date {
+    text-align: end;
+}
+
+.publication-body {
+    word-wrap: break-word;
+}
+
 .publication-body img {
     width: auto;
     max-width: 100%;

@@ -11,13 +11,13 @@ import org.springframework.stereotype.Controller;
 public class WebSocketController {
 
     @Autowired
-    private MessageService messageService;
-
-    @Autowired
     private NotificationService notificationService;
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private StatusService statusService;
 
     @MessageMapping("/notifications/{userReceiver}")
     @SendTo({"/ws/notifications/{userReceiver}"})
@@ -58,7 +58,7 @@ public class WebSocketController {
     @SendTo({"/ws/chat/connect/{username}"})
     public String userConnected(@DestinationVariable String username) {
         UserApp user = userService.findByUsername(username);
-        user.setStatus("Connected");
+        user.setStatus(this.statusService.findById(1L));
         userService.save(user);
         return "200";
     }
@@ -67,7 +67,7 @@ public class WebSocketController {
     @SendTo({"/ws/chat/disconnect/{username}"})
     public String userDisconnect(@DestinationVariable String username) {
         UserApp user = userService.findByUsername(username);
-        user.setStatus("Disconnected");
+        user.setStatus(this.statusService.findById(2L));
         userService.save(user);
         return "200";
     }
@@ -96,8 +96,8 @@ public class WebSocketController {
                              @DestinationVariable String usernameReceiver) {
         UserApp userTransmitter = userService.findByUsername(usernameTransmitter);
         UserApp userReceiver = userService.findByUsername(usernameReceiver);
-        userTransmitter.setStatus("On call");
-        userReceiver.setStatus("On call");
+        userTransmitter.setStatus(this.statusService.findById(3L));
+        userReceiver.setStatus(this.statusService.findById(3L));
         userService.save(userTransmitter);
         userService.save(userReceiver);
         return "200";
@@ -121,8 +121,8 @@ public class WebSocketController {
                           @DestinationVariable String usernameReceiver) {
         UserApp userTransmitter = userService.findByUsername(usernameTransmitter);
         UserApp userReceiver = userService.findByUsername(usernameReceiver);
-        userTransmitter.setStatus("Connected");
-        userReceiver.setStatus("Connected");
+        userTransmitter.setStatus(this.statusService.findById(1L));
+        userReceiver.setStatus(this.statusService.findById(1L));
         userService.save(userTransmitter);
         userService.save(userReceiver);
         return "200";

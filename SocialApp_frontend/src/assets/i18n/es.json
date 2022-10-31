@@ -29,6 +29,7 @@
     "PROFILE": {
         "NUMBER_OF_POSTS": "Publicaciones",
         "NUMBER_OF_FRIENDS": "Amigos",
+        "FRIENDS_SINCE": "Amigos desde ",
         "EDIT_PROFILE": "Editar perfil",
         "LIKED_POSTS_BUTTON": "Ver publicaciones que te gustaron",
         "ADD_FRIEND": "Agregar amigo",

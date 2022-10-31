@@ -27,10 +27,10 @@ class UserServiceTest {
 
     @BeforeEach
     public void setUp() {
-        this.juan = new UserApp(1L, "jpablo", "Juan", "Pablo", null, null, new Date(), new Date(), false, "Connected");
-        this.john = new UserApp(2L, "jdoe", "John", "Doe", null, null, new Date(), new Date(), true, "Connected");
-        this.albert = new UserApp(3L, "awesker", "Albert", "Wesker", null, null, new Date(), new Date(), true, "Connected");
-        this.laura = new UserApp(4L, "lflores", "Laura", "Flores", null, null, new Date(), new Date(), false, "Connected");
+        this.juan = new UserApp(1L, "jpablo", "Juan", "Pablo", null, null, new Date(), new Date(), false, new Status());
+        this.john = new UserApp(2L, "jdoe", "John", "Doe", null, null, new Date(), new Date(), true, new Status());
+        this.albert = new UserApp(3L, "awesker", "Albert", "Wesker", null, null, new Date(), new Date(), true, new Status());
+        this.laura = new UserApp(4L, "lflores", "Laura", "Flores", null, null, new Date(), new Date(), false, new Status());
     }
 
     /*

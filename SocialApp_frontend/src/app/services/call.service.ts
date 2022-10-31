@@ -18,21 +18,21 @@ export class CallService {
     private translateExtensionService: TranslateExtensionService) { }
 
     public callFriend(friend: User) {
-      if (friend.status == 'Disconnected') {
+      if (friend.status.text == 'Disconnected') {
         Swal.fire({
           title: this.translateExtensionService.getTranslatedStringByUrl("CALL.USER_DISCONNECTED"),
           icon: 'error', showConfirmButton: false,
           timer: 1500, background: '#7f5af0', color: 'white'
         });
       }
-      if (friend.status == 'On call') {
+      if (friend.status.text == 'On call') {
         Swal.fire({
           title: this.translateExtensionService.getTranslatedStringByUrl("CALL.USER_ON_CALL"),
           icon: 'error', showConfirmButton: false,
           timer: 1500, background: '#7f5af0', color: 'white'
         });
       }
-      if (friend.status == 'Connected') {
+      if (friend.status.text == 'Connected') {
         this.webSocketService.callFriend(friend);
         Swal.fire({
           title: this.translateExtensionService.getTranslatedStringByUrl("CALL.CALLING_TITLE") + friend.name,
