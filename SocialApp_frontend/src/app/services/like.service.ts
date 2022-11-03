@@ -15,7 +15,7 @@ export class LikeService {
     let formData = new FormData();
     formData.append("idPost", idPost.toString());
     formData.append("idUser", idUser.toString());
-    return this.http.post<any>(`${this.baseUrl}/like`, formData).pipe(
+    return this.http.post<any>(`${this.baseUrl}/post`, formData).pipe(
       catchError(e => {
         this.catchErrorService.showErrorModal(e);
         return throwError(() => new Error(e));
@@ -24,7 +24,7 @@ export class LikeService {
   }
 
   public dislikePost(idPost: number, idUser: number): Observable<any> {
-    return this.http.delete<any>(`${this.baseUrl}/dislike/${idPost}&${idUser}`).pipe(
+    return this.http.delete<any>(`${this.baseUrl}/delete/${idPost}&${idUser}`).pipe(
       catchError(e => {
         this.catchErrorService.showErrorModal(e);
         return throwError(() => new Error(e));

@@ -1,8 +1,13 @@
 package com.mgbt.socialapp_backend.controller;
 
+import com.mgbt.socialapp_backend.exceptions.EntityAlreadyExists;
 import com.mgbt.socialapp_backend.model.entity.*;
 import com.mgbt.socialapp_backend.model.entity.notification.*;
 import com.mgbt.socialapp_backend.model.service.*;
+import com.mgbt.socialapp_backend.utility_classes.*;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.*;
+import io.swagger.v3.oas.annotations.responses.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.dao.DataAccessException;
@@ -12,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@RequestMapping("api/friend/")
+@RequestMapping("api/friendships/")
 @PreAuthorize("isAuthenticated()")
 public class FriendshipController {
 
@@ -28,15 +33,18 @@ public class FriendshipController {
     @Autowired
     MessageSource messageSource;
 
-    @GetMapping("/get/{idReceiver}&{usernameTransmitter}")
+    @Operation(summary = "Gets a Friendship entity whose users (both transmitter and receiver) are the ones entered. If the entity does not exist, returns a Friendship entity whose status is false")
+    @ApiResponse(responseCode = "200", description = "Friendship entity",
+            content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Friendship.class)) })
+    @GetMapping("/get/{idFriend}&{keycloakUsername}")
     @PreAuthorize("hasRole('user')")
-    public ResponseEntity<?> getFriendship(@PathVariable Long idReceiver,
-                                           @PathVariable String usernameTransmitter,
+    public ResponseEntity<?> getFriendship(@Parameter(description = "Username of the user making the request") @PathVariable String keycloakUsername,
+                                           @Parameter(description = "ID of the potential friend of the user who made the request (is a user ID)") @PathVariable Long idFriend,
                                            Locale locale) {
         Friendship friendship = null;
         try {
-            UserApp userTransmitter = userService.findByUsername(usernameTransmitter);
-            UserApp userReceiver = userService.findById(idReceiver);
+            UserApp userTransmitter = userService.findByUsername(keycloakUsername);
+            UserApp userReceiver = userService.findById(idFriend);
             if (userTransmitter != null && userReceiver != null) {
                 friendship = friendshipService.findByUsers(userTransmitter, userReceiver);
             }
@@ -55,57 +63,62 @@ public class FriendshipController {
         return new ResponseEntity<>(friendship, HttpStatus.OK);
     }
 
-    @PostMapping("/add-friend")
+    @Operation(summary = "Creates a friendship with the entered users (status = false)")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Friendship already exists (response.send = false)",
+                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = JsonFriendshipMessage.class)) }),
+            @ApiResponse(responseCode = "201", description = "Friendship created correctly (response.send = true)",
+                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = JsonFriendshipMessage.class)) })
+    })
+    @PostMapping("/post/send-request")
     @PreAuthorize("hasRole('user')")
-    public ResponseEntity<?> addFriend(@RequestParam("idReceiver") Long idReceiver,
-                                       @RequestParam("usernameTransmitter") String usernameTransmitter,
-                                       Locale locale) {
+    public ResponseEntity<?> sendFriendRequest(@RequestParam("usernameTransmitter") String usernameTransmitter,
+                                               @RequestParam("idReceiver") Long idReceiver,
+                                               Locale locale) {
         Map<String, Object> response = new HashMap<>();
+        Friendship friendship = null;
+        UserApp userTransmitter = null;
         try {
-            UserApp userTransmitter = userService.findByUsername(usernameTransmitter);
+            userTransmitter = userService.findByUsername(usernameTransmitter);
             UserApp userReceiver = userService.findById(idReceiver);
-            Friendship friendship = friendshipService.findByUsers(userTransmitter, userReceiver);
-            if (friendship == null) {
-                friendship = new Friendship();
-                friendship.setUserReceiver(userReceiver);
-                friendship.setUserTransmitter(userTransmitter);
-                friendship.setStatus(false);
-                friendship = friendshipService.save(friendship);
-                NotificationFriendship notificationFriendship = new NotificationFriendship();
-                notificationFriendship.setUserReceiver(friendship.getUserReceiver());
-                notificationFriendship.setIsViewed(false);
-                notificationFriendship.setFriendship(friendship);
-                notificationService.save(notificationFriendship);
-                response.put("message", messageSource.getMessage("friendshipController.addFriend.notSent", null, locale));
-                response.put("send", true);
-            } else {
-                if (friendship.getUserTransmitter().getIdUser() == userTransmitter.getIdUser()) {
-                    response.put("message", messageSource.getMessage("friendshipController.addFriend.alreadySent", null, locale));
-                } else {
-                    response.put("message", messageSource.getMessage("friendshipController.addFriend.alreadySentByTheOtherUser", null, locale));
-                }
-                response.put("send", false);
+            friendship = friendshipService.findByUsers(userTransmitter, userReceiver);
+            if (friendship != null) {
+                throw new EntityAlreadyExists("The friend request already exists");
             }
+            friendship = new Friendship(userReceiver, userTransmitter);
+            friendship = friendshipService.save(friendship);
+            NotificationFriendship notificationFriendship = new NotificationFriendship(userReceiver, friendship);
+            notificationService.save(notificationFriendship);
+            response.put("message", messageSource.getMessage("friendshipController.addFriend.notSent", null, locale));
+            response.put("send", true);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } catch (EntityAlreadyExists e) {
+            if (friendship.getUserTransmitter().getIdUser().equals(userTransmitter.getIdUser())) {
+                response.put("message", messageSource.getMessage("friendshipController.addFriend.alreadySent", null, locale));
+            } else {
+                response.put("message", messageSource.getMessage("friendshipController.addFriend.alreadySentByTheOtherUser", null, locale));
+            }
+            response.put("send", false);
         } catch (DataAccessException e) {
             response.put("message", messageSource.getMessage("error.database", null, locale));
             response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
         }
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PutMapping("/accept-request/{id}")
+    @Operation(summary = "Sets the status property of a friendship to true")
+    @ApiResponse(responseCode = "200", description = "Friendship updated correctly",
+            content = { @Content(mediaType = "application/json", schema = @Schema(implementation = JsonMessage.class)) })
+    @PutMapping("/put/accept-request/{idFriendship}")
     @PreAuthorize("hasRole('user')")
-    public ResponseEntity<?> acceptFriendRequest(@PathVariable Long id, Locale locale) {
+    public ResponseEntity<?> acceptFriendRequest(@PathVariable Long idFriendship, Locale locale) {
         Map<String, Object> response = new HashMap<>();
         try {
-            Friendship friendship = friendshipService.findById(id);
+            Friendship friendship = friendshipService.findById(idFriendship);
             friendship.setStatus(true);
             friendship.setDate(new Date());
             friendship = friendshipService.save(friendship);
-            NotificationFriend notificationFriend = new NotificationFriend();
-            notificationFriend.setIsViewed(false);
-            notificationFriend.setUserReceiver(friendship.getUserTransmitter());
-            notificationFriend.setFriend(friendship.getUserReceiver());
+            NotificationFriend notificationFriend = new NotificationFriend(friendship.getUserTransmitter(), friendship.getUserReceiver());
             notificationService.save(notificationFriend);
             response.put("message", friendship.getUserTransmitter().getName() + " " +
                     messageSource.getMessage("friendshipController.acceptFriendRequest", null, locale));
@@ -117,13 +130,21 @@ public class FriendshipController {
         }
     }
 
-    @DeleteMapping("/reject-request/{idFriendship}")
+    //This method can be used to either delete a friend or reject a friend request
+    @Operation(summary = "Delete a friendship")
+    @ApiResponse(responseCode = "200", description = "Friendship deleted correctly",
+            content = { @Content(mediaType = "application/json", schema = @Schema(implementation = JsonMessage.class)) })
+    @DeleteMapping("/delete/{idFriendship}")
     @PreAuthorize("hasRole('user')")
     public ResponseEntity<?> deleteFriendship(@PathVariable Long idFriendship, Locale locale) {
         Map<String, Object> response = new HashMap<>();
         try {
-            this.friendshipService.delete(friendshipService.findById(idFriendship));
-            response.put("message", messageSource.getMessage("friendshipController.deleteFriendship", null, locale));
+            Friendship friendship = friendshipService.findById(idFriendship);
+            this.friendshipService.delete(friendship);
+            //If the status of the request is true it means that the user is deleting a friend and not rejecting a friend request
+            if (friendship.getStatus()) {
+                response.put("message", messageSource.getMessage("friendshipController.deleteFriendship", null, locale));
+            }
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (DataAccessException e) {
             response.put("message", messageSource.getMessage("error.database", null, locale));
@@ -132,34 +153,21 @@ public class FriendshipController {
         }
     }
 
-    @DeleteMapping("/delete/{idUserFriend}&{keycloakUsername}")
+    @Operation(summary = "Get the number of friends a user has")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Friends quantity",
+                    content = { @Content(mediaType = "text/plain", schema = @Schema(type = "integer")) }),
+            @ApiResponse(responseCode = "404", description = "User not found",
+                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = JsonMessage.class)) })
+    })
+    @GetMapping("/get/friends-count/{idUser}")
     @PreAuthorize("hasRole('user')")
-    public ResponseEntity<?> deleteFriendship(@PathVariable Long idUserFriend,
-                                              @PathVariable String keycloakUsername,
-                                              Locale locale) {
-        Map<String, Object> response = new HashMap<>();
-        try {
-            UserApp userFriend = userService.findById(idUserFriend);
-            UserApp userKeycloak = userService.findByUsername(keycloakUsername);
-            friendshipService.delete(friendshipService.findByUsers(userFriend, userKeycloak));
-            response.put("message", messageSource.getMessage("friendshipController.deleteFriendship", null, locale));
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (DataAccessException e) {
-            response.put("message", messageSource.getMessage("error.database", null, locale));
-            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @GetMapping("/get/friends/quantity/{idUser}")
-    @PreAuthorize("hasRole('user')")
-    public ResponseEntity<?> getFriendsQuantity(@PathVariable Long idUser, Locale locale) {
+    public ResponseEntity<?> getFriendsCount(@PathVariable Long idUser, Locale locale) {
         Map<String, Object> response = new HashMap<>();
         try {
             UserApp user = userService.findById(idUser);
             if (user != null) {
-                Integer friendsQuantity = friendshipService.friendsQuantity(user);
-                return new ResponseEntity<>(friendsQuantity, HttpStatus.OK);
+                return new ResponseEntity<>(friendshipService.getFriendsQuantity(user), HttpStatus.OK);
             } else {
                 response.put("message", messageSource.getMessage("error.userNotExist", null, locale));
                 return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);

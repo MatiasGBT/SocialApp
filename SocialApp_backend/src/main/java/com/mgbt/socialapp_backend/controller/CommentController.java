@@ -3,6 +3,10 @@ package com.mgbt.socialapp_backend.controller;
 import com.mgbt.socialapp_backend.model.entity.Comment;
 import com.mgbt.socialapp_backend.model.entity.notification.NotificationComment;
 import com.mgbt.socialapp_backend.model.service.*;
+import com.mgbt.socialapp_backend.utility_classes.*;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.*;
+import io.swagger.v3.oas.annotations.responses.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.dao.DataAccessException;
@@ -25,7 +29,10 @@ public class CommentController {
     @Autowired
     MessageSource messageSource;
 
-    @GetMapping("/get/by-post/{idPost}")
+    @Operation(summary = "Gets a list of comments from a post")
+    @ApiResponse(responseCode = "200", description = "Array of comments",
+            content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Comment.class))) })
+    @GetMapping("/get/list/by-post/{idPost}")
     @PreAuthorize("hasRole('user')")
     public ResponseEntity<?> getComments(@PathVariable Long idPost, Locale locale) {
         try {
@@ -39,6 +46,13 @@ public class CommentController {
         }
     }
 
+    @Operation(summary = "Gets a comment by its ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Comment entity",
+                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Comment.class)) }),
+            @ApiResponse(responseCode = "404", description = "Comment not found",
+                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = InternalServerError.class)) })
+    })
     @GetMapping("/get/{idComment}")
     @PreAuthorize("hasRole('user')")
     public ResponseEntity<?> getComment(@PathVariable Long idComment, Locale locale) {
@@ -59,7 +73,10 @@ public class CommentController {
         return new ResponseEntity<>(comment, HttpStatus.OK);
     }
 
-    @GetMapping("/get/replies/{idComment}")
+    @Operation(summary = "Gets a list of replies from a comment")
+    @ApiResponse(responseCode = "200", description = "Array of comments",
+            content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Comment.class))) })
+    @GetMapping("/get/list/replies/{idComment}")
     @PreAuthorize("hasRole('user')")
     public ResponseEntity<?> getReplies(@PathVariable Long idComment, Locale locale) {
         try {
@@ -73,9 +90,13 @@ public class CommentController {
         }
     }
 
+    @Operation(summary = "Creates a comment with the request body")
+    @ApiResponse(responseCode = "201", description = "Message created correctly",
+            content = { @Content(mediaType = "application/json", schema = @Schema(implementation = JsonCommentMessage.class)) })
     @PostMapping("/post/{idSourceComment}")
     @PreAuthorize("hasRole('user')")
     public ResponseEntity<?> createComment(@RequestBody Comment comment,
+                                           @Parameter(description = "A comment can be a reply to another comment, so you need to pass the id of the original comment to the one you are replying to. If it is not a reply to another, you must send 0")
                                            @PathVariable Long idSourceComment,
                                            Locale locale) {
         Map<String, Object> response = new HashMap<>();
@@ -86,9 +107,7 @@ public class CommentController {
                 Comment sourceComment = commentService.findById(idSourceComment);
                 sourceComment.getReplies().add(comment);
                 commentService.save(sourceComment);
-                NotificationComment notificationComment = new NotificationComment();
-                notificationComment.setComment(sourceComment);
-                notificationComment.setUserReceiver(sourceComment.getUser());
+                NotificationComment notificationComment = new NotificationComment(sourceComment.getUser(), sourceComment);
                 notificationService.save(notificationComment);
             }
             response.put("message", messageSource.getMessage("commentController.createComment", null, locale));

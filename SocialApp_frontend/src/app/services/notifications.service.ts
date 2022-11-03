@@ -24,7 +24,7 @@ export class NotificationsService {
   }
 
   public getNotifications(user: User): Observable<Notification[]> {
-    return this.http.get<Notification[]>(`${this.baseUrl}/get/${user.username}`).pipe(
+    return this.http.get<Notification[]>(`${this.baseUrl}/get/list/${user.username}`).pipe(
       catchError(e => {
         this.catchErrorService.showErrorModal(e);
         return throwError(() => e);
@@ -51,7 +51,7 @@ export class NotificationsService {
   }
 
   public viewNotification(id: number): Observable<any> {
-    return this.http.put<any>(`${this.baseUrl}/view/${id}`, null).pipe(
+    return this.http.put<any>(`${this.baseUrl}/put/view/${id}`, null).pipe(
       catchError(e => {
         this.catchErrorService.showErrorModal(e);
         return throwError(() => e);

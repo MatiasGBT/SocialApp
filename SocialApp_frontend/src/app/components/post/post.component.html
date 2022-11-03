@@ -1,7 +1,7 @@
 <div class="publication">
     <div class="publication-header">
         <figure class="publication-header-user" (click)="goToProfile()">
-            <img *ngIf="post.user?.photo" src="http://localhost:8090/api/user/img/{{post.user.photo}}">
+            <img *ngIf="post.user?.photo" src="http://localhost:8090/api/users/img/{{post.user.photo}}">
             <img *ngIf="!post.user?.photo" src="http://localhost:8090/images/no-photo.jpg">
             <figcaption *ngIf="post.user?.name">{{post.user.name}} {{post.user.surname}}</figcaption>
             <i *ngIf="post.user?.isChecked" class="fa-solid fa-check"></i>

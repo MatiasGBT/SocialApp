@@ -2,6 +2,9 @@ package com.mgbt.socialapp_backend.controller;
 
 import com.mgbt.socialapp_backend.model.entity.ReportReason;
 import com.mgbt.socialapp_backend.model.service.ReportReasonService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.*;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.dao.DataAccessException;
@@ -11,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@RequestMapping("api/report-reason/")
+@RequestMapping("api/report-reasons/")
 @PreAuthorize("isAuthenticated()")
 public class ReportReasonController {
 
@@ -21,7 +24,10 @@ public class ReportReasonController {
     @Autowired
     MessageSource messageSource;
 
-    @GetMapping("/get")
+    @Operation(summary = "Gets a list of report reasons")
+    @ApiResponse(responseCode = "200", description = "Array of report reasons",
+            content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = ReportReason.class))) })
+    @GetMapping("/get/list")
     @PreAuthorize("hasRole('user')")
     public ResponseEntity<?> getReasons(Locale locale) {
         try {

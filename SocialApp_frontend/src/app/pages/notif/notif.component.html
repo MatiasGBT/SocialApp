@@ -10,8 +10,8 @@
     <div id="notifications" *ngIf="isNotificationsEnabled">
         <p *ngIf="notifications.length == 0">{{'NOTIFICATIONS.NO_NOTIFICATIONS' | translate}}</p>
         <div class="notification-box" *ngFor="let notification of notifications">
-            <i class="fa-solid fa-bell notif-icon" [ngStyle]="{'opacity':returnOpacity(notification)}"></i>
-            <div class="notification-data" (click)="viewNotification(notification)"  [ngStyle]="{'opacity':returnOpacity(notification)}">
+            <i class="fa-solid fa-bell notif-icon" [ngStyle]="{'opacity':getOpacity(notification)}"></i>
+            <div class="notification-data" (click)="viewNotification(notification)"  [ngStyle]="{'opacity':getOpacity(notification)}">
                 <h2 *ngIf="notification?.friend">{{'NOTIFICATIONS.NEW_FRIEND_TITLE' | translate}}</h2>
                 <h2 *ngIf="notification?.post">{{'NOTIFICATIONS.LIKE_POST_TITLE' | translate}}</h2>
                 <h2 *ngIf="notification?.userTransmitter">{{notification.userTransmitter.name}} {{notification.userTransmitter.surname}} {{'NOTIFICATIONS.NEW_MESSAGE_TITLE' | translate}}</h2>

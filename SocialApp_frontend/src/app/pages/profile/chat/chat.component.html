@@ -2,7 +2,7 @@
     <div id="chat" *ngIf="friend">
         <div id="chat-header">
             <div id="friend-data" [routerLink]="['/profile', friend.idUser]">
-                <img *ngIf="friend?.photo" src="http://localhost:8090/api/user/img/{{friend.photo}}">
+                <img *ngIf="friend?.photo" src="http://localhost:8090/api/users/img/{{friend.photo}}">
                 <img *ngIf="!friend?.photo" src="http://localhost:8090/images/no-photo.jpg">
                 <p>{{friend.name}} {{friend.surname}}</p>
             </div>

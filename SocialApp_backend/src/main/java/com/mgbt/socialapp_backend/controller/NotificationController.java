@@ -3,6 +3,10 @@ package com.mgbt.socialapp_backend.controller;
 import com.mgbt.socialapp_backend.model.entity.*;
 import com.mgbt.socialapp_backend.model.entity.notification.*;
 import com.mgbt.socialapp_backend.model.service.*;
+import com.mgbt.socialapp_backend.utility_classes.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.*;
+import io.swagger.v3.oas.annotations.responses.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.dao.DataAccessException;
@@ -25,7 +29,14 @@ public class NotificationController {
     @Autowired
     MessageSource messageSource;
 
-    @GetMapping("/get/{username}")
+    @Operation(summary = "Gets all notifications from the user whose username is the one entered")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Array of notifications",
+                    content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Notification.class))) }),
+            @ApiResponse(responseCode = "404", description = "User not found",
+                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = JsonMessage.class)) })
+    })
+    @GetMapping("/get/list/{username}")
     @PreAuthorize("hasRole('user')")
     public ResponseEntity<?> getNotifications(@PathVariable String username, Locale locale) {
         UserApp user;
@@ -46,12 +57,35 @@ public class NotificationController {
         return new ResponseEntity<>(notifications, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @Operation(summary = "Sets the isViewed property of a notification to true")
+    @ApiResponse(responseCode = "200", description = "Notification updated correctly",
+            content = { @Content(mediaType = "application/json", schema = @Schema(implementation = JsonMessage.class)) })
+    @PutMapping("/put/view/{idNotification}")
     @PreAuthorize("hasRole('user')")
-    public ResponseEntity<?> delete(@PathVariable Long id, Locale locale) {
+    public ResponseEntity<?> viewNotification(@PathVariable Long idNotification, Locale locale) {
         Map<String, Object> response = new HashMap<>();
         try {
-            Notification notification = notificationService.findById(id);
+            Notification notification = notificationService.findById(idNotification);
+            notification.setIsViewed(true);
+            notificationService.save(notification);
+            response.put("message", messageSource.getMessage("notificationController.viewNotification", null, locale));
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (DataAccessException e) {
+            response.put("message", messageSource.getMessage("error.userNotExist", null, locale));
+            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "Delete a notification")
+    @ApiResponse(responseCode = "200", description = "Notification deleted correctly",
+            content = { @Content(mediaType = "application/json", schema = @Schema(implementation = JsonMessage.class)) })
+    @DeleteMapping("/delete/{idNotification}")
+    @PreAuthorize("hasRole('user')")
+    public ResponseEntity<?> delete(@PathVariable Long idNotification, Locale locale) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Notification notification = notificationService.findById(idNotification);
             response.put("id", notification.getIdNotification());
             notificationService.delete(notification);
             response.put("message", messageSource.getMessage("notificationController.delete", null, locale));
@@ -63,6 +97,9 @@ public class NotificationController {
         }
     }
 
+    @Operation(summary = "Deletes all notifications from the user whose username is the one entered")
+    @ApiResponse(responseCode = "200", description = "Notifications deleted correctly",
+            content = { @Content(mediaType = "application/json", schema = @Schema(implementation = JsonMessage.class)) })
     @DeleteMapping("/delete-all/{username}")
     @PreAuthorize("hasRole('user')")
     public ResponseEntity<?> deleteAll(@PathVariable String username, Locale locale) {
@@ -71,23 +108,6 @@ public class NotificationController {
             UserApp user = userService.findByUsername(username);
             notificationService.deleteAllByUser(user.getIdUser());
             response.put("message", messageSource.getMessage("notificationController.deleteAll", null, locale));
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (DataAccessException e) {
-            response.put("message", messageSource.getMessage("error.userNotExist", null, locale));
-            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @PutMapping("/view/{id}")
-    @PreAuthorize("hasRole('user')")
-    public ResponseEntity<?> viewNotification(@PathVariable Long id, Locale locale) {
-        Map<String, Object> response = new HashMap<>();
-        try {
-            Notification notification = notificationService.findById(id);
-            notification.setIsViewed(true);
-            notificationService.save(notification);
-            response.put("message", messageSource.getMessage("notificationController.viewNotification", null, locale));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (DataAccessException e) {
             response.put("message", messageSource.getMessage("error.userNotExist", null, locale));

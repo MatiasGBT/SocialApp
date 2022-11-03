@@ -6,7 +6,7 @@
         'border-radius': (message.userTransmitter.idUser==keycloakUser.idUser) ? '15px 2px 15px 15px' : '2px 15px 15px 15px'
     }">
     <p class="message-text">{{message.text}}</p>
-    <img *ngIf="message.photo != null && message?.photo" src="http://localhost:8090/api/message/img/{{message.photo}}" width="80px" height="80px">
+    <img *ngIf="message.photo != null && message?.photo" src="http://localhost:8090/api/messages/img/{{message.photo}}" width="80px" height="80px">
     <img *ngIf="message.photo != null && !message?.photo" src="http://localhost:8090/images/no-image.jpg" width="80px" height="80px">
     <p class="message-date">{{message.date | date:'short'}}</p>
 </div>

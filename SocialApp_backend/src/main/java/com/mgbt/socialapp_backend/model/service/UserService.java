@@ -51,13 +51,13 @@ public class UserService implements IService<UserApp> {
     }
 
     @Transactional(readOnly = true)
-    public List<UserApp> filter(String name, String keycloakName) {
-        return repository.filter(name, keycloakName);
+    public List<UserApp> filter(String name, String keycloakUsername) {
+        return repository.filter(name, keycloakUsername);
     }
 
     @Transactional(readOnly = true)
-    public List<UserApp> filterWithoutLimit(String name, String keycloakName) {
-        return repository.filterWithoutLimit(name, keycloakName);
+    public List<UserApp> filterWithoutLimit(String name, String keycloakUsername) {
+        return repository.filterWithoutLimit(name, keycloakUsername);
     }
 
     @Transactional(readOnly = true)

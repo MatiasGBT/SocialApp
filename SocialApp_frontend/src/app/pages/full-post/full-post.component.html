@@ -5,7 +5,7 @@
         <h2>{{'FULL_POST.COMMENTS_TITLE' | translate}}:</h2>
 
         <div id="create-comment">
-            <img *ngIf="keycloakUser?.photo" src="http://localhost:8090/api/user/img/{{keycloakUser.photo}}">
+            <img *ngIf="keycloakUser?.photo" src="http://localhost:8090/api/users/img/{{keycloakUser.photo}}">
             <img *ngIf="!keycloakUser?.photo" src="http://localhost:8090/images/no-photo.jpg">
             <input maxlength="100" [placeholder]="commentPlaceholder" [(ngModel)]="createdComment.text">
             <button (click)="createComment()"><i class="fa-solid fa-paper-plane"></i></button>

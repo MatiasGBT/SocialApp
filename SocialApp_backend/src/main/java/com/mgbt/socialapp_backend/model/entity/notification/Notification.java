@@ -2,7 +2,7 @@ package com.mgbt.socialapp_backend.model.entity.notification;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mgbt.socialapp_backend.model.entity.UserApp;
-import lombok.Data;
+import lombok.*;
 import javax.persistence.*;
 import java.io.*;
 import java.util.Date;
@@ -12,6 +12,7 @@ import java.util.Date;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "notification_type")
+@NoArgsConstructor
 public abstract class Notification implements Serializable {
 
     @Serial
@@ -39,5 +40,9 @@ public abstract class Notification implements Serializable {
     public void setUp() {
         this.date = new Date();
         this.isViewed = false;
+    }
+
+    public Notification(UserApp userReceiver) {
+        this.userReceiver = userReceiver;
     }
 }

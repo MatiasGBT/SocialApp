@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mgbt.socialapp_backend.model.entity.notification.NotificationFriendship;
 import lombok.*;
+import org.apache.catalina.User;
+
 import javax.persistence.*;
 import java.io.*;
 import java.util.Date;
@@ -52,4 +54,14 @@ public class Friendship implements Serializable {
     @OneToMany(mappedBy="friendship", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<NotificationFriendship> notifications;
+
+    @PrePersist
+    public void setUp() {
+        this.status = false;
+    }
+
+    public Friendship(UserApp userReceiver, UserApp userTransmitter) {
+        this.userReceiver = userReceiver;
+        this.userTransmitter = userTransmitter;
+    }
 }

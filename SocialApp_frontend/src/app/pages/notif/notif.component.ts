@@ -34,7 +34,7 @@ export class NotifComponent implements OnInit {
     this.notificationsService.notificationsChanger.subscribe(isNotificationsEnabled => this.isNotificationsEnabled = isNotificationsEnabled);
   }
 
-  public returnOpacity(notification: Notification) {
+  public getOpacity(notification: Notification) {
     return notification.isViewed ? '50%' : '100%';
   }
 
@@ -44,9 +44,7 @@ export class NotifComponent implements OnInit {
       this.notifications = this.notifications.filter(n => n.idNotification !== response.id);
       this.notificationsService.notificationsChanger.emit(this.notifications);
       if (notification?.friendship) {
-        this.friendshipService.rejectFriendRequest(notification.friendship.idFriendship).subscribe(response => {
-          console.log(response.message)
-        });
+        this.friendshipService.deleteFriendship(notification.friendship.idFriendship).subscribe();
       }
     });
   }

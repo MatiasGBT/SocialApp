@@ -1,22 +1,22 @@
 <div class="user">
     <div class="personal-info" (click)="goToUser()">
-        <img *ngIf="user?.photo" src="http://localhost:8090/api/user/img/{{user.photo}}"
+        <img *ngIf="user?.photo" src="http://localhost:8090/api/users/img/{{user.photo}}"
             alt="{{user.name}} {{user.surname}}" width="50px" height="50px">
         <img *ngIf="!user?.photo" src="http://localhost:8090/images/no-photo.jpg" width="50px" height="50px">
         <p>{{user.name}} {{user.surname}}</p>
     </div>
 
     <div class="buttons" *ngIf="user.username != authService.getUsername()">
-        <button type="button" (click)="addFriend()" *ngIf="!user.isFriend">
+        <button type="button" *ngIf="friendship?.status == false" (click)="addFriend()">
             <i class="fas fa-plus"></i>
         </button>
-        <button type="button" *ngIf="user.isFriend" [routerLink]="['/profile/chat', user.idUser]">
+        <button type="button" *ngIf="friendship?.status" [routerLink]="['/profile/chat', user.idUser]">
             <i class="fas fa-message"></i>
         </button>
-        <button type="button" *ngIf="user.isFriend" (click)="callFriend()">
+        <button type="button" *ngIf="friendship?.status" (click)="callFriend()">
             <i class="fas fa-phone-flip"></i>
         </button>
-        <button type="button" (click)="deleteFriend()" *ngIf="user.isFriend">
+        <button type="button" *ngIf="friendship?.status" (click)="deleteFriend()">
             <i class="fas fa-trash"></i>
         </button>
     </div>

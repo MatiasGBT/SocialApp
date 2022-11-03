@@ -4,6 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mgbt.socialapp_backend.exceptions.FileNameTooLong;
 import com.mgbt.socialapp_backend.model.entity.Message;
 import com.mgbt.socialapp_backend.model.service.*;
+import com.mgbt.socialapp_backend.utility_classes.*;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.*;
+import io.swagger.v3.oas.annotations.responses.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.core.io.Resource;
@@ -15,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.*;
 
 @RestController
-@RequestMapping("api/message/")
+@RequestMapping("api/messages/")
 public class MessageController {
 
     private final static String FINAL_DIRECTORY = "/messages";
@@ -29,7 +33,10 @@ public class MessageController {
     @Autowired
     private UploadFileService uploadFileService;
 
-    @GetMapping("/get/by-users/{idKeycloakUser}&{idFriend}&{page}")
+    @Operation(summary = "Gets a paginated list of messages sent by entered users. It receives the page from which it is going to paginate, so the logic must be carried by the client.")
+    @ApiResponse(responseCode = "200", description = "Array of messages",
+            content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Message.class))) })
+    @GetMapping("/get/list/{idKeycloakUser}&{idFriend}&{page}")
     @PreAuthorize("isAuthenticated() and hasRole('user')")
     public ResponseEntity<?> getMessagesFromUsers(@PathVariable Long idKeycloakUser,
                                                   @PathVariable Long idFriend,
@@ -50,9 +57,18 @@ public class MessageController {
         }
     }
 
+    @Operation(summary = "Creates a message with the request params")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Message created correctly",
+                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = JsonMessageEntity.class)) }),
+            @ApiResponse(responseCode = "400", description = "The file name is too long",
+                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = InternalServerError.class)) })
+    })
     @PostMapping("/post")
     @PreAuthorize("hasRole('user')")
     public ResponseEntity<?> createMessage(@RequestParam(value = "file", required = false) MultipartFile file,
+                                           @Parameter(description = "A message entity converted to a string with JSON.stringify()",
+                                                   content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Message.class)) })
                                            @RequestParam("message") String message,
                                            Locale locale) {
         Map<String, Object> response = new HashMap<>();
@@ -80,6 +96,9 @@ public class MessageController {
         }
     }
 
+    @Operation(summary = "Delete a message")
+    @ApiResponse(responseCode = "200", description = "Message deleted correctly",
+            content = { @Content(mediaType = "application/json", schema = @Schema(implementation = JsonMessage.class)) })
     @DeleteMapping("/delete/{idMessage}")
     @PreAuthorize("isAuthenticated() and hasRole('user')")
     public ResponseEntity<?> deleteMessage(@PathVariable Long idMessage, Locale locale) {
@@ -97,6 +116,8 @@ public class MessageController {
         }
     }
 
+    @Operation(summary = "Gets file from messages directory by filename")
+    @ApiResponse(description = "Image file", content = { @Content(mediaType = "multipart/form-data") })
     @GetMapping("/img/{fileName:.+}")
     public ResponseEntity<Resource> viewPhoto(@PathVariable String fileName) {
         Resource resource = null;

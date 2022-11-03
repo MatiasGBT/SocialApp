@@ -29,7 +29,7 @@ export class PostService {
   }
 
   public getPosts(idUser: number, from: number, page: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/get/posts/${idUser}&${from}&${page}`).pipe(
+    return this.http.get<any>(`${this.baseUrl}/get/list/${idUser}&${from}&${page}`).pipe(
       catchError(e => {
         this.catchErrorService.showErrorModal(e);
         return throwError(() => e);
@@ -47,7 +47,7 @@ export class PostService {
   }
 
   public countPostByUser(idUser: number): Observable<number> {
-    return this.http.get<number>(`${this.baseUrl}/get/count/posts/${idUser}`).pipe(
+    return this.http.get<number>(`${this.baseUrl}/get/count/${idUser}`).pipe(
       catchError(e => {
         this.catchErrorService.showErrorModal(e);
         return throwError(() => e);

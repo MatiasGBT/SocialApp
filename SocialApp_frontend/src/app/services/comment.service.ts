@@ -15,7 +15,7 @@ export class CommentService {
     private router: Router) { }
 
   public getComments(idPost: number): Observable<Comment[]> {
-    return this.http.get<Comment[]>(`${this.baseUrl}get/by-post/${idPost}`).pipe(
+    return this.http.get<Comment[]>(`${this.baseUrl}get/list/by-post/${idPost}`).pipe(
       catchError(e => {
         this.catchErrorService.showErrorModal(e);
         return throwError(() => e);
@@ -43,7 +43,7 @@ export class CommentService {
   }
 
   public getReplies(idComment: number): Observable<Comment[]> {
-    return this.http.get<Comment[]>(`${this.baseUrl}get/replies/${idComment}`).pipe(
+    return this.http.get<Comment[]>(`${this.baseUrl}get/list/replies/${idComment}`).pipe(
       catchError(e => {
         this.catchErrorService.showErrorModal(e);
         return throwError(() => e);

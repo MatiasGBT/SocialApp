@@ -9,7 +9,6 @@ export class User {
     description: string;
     creationDate: Date;
     deletionDate: Date;
-    isFriend: boolean;
     isChecked: boolean;
     status: Status;
 }

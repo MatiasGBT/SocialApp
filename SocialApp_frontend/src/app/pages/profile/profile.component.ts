@@ -25,8 +25,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   constructor(private userService: UserService, private activatedRoute: ActivatedRoute,
     private friendshipService: FriendshipService, private router: Router,
-    private postService: PostService, private webSocketService: WebsocketService,
-    private callService: CallService) { }
+    private postService: PostService, private callService: CallService) { }
 
   ngOnInit(): void {
     this.userService.userChanger.subscribe(data => {
@@ -60,8 +59,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   //#region Friendship
   public addFriend(): void {
-    this.friendshipService.addFriend(this.id);
-    this.webSocketService.newNotification(this.user);
+    this.friendshipService.addFriend(this.user);
   }
 
   private getFriendsQuantity(): void {
@@ -71,8 +69,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   public deleteFriend() {
-    this.friendshipService.askToDelete(this.id);
-    this.friendshipService.friendshipDeletedEmitter.subscribe(() => this.friendship.status = false);
+    this.friendshipService.askToDelete(this.friendship.idFriendship);
+    this.friendshipService.friendshipDeletedEmitter.subscribe(() => {
+      this.friendship.status = false;
+      this.friendsQuantity--;
+    });
   }
 
   public goToFriendsPage(): void {

@@ -9,6 +9,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @DiscriminatorValue("friend_notif")
+@NoArgsConstructor
 public class NotificationFriend extends Notification {
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -16,4 +17,9 @@ public class NotificationFriend extends Notification {
             "creationDate","deletionDate","photo","isChecked","isConnected"})
     @JoinColumn(name = "id_user_friend")
     private UserApp friend;
+
+    public NotificationFriend(UserApp userReceiver, UserApp friend) {
+        super(userReceiver);
+        this.friend = friend;
+    }
 }

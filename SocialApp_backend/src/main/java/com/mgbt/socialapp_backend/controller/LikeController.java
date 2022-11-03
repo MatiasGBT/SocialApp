@@ -3,6 +3,11 @@ package com.mgbt.socialapp_backend.controller;
 import com.mgbt.socialapp_backend.model.entity.*;
 import com.mgbt.socialapp_backend.model.entity.notification.NotificationPost;
 import com.mgbt.socialapp_backend.model.service.*;
+import com.mgbt.socialapp_backend.utility_classes.JsonMessage;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.dao.DataAccessException;
@@ -37,7 +42,11 @@ public class LikeController {
     in the user's feed, you can like it twice (you should not save it twice) and dislike it twice
     (the second time would throw an error if it is not checked because it does not exist).
     */
-    @PostMapping("/like")
+
+    @Operation(summary = "Creates a like based on the user and the post entered")
+    @ApiResponse(responseCode = "201", description = "Like created correctly",
+            content = { @Content(mediaType = "application/json", schema = @Schema(implementation = JsonMessage.class)) })
+    @PostMapping("/post")
     @PreAuthorize("isAuthenticated() and hasRole('user')")
     public ResponseEntity<?> likePost(@RequestParam("idPost") Long idPost,
                                       @RequestParam("idUser") Long idUser, Locale locale) {
@@ -67,7 +76,10 @@ public class LikeController {
         }
     }
 
-    @DeleteMapping("/dislike/{idPost}&{idUser}")
+    @Operation(summary = "Delete a like based on the user and the post entered")
+    @ApiResponse(responseCode = "200", description = "Like deleted correctly",
+            content = { @Content(mediaType = "application/json", schema = @Schema(implementation = JsonMessage.class)) })
+    @DeleteMapping("/delete/{idPost}&{idUser}")
     @PreAuthorize("isAuthenticated() and hasRole('user')")
     public ResponseEntity<?> dislikePost(@PathVariable Long idPost, @PathVariable Long idUser,
                                          Locale locale) {

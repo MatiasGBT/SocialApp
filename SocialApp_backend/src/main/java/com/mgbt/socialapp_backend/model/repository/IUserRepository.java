@@ -15,14 +15,14 @@ public interface IUserRepository extends JpaRepository<UserApp, Long> {
             "u.deletion_date IS NULL " +
             "LIMIT 0,5",
             nativeQuery = true)
-    List<UserApp> filter(String name, String keycloakName);
+    List<UserApp> filter(String name, String keycloakUsername);
 
     @Query(value = "SELECT * FROM users u WHERE " +
             "(u.name LIKE CONCAT('%',?1,'%') OR u.surname LIKE CONCAT('%',?1 ,'%')) AND " +
             "u.username NOT LIKE CONCAT('%',?2,'%') AND " +
             "u.deletion_date IS NULL",
             nativeQuery = true)
-    List<UserApp> filterWithoutLimit(String name, String keycloakName);
+    List<UserApp> filterWithoutLimit(String name, String keycloakUsername);
 
     @Query(value = "SELECT u.* FROM friendships f " +
             "INNER JOIN users u ON f.id_user_transmitter = u.id_user " +

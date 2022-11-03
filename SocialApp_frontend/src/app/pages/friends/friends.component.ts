@@ -21,10 +21,7 @@ export class FriendsComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       let id = params['id'];
       this.userService.getUser(id).subscribe(user => this.user = user);
-      this.userService.getFriends(id).subscribe(friends => {
-        this.friends = friends;
-        this.friendshipService.setIsFriend(this.friends);
-      });
+      this.userService.getFriends(id).subscribe(friends => this.friends = friends);
       this.userService.getKeycloakUser().subscribe(user => {
         id == user.idUser ? this.isTheKeycloakUser = true : this.isTheKeycloakUser = false
       });

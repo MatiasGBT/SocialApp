@@ -3,6 +3,10 @@ package com.mgbt.socialapp_backend.controller;
 import com.mgbt.socialapp_backend.exceptions.FileNameTooLong;
 import com.mgbt.socialapp_backend.model.entity.*;
 import com.mgbt.socialapp_backend.model.service.*;
+import com.mgbt.socialapp_backend.utility_classes.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.*;
+import io.swagger.v3.oas.annotations.responses.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.core.io.Resource;
@@ -14,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.*;
 
 @RestController
-@RequestMapping("api/user/")
+@RequestMapping("api/users/")
 public class UserController {
 
     private final static String FINAL_DIRECTORY = "/users";
@@ -28,13 +32,20 @@ public class UserController {
     @Autowired
     MessageSource messageSource;
 
-    @GetMapping("/get/{id}")
+    @Operation(summary = "Gets a user by his/her ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User entity",
+                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = UserApp.class)) }),
+            @ApiResponse(responseCode = "404", description = "User not found",
+                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = InternalServerError.class)) })
+    })
+    @GetMapping("/get/{idUser}")
     @PreAuthorize("isAuthenticated() and hasRole('user')")
-    public ResponseEntity<?> getUser(@PathVariable Long id, Locale locale) {
+    public ResponseEntity<?> getUser(@PathVariable Long idUser, Locale locale) {
         UserApp user;
         Map<String, Object> response = new HashMap<>();
         try {
-            user = userService.findById(id);
+            user = userService.findById(idUser);
         } catch (DataAccessException e) {
             response.put("message", messageSource.getMessage("error.database", null, locale));
             response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
@@ -48,6 +59,9 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    @Operation(summary = "Gets the user making the request by his/her username")
+    @ApiResponse(responseCode = "200", description = "User entity",
+            content = { @Content(mediaType = "application/json", schema = @Schema(implementation = UserApp.class)) })
     @GetMapping("/get/keycloak/{username}")
     @PreAuthorize("isAuthenticated() and hasRole('user')")
     public ResponseEntity<?> getKeycloakUser(@PathVariable String username, Locale locale) {
@@ -62,6 +76,9 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "Gets all friends from the user entered")
+    @ApiResponse(responseCode = "200", description = "Array of users",
+            content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = UserApp.class))) })
     @GetMapping("/get/friends/{idUser}")
     @PreAuthorize("isAuthenticated() and hasRole('user')")
     public ResponseEntity<?> getFriends(@PathVariable Long idUser, Locale locale) {
@@ -76,13 +93,16 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "Gets all friends of the user entered excluding the user making the request")
+    @ApiResponse(responseCode = "200", description = "Array of users",
+            content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = UserApp.class))) })
     @GetMapping("/get/may-know/{idUser}&{idKeycloakUser}")
     @PreAuthorize("isAuthenticated() and hasRole('user')")
     public ResponseEntity<?> getUsersYouMayKnow(@PathVariable Long idUser, @PathVariable Long idKeycloakUser,
                                                 Locale locale) {
         try {
-            List<UserApp> friends = userService.getUsersYouMayKnow(idUser, idKeycloakUser);
-            return new ResponseEntity<>(friends, HttpStatus.OK);
+            List<UserApp> usersYouMayKnow = userService.getUsersYouMayKnow(idUser, idKeycloakUser);
+            return new ResponseEntity<>(usersYouMayKnow, HttpStatus.OK);
         } catch (DataAccessException e) {
             Map<String, Object> response = new HashMap<>();
             response.put("message", messageSource.getMessage("error.database", null, locale));
@@ -96,9 +116,16 @@ public class UserController {
      not work, so do not put @PreAuthorize("isAuthenticated()") in this controller.
      This endpoint needs to be Post and not Put because an image file has to be sent.
     */
+    @Operation(summary = "Updates a user by changing his/her description and/or photo. Requires the username of the user to be updated")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User updated correctly",
+                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = JsonMessage.class)) }),
+            @ApiResponse(responseCode = "400", description = "The file name is too long",
+                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = InternalServerError.class)) })
+    })
     @PostMapping("/update")
     @PreAuthorize("hasRole('user')")
-    public ResponseEntity<?> editProfileSendNewPhoto(@RequestParam(value = "file", required = false) MultipartFile file,
+    public ResponseEntity<?> editProfile(@RequestParam(value = "file", required = false) MultipartFile file,
                                          @RequestParam(value = "description", required = false) String description,
                                          @RequestParam("username") String username,
                                          Locale locale) {
@@ -118,7 +145,7 @@ public class UserController {
             }
             userService.save(user);
             response.put("message", messageSource.getMessage("userController.editProfile", null, locale));
-            return new ResponseEntity<>(response, HttpStatus.CREATED);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (FileNameTooLong e) {
             response.put("message", messageSource.getMessage("error.nameTooLong", null, locale));
             response.put("error", e.getMessage());
@@ -130,11 +157,14 @@ public class UserController {
         }
     }
 
-    @GetMapping("/get/autocomplete/{name}&{keycloakName}")
+    @Operation(summary = "Gets a list of users whose name or surname is the name entered. The user making the request is not included. Only has a maximum of 5 users")
+    @ApiResponse(responseCode = "200", description = "Array of users",
+            content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = UserApp.class))) })
+    @GetMapping("/get/autocomplete/{name}&{keycloakUsername}")
     @PreAuthorize("hasRole('user')")
-    public ResponseEntity<?> filter(@PathVariable String name, @PathVariable String keycloakName, Locale locale) {
+    public ResponseEntity<?> filter(@PathVariable String name, @PathVariable String keycloakUsername, Locale locale) {
         try {
-            List<UserApp> users = userService.filter(name, keycloakName);
+            List<UserApp> users = userService.filter(name, keycloakUsername);
             return new ResponseEntity<>(users, HttpStatus.OK);
         } catch (DataAccessException e) {
             Map<String, Object> response = new HashMap<>();
@@ -144,12 +174,15 @@ public class UserController {
         }
     }
 
-    @GetMapping("/get/search/{name}&{keycloakName}")
+    @Operation(summary = "Gets a list of users whose name or surname is the name entered. The user making the request is not included. No maximum number of users")
+    @ApiResponse(responseCode = "200", description = "Array of users",
+            content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = UserApp.class))) })
+    @GetMapping("/get/search/{name}&{keycloakUsername}")
     @PreAuthorize("hasRole('user')")
-    public ResponseEntity<?> filterWithoutLimit(@PathVariable String name, @PathVariable String keycloakName,
+    public ResponseEntity<?> filterWithoutLimit(@PathVariable String name, @PathVariable String keycloakUsername,
                                                 Locale locale) {
         try {
-            List<UserApp> users = userService.filterWithoutLimit(name, keycloakName);
+            List<UserApp> users = userService.filterWithoutLimit(name, keycloakUsername);
             return new ResponseEntity<>(users, HttpStatus.OK);
         } catch (DataAccessException e) {
             Map<String, Object> response = new HashMap<>();
@@ -159,6 +192,8 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "Gets file from users directory by filename")
+    @ApiResponse(description = "Image file", content = { @Content(mediaType = "multipart/form-data") })
     @GetMapping("/img/{fileName:.+}")
     public ResponseEntity<Resource> viewPhoto(@PathVariable String fileName) {
         Resource resource = null;

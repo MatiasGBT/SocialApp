@@ -1,11 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Friendship } from 'src/app/models/friendship';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { CallService } from 'src/app/services/call.service';
 import { FriendshipService } from 'src/app/services/friendship.service';
-import { WebsocketService } from 'src/app/services/websocket.service';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'user-comp',
@@ -14,12 +13,16 @@ import Swal from 'sweetalert2';
 })
 export class UserComponent implements OnInit {
   @Input() public user: User;
+  public friendship: Friendship;
 
   constructor(private friendshipService: FriendshipService, public authService: AuthService,
-    private router: Router, private callService: CallService, private webSocketService: WebsocketService) { }
+    private router: Router, private callService: CallService) { }
 
   ngOnInit(): void {
     this.callService.subscribeToEvents();
+    this.friendshipService.getFriendship(this.user.idUser).subscribe(friendship => {
+      this.friendship = friendship;
+    });
   }
 
   public goToUser() {
@@ -31,12 +34,12 @@ export class UserComponent implements OnInit {
   }
 
   public addFriend(): void {
-    this.friendshipService.addFriend(this.user.idUser);
+    this.friendshipService.addFriend(this.user);
   }
 
   public deleteFriend() {
-    this.friendshipService.askToDelete(this.user.idUser);
-    this.friendshipService.friendshipDeletedEmitter.subscribe(() => this.user.isFriend = false);
+    this.friendshipService.askToDelete(this.friendship.idFriendship);
+    this.friendshipService.friendshipDeletedEmitter.subscribe(() => this.friendship.status = false);
   }
 
   public callFriend() {

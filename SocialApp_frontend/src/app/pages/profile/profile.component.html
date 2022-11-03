@@ -3,7 +3,7 @@
         <div id="profile">
             <div id="profile-header">
                 <figure id="profile-header-photo">
-                    <img *ngIf="user?.photo" src="http://localhost:8090/api/user/img/{{user.photo}}" width="80px" height="80px">
+                    <img *ngIf="user?.photo" src="http://localhost:8090/api/users/img/{{user.photo}}" width="80px" height="80px">
                     <img *ngIf="!user?.photo" src="http://localhost:8090/images/no-photo.jpg" width="80px" height="80px">
                     <figcaption *ngIf="user?.name">{{user.name}} {{user.surname}}</figcaption>
                     <i *ngIf="user?.isChecked" class="fa-solid fa-check"></i>
@@ -21,7 +21,7 @@
             </div>
             <div id="profile-description">
                 <p *ngIf="user?.description">{{user.description}}</p>
-                <p *ngIf="friendship?.date" id="friendship-date">{{'PROFILE.FRIENDS_SINCE' | translate}} {{friendship.date | date:'shortDate'}}</p>
+                <p *ngIf="friendship?.status" id="friendship-date">{{'PROFILE.FRIENDS_SINCE' | translate}} {{friendship.date | date:'shortDate'}}</p>
             </div>
             <div id="profile-buttons">
                 <button type="button" class="profile-button" [routerLink]="['edit']" *ngIf="!friendship">
@@ -58,7 +58,7 @@
         <div *ngIf="usersYouMayKnow?.length > 0">
             <h2>{{'ASIDE.USERS_MAYBE' | translate}}:</h2>
             <figure class="users-aside" *ngFor="let userYouMayKnow of usersYouMayKnow" (click)="goToProfile(userYouMayKnow)">
-                <img *ngIf="userYouMayKnow?.photo" src="http://localhost:8090/api/user/img/{{userYouMayKnow.photo}}">
+                <img *ngIf="userYouMayKnow?.photo" src="http://localhost:8090/api/users/img/{{userYouMayKnow.photo}}">
                 <img *ngIf="!userYouMayKnow?.photo" src="http://localhost:8090/images/no-photo.jpg">
                 <figcaption>{{userYouMayKnow.name}} {{userYouMayKnow.surname}}</figcaption><i class="fa-solid fa-check" style="display: none;"></i>
             </figure>

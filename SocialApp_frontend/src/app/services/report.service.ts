@@ -8,7 +8,7 @@ import { CatchErrorService } from './catch-error.service';
   providedIn: 'root'
 })
 export class ReportService {
-  private baseUrl = "http://localhost:8090/api/report/";
+  private baseUrl = "http://localhost:8090/api/reports/";
 
   constructor(private http: HttpClient, private catchErrorService: CatchErrorService) { }
 

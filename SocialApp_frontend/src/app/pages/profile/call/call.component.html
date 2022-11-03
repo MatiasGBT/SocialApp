@@ -2,7 +2,7 @@
     <div id="call" *ngIf="friend">
         <div id="call-header">
             <div id="friend-data" [routerLink]="['/profile', friend.idUser]">
-                <img *ngIf="friend?.photo" src="http://localhost:8090/api/user/img/{{friend.photo}}">
+                <img *ngIf="friend?.photo" src="http://localhost:8090/api/users/img/{{friend.photo}}">
                 <img *ngIf="!friend?.photo" src="http://localhost:8090/images/no-photo.jpg">
                 <p>{{friend.name}} {{friend.surname}}</p>
             </div>
@@ -10,12 +10,12 @@
         <div id="call-body">
             <div>
                 <video #keycloakUserVideo [muted]="true" [autoplay]="true"></video>
-                <img *ngIf="keycloakUser?.photo && !videoEnabled" src="http://localhost:8090/api/user/img/{{keycloakUser.photo}}">
+                <img *ngIf="keycloakUser?.photo && !videoEnabled" src="http://localhost:8090/api/users/img/{{keycloakUser.photo}}">
                 <img *ngIf="!keycloakUser?.photo && !videoEnabled" src="http://localhost:8090/images/no-photo.jpg">
             </div>
             <div>
                 <video #friendVideo [autoplay]="true"></video>
-                <img *ngIf="friend?.photo && !friendVideoEnabled" src="http://localhost:8090/api/user/img/{{friend.photo}}">
+                <img *ngIf="friend?.photo && !friendVideoEnabled" src="http://localhost:8090/api/users/img/{{friend.photo}}">
                 <img *ngIf="!friend?.photo && !friendVideoEnabled" src="http://localhost:8090/images/no-photo.jpg">
             </div>
         </div>
