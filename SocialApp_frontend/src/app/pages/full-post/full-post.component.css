@@ -25,6 +25,8 @@
     /*100% - (img width + img margin right + button width + button margin left)*/
     width: calc(100% - 80px);
     height: 35px;
+    padding-left: 5px;
+    padding-right: 5px;
     font-size: 1rem;
     outline: none;
     border: 2px solid #7f5af0;

@@ -36,14 +36,14 @@ public class AppController {
         UserApp userFound = userService.findByUsername(user.getUsername());
         Map<String, Object> response = new HashMap<>();
         if (userFound != null) {
-            userService.checkIfUserIsPersisted(userFound, user); //Needed if the user updates their first and last name from Keycloak
-            response.put("message", messageSource.getMessage("appController.login.userfound", null, locale));
+            userFound = userService.checkIfUserIsPersisted(userFound, user); //Needed if the user updates their first and last name from Keycloak
+            response.put("message", messageSource.getMessage("appController.login.userFound", null, locale));
             response.put("status", HttpStatus.OK.value());
             response.put("user", userFound);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             userService.save(user);
-            response.put("message", messageSource.getMessage("appController.login.usercreated", null, locale));
+            response.put("message", messageSource.getMessage("appController.login.userCreated", null, locale));
             response.put("status", HttpStatus.CREATED.value());
             response.put("user", user);
             return new ResponseEntity<>(response, HttpStatus.CREATED);

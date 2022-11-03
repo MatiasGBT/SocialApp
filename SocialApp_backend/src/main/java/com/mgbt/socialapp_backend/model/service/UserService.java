@@ -28,7 +28,7 @@ public class UserService implements IService<UserApp> {
     @Override
     @Transactional
     public void delete(UserApp entity) {
-        repository.save(entity);
+        repository.delete(entity);
     }
 
     @Override
@@ -41,13 +41,14 @@ public class UserService implements IService<UserApp> {
     public UserApp findByUsername(String username) { return repository.findByUsername(username); }
 
     @Transactional
-    public void checkIfUserIsPersisted(UserApp userFound, UserApp userFromToken) {
+    public UserApp checkIfUserIsPersisted(UserApp userFound, UserApp userFromToken) {
         if (!userFound.getName().equals(userFromToken.getName()) ||
                 !userFound.getSurname().equals(userFromToken.getSurname())) {
             userFound.setName(userFromToken.getName());
             userFound.setSurname(userFromToken.getSurname());
             this.save(userFound);
         }
+        return userFound;
     }
 
     @Transactional(readOnly = true)

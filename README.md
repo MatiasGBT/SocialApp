@@ -1,5 +1,12 @@
 # SocialApp
-(In process) Social network made with Angular, Spring Boot (Java), Keycloak and MySQL.
+(In process) Social network made with Angular, Spring Boot (Java), Keycloak and MySQL.  
+
+***Note:** this is a personal practice project and I do not allow its distribution.*  
+## API Docs
+To view the API documentation you must first [deploy](#deployment) the application and then enter one of the following paths in your browser:
+- http://localhost:8090/api-docs (To view the docs in JSON format)
+- http://localhost:8090/swagger-ui.html (To view the docs with a graphical interface)
+
 ## Deployment
 ***Important note:** At the moment the app starts in developer mode and is not adapted for production.*  
 
@@ -27,7 +34,9 @@ You will be able to know when the project is ready when all the containers compi
 #### keycloak:  
 `Running the server in development mode. DO NOT use this configuration in production.`  
 
-*Note: You can see the log of each container clicking on their names on Docker Desktop*
+*Note: You can see the log of each container clicking on their names on Docker Desktop.*
+
+*Note 2: To deploy the application you need the following ports to be free on your PC: 3036, 4200, 8080 and 8090.*
 
 When all the containers are built, you will be able to open the application by putting `http://localhost:4200` in your browser.
 ## Getting started
@@ -41,6 +50,34 @@ You will be redirected to a registration page. Use false information (just to te
 - Password: *user123*
 - Confirm password: *user123*  
 After registering you will be able to use and explore the app.
+## Screenshots
+Some screenshots of the application.
+![Index Page](https://i.imgur.com/WQYpktP.png)
+*Index page*
+
+![Profile Page](https://i.imgur.com/wQwLP15.png)
+*Profile page*
+
+![Friend's Profile Page](https://i.imgur.com/7Mlbtut.png)
+*Friend's profile page*
+
+![Edit Profile Page](https://i.imgur.com/km8SgLO.png)
+*Edit profile page*
+
+![Chat Page](https://i.imgur.com/Q6L3cBD.png)
+*Chat page*
+
+![Is Calling You](https://i.imgur.com/z5zt714.png)
+*Modal that pops up when a friend calls you*
+
+![Call Page](https://i.imgur.com/rYDxN4B.png)
+*Call page*
+
+![Notifications Page](https://i.imgur.com/gsrM6Ll.png)
+*Notifications page*
+
+![Settings Page](https://i.imgur.com/aoJ08aL.png)
+*Settings page*
 ## Tech Stack
 
 **Client:** Angular
@@ -61,7 +98,6 @@ Utilities provided by other developers/designers used in this project:
 - [Sweet Alert 2](https://sweetalert2.github.io/)
 - [Angular Material](https://material.angular.io/)
 - [unDraw](https://undraw.co/illustrations)
-- [Peer JS](https://peerjs.com/)
 ## Author
 
 [@MatiasGBT](https://github.com/MatiasGBT)
