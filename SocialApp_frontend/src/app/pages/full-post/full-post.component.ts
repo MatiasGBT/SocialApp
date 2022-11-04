@@ -38,6 +38,12 @@ export class FullPostComponent implements OnInit {
     });
   }
 
+  public userIsWriting(event) {
+    if ((event.key === 'Enter' || event.keyCode == 13)) {
+      this.createComment();
+    }
+  }
+
   public createComment() {
     if (this.createdComment.text?.length >= 1 && this.createdComment.text?.length <= 100) {
       this.createdComment.user = this.keycloakUser;
@@ -47,7 +53,7 @@ export class FullPostComponent implements OnInit {
         console.log(response.message);
         this.createdComment.date = new Date;
         this.createdComment.idComment = response.idComment;
-        this.createdComment.repliesQuantity = 0;
+        this.createdComment.hasReplies = false;
         this.comments.unshift(this.createdComment);
         this.createdComment = new Comment;
       });

@@ -12,7 +12,7 @@
         <p>{{comment.text}}</p>
     </div>
     <div class="comment-footer">
-        <button (click)="showReplies()" *ngIf="comment.repliesQuantity > 0"><i class="fa-solid fa-down-long"></i> {{'COMMENT.SEE_ANSWERS_BTN' | translate}}</button>
+        <button (click)="showReplies()" *ngIf="comment?.hasReplies"><i class="fa-solid fa-down-long"></i> {{'COMMENT.SEE_ANSWERS_BTN' | translate}}</button>
         <button (click)="showReplyModal()"><i class="fa-solid fa-reply"></i> {{'COMMENT.REPLY_BTN' | translate}}</button>
     </div>
     <div class="comment-replies" *ngIf="replies">

@@ -283,7 +283,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'admin','Social','App','b4b7cac7-433a-4ef3-be1a-4ffc93de7352_1666966437308.jpeg','¡Welcome to Social App!','2022-08-15 18:12:41.005000',NULL,1,'Disconnected');
+INSERT INTO `users` VALUES (1,'admin','Social','App','b4b7cac7-433a-4ef3-be1a-4ffc93de7352_1666966437308.jpeg','¡Welcome to Social App!','2022-08-15 18:12:41.005000',NULL,1,1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

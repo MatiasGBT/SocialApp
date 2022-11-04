@@ -6,7 +6,6 @@ export class Comment {
     text: string;
     user: User;
     post: Post;
-    answers: Comment[];
     date: Date;
-    repliesQuantity: number;
+    hasReplies: boolean;
 }

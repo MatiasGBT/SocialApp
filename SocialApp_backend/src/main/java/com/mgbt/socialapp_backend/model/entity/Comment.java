@@ -30,7 +30,7 @@ public class Comment implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"hibernateLazyInitializer","handler","text","photo",
-        "date","user","likes"})
+        "date","user","likes","reports"})
     @JoinColumn(name = "id_post")
     private Post post;
 
@@ -39,7 +39,7 @@ public class Comment implements Serializable {
     private Date date;
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+    @JsonIgnore
     @JoinTable(name = "replies", joinColumns = @JoinColumn(name = "id_comment"),
             inverseJoinColumns = @JoinColumn(name = "id_reply"),
             uniqueConstraints = {@UniqueConstraint(columnNames = {"id_comment", "id_reply"})})
@@ -50,7 +50,7 @@ public class Comment implements Serializable {
         this.date = new Date();
     }
 
-    public Integer getRepliesQuantity() {
-        return this.replies.size();
+    public boolean getHasReplies() {
+        return this.replies.size() > 0;
     }
 }
