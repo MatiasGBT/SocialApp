@@ -24,7 +24,7 @@ public class Comment implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"hibernateLazyInitializer","handler","description",
-        "creationDate","deletionDate","isConnected"})
+        "creationDate","deletionDate","status"})
     @JoinColumn(name = "id_user", nullable = false)
     private UserApp user;
 

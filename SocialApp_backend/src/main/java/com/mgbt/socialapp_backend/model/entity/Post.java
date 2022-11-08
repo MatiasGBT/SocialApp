@@ -32,13 +32,13 @@ public class Post implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"hibernateLazyInitializer","handler","description","creationDate",
-            "deletionDate","isConnected"})
+            "deletionDate","status"})
     @JoinColumn(name = "id_user", nullable = false)
     private UserApp user;
 
     @OneToMany(mappedBy="post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"hibernateLazyInitializer","handler","post","name","surname","photo",
-            "description","isChecked","creationDate","deletionDate"})
+            "description","isChecked","status","creationDate","deletionDate"})
     private List<Like> likes;
 
     @OneToMany(mappedBy="post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

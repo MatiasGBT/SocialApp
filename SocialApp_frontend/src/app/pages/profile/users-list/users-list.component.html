@@ -1,0 +1,35 @@
+<section id="section-users-list">
+    <div class="users" *ngIf="users?.length > 0">
+        <h1>{{'PROFILE.USERS.TITLE' | translate}}</h1>
+        <user-comp [user]="user" *ngFor="let user of users"></user-comp>
+    </div>
+
+    <div *ngIf="users?.length == 0">
+        <div class="users" *ngIf="page == 'friends' && !isTheKeycloakUser">
+            <h1>{{'PROFILE.USERS.NON_FRIENDS_TITLE' | translate}}</h1>
+            <p>{{'PROFILE.USERS.NON_FRIENDS_TEXT' | translate}}</p>
+        </div>
+        <div class="users" *ngIf="page == 'friends' && isTheKeycloakUser">
+            <h1>{{'PROFILE.USERS.NON_FRIENDS_KEYCLOAK_TITLE' | translate}}</h1>
+            <p>{{'PROFILE.USERS.NON_FRIENDS_KEYCLOAK_TEXT' | translate}}</p>
+        </div>
+
+        <div class="users" *ngIf="page == 'followers' && !isTheKeycloakUser">
+            <h1>{{'PROFILE.USERS.NON_FOLLOWERS_TITLE' | translate}}</h1>
+            <p>{{'PROFILE.USERS.NON_FOLLOWERS_TEXT' | translate}}</p>
+        </div>
+        <div class="users" *ngIf="page == 'followers' && isTheKeycloakUser">
+            <h1>{{'PROFILE.USERS.NON_FOLLOWERS_KEYCLOAK_TITLE' | translate}}</h1>
+            <p>{{'PROFILE.USERS.NON_FOLLOWERS_KEYCLOAK_TEXT' | translate}}</p>
+        </div>
+
+        <div class="users" *ngIf="page == 'following' && !isTheKeycloakUser">
+            <h1>{{'PROFILE.USERS.NON_FOLLOWING_TITLE' | translate}}</h1>
+            <p>{{'PROFILE.USERS.NON_FOLLOWING_TEXT' | translate}}</p>
+        </div>
+        <div class="users" *ngIf="page == 'following' && isTheKeycloakUser">
+            <h1>{{'PROFILE.USERS.NON_FOLLOWING_KEYCLOAK_TITLE' | translate}}</h1>
+            <p>{{'PROFILE.USERS.NON_FOLLOWING_KEYCLOAK_TEXT' | translate}}</p>
+        </div>
+    </div>
+</section>

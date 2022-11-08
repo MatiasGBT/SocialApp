@@ -4,6 +4,7 @@ import { Friendship } from 'src/app/models/friendship';
 import { Message } from 'src/app/models/message';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
+import { FollowershipService } from 'src/app/services/followership.service';
 import { FriendshipService } from 'src/app/services/friendship.service';
 import { MessageService } from 'src/app/services/message.service';
 import { TranslateExtensionService } from 'src/app/services/translate-extension.service';
@@ -32,13 +33,14 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
   constructor(private authService: AuthService, private activatedRoute: ActivatedRoute,
     private router: Router, private messageService: MessageService,
     private friendshipService: FriendshipService, private webSocketService: WebsocketService,
-    private userService: UserService, private translateExtensionService: TranslateExtensionService) { }
+    private userService: UserService, private translateExtensionService: TranslateExtensionService,
+    private followershipService: FollowershipService) { }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
       let id = params['id'];
       if (id) {
-        this.getFriendship(id);
+        this.getUser(id);
       } else {
         this.router.navigate(['/index']);
       }
@@ -74,25 +76,43 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   //#region Init methods
-  private getFriendship(id: number) {
-    this.friendshipService.getFriendship(id).subscribe(friendship => {
-      if (friendship.status) {
-        this.setUsers(friendship);
+  private getUser(id: number) {
+    this.userService.getUser(id).subscribe(user => {
+      this.friend = user;
+      if (user.isChecked) {
+        this.getFollowership(id);
       } else {
-        this.router.navigate(['/profile']);
+        this.getFriendship(id);
       }
     });
   }
 
-  private setUsers(friendship: Friendship) {
-    if (friendship?.userTransmitter.username == this.authService.getUsername()) {
-      this.keycloakUser = friendship.userTransmitter;
-      this.friend = friendship.userReceiver;
-    } else {
-      this.keycloakUser = friendship.userReceiver;
-      this.friend = friendship.userTransmitter;
-    }
-    this.initChat();
+  private getFollowership(id: number) {
+    this.followershipService.getFollowership(id).subscribe(followership => {
+      if (!followership) {
+        this.router.navigate(['/profile']);
+      }
+      if (followership?.userChecked.username == this.authService.getUsername()) {
+        this.keycloakUser = followership.userChecked;
+      } else {
+        this.keycloakUser = followership.userFollower;
+      }
+      this.initChat();
+    });
+  }
+
+  private getFriendship(id: number) {
+    this.friendshipService.getFriendship(id).subscribe(friendship => {
+      if (!friendship.status) {
+        this.router.navigate(['/profile']);
+      }
+      if (friendship?.userTransmitter.username == this.authService.getUsername()) {
+        this.keycloakUser = friendship.userTransmitter;
+      } else {
+        this.keycloakUser = friendship.userReceiver;
+      }
+      this.initChat();
+    });
   }
 
   private initChat() {

@@ -17,6 +17,7 @@
                 <h2 *ngIf="notification?.userTransmitter">{{notification.userTransmitter.name}} {{notification.userTransmitter.surname}} {{'NOTIFICATIONS.NEW_MESSAGE_TITLE' | translate}}</h2>
                 <h2 *ngIf="notification?.friendship">{{'NOTIFICATIONS.FRIEND_REQUEST_TITLE' | translate}}</h2>
                 <h2 *ngIf="notification?.comment">{{'NOTIFICATIONS.COMMENT_TITLE' | translate}}</h2>
+                <h2 *ngIf="notification?.followership">{{'NOTIFICATIONS.FOLLOWER_TITLE' | translate}}</h2>
 
                 <p *ngIf="notification?.friend">{{notification.friend.name}} {{notification.friend.surname}} 
                     {{'NOTIFICATIONS.NEW_FRIEND_TEXT' | translate}}</p>
@@ -25,6 +26,8 @@
                 <p *ngIf="notification?.friendship">{{notification.friendship.userTransmitter.name}} 
                     {{notification.friendship.userTransmitter.surname}} {{'NOTIFICATIONS.FRIEND_REQUEST_TEXT' | translate}}</p>
                 <p *ngIf="notification?.comment">{{'NOTIFICATIONS.COMMENT_TEXT' | translate}}</p>
+                <p *ngIf="notification?.followership">{{notification.followership.userFollower.name}} {{notification.followership.userFollower.surname}} 
+                    {{'NOTIFICATIONS.FOLLOWER_TEXT' | translate}}</p>
             </div>
             <button *ngIf="!notification?.friendship" class="button delete-button" (click)="deleteNotification(notification)"><i class="fa-solid fa-trash"></i></button>
             <div *ngIf="notification?.friendship" class="friendship-buttons">

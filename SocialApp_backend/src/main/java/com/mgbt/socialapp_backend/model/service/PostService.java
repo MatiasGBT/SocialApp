@@ -42,7 +42,7 @@ public class PostService implements IService<Post> {
         return repository.countPostsByUser(idUser);
     }
 
-    //<editor-fold desc="PAGINATION">
+    //region PAGINATION
     /*
       This space is for the lists of paginated posts on the index page (the feed and the feed from
       previous days) and the profile page (the user's posts).
@@ -53,26 +53,64 @@ public class PostService implements IService<Post> {
       if the last record obtained from said query has the minimum possible ID of the result of the
       query without pagination (instead of COUNT like normal pagination, the query use MIN).
     */
+
+    //region Friends feed
     @Transactional(readOnly = true)
-    public List<Post> findFeedByUserId(Long idUser, Integer from) {
-        return repository.findFeedByUser(idUser, from);
+    public List<Post> findFriendsFeedByUserId(Long idUser, Integer from) {
+        return repository.findFriendsFeedByUser(idUser, from);
     }
 
     @Transactional(readOnly = true)
-    public Long findLastIdPostFromUserFeed(Long idUser) {
-        return repository.findLastIdPostFromFeedByUser(idUser);
+    public Long findLastIdPostFromFriendsFeedByUserId(Long idUser) {
+        return repository.findLastIdPostFromFriendsFeedByUser(idUser);
     }
 
     @Transactional(readOnly = true)
-    public List<Post> findOldFeedByUserId(Long idUser, Integer from) {
-        return repository.findOldFeedByUser(idUser, from);
+    public List<Post> findOldFriendsFeedByUserId(Long idUser, Integer from) {
+        return repository.findOldFriendsFeedByUser(idUser, from);
     }
 
     @Transactional(readOnly = true)
-    public Long findLastIdPostFromOldUserFeed(Long idUser) {
-        return repository.findLastIdPostFromOldFeedByUser(idUser);
+    public Long findLastIdPostFromOldFriendsFeedByUserId(Long idUser) {
+        return repository.findLastIdPostFromOldFriendsFeedByUser(idUser);
+    }
+    //endregion
+
+    //region Following feed
+    @Transactional(readOnly = true)
+    public List<Post> findFollowingFeedByUserId(Long idUser, Integer from) {
+        return repository.findFollowingFeedByUser(idUser, from);
     }
 
+    @Transactional(readOnly = true)
+    public Long findLastIdPostFromFollowingFeedByUserId(Long idUser) {
+        return repository.findLastIdPostFromFollowingFeedByUser(idUser);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Post> findOldFollowingFeedByUserId(Long idUser, Integer from) {
+        return repository.findOldFollowingFeedByUser(idUser, from);
+    }
+
+    @Transactional(readOnly = true)
+    public Long findLastIdPostFromOldFollowingFeedByUserId(Long idUser) {
+        return repository.findLastIdPostFromOldFollowingFeedByUser(idUser);
+    }
+    //endregion
+
+    //region Trend feed
+    @Transactional(readOnly = true)
+    public List<Post> findTrendFeed(Integer from) {
+        return repository.findTrendFeed(from);
+    }
+
+    @Transactional(readOnly = true)
+    public Long findLastIdPostFromTrendFeed(Long idUser) {
+        return repository.findLastIdPostFromTrendFeed(idUser);
+    }
+    //endregion
+
+    //region By user
     @Transactional(readOnly = true)
     public List<Post> findPostsByUserId(Long idUser, Integer from) {
         return repository.findPostsByUser(idUser, from);
@@ -92,29 +130,18 @@ public class PostService implements IService<Post> {
     public Long findLastIdPostFromLikedPostsUser(Long idUser) {
         return repository.findLastIdPostFromLikedPostsByUser(idUser);
     }
-
-    @Transactional(readOnly = true)
-    public List<Post> findNoFriendsFeed(Integer from) {
-        return repository.findNoFriendsFeed(from);
-    }
-
-    @Transactional(readOnly = true)
-    public Long findLastIdPostFromNoFriendsFeed(Long idUser) {
-        return repository.findLastIdPostFromNoFriendsFeed(idUser);
-    }
+    //endregion
 
     public boolean getIsLastPage(Long lastId, List<Post> postsPage) {
-        /*
-          When a user enters their feed or profile page and none of these have posts,
-          the id of the last post is null, so a check must be made so that the system
-          does not throw an exception.
-        */
+        //When a user enters their feed or profile page and none of these have posts,
+        //the id of the last post is null, so a check must be made so that the system
+        //does not throw an exception.
         if (lastId == null) {
             return true;
         }
         return postsPage.get(postsPage.size()-1).getIdPost().equals(lastId);
     }
-    //</editor-fold>
+    //endregion
 
     @Transactional(readOnly = true)
     public Post findTheMostPopularPostsFromToday() {

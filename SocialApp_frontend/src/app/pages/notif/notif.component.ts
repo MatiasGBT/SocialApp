@@ -98,6 +98,9 @@ export class NotifComponent implements OnInit {
     if (notification?.userTransmitter) {
       this.router.navigate(['/profile/chat', notification.userTransmitter.idUser]);
     }
+    if (notification?.followership) {
+      this.router.navigate(['/profile', notification.followership.userFollower.idUser]);
+    }
   }
 
   private showNoNotificationsModal() {

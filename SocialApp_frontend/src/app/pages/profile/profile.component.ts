@@ -1,13 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
+import { Followership } from 'src/app/models/followership';
 import { Friendship } from 'src/app/models/friendship';
 import { User } from 'src/app/models/user';
+import { AuthService } from 'src/app/services/auth.service';
 import { CallService } from 'src/app/services/call.service';
+import { FollowershipService } from 'src/app/services/followership.service';
 import { FriendshipService } from 'src/app/services/friendship.service';
 import { PostService } from 'src/app/services/post.service';
 import { UserService } from 'src/app/services/user.service';
-import { WebsocketService } from 'src/app/services/websocket.service';
 
 @Component({
   selector: 'app-profile',
@@ -17,15 +19,21 @@ import { WebsocketService } from 'src/app/services/websocket.service';
 export class ProfileComponent implements OnInit, OnDestroy {
   public user: User;
   private id: number;
+  public isKeycloakUserPage: boolean;
   public friendship: Friendship;
+  public followership: Followership;
   public friendsQuantity: number;
   public userPostQuantity: number;
+  public followersQuantity: number;
+  public followingQuantity: number;
   public usersYouMayKnow: User[] = [];
   private subscriber: Subscription;
 
   constructor(private userService: UserService, private activatedRoute: ActivatedRoute,
     private friendshipService: FriendshipService, private router: Router,
-    private postService: PostService, private callService: CallService) { }
+    private postService: PostService, private callService: CallService,
+    private followershipService: FollowershipService,
+    public authService: AuthService) { }
 
   ngOnInit(): void {
     this.userService.userChanger.subscribe(data => {
@@ -36,8 +44,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
       this.id = params['id'];
       if (this.id) {
         this.getUser();
-        this.friendshipService.getFriendship(this.id).subscribe(friendship => this.friendship = friendship);
       } else {
+        this.isKeycloakUserPage = true;
         this.getKeycloakUser();
       }
     });
@@ -54,10 +62,81 @@ export class ProfileComponent implements OnInit, OnDestroy {
     */
     this.subscriber = this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
-    ).subscribe(() =>  this.user = null);
+    ).subscribe(() =>  {
+      this.user = null;
+      this.friendship = null;
+      this.followership = null;
+    });
   }
 
+  //#region User
+  private getUser() {
+    this.userService.getUser(this.id).subscribe(user => {
+      this.user = user;
+      this.getRelationship();
+      this.callService.subscribeToEvents();
+    });
+  }
+
+  private getKeycloakUser() {
+    this.userService.getKeycloakUser().subscribe(user => {
+      this.user = user;
+      this.getProfileHeaderData();
+    });
+  }
+
+  private getRelationship() {
+    if (this.user.isChecked) {
+      this.getFollowership();
+    } else {
+      this.getFriendship();
+    }
+  }
+
+  private getProfileHeaderData() {
+    this.getFriendsQuantity();
+    this.getPostQuantity();
+    this.getFollowingQuantity();
+    if (this.user.isChecked) {
+      this.getFollowersQuantity();
+    }
+  }
+
+  private getPostQuantity() {
+    this.postService.countPostByUser(this.user.idUser).subscribe(count => this.userPostQuantity = count);
+  }
+
+  private getFollowingQuantity() {
+    this.followershipService.getFollowingQuantity(this.user.idUser).subscribe(followingQuantity => this.followingQuantity = followingQuantity);
+  }
+
+  public goToProfile(userYouMayKnow: User) {
+    this.router.navigate(['/profile', userYouMayKnow.idUser]);
+  }
+  //#endregion
+
   //#region Friendship
+  private getFriendship() {
+    this.friendshipService.getFriendship(this.id).subscribe(friendship => {
+      this.friendship = friendship;
+      this.getFriendshipProfileHeaderData();
+      this.getUsersYouMayKnow();
+    });
+  }
+
+  private getFriendshipProfileHeaderData() {
+    this.getFriendsQuantity();
+    this.getPostQuantity();
+    this.getFollowingQuantity();
+  }
+
+  private getUsersYouMayKnow() {
+    this.userService.getKeycloakUser().subscribe(user => {
+      let keycloakUserId = user.idUser;
+      this.userService.getUsersYouMayKnow(this.user.idUser, keycloakUserId).subscribe(usersYouMayKnow => this.usersYouMayKnow = usersYouMayKnow);
+    });
+  }
+
   public addFriend(): void {
     this.friendshipService.addFriend(this.user);
   }
@@ -77,48 +156,58 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   public goToFriendsPage(): void {
-    if (this.id) {
-      this.router.navigate(['profile/friends', this.id]);
-    } else {
-      this.router.navigate(['profile/friends', this.user.idUser]);
+    if (this.user.idUser) {
+      this.router.navigate(['profile/lists/friends', this.user.idUser]);
     }
   }
   //#endregion
 
-  //#region User and posts
-  private getUser() {
-    this.userService.getUser(this.id).subscribe(user => {
-      this.user = user;
-      this.getProfileHeaderData();
-      this.getUsersYouMayKnow();
-      this.callService.subscribeToEvents();
+  //#region Followership
+  private getFollowership() {
+    this.followershipService.getFollowership(this.id).subscribe(followership => {
+      this.followership = followership;
+      this.getFollowershipProfileHeaderData();
     });
   }
 
-  private getKeycloakUser() {
-    this.userService.getKeycloakUser().subscribe(user => {
-      this.user = user;
-      this.getProfileHeaderData();
+  private getFollowershipProfileHeaderData() {
+    this.getPostQuantity();
+    this.getFollowersQuantity();
+    this.getFollowingQuantity();
+  }
+
+  private getFollowersQuantity() {
+    this.followershipService.getFollowersQuantity(this.user.idUser).subscribe(followersQuantity => this.followersQuantity = followersQuantity);
+  }
+
+  public followUser() {
+    this.followershipService.followUser(this.user).subscribe(followership => {
+      this.followership = followership;
+      this.followersQuantity++;
     });
   }
 
-  private getProfileHeaderData() {
-    this.getFriendsQuantity();
-    this.postService.countPostByUser(this.user.idUser).subscribe(count => this.userPostQuantity = count);
-  }
-
-  private getUsersYouMayKnow() {
-    this.userService.getKeycloakUser().subscribe(user => {
-      let keycloakUserId = user.idUser;
-      this.userService.getUsersYouMayKnow(this.user.idUser, keycloakUserId).subscribe(usersYouMayKnow => this.usersYouMayKnow = usersYouMayKnow);
+  public unfollowUser() {
+    this.followershipService.unfollowUser(this.followership.idFollowership).subscribe(response => {
+      console.log(response.message);
+      this.followership = null;
+      this.followersQuantity--;
     });
   }
 
-  public goToProfile(userYouMayKnow: User) {
-    this.router.navigate(['/profile', userYouMayKnow.idUser]);
+  public goToFollowersPage(): void {
+    if (this.user.idUser) {
+      this.router.navigate(['profile/lists/followers', this.user.idUser]);
+    }
+  }
+
+  public goToFollowingPage(): void {
+    if (this.user.idUser) {
+      this.router.navigate(['profile/lists/following', this.user.idUser]);
+    }
   }
   //#endregion
-
+  
   public moveToPosts(el: HTMLElement) {
     el.scrollIntoView({behavior: 'smooth'});
   }

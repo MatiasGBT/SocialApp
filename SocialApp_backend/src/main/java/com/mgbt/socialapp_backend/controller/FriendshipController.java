@@ -1,6 +1,6 @@
 package com.mgbt.socialapp_backend.controller;
 
-import com.mgbt.socialapp_backend.exceptions.EntityAlreadyExists;
+import com.mgbt.socialapp_backend.exceptions.*;
 import com.mgbt.socialapp_backend.model.entity.*;
 import com.mgbt.socialapp_backend.model.entity.notification.*;
 import com.mgbt.socialapp_backend.model.service.*;
@@ -68,7 +68,9 @@ public class FriendshipController {
             @ApiResponse(responseCode = "200", description = "Friendship already exists (response.send = false)",
                     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = JsonFriendshipMessage.class)) }),
             @ApiResponse(responseCode = "201", description = "Friendship created correctly (response.send = true)",
-                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = JsonFriendshipMessage.class)) })
+                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = JsonFriendshipMessage.class)) }),
+            @ApiResponse(responseCode = "404", description = "A checked user cannot have friends, only followers",
+                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = InternalServerError.class)) })
     })
     @PostMapping("/post/send-request")
     @PreAuthorize("hasRole('user')")
@@ -79,11 +81,14 @@ public class FriendshipController {
         Friendship friendship = null;
         UserApp userTransmitter = null;
         try {
-            userTransmitter = userService.findByUsername(usernameTransmitter);
             UserApp userReceiver = userService.findById(idReceiver);
+            userTransmitter = userService.findByUsername(usernameTransmitter);
+            if (userReceiver.getIsChecked() || userTransmitter.getIsChecked()) {
+                throw new friendsAndFollowersException("A checked user cannot have friends, only followers");
+            }
             friendship = friendshipService.findByUsers(userTransmitter, userReceiver);
             if (friendship != null) {
-                throw new EntityAlreadyExists("The friend request already exists");
+                throw new EntityAlreadyExistsException("The friend request already exists");
             }
             friendship = new Friendship(userReceiver, userTransmitter);
             friendship = friendshipService.save(friendship);
@@ -92,18 +97,23 @@ public class FriendshipController {
             response.put("message", messageSource.getMessage("friendshipController.addFriend.notSent", null, locale));
             response.put("send", true);
             return new ResponseEntity<>(response, HttpStatus.CREATED);
-        } catch (EntityAlreadyExists e) {
+        } catch (friendsAndFollowersException e) {
+            response.put("message", messageSource.getMessage("friendshipController.addFriend.userIsChecked", null, locale));
+            response.put("send", false);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        } catch (EntityAlreadyExistsException e) {
             if (friendship.getUserTransmitter().getIdUser().equals(userTransmitter.getIdUser())) {
                 response.put("message", messageSource.getMessage("friendshipController.addFriend.alreadySent", null, locale));
             } else {
                 response.put("message", messageSource.getMessage("friendshipController.addFriend.alreadySentByTheOtherUser", null, locale));
             }
             response.put("send", false);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (DataAccessException e) {
             response.put("message", messageSource.getMessage("error.database", null, locale));
             response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Operation(summary = "Sets the status property of a friendship to true")
@@ -154,25 +164,16 @@ public class FriendshipController {
     }
 
     @Operation(summary = "Get the number of friends a user has")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Friends quantity",
-                    content = { @Content(mediaType = "text/plain", schema = @Schema(type = "integer")) }),
-            @ApiResponse(responseCode = "404", description = "User not found",
-                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = JsonMessage.class)) })
-    })
+    @ApiResponse(responseCode = "200", description = "Friends quantity",
+            content = { @Content(mediaType = "text/plain", schema = @Schema(type = "integer")) })
     @GetMapping("/get/friends-count/{idUser}")
     @PreAuthorize("hasRole('user')")
     public ResponseEntity<?> getFriendsCount(@PathVariable Long idUser, Locale locale) {
-        Map<String, Object> response = new HashMap<>();
         try {
             UserApp user = userService.findById(idUser);
-            if (user != null) {
-                return new ResponseEntity<>(friendshipService.getFriendsQuantity(user), HttpStatus.OK);
-            } else {
-                response.put("message", messageSource.getMessage("error.userNotExist", null, locale));
-                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-            }
+            return new ResponseEntity<>(friendshipService.getFriendsQuantity(user), HttpStatus.OK);
         } catch (DataAccessException e) {
+            Map<String, Object> response = new HashMap<>();
             response.put("message", messageSource.getMessage("error.database", null, locale));
             response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);

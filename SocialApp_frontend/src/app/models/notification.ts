@@ -1,4 +1,5 @@
 import { Comment } from "./comment";
+import { Followership } from "./followership";
 import { Friendship } from "./friendship";
 import { Post } from "./post";
 import { User } from "./user";
@@ -11,5 +12,6 @@ export class Notification {
     post: Post;
     friendship: Friendship;
     comment: Comment;
+    followership: Followership;
     date: Date;
 }

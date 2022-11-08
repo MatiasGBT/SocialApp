@@ -32,13 +32,10 @@ export class PostsListComponent implements OnInit {
     this.postService.getPosts(this.idUser, this.from, this.page).subscribe(response => {
       this.posts = this.posts.concat(response.posts);
       this.isLastPage = response.isLastPage;
-      if (this.isLastPage && this.page == "feed") {
-        this.postService.isLastFeedPageEmitter.emit(this.isLastPage);
-      }
-      if (this.page == "feed" && this.posts.length == 0) {
+      if (this.isLastPage && (this.page == "friendsFeed" || this.page=='followingFeed')) {
         this.noTodayFeedEvent.emit();
       }
-      if (this.page == "feedOld" && this.posts.length == 0) {
+      if (this.page == "friendsFeedOld" && this.posts.length == 0) {
         this.noOldFeedEvent.emit();
       }
     });

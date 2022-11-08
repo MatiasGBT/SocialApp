@@ -9,20 +9,21 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { SearchUsersComponent } from './pages/search-users/search-users.component';
 import { AuthGuard } from './guards/auth.guard';
 import { FullPostComponent } from './pages/full-post/full-post.component';
-import { FriendsComponent } from './pages/friends/friends.component';
+import { FriendsComponent } from './pages/profile/users-list/users-list.component';
 import { CommentPageComponent } from './pages/comment-page/comment-page.component';
 import { ChatComponent } from './pages/profile/chat/chat.component';
 import { CallComponent } from './pages/profile/call/call.component';
 import { LikedPostsComponent } from './pages/profile/liked-posts/liked-posts.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: 'index', pathMatch: 'full'},
-  {path: 'index', component: IndexComponent, canActivate: [AuthGuard]},
+  {path: '', redirectTo: 'index/friends', pathMatch: 'full'},
+  {path: 'index', redirectTo: 'index/friends', pathMatch: 'full'},
+  {path: 'index/:page', component: IndexComponent, canActivate: [AuthGuard]},
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
   {path: 'profile/edit', component: EditProfileComponent, canActivate: [AuthGuard]},
   {path: 'profile/liked', component: LikedPostsComponent, canActivate: [AuthGuard]},
   {path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard]},
-  {path: 'profile/friends/:id', component: FriendsComponent, canActivate: [AuthGuard]},
+  {path: 'profile/lists/:page/:id', component: FriendsComponent, canActivate: [AuthGuard]},
   {path: 'profile/chat/:id', component: ChatComponent, canActivate: [AuthGuard]},
   {path: 'profile/call/:id', component: CallComponent, canActivate: [AuthGuard]},
   {path: 'profile/call/:id/:peerId', component: CallComponent, canActivate: [AuthGuard]},

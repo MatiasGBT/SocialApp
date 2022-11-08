@@ -20,7 +20,12 @@
         "MODAL_ERROR_TEXT": "The publication must have a text or a photo"
     },
     "INDEX": {
-        "NO_MORE_POSTS": "You have already seen all the posts in your feed today 🙌"
+        "FRIENDS_FEED": "Friends",
+        "FOLLOWING_FEED": "Following",
+        "TREND_FEED": "Trend",
+        "NO_MORE_POSTS": "You have already seen all the posts in this feed today 🙌",
+        "NO_FOLLOWING_FEED": "You don't follow anyone, why don't you look for someone you are interested in? 🤔",
+        "NO_TREND_FEED": "There are no trending posts at the moment"
     },
     "ASIDE": {
         "FEATURED_POST": "Featured post",
@@ -29,6 +34,8 @@
     "PROFILE": {
         "NUMBER_OF_POSTS": "Posts",
         "NUMBER_OF_FRIENDS": "Friends",
+        "NUMBER_OF_FOLLOWERS": "Followers",
+        "NUMBER_OF_FOLLOWING": "Following",
         "FRIENDS_SINCE": "Friends since ",
         "EDIT_PROFILE": "Edit profile",
         "LIKED_POSTS_BUTTON": "See posts you liked",
@@ -36,6 +43,8 @@
         "SEND_MESSAGE": "Send message",
         "CALL": "Call",
         "DELETE": "Delete from friends",
+        "FOLLOW": "Follow",
+        "STOP_FOLLOWING": "Stop following",
         "POSTS": "Posts",
         "NO_POSTS": "This user has no posts, it is empty!",
         "GET_MORE_BTN": "Get more posts",
@@ -54,6 +63,23 @@
         },
         "LIKED_POSTS": {
             "NO_POSTS": "You haven't liked any post yet, what are you waiting for?"
+        },
+        "USERS": {
+            "TITLE": "Users",
+            "NON_FRIENDS_TITLE": "This user has no friends",
+            "NON_FRIENDS_TEXT": "What if you send him a friend request 😀?",
+            "NON_FRIENDS_KEYCLOAK_TITLE": "You have no friends",
+            "NON_FRIENDS_KEYCLOAK_TEXT": "There's no time to lose, add someone!",
+
+            "NON_FOLLOWERS_TITLE": "This user has no followers",
+            "NON_FOLLOWERS_TEXT": "What if you follow him? 🤔",
+            "NON_FOLLOWERS_KEYCLOAK_TITLE": "You don't have followers",
+            "NON_FOLLOWERS_KEYCLOAK_TEXT": "It's time to make the next featured post ⌚",
+
+            "NON_FOLLOWING_TITLE": "This user does not follow anyone",
+            "NON_FOLLOWING_TEXT": "What if you recommend someone to him/her? 🤔",
+            "NON_FOLLOWING_KEYCLOAK_TITLE": "You don't follow anyone",
+            "NON_FOLLOWING_KEYCLOAK_TEXT": "Why don't you look for someone you are interested in? 🤔"
         }
     },
     "NOTIFICATIONS": {
@@ -69,6 +95,8 @@
         "FRIEND_REQUEST_TEXT": "sent you a friend request",
         "COMMENT_TITLE": "Someone replied to your comment",
         "COMMENT_TEXT": "Touch to see it",
+        "FOLLOWER_TITLE": "New follower",
+        "FOLLOWER_TEXT": "started following you",
         "NOTIFICATIONS_DISABLED": "Notifications are disabled. Activate them in the Settings tab to view them.",
         "NO_NOTIFICATIONS": "You have no notifications at the moment",
         "NO_NOTIFICATIONS_TO_DELETE_TITLE": "You have no notifications to delete",
@@ -89,13 +117,6 @@
         "USERS_TITLE": "Users found",
         "NON_USERS_TITLE": "No users found",
         "NON_USERS_TEXT": "Try another name for the search"
-    },
-    "FRIENDS": {
-        "TITLE": "User's friends",
-        "NON_FRIENDS_TITLE": "This user has no friends",
-        "NON_FRIENDS_TEXT": "What if you send him a friend request 😀?",
-        "NON_FRIENDS_KEYCLOAK_TITLE": "You have no friends",
-        "NON_FRIENDS_KEYCLOAK_TEXT": "There's no time to lose, add someone!"
     },
     "FULL_POST": {
         "COMMENTS_TITLE": "Comments",

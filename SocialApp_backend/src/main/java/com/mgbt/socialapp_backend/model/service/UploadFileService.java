@@ -1,6 +1,6 @@
 package com.mgbt.socialapp_backend.model.service;
 
-import com.mgbt.socialapp_backend.exceptions.FileNameTooLong;
+import com.mgbt.socialapp_backend.exceptions.FileNameTooLongException;
 import org.springframework.core.io.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,7 +37,7 @@ public class UploadFileService implements IUploadFileService {
         database supports 100 characters.
         */
         if (fileName.length() > 100) {
-            throw new FileNameTooLong("The file name is too long (max 60 characters)");
+            throw new FileNameTooLongException("The file name is too long (max 60 characters)");
         } else {
             Path filePath = getPath(fileName, finalDirectory);
             Files.copy(file.getInputStream(), filePath);

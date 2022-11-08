@@ -79,6 +79,24 @@ export class UserService {
     );
   }
 
+  public getUserFollowers(idUser: number): Observable<User[]> {
+    return this.http.get<User[]>(`${this.baseUrl}/get/followers/${idUser}`).pipe(
+      catchError(e => {
+        this.catchErrorService.showErrorModal(e);
+        return throwError(()=>e);
+      })
+    );
+  }
+
+  public getUserFollowing(idUser: number): Observable<User[]> {
+    return this.http.get<User[]>(`${this.baseUrl}/get/following/${idUser}`).pipe(
+      catchError(e => {
+        this.catchErrorService.showErrorModal(e);
+        return throwError(()=>e);
+      })
+    );
+  }
+
   public getUsersYouMayKnow(idUser: number, idKeycloakUser: number): Observable<User[]> {
     return this.http.get<User[]>(`${this.baseUrl}/get/may-know/${idUser}&${idKeycloakUser}`).pipe(
       catchError(e => {

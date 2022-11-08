@@ -13,7 +13,6 @@ export class PostService {
   private baseUrl: string = 'http://localhost:8090/api/posts';
   @Output() deletePostEmitter: EventEmitter<any> = new EventEmitter();
   @Output() reducePostsQuantityEmitter: EventEmitter<any> = new EventEmitter();
-  @Output() isLastFeedPageEmitter: EventEmitter<any> = new EventEmitter();
 
   constructor(private http: HttpClient, private router: Router,
     private authService: AuthService, private catchErrorService: CatchErrorService) { }

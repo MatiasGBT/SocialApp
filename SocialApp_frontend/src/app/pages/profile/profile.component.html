@@ -3,37 +3,47 @@
         <div id="profile">
             <div id="profile-header">
                 <figure id="profile-header-photo">
-                    <img *ngIf="user?.photo" src="http://localhost:8090/api/users/img/{{user.photo}}" width="80px" height="80px">
-                    <img *ngIf="!user?.photo" src="http://localhost:8090/images/no-photo.jpg" width="80px" height="80px">
+                    <img *ngIf="user?.photo" src="http://localhost:8090/api/users/img/{{user.photo}}">
+                    <img *ngIf="!user?.photo" src="http://localhost:8090/images/no-photo.jpg">
                     <figcaption *ngIf="user?.name">{{user.name}} {{user.surname}}</figcaption>
                     <i *ngIf="user?.isChecked" class="fa-solid fa-check"></i>
                 </figure>
                 <div id="profile-header-data">
                     <div (click)="moveToPosts(posts)">
-                        <p *ngIf="userPostQuantity != undefined">{{userPostQuantity}}</p>
+                        <p>{{userPostQuantity}}</p>
                         <p>{{'PROFILE.NUMBER_OF_POSTS' | translate}}</p>
                     </div>
-                    <div (click)="goToFriendsPage()">
+                    <div (click)="goToFriendsPage()" *ngIf="!user?.isChecked">
                         <p>{{friendsQuantity}}</p>
                         <p>{{'PROFILE.NUMBER_OF_FRIENDS' | translate}}</p>
                     </div>
+                    <div (click)="goToFollowersPage()" *ngIf="user?.isChecked">
+                        <p>{{followersQuantity}}</p>
+                        <p>{{'PROFILE.NUMBER_OF_FOLLOWERS' | translate}}</p>
+                    </div>
+                    <div (click)="goToFollowingPage()">
+                        <p>{{followingQuantity}}</p>
+                        <p>{{'PROFILE.NUMBER_OF_FOLLOWING' | translate}}</p>
+                    </div>
                 </div>
             </div>
+
             <div id="profile-description">
                 <p *ngIf="user?.description">{{user.description}}</p>
                 <p *ngIf="friendship?.status" id="friendship-date">{{'PROFILE.FRIENDS_SINCE' | translate}} {{friendship.date | date:'shortDate'}}</p>
             </div>
+
             <div id="profile-buttons">
-                <button type="button" class="profile-button" [routerLink]="['edit']" *ngIf="!friendship">
+                <button type="button" class="profile-button" [routerLink]="['edit']" *ngIf="isKeycloakUserPage">
                     <i class="fa-solid fa-pencil"></i> {{'PROFILE.EDIT_PROFILE' | translate}}
                 </button>
-                <button type="button" class="profile-button" [routerLink]="['liked']" *ngIf="!friendship">
+                <button type="button" class="profile-button" [routerLink]="['liked']" *ngIf="isKeycloakUserPage">
                     <i class="fa-solid fa-heart"></i> {{'PROFILE.LIKED_POSTS_BUTTON' | translate}}
                 </button>
-                <button type="button" class="profile-button side-profile-button" (click)="addFriend()" *ngIf="friendship?.status == false">
+                <button type="button" class="profile-button side-profile-button" (click)="addFriend()" *ngIf="friendship?.status == false && !authService.userIsChecked">
                     <i class="fa-solid fa-plus"></i> {{'PROFILE.ADD_FRIEND' | translate}}
                 </button>
-                <button type="button" class="profile-button" *ngIf="friendship?.status == true && user?.idUser" [routerLink]="['/profile/chat', user.idUser]">
+                <button type="button" class="profile-button" *ngIf="friendship?.status == true || followership" [routerLink]="['/profile/chat', user.idUser]">
                     <i class="fa-solid fa-message"></i> {{'PROFILE.SEND_MESSAGE' | translate}}
                 </button>
                 <button type="button" class="profile-button" *ngIf="friendship?.status == true" (click)="callFriend()">
@@ -42,6 +52,13 @@
                 <button type="button" class="profile-button" *ngIf="friendship?.status == true"
                 (click)="deleteFriend()">
                     <i class="fa-solid fa-trash"></i> {{'PROFILE.DELETE' | translate}}
+                </button>
+                <button type="button" class="profile-button side-profile-button"  (click)="followUser()"
+                    *ngIf="!followership && !friendship && !isKeycloakUserPage">
+                    <i class="fa-solid fa-plus"></i> {{'PROFILE.FOLLOW' | translate}}
+                </button>
+                <button type="button" class="profile-button" *ngIf="followership" (click)="unfollowUser()">
+                    <i class="fa-solid fa-minus"></i> {{'PROFILE.STOP_FOLLOWING' | translate}}
                 </button>
             </div>
         </div>

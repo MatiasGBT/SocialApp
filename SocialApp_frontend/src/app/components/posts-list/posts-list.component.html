@@ -1,9 +1,19 @@
 <post-comp *ngFor="let post of posts" [post]="post"></post-comp>
 <button (click)="getNewPosts()" (screen)="getNewPosts()" *ngIf="!isLastPage && posts.length > 0">{{'PROFILE.GET_MORE_BTN' | translate}}</button>
 
-<div id="no-more-posts" *ngIf="isLastPage && page=='feed' && posts.length>0">
+<div id="no-more-posts" *ngIf="isLastPage && (page=='friendsFeed' || page=='followingFeed') && posts.length>0">
     <img src="../../../assets/img/all_viewed.svg" alt="No posts">
     <p>{{'INDEX.NO_MORE_POSTS' | translate}}</p>
+</div>
+
+<div id="no-trend-posts" *ngIf="posts.length==0 && page=='followingFeed'">
+    <p>{{'INDEX.NO_FOLLOWING_FEED' | translate}}</p>
+    <img src="../../../assets/img/friends_bg.svg" alt="No posts">
+</div>
+
+<div id="no-trend-posts" *ngIf="posts.length==0 && page=='trendFeed'">
+    <p>{{'INDEX.NO_TREND_FEED' | translate}}</p>
+    <img src="../../../assets/img/no_trend_bg.svg" alt="No posts">
 </div>
 
 <div id="no-user-posts" *ngIf="posts.length==0 && page=='profile'">

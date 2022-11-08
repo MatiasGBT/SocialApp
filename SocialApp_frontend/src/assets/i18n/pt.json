@@ -20,7 +20,12 @@
         "MODAL_ERROR_TEXT": "A publicação deve ter um texto ou uma foto"
     },
     "INDEX": {
-        "NO_MORE_POSTS": "Você já viu todas as publicações em seu feed de hoje 🙌"
+        "FRIENDS_FEED": "Amigos",
+        "FOLLOWING_FEED": "Seguindo",
+        "TREND_FEED": "Tendência",
+        "NO_MORE_POSTS": "Você já viu todas as publicações deste feed de hoje 🙌",
+        "NO_FOLLOWING_FEED": "Você não segue ninguém, por que não procura alguém de seu interesse? 🤔",
+        "NO_TREND_FEED": "Não há publicações em tendências no momento"
     },
     "ASIDE": {
         "FEATURED_POST": "Publicação fixada",
@@ -29,6 +34,8 @@
     "PROFILE": {
         "NUMBER_OF_POSTS": "Publicações",
         "NUMBER_OF_FRIENDS": "Amigos",
+        "NUMBER_OF_FOLLOWERS": "Seguidores",
+        "NUMBER_OF_FOLLOWING": "Seguindo",
         "FRIENDS_SINCE": "Amigos desde ",
         "EDIT_PROFILE": "Editar o perfil",
         "LIKED_POSTS_BUTTON": "Ver publicações curtidas",
@@ -36,6 +43,8 @@
         "SEND_MESSAGE": "Enviar mensagem",
         "CALL": "Chamar",
         "DELETE": "Eliminar dos amigos",
+        "FOLLOW": "Seguir",
+        "STOP_FOLLOWING": "Deixar de seguir",
         "POSTS": "Publicações",
         "NO_POSTS": "Este usuário não tem publicações, está vazio!",
         "GET_MORE_BTN": "Obter mais publicações",
@@ -54,6 +63,23 @@
         },
         "LIKED_POSTS": {
             "NO_POSTS": "Você ainda não gostou de nenhuma publicação, do que está esperando?"
+        },
+        "USERS": {
+            "TITLE": "Usuários",
+            "NON_FRIENDS_TITLE": "Este usuário não tem amigos",
+            "NON_FRIENDS_TEXT": "E se você lhe enviar uma solicitação de amizade 😀?",
+            "NON_FRIENDS_KEYCLOAK_TITLE": "Você não tem amigos",
+            "NON_FRIENDS_KEYCLOAK_TEXT": "Não há tempo a perder, envie uma solicitação de amizade para alguém!",
+
+            "NON_FOLLOWERS_TITLE": "Este usuário não tem seguidores",
+            "NON_FOLLOWERS_TEXT": "E se você o segue? 🤔",
+            "NON_FOLLOWERS_KEYCLOAK_TITLE": "Você não tem seguidores",
+            "NON_FOLLOWERS_KEYCLOAK_TEXT": "Chegou a hora de fazer a próxima publicação fixada ⌚",
+            
+            "NON_FOLLOWING_TITLE": "Este usuario não sigue a nadie",
+            "NON_FOLLOWING_TEXT": "E se você recomendar alguém a ele/ela? 🤔",
+            "NON_FOLLOWING_KEYCLOAK_TITLE": "Você não segue ninguém",
+            "NON_FOLLOWING_KEYCLOAK_TEXT": "Por que não procura alguém de seu interesse? 🤔"
         }
     },
     "NOTIFICATIONS": {
@@ -69,6 +95,8 @@
         "FRIEND_REQUEST_TEXT": "lhe enviou uma solicitação de amizade",
         "COMMENT_TITLE": "Alguém respondeu ao seu comentário",
         "COMMENT_TEXT": "Toque para vê-lo",
+        "FOLLOWER_TITLE": "Novo seguidor",
+        "FOLLOWER_TEXT": "começou a seguir você",
         "NOTIFICATIONS_DISABLED": "As notificações estão desativadas. Habilite-as na guia Configurações para exibi-las.",
         "NO_NOTIFICATIONS": "Você não tem nenhuma notificação no momento",
         "NO_NOTIFICATIONS_TO_DELETE_TITLE": "Você não tem notificações para eliminar",
@@ -89,13 +117,6 @@
         "USERS_TITLE": "Usuários encontrados",
         "NON_USERS_TITLE": "Nenhum usuário encontrado",
         "NON_USERS_TEXT": "Tente outro nome para a busca"
-    },
-    "FRIENDS": {
-        "TITLE": "Amigos do usuário",
-        "NON_FRIENDS_TITLE": "Este usuário não tem amigos",
-        "NON_FRIENDS_TEXT": "E se você lhe enviar uma solicitação de amizade 😀?",
-        "NON_FRIENDS_KEYCLOAK_TITLE": "Você não tem amigos",
-        "NON_FRIENDS_KEYCLOAK_TEXT": "Não há tempo a perder, envie uma solicitação de amizade para alguém!"
     },
     "FULL_POST": {
         "COMMENTS_TITLE": "Comentários",

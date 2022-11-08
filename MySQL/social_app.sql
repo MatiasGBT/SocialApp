@@ -54,6 +54,25 @@ CREATE TABLE `comments` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `followerships`
+--
+
+DROP TABLE IF EXISTS `followerships`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `followerships` (
+  `id_followership` bigint NOT NULL AUTO_INCREMENT,
+  `id_user_checked` bigint NOT NULL,
+  `id_user_follower` bigint NOT NULL,
+  PRIMARY KEY (`id_followership`),
+  KEY `fk_user_checked_idx` (`id_user_checked`),
+  KEY `fk_user_follower_idx` (`id_user_follower`),
+  CONSTRAINT `fk_user_checked` FOREIGN KEY (`id_user_checked`) REFERENCES `users` (`id_user`),
+  CONSTRAINT `fk_user_follower` FOREIGN KEY (`id_user_follower`) REFERENCES `users` (`id_user`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `friendships`
 --
 
@@ -134,6 +153,7 @@ CREATE TABLE `notifications` (
   `id_post` bigint DEFAULT NULL,
   `id_friendship` bigint DEFAULT NULL,
   `id_comment` bigint DEFAULT NULL,
+  `id_followership` bigint DEFAULT NULL,
   PRIMARY KEY (`id_notification`),
   KEY `fk_user_user-friend` (`id_user_friend`),
   KEY `fk_user_user-msg` (`id_user_message_transmitter`),
@@ -141,7 +161,9 @@ CREATE TABLE `notifications` (
   KEY `fk_friendship_notification_idx` (`id_friendship`),
   KEY `fk_user-notif_notif_idx` (`id_user_receiver`),
   KEY `fk_comment_notif_idx` (`id_comment`),
+  KEY `fk_followership_notif_idx` (`id_followership`),
   CONSTRAINT `fk_comment_notif` FOREIGN KEY (`id_comment`) REFERENCES `comments` (`id_comment`),
+  CONSTRAINT `fk_followership_notif` FOREIGN KEY (`id_followership`) REFERENCES `followerships` (`id_followership`),
   CONSTRAINT `fk_friendship_notification` FOREIGN KEY (`id_friendship`) REFERENCES `friendships` (`id_friendship`),
   CONSTRAINT `fk_post_notification` FOREIGN KEY (`id_post`) REFERENCES `posts` (`id_post`),
   CONSTRAINT `fk_user-notif_notif` FOREIGN KEY (`id_user_receiver`) REFERENCES `users` (`id_user`),

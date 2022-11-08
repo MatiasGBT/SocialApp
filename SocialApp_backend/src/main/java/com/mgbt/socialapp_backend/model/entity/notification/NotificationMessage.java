@@ -13,7 +13,7 @@ public class NotificationMessage extends Notification {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"hibernateLazyInitializer","handler","username","description",
-            "creationDate","deletionDate","photo","isChecked","isConnected"})
+            "creationDate","deletionDate","photo","isChecked","status"})
     @JoinColumn(name = "id_user_message_transmitter")
     private UserApp userTransmitter;
 }

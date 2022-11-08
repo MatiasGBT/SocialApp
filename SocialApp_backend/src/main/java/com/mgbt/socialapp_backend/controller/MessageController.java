@@ -1,7 +1,7 @@
 package com.mgbt.socialapp_backend.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mgbt.socialapp_backend.exceptions.FileNameTooLong;
+import com.mgbt.socialapp_backend.exceptions.FileNameTooLongException;
 import com.mgbt.socialapp_backend.model.entity.Message;
 import com.mgbt.socialapp_backend.model.service.*;
 import com.mgbt.socialapp_backend.utility_classes.*;
@@ -85,7 +85,7 @@ public class MessageController {
             response.put("messagePhoto", messageConverted.getPhoto());
             response.put("messageDate", messageConverted.getDate());
             return new ResponseEntity<>(response, HttpStatus.CREATED);
-        } catch (FileNameTooLong e) {
+        } catch (FileNameTooLongException e) {
             response.put("message", messageSource.getMessage("error.nameTooLong", null, locale));
             response.put("error", e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);

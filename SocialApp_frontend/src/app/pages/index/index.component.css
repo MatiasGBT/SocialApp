@@ -1,3 +1,22 @@
+#links {
+    margin-top: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    background: #2e2e36;
+}
+
+#links button {
+    border: none;
+    outline: none;
+    font-size: 1.25rem;
+    height: 100%;
+    cursor: pointer;
+    transition: .3s;
+    padding: 10px;
+}
+
 .old-feed-btn {
     background: #7f5af0;
     font-size: 1.25rem;
@@ -21,6 +40,11 @@
 @media (min-width: 768px) {
     #section-publications {
         display: flex;
+    }
+
+    #links {
+        margin-top: 0;
+        height: 50px;
     }
 
     #publications {

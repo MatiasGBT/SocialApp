@@ -1,6 +1,6 @@
 package com.mgbt.socialapp_backend.controller;
 
-import com.mgbt.socialapp_backend.exceptions.FileNameTooLong;
+import com.mgbt.socialapp_backend.exceptions.FileNameTooLongException;
 import com.mgbt.socialapp_backend.model.entity.*;
 import com.mgbt.socialapp_backend.model.service.IUploadFileService;
 import com.mgbt.socialapp_backend.model.service.*;
@@ -23,9 +23,11 @@ import java.util.*;
 public class PostController {
 
     private final static String FINAL_DIRECTORY = "/posts";
-    private final static String INDEX_FEED_PAGE = "feed";
-    private final static String INDEX_OLD_FEED_PAGE = "feedOld";
-    private final static String INDEX_NO_FRIENDS = "noFriends";
+    private final static String INDEX_FRIENDS_FEED_PAGE = "friendsFeed";
+    private final static String INDEX_OLD_FRIENDS_FEED_PAGE = "friendsFeedOld";
+    private final static String INDEX_FOLLOWING_FEED_PAGE = "followingFeed";
+    private final static String INDEX_OLD_FOLLOWING_FEED_PAGE = "followingFeedOld";
+    private final static String INDEX_TREND_FEED_PAGE = "trendFeed";
     private final static String PROFILE_PAGE = "profile";
     private final static String LIKED_POSTS_PAGE = "likedPosts";
 
@@ -78,34 +80,39 @@ public class PostController {
         Map<String, Object> response = new HashMap<>();
         try {
             List<Post> posts = new ArrayList<>();
-            boolean isLastPage = true;
+            Long lastIdPost = null;
+            boolean isLastPage;
             switch (frontendPage) {
-                case INDEX_FEED_PAGE -> {
-                    posts = postService.findFeedByUserId(idUser, from);
-                    Long lastIdPost = postService.findLastIdPostFromUserFeed(idUser);
-                    isLastPage = postService.getIsLastPage(lastIdPost, posts);
+                case INDEX_FRIENDS_FEED_PAGE -> {
+                    posts = postService.findFriendsFeedByUserId(idUser, from);
+                    lastIdPost = postService.findLastIdPostFromFriendsFeedByUserId(idUser);
                 }
-                case INDEX_OLD_FEED_PAGE -> {
-                    posts = postService.findOldFeedByUserId(idUser, from);
-                    Long lastIdPost = postService.findLastIdPostFromOldUserFeed(idUser);
-                    isLastPage = postService.getIsLastPage(lastIdPost, posts);
+                case INDEX_OLD_FRIENDS_FEED_PAGE -> {
+                    posts = postService.findOldFriendsFeedByUserId(idUser, from);
+                    lastIdPost = postService.findLastIdPostFromOldFriendsFeedByUserId(idUser);
                 }
-                case INDEX_NO_FRIENDS -> {
-                    posts = postService.findNoFriendsFeed(from);
-                    Long lastIdPost = postService.findLastIdPostFromNoFriendsFeed(idUser);
-                    isLastPage = postService.getIsLastPage(lastIdPost, posts);
+                case INDEX_FOLLOWING_FEED_PAGE -> {
+                    posts = postService.findFollowingFeedByUserId(idUser, from);
+                    lastIdPost = postService.findLastIdPostFromFollowingFeedByUserId(idUser);
+                }
+                case INDEX_OLD_FOLLOWING_FEED_PAGE -> {
+                    posts = postService.findOldFollowingFeedByUserId(idUser, from);
+                    lastIdPost = postService.findLastIdPostFromOldFollowingFeedByUserId(idUser);
+                }
+                case INDEX_TREND_FEED_PAGE -> {
+                    posts = postService.findTrendFeed(from);
+                    lastIdPost = postService.findLastIdPostFromTrendFeed(idUser);
                 }
                 case PROFILE_PAGE -> {
                     posts = postService.findPostsByUserId(idUser, from);
-                    Long lastIdPost = postService.findLastIdPostFromUserPosts(idUser);
-                    isLastPage = postService.getIsLastPage(lastIdPost, posts);
+                    lastIdPost = postService.findLastIdPostFromUserPosts(idUser);
                 }
                 case LIKED_POSTS_PAGE -> {
                     posts = postService.findLikedPostsByUserId(idUser, from);
-                    Long lastIdPost = postService.findLastIdPostFromLikedPostsUser(idUser);
-                    isLastPage = postService.getIsLastPage(lastIdPost, posts);
+                    lastIdPost = postService.findLastIdPostFromLikedPostsUser(idUser);
                 }
             }
+            isLastPage = postService.getIsLastPage(lastIdPost, posts);
             response.put("posts", posts);
             response.put("isLastPage", isLastPage);
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -177,7 +184,7 @@ public class PostController {
             response.put("message", messageSource.getMessage("postController.createPost", null, locale));
             response.put("idPost", post.getIdPost());
             return new ResponseEntity<>(response, HttpStatus.CREATED);
-        } catch (FileNameTooLong e) {
+        } catch (FileNameTooLongException e) {
             response.put("message", messageSource.getMessage("error.nameTooLong", null, locale));
             response.put("error", e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);

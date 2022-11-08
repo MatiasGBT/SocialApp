@@ -25,7 +25,7 @@ import { LanguageInterceptor } from './interceptors/language';
 import { PostComponent } from './components/post/post.component';
 import { FullPostComponent } from './pages/full-post/full-post.component';
 import { UserComponent } from './components/user/user.component';
-import { FriendsComponent } from './pages/friends/friends.component';
+import { FriendsComponent } from './pages/profile/users-list/users-list.component';
 import { PostsListComponent } from './components/posts-list/posts-list.component';
 import { CommentComponent } from './components/comment/comment.component';
 import { CommentPageComponent } from './pages/comment-page/comment-page.component';

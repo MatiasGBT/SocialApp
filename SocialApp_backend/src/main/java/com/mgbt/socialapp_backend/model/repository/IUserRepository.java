@@ -24,20 +24,33 @@ public interface IUserRepository extends JpaRepository<UserApp, Long> {
             nativeQuery = true)
     List<UserApp> filterWithoutLimit(String name, String keycloakUsername);
 
-    @Query(value = "SELECT u.* FROM friendships f " +
-            "INNER JOIN users u ON f.id_user_transmitter = u.id_user " +
-            "OR f.id_user_receiver = u.id_user " +
+    @Query(value = "SELECT u.* FROM users u " +
+            "INNER JOIN friendships f ON u.id_user = f.id_user_transmitter " +
+            "OR u.id_user = f.id_user_receiver " +
             "WHERE (f.id_user_transmitter = ?1 OR f.id_user_receiver = ?1) " +
             "AND u.id_user != ?1 AND f.status = 1",
             nativeQuery = true)
     List<UserApp> findFriendsByUser(Long idUser);
 
-    @Query(value = "SELECT u.* FROM friendships f " +
-            "INNER JOIN users u ON f.id_user_transmitter = u.id_user " +
-            "OR f.id_user_receiver = u.id_user " +
+    @Query(value = "SELECT u.* FROM users u " +
+            "INNER JOIN followerships f ON u.id_user = f.id_user_follower " +
+            "WHERE f.id_user_checked = ?",
+            nativeQuery = true)
+    List<UserApp> findFollowersByUser(Long idUser);
+
+    @Query(value = "SELECT u.* FROM users u " +
+            "INNER JOIN followerships f ON u.id_user = f.id_user_checked " +
+            "WHERE f.id_user_follower = ?",
+            nativeQuery = true)
+    List<UserApp> findFollowingByUser(Long idUser);
+
+    @Query(value = "SELECT u.* FROM users u " +
+            "INNER JOIN friendships f ON u.id_user = f.id_user_transmitter " +
+            "OR u.id_user = f.id_user_receiver " +
             "WHERE (f.id_user_transmitter = ?1 OR f.id_user_receiver = ?1) " +
             "AND (f.id_user_transmitter != ?2 AND f.id_user_receiver != ?2) " +
-            "AND u.id_user != ?1 AND f.status = 1",
+            "AND u.id_user != ?1 AND f.status = 1 " +
+            "ORDER BY RAND() LIMIT 5",
             nativeQuery = true)
     List<UserApp> findUsersYouMayKnowByUser(Long idUser, Long idKeycloakUser);
 }

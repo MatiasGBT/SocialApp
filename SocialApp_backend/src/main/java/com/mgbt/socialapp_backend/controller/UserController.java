@@ -1,6 +1,6 @@
 package com.mgbt.socialapp_backend.controller;
 
-import com.mgbt.socialapp_backend.exceptions.FileNameTooLong;
+import com.mgbt.socialapp_backend.exceptions.FileNameTooLongException;
 import com.mgbt.socialapp_backend.model.entity.*;
 import com.mgbt.socialapp_backend.model.service.*;
 import com.mgbt.socialapp_backend.utility_classes.*;
@@ -76,7 +76,7 @@ public class UserController {
         }
     }
 
-    @Operation(summary = "Gets all friends from the user entered")
+    @Operation(summary = "Gets all the friends of the user entered")
     @ApiResponse(responseCode = "200", description = "Array of users",
             content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = UserApp.class))) })
     @GetMapping("/get/friends/{idUser}")
@@ -93,7 +93,41 @@ public class UserController {
         }
     }
 
-    @Operation(summary = "Gets all friends of the user entered excluding the user making the request")
+    @Operation(summary = "Gets all the followers of the user entered")
+    @ApiResponse(responseCode = "200", description = "Array of users",
+            content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = UserApp.class))) })
+    @GetMapping("/get/followers/{idUser}")
+    @PreAuthorize("isAuthenticated() and hasRole('user')")
+    public ResponseEntity<?> getFollowers(@PathVariable Long idUser, Locale locale) {
+        try {
+            List<UserApp> followers = userService.getFollowers(idUser);
+            return new ResponseEntity<>(followers, HttpStatus.OK);
+        } catch (DataAccessException e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", messageSource.getMessage("error.database", null, locale));
+            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "Gets all the followed users of the user entered")
+    @ApiResponse(responseCode = "200", description = "Array of users",
+            content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = UserApp.class))) })
+    @GetMapping("/get/following/{idUser}")
+    @PreAuthorize("isAuthenticated() and hasRole('user')")
+    public ResponseEntity<?> getFollowing(@PathVariable Long idUser, Locale locale) {
+        try {
+            List<UserApp> following = userService.getFollowing(idUser);
+            return new ResponseEntity<>(following, HttpStatus.OK);
+        } catch (DataAccessException e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", messageSource.getMessage("error.database", null, locale));
+            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "Gets 5 friends of the user entered excluding the user making the request")
     @ApiResponse(responseCode = "200", description = "Array of users",
             content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = UserApp.class))) })
     @GetMapping("/get/may-know/{idUser}&{idKeycloakUser}")
@@ -146,7 +180,7 @@ public class UserController {
             userService.save(user);
             response.put("message", messageSource.getMessage("userController.editProfile", null, locale));
             return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (FileNameTooLong e) {
+        } catch (FileNameTooLongException e) {
             response.put("message", messageSource.getMessage("error.nameTooLong", null, locale));
             response.put("error", e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);

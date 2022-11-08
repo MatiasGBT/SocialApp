@@ -86,9 +86,15 @@ public class NotificationController {
         Map<String, Object> response = new HashMap<>();
         try {
             Notification notification = notificationService.findById(idNotification);
-            response.put("id", notification.getIdNotification());
-            notificationService.delete(notification);
-            response.put("message", messageSource.getMessage("notificationController.delete", null, locale));
+            response.put("id", idNotification);
+            //It is possible for a user to unfollow another user before they remove a notification and,
+            //as they are removed in cascade, the notification will not be found by the system.
+            if (notification != null) {
+                notificationService.delete(notification);
+                response.put("message", messageSource.getMessage("notificationController.delete", null, locale));
+            } else {
+                response.put("message", messageSource.getMessage("notificationController.notFound", null, locale));
+            }
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (DataAccessException e) {
             response.put("message", messageSource.getMessage("error.userNotExist", null, locale));

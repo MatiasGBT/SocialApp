@@ -1,11 +1,38 @@
 <section id="section-publications">
-    
     <div id="publications">
-        <posts-list-comp *ngIf="idUser" [idUser]="idUser" [page]="'feed'" (noTodayFeedEvent)="updateNoTodayFeed()"></posts-list-comp>
-        <posts-list-comp *ngIf="showOldFeed" [idUser]="idUser" [page]="'feedOld'" (noOldFeedEvent)="updateNoOldFeed()"></posts-list-comp>
+        <div id="links">
+            <button (click)="goToFriendsFeed()" *ngIf="!authService.userIsChecked"
+            [ngStyle]="{
+                'background-color': (page == 'friends') ? '#7f5af0' : 'transparent',
+                'color': (page == 'friends') ? 'white' : '#7f5af0'
+            }">
+                {{'INDEX.FRIENDS_FEED' | translate}}
+            </button>
+            <button (click)="goToFollowingFeed()"
+            [ngStyle]="{
+                'background-color': (page == 'following') ? '#7f5af0' : 'transparent',
+                'color': (page == 'following') ? 'white' : '#7f5af0'
+            }">
+                {{'INDEX.FOLLOWING_FEED' | translate}}
+            </button>
+            <button (click)="goToTrendFeed()"
+            [ngStyle]="{
+                'background-color': (page == 'trend') ? '#7f5af0' : 'transparent',
+                'color': (page == 'trend') ? 'white' : '#7f5af0'
+            }">
+                {{'INDEX.TREND_FEED' | translate}}
+            </button>
+        </div>
+
+        <posts-list-comp *ngIf="idUser && page == 'friends'" [idUser]="idUser" [page]="'friendsFeed'" (noTodayFeedEvent)="updateNoTodayFeed()"></posts-list-comp>
+        <posts-list-comp *ngIf="showOldFeed && page == 'friends'" [idUser]="idUser" [page]="'friendsFeedOld'" (noOldFeedEvent)="updateNoOldFeed()"></posts-list-comp>
+
+        <posts-list-comp *ngIf="idUser && page == 'following'" [idUser]="idUser" [page]="'followingFeed'" (noTodayFeedEvent)="updateNoTodayFeed()"></posts-list-comp>
+        <posts-list-comp *ngIf="showOldFeed && page == 'following'" [idUser]="idUser" [page]="'followingFeedOld'" (noOldFeedEvent)="updateNoOldFeed()"></posts-list-comp>
+
+        <posts-list-comp *ngIf="idUser && page == 'trend'" [idUser]="idUser" [page]="'trendFeed'" (noTodayFeedEvent)="updateNoTodayFeed()"></posts-list-comp>
 
         <post-comp *ngIf="showNoFriendsFeed && welcomePost" [post]="welcomePost"></post-comp>
-        <posts-list-comp *ngIf="showNoFriendsFeed" [idUser]="idUser" [page]="'noFriends'"></posts-list-comp>
     </div>
     
     <aside>
@@ -15,5 +42,4 @@
         </div>
         <img *ngIf="!popularPost" src="../../../assets/img/no_featured_post_bg.svg" alt="No featured post image">
     </aside>
-
 </section>

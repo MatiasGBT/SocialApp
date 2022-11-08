@@ -10,6 +10,7 @@ import { User } from '../models/user';
 export class AuthService {
   private token = this.keycloakService.getKeycloakInstance().token;
   private baseUrl = "http://localhost:8090/api/app/";
+  public userIsChecked: boolean;
 
   constructor(private http: HttpClient, private keycloakService: KeycloakService) { }
 
