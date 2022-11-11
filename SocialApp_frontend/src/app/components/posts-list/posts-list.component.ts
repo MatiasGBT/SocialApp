@@ -35,7 +35,7 @@ export class PostsListComponent implements OnInit {
       if (this.isLastPage && (this.page == "friendsFeed" || this.page=='followingFeed')) {
         this.noTodayFeedEvent.emit();
       }
-      if (this.page == "friendsFeedOld" && this.posts.length == 0) {
+      if ((this.page == "friendsFeedOld" || this.page == "followingFeedOld") && this.posts.length == 0) {
         this.noOldFeedEvent.emit();
       }
     });

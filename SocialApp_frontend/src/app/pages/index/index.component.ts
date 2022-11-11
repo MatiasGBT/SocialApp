@@ -49,7 +49,9 @@ export class IndexComponent implements OnInit {
   public updateNoOldFeed() {
     if (this.showOldFeed) {
       this.showNoFriendsFeed = true;
-      this.postService.getPost(1).subscribe(post => this.welcomePost = post);
+      if (this.page == 'friends') {
+        this.postService.getPost(1).subscribe(post => this.welcomePost = post);
+      }
     }
   }
 

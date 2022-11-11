@@ -6,11 +6,6 @@
     <p>{{'INDEX.NO_MORE_POSTS' | translate}}</p>
 </div>
 
-<div id="no-trend-posts" *ngIf="posts.length==0 && page=='followingFeed'">
-    <p>{{'INDEX.NO_FOLLOWING_FEED' | translate}}</p>
-    <img src="../../../assets/img/friends_bg.svg" alt="No posts">
-</div>
-
 <div id="no-trend-posts" *ngIf="posts.length==0 && page=='trendFeed'">
     <p>{{'INDEX.NO_TREND_FEED' | translate}}</p>
     <img src="../../../assets/img/no_trend_bg.svg" alt="No posts">

@@ -32,7 +32,12 @@
 
         <posts-list-comp *ngIf="idUser && page == 'trend'" [idUser]="idUser" [page]="'trendFeed'" (noTodayFeedEvent)="updateNoTodayFeed()"></posts-list-comp>
 
-        <post-comp *ngIf="showNoFriendsFeed && welcomePost" [post]="welcomePost"></post-comp>
+        <post-comp *ngIf="showNoFriendsFeed && welcomePost && page == 'friends'" [post]="welcomePost"></post-comp>
+
+        <div id="no-following-posts" *ngIf="showNoFriendsFeed && welcomePost && page == 'following'">
+            <p>{{'INDEX.NO_FOLLOWING_FEED' | translate}}</p>
+            <img src="../../../assets/img/friends_bg.svg" alt="No posts">
+        </div>
     </div>
     
     <aside>

@@ -173,7 +173,7 @@ export class WebsocketService {
     this.writingStatusSubscription = this.stopmJsClient.subscribe(`/ws/chat/writing/${this.authService.getUsername()}/${userFriend.username}`, e => {
       if (e.body == "200") {
         userFriend.status.text = "Writing";
-        setTimeout(() => { userFriend.status.text = "Connected" }, 3000);
+        setTimeout(() => { userFriend.status.text = "Connected" }, 2000);
       }
     });
   }
