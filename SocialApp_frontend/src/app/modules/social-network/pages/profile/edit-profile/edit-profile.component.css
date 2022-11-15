@@ -1,0 +1,112 @@
+#section-edit-profile {
+    padding: 25px;
+}
+
+form {
+    margin-top: 25px;
+}
+
+h2 {
+    margin-top: 15px;
+    font-size: 1.25rem;
+}
+
+.image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.image img {
+    /*It has to be max so that the box is not shown when there is no selected image*/
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 15px;
+}
+
+textarea {
+    margin-top: 5px;
+    padding: 5px;
+    resize: none;
+    font-size: 1rem;
+    width: 100%;
+    height: 120px;
+    outline: none;
+    border: 2px solid #7f5af0;
+    border-radius: 10px;
+    background: #24242b;
+    color: white;
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+#submit-changes, #select-button {
+    display: block;
+    width: 100%;
+    font-size: 1rem;
+    background: #7f5af0;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    padding: 5px;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+#submit-changes:hover, #select-button:hover {
+    background: #6f4ed1;
+    transition: .3s;
+}
+
+#submit-changes:disabled {
+    background: #675991;
+    cursor: not-allowed;
+}
+
+#note {
+    margin-top: 15px;
+    margin-bottom: 60px;
+    color: rgb(190, 190, 190);
+}
+
+@media (min-width: 768px) {
+    .image img {
+        max-width: 200px;
+        max-height: 200px;
+    }
+
+    #note {
+        margin-bottom: 0;
+    }
+}
+
+@media (min-width: 1038px) {
+    #edit-box {
+        min-height: 80vh;
+    }
+
+    #section-edit-profile {
+        background-image: url("../../../../../../assets/img/profile_bg.svg");
+        background-repeat: no-repeat;
+        background-size: 35rem;
+        background-position-x: right;
+        background-position-y: center;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .image {
+        width: 50%;
+    }
+
+    textarea {
+        width: 50%;
+    }
+
+    #submit-changes, #select-button {
+        width: 50%;
+    }
+}

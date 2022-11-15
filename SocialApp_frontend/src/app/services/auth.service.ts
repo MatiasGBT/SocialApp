@@ -11,6 +11,7 @@ export class AuthService {
   private token = this.keycloakService.getKeycloakInstance().token;
   private baseUrl = "http://localhost:8090/api/app/";
   public userIsChecked: boolean;
+  public userIsOnAdminModule: boolean = false;
 
   constructor(private http: HttpClient, private keycloakService: KeycloakService) { }
 

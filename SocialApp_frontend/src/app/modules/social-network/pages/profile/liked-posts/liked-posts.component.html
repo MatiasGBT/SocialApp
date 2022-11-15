@@ -1,0 +1,9 @@
+<section id="section-liked-posts">
+    <div id="posts-list">
+        <posts-list-comp *ngIf="keycloakUser" [idUser]="keycloakUser.idUser" [page]="'likedPosts'"></posts-list-comp>
+    </div>
+
+    <aside>
+        <img src="../../../../../../../assets/img/liked_posts_bg.svg" alt="Liked posts image">
+    </aside>
+</section>

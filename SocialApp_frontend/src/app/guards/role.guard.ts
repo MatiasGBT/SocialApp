@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import Swal from 'sweetalert2';
 import { AuthService } from '../services/auth.service';
+import { TranslateExtensionService } from '../services/translate-extension.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ import { AuthService } from '../services/auth.service';
 export class RoleGuard implements CanActivate {
 
   constructor(private authService: AuthService, private router: Router,
-    private translate: TranslateService) {}
+    private translateExtensionService: TranslateExtensionService) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -20,17 +20,18 @@ export class RoleGuard implements CanActivate {
       if (this.authService.hasRole(role)) {
         return true;
       } else {
-        let title: string;
-        let text: string;
-        this.translate.get('ERROR.ROLE_TITLE').subscribe((res: string) => title = res);
-        this.translate.get('ERROR.ROLE_TEXT').subscribe((res: string) => text = res);
-        Swal.fire({
-          icon: 'error', title: title, text: text, showConfirmButton: false,
-          timer: 1250, background: '#7f5af0', color: 'white'
-        });
         this.router.navigate(['/index']);
+        this.fireModal();
         return false;
       }
   }
-  
+
+  private fireModal() {
+    Swal.fire({
+      title: this.translateExtensionService.getTranslatedStringByUrl('ERROR.ROLE_TITLE'),
+      text: this.translateExtensionService.getTranslatedStringByUrl('ERROR.ROLE_TEXT'),
+      icon: 'error', showConfirmButton: false,
+      timer: 1500, background: '#7f5af0', color: 'white'
+    });
+  }
 }

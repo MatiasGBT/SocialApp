@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { filter } from 'rxjs';
 import { User } from './models/user';
 import { AuthService } from './services/auth.service';
 import { WebsocketService } from './services/websocket.service';
@@ -19,6 +20,13 @@ export class AppComponent implements OnInit {
   }
   
   ngOnInit(): void {
+    this.login();
+    this.getAndSetLanguage();
+    this.webSocketService.startConnection();
+    this.subscribeToRoutes();
+  }
+
+  private login() {
     this.authService.login().subscribe(response => {
       console.log(response.message);
       this.user = response.user as User;
@@ -27,7 +35,9 @@ export class AppComponent implements OnInit {
         this.router.navigate(['/profile/edit'])
       }
     });
+  }
 
+  private getAndSetLanguage() {
     const lang = localStorage.getItem('lang');
     if (lang != null) {
       this.translate.use(lang);
@@ -35,8 +45,14 @@ export class AppComponent implements OnInit {
       this.translate.use('en');
       localStorage.setItem('lang', 'en');
     }
-    
-    this.webSocketService.startConnection();
+  }
+
+  private subscribeToRoutes() {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event) => {
+      event['url'].includes('admin') ? this.authService.userIsOnAdminModule = true : this.authService.userIsOnAdminModule = false;
+    });
   }
 
   @HostListener('window:beforeunload')

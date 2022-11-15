@@ -1,0 +1,117 @@
+#section-notifications {
+    padding: 25px;
+    margin-bottom: 60px;
+}
+
+header {
+    display: flex;
+}
+
+h2 {
+    font-size: 1.25rem;
+}
+
+#notifications {
+    margin-top: 25px;
+}
+
+#notifications i {
+    font-size: 1.5rem;
+}
+
+.notification-box {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.notification-data {
+    cursor: pointer;
+}
+
+.notif-icon {
+    margin-right: 15px;
+}
+
+.button {
+    margin-left: auto;
+    text-align: center;
+    background: #7f5af0;
+    cursor: pointer;
+    transition: .3s;
+    border: none;
+    outline: none;
+}
+
+.button:hover {
+    transition: .3s;
+}
+
+.delete-all-button {
+    display: block;
+    width: auto;
+    height: 30px;
+    border-radius: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.delete-all-button:hover {
+    background: #6f4ed1;
+}
+
+.delete-button {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
+
+.delete-button:hover {
+    border-radius: 15px;
+}
+
+.friendship-buttons {
+    margin-left: auto;
+    display: flex;
+}
+
+.friendship-buttons button {
+    margin-left: 5px;
+}
+
+.notifications-disabled {
+    margin-top: 15px;
+}
+
+.notifications-disabled a {
+    color: #7f5af0;
+}
+
+@media (min-width: 768px) {
+    #section-notifications {
+        margin-bottom: 0;
+    }
+}
+
+@media (min-width: 1038px) {
+    #section-notifications {
+        background-image: url("../../../../../assets/img/notifications_bg.svg");
+        background-repeat: no-repeat;
+        background-size: 28rem;
+        background-position-x: right;
+        background-position-y: center;
+        min-height: calc(100vh - 60px); /*- navbar height*/
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .notification-box, header {
+        width: 60%;
+    }
+
+    .delete-all-button {
+        font-size: 1rem;
+    }
+}

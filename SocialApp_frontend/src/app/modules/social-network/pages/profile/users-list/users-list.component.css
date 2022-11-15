@@ -1,0 +1,28 @@
+#section-users-list {
+    padding: 25px;
+}
+
+.users {
+    margin-bottom: 60px;
+}
+
+.users h1 {
+    margin-bottom: 10px;
+}
+
+@media (min-width: 768px) {
+    .users {
+        margin-bottom: 0;
+    }
+}
+
+@media (min-width: 1038px) {
+    #section-users-list {
+        min-height: calc(100vh - 60px);
+        background-image: url("../../../../../../assets/img/friends_bg.svg");
+        background-repeat: no-repeat;
+        background-size: 40rem;
+        background-position-x: right;
+        background-position-y: center;
+    }
+}

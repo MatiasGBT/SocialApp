@@ -1,0 +1,20 @@
+<nav>
+  <img src="../../../../../../../assets/img/logo.jpg" id="logo-navbar" [routerLink]="['/index']"
+  [ngStyle]="{'margin-left':authService.userIsOnAdminModule?'15px':'0'}">
+
+  <input type="search" id="input-grid" [placeholder]="placeholder" [matAutocomplete]="auto"
+    [formControl]="control" matInput (keypress)="search($event)" *ngIf="!authService.userIsOnAdminModule">
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="goToProfile($event)">
+    <mat-option *ngFor="let person of people | async" [value]="person">
+      {{person.name}} {{person.surname}}
+    </mat-option>
+  </mat-autocomplete>
+
+  <a [routerLink]="['/profile']"
+  [ngStyle]="{'margin-left':authService.userIsOnAdminModule?'auto':'0',
+              'margin-right':authService.userIsOnAdminModule?'15px':'0'}">
+    <p *ngIf="user?.name">{{user.name}}</p>
+    <img *ngIf="user?.photo" src="http://localhost:8090/api/users/img/{{user.photo}}">
+    <img *ngIf="!user?.photo" src="http://localhost:8090/images/no-photo.jpg">
+  </a>
+</nav>

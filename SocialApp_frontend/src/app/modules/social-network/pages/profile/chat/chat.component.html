@@ -1,0 +1,32 @@
+<section id="section-chat">
+    <div id="chat" *ngIf="friend">
+        <div id="chat-header">
+            <div id="friend-data" [routerLink]="['/profile', friend.idUser]">
+                <img *ngIf="friend?.photo" src="http://localhost:8090/api/users/img/{{friend.photo}}">
+                <img *ngIf="!friend?.photo" src="http://localhost:8090/images/no-photo.jpg">
+                <p>{{friend.name}} {{friend.surname}}</p>
+            </div>
+            <div id="friend-status">
+                <p *ngIf="friend.status.text == 'Connected'">{{'WEBSOCKET.CONNECTED_STATUS' | translate}}</p>
+                <p *ngIf="friend.status.text == 'Disconnected'">{{'WEBSOCKET.DISCONNECTED_STATUS' | translate}}</p>
+                <p *ngIf="friend.status.text == 'Writing'">{{'WEBSOCKET.WRITING_STATUS' | translate}}</p>
+                <p *ngIf="friend.status.text == 'On call'">{{'WEBSOCKET.ONCALL_STATUS' | translate}}</p>
+            </div>
+        </div>
+        <div id="chat-body" *ngIf="keycloakUser" #scrollChat (scroll)="getMoreMessagesIfTheUserScrollToTop()">
+            <img src="../../../../../../../assets/img/no_posts_bg.svg" alt="" *ngIf="messages.length == 0">
+            <message-comp *ngFor="let message of messages" [message]="message" [keycloakUser]="keycloakUser"></message-comp>
+        </div>
+        <div id="chat-footer">
+            <input type="text" name="message" [(ngModel)]="message.text" maxlength="50" (keypress)="userIsWriting($event)">
+            <input #messagePhoto type="file" accept="image/png, image/gif, image/jpeg, image/jpg" (change)="selectPhoto($event)" style="display: none;">
+            <button *ngIf="file" (click)="unselectFile()"><i class="fa-solid fa-xmark"></i></button>
+            <button *ngIf="!file" (click)="messagePhoto.click()"><i class="fa-solid fa-image"></i></button>
+            <button (click)="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <aside>
+        <img src="../../../../../../../assets/img/chat_bg.svg" alt="">
+    </aside>
+</section>

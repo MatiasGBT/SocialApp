@@ -10,7 +10,7 @@ export class TranslateExtensionService {
 
   public getTranslatedStringByUrl(url: string): string {
     let text: string;
-    this.translate.get(url).subscribe((res) => text = res);
+    this.translate.get(url).subscribe((responseText) => text = responseText);
     return text;
   }
 }

@@ -1,0 +1,22 @@
+<post-comp *ngFor="let post of posts" [post]="post"></post-comp>
+<button (click)="getNewPosts()" (screen)="getNewPosts()" *ngIf="!isLastPage && posts.length > 0">{{'PROFILE.GET_MORE_BTN' | translate}}</button>
+
+<div id="no-more-posts" *ngIf="isLastPage && (page=='friendsFeed' || page=='followingFeed') && posts.length>0">
+    <img src="../../../../../assets/img/all_viewed.svg" alt="No posts">
+    <p>{{'INDEX.NO_MORE_POSTS' | translate}}</p>
+</div>
+
+<div id="no-trend-posts" *ngIf="posts.length==0 && page=='trendFeed'">
+    <p>{{'INDEX.NO_TREND_FEED' | translate}}</p>
+    <img src="../../../../../assets/img/no_trend_bg.svg" alt="No posts">
+</div>
+
+<div id="no-user-posts" *ngIf="posts.length==0 && page=='profile'">
+    <p>{{'PROFILE.NO_POSTS' | translate}}</p>
+    <img src="../../../../../assets/img/no_posts_bg.svg" alt="No posts">
+</div>
+
+<div id="no-liked-posts" *ngIf="posts.length==0 && page=='likedPosts'">
+    <p>{{'PROFILE.LIKED_POSTS.NO_POSTS' | translate}}</p>
+    <img src="../../../../../assets/img/no_liked_posts_bg.svg" alt="No posts">
+</div>

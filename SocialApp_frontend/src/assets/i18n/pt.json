@@ -7,7 +7,9 @@
         "INDEX": "Início",
         "PROFILE": "Perfil",
         "NOTIFICATIONS": "Notificações",
-        "SETTINGS": "Configuração"
+        "SETTINGS": "Configuração",
+        "USERS": "Usuários",
+        "REPORTS": "Relatórios"
     },
     "NEWPOST": {
         "TITLE": "Fazer uma nova publicação",
@@ -111,6 +113,9 @@
         "ACCOUNT_TITLE": "Gestão de conta",
         "ACCOUNT_TEXT": "Gerenciar as credenciais da conta",
         "ACCOUNT_BUTTON": "Gerenciar usuário",
+        "ADMIN_TITLE": "Painel de administração",
+        "ADMIN_TEXT": "Gerenciar usuários e relatórios",
+        "ADMIN_BUTTON": "Ir",
         "LOGOUT": "Sair da sessão"
     },
     "SEARCH": {

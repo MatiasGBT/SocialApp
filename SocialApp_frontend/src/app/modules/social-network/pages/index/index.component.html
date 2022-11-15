@@ -1,0 +1,50 @@
+<section id="section-publications">
+    <div id="publications">
+        <div id="links">
+            <button (click)="goToFriendsFeed()" *ngIf="!user?.isChecked"
+            [ngStyle]="{
+                'background-color': (page == 'friends') ? '#7f5af0' : 'transparent',
+                'color': (page == 'friends') ? 'white' : '#7f5af0'
+            }">
+                {{'INDEX.FRIENDS_FEED' | translate}}
+            </button>
+            <button (click)="goToFollowingFeed()"
+            [ngStyle]="{
+                'background-color': (page == 'following') ? '#7f5af0' : 'transparent',
+                'color': (page == 'following') ? 'white' : '#7f5af0'
+            }">
+                {{'INDEX.FOLLOWING_FEED' | translate}}
+            </button>
+            <button (click)="goToTrendFeed()"
+            [ngStyle]="{
+                'background-color': (page == 'trend') ? '#7f5af0' : 'transparent',
+                'color': (page == 'trend') ? 'white' : '#7f5af0'
+            }">
+                {{'INDEX.TREND_FEED' | translate}}
+            </button>
+        </div>
+
+        <posts-list-comp *ngIf="user?.idUser && page == 'friends'" [idUser]="user.idUser" [page]="'friendsFeed'" (noTodayFeedEvent)="updateNoTodayFeed()"></posts-list-comp>
+        <posts-list-comp *ngIf="showOldFeed && page == 'friends'" [idUser]="user.idUser" [page]="'friendsFeedOld'" (noOldFeedEvent)="updateNoOldFeed()"></posts-list-comp>
+
+        <posts-list-comp *ngIf="user?.idUser && page == 'following'" [idUser]="user.idUser" [page]="'followingFeed'" (noTodayFeedEvent)="updateNoTodayFeed()"></posts-list-comp>
+        <posts-list-comp *ngIf="showOldFeed && page == 'following'" [idUser]="user.idUser" [page]="'followingFeedOld'" (noOldFeedEvent)="updateNoOldFeed()"></posts-list-comp>
+
+        <posts-list-comp *ngIf="user?.idUser && page == 'trend'" [idUser]="user.idUser" [page]="'trendFeed'" (noTodayFeedEvent)="updateNoTodayFeed()"></posts-list-comp>
+
+        <post-comp *ngIf="showNoFeed && welcomePost && page == 'friends'" [post]="welcomePost"></post-comp>
+
+        <div id="no-following-posts" *ngIf="showNoFeed && page == 'following'">
+            <p>{{'INDEX.NO_FOLLOWING_FEED' | translate}}</p>
+            <img src="../../../../../assets/img/friends_bg.svg" alt="No posts">
+        </div>
+    </div>
+    
+    <aside>
+        <div *ngIf="popularPost">
+            <h2>{{'ASIDE.FEATURED_POST' | translate}}</h2>
+            <post-comp [post]="popularPost"></post-comp>
+        </div>
+        <img *ngIf="!popularPost" src="../../../../../assets/img/no_featured_post_bg.svg" alt="No featured post image">
+    </aside>
+</section>

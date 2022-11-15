@@ -1,0 +1,22 @@
+<section id="section-full-post">
+    <post-comp *ngIf="post" [post]="post"></post-comp>
+    <hr id="separator">
+    <div id="comments">
+        <h2>{{'FULL_POST.COMMENTS_TITLE' | translate}}:</h2>
+
+        <div id="create-comment">
+            <img *ngIf="keycloakUser?.photo" src="http://localhost:8090/api/users/img/{{keycloakUser.photo}}">
+            <img *ngIf="!keycloakUser?.photo" src="http://localhost:8090/images/no-photo.jpg">
+            <input maxlength="100" [placeholder]="commentPlaceholder" [(ngModel)]="createdComment.text" (keypress)="userIsWriting($event)">
+            <button (click)="createComment()"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+
+        <comment-comp *ngFor="let comment of comments" [comment]="comment" [keycloakUser]="keycloakUser" [commentLevel]="0"></comment-comp>
+
+        <div *ngIf="comments.length == 0" id="no-comments">
+            <p>{{'FULL_POST.NO_COMMENTS' | translate}}</p>
+            <img src="../../../../../assets/img/no_comments_bg.svg" alt="No comments">
+        </div>
+
+    </div>
+</section>

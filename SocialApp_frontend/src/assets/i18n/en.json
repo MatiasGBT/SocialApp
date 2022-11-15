@@ -7,7 +7,9 @@
         "INDEX": "Home",
         "PROFILE": "Profile",
         "NOTIFICATIONS": "Notifications",
-        "SETTINGS": "Settings"
+        "SETTINGS": "Settings",
+        "USERS": "Users",
+        "REPORTS": "Reports"
     },
     "NEWPOST": {
         "TITLE": "Make a new post",
@@ -111,6 +113,9 @@
         "ACCOUNT_TITLE": "Account management",
         "ACCOUNT_TEXT": "Manage account credentials",
         "ACCOUNT_BUTTON": "Manage user",
+        "ADMIN_TITLE": "Admin dashboard",
+        "ADMIN_TEXT": "Manage users and reports",
+        "ADMIN_BUTTON": "Go",
         "LOGOUT": "Logout"
     },
     "SEARCH": {
