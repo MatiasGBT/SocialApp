@@ -1,0 +1,44 @@
+#pagination {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#pagination button {
+    margin-left: 5px;
+    margin-right: 5px;
+    width: 30px;
+    height: 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    border-radius: 50px;
+    transition: .3s;
+}
+
+#pagination button:hover {
+    transition: .3s;
+}
+
+.number-btn {
+    background: transparent;
+}
+
+.number-btn:hover {
+    background: #7f5af0;
+}
+
+.active-btn {
+    background: #6f4ed1;
+    cursor: not-allowed !important;
+}
+
+.arrow-btn {
+    background: #7f5af0;
+}
+
+.arrow-btn:hover {
+    background: #6f4ed1;
+}

@@ -39,13 +39,13 @@
     </ul>
 
     <ul *ngIf="authService.userIsOnAdminModule">
-        <li id="index-link">
+        <li id="users-link">
             <a [routerLink]="['admin/users']" routerLinkActive="active">
                 <i class="fa-solid fa-users"></i>
                 <p> {{'FOOTER.USERS' | translate}}</p>
             </a>
         </li>
-        <li id="profile-link">
+        <li id="reports-link">
             <a [routerLink]="['admin/reports']" routerLinkActive="active">
                 <i class="fa-solid fa-triangle-exclamation"></i>
                 <p> {{'FOOTER.REPORTS' | translate}}</p>

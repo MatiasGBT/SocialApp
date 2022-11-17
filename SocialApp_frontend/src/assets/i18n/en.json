@@ -195,5 +195,8 @@
     "ERROR": {
         "ROLE_TITLE": "Denied access",
         "ROLE_TEXT": "You don't have access to this resource"
+    },
+    "ADMIN": {
+        "USERS_PLACEHOLDER": "Search by name, surname or username"
     }
 }

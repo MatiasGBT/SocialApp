@@ -28,6 +28,7 @@ export class IndexComponent implements OnInit {
       if (this.page != 'friends' && this.page != 'following' && this.page != 'trend') {
         this.router.navigate(['index']);
       }
+      //When this check is performed, the user may not yet be defined (especially the first time).
       if (this.page == 'friends' && (this.user?.isChecked || !this.user)) {
         this.router.navigate(['index/following']);
       }

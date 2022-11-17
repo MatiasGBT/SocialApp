@@ -195,5 +195,8 @@
     "ERROR": {
         "ROLE_TITLE": "Acesso negado",
         "ROLE_TEXT": "Você não tem acesso a este recurso"
+    },
+    "ADMIN": {
+        "USERS_PLACEHOLDER": "Busca por nome, sobrenome ou nome de usuário"
     }
 }
