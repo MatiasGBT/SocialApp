@@ -197,6 +197,14 @@
         "ROLE_TEXT": "No tienes acceso a este recurso"
     },
     "ADMIN": {
-        "USERS_PLACEHOLDER": "Busca por nombre, apellido o nombre de usuario"
+        "USERS_PLACEHOLDER": "Busca por nombre, apellido o nombre de usuario",
+        "NO_USERS_SEARCHED": "Utiliza el buscador para encontrar usuarios",
+        "NO_USERS_FOUND": "No se encontraron usuarios",
+        "NO_REPORTS_FOUND": "No se encontraron reportes",
+        "REPORTS_DELETE_POST_TITLE": "¿Está seguro de que desea eliminar esta publicación?",
+        "REPORTS_DELETE_REPORT_TITLE": "¿Está seguro de que desea eliminar este reporte?",
+        "REPORTS_DELETE_TEXT": "Esta acción no se puede deshacer",
+        "REPORTS_DELETE_MODAL_BTN_DELETE": "Eliminar",
+        "REPORTS_DELETE_MODAL_BTN_CANCEL": "Cancelar"
     }
 }

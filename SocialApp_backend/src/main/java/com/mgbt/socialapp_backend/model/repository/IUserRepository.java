@@ -1,6 +1,7 @@
 package com.mgbt.socialapp_backend.model.repository;
 
 import com.mgbt.socialapp_backend.model.entity.UserApp;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 import java.util.List;
@@ -53,4 +54,6 @@ public interface IUserRepository extends JpaRepository<UserApp, Long> {
             "ORDER BY RAND() LIMIT 5",
             nativeQuery = true)
     List<UserApp> findUsersYouMayKnowByUser(Long idUser, Long idKeycloakUser);
+
+    Page<UserApp> findByNameContainingOrSurnameContainingOrUsernameContaining(String name, String surname, String username, Pageable pageable);
 }

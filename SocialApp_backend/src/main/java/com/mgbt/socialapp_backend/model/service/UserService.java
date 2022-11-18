@@ -3,6 +3,7 @@ package com.mgbt.socialapp_backend.model.service;
 import com.mgbt.socialapp_backend.model.entity.*;
 import com.mgbt.socialapp_backend.model.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
@@ -79,5 +80,10 @@ public class UserService implements IService<UserApp> {
     @Transactional(readOnly = true)
     public List<UserApp> getUsersYouMayKnow(Long idUser, Long idKeycloakUser) {
         return repository.findUsersYouMayKnowByUser(idUser, idKeycloakUser);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<UserApp> getByNameOrSurnameOrUsername(String name, Pageable pageable) {
+        return repository.findByNameContainingOrSurnameContainingOrUsernameContaining(name, name, name, pageable);
     }
 }

@@ -204,8 +204,10 @@ public class PostController {
         Map<String, Object> response = new HashMap<>();
         try {
             Post post = postService.findById(idPost);
-            uploadFileService.delete(post.getPhoto(), FINAL_DIRECTORY);
-            postService.delete(post);
+            if (post != null) {
+                uploadFileService.delete(post.getPhoto(), FINAL_DIRECTORY);
+                postService.delete(post);
+            }
             response.put("message", messageSource.getMessage("postController.deletePost", null, locale));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {

@@ -26,7 +26,7 @@ public class Report implements Serializable {
     private Post post;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","name","surname","description",
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","description",
             "photo","creationDate","deletionDate","status"})
     @JoinColumn(name = "id_user", nullable = false)
     private UserApp user;

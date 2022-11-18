@@ -105,4 +105,22 @@ export class UserService {
       })
     );
   }
+
+  public getUsersByNames(name: string, page: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/get/list/by-name/${name}&${page}`).pipe(
+      catchError(e => {
+        this.catchErrorService.showErrorModal(e);
+        return throwError(()=>e);
+      })
+    );
+  }
+
+  public update(user: User): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/put`, user).pipe(
+      catchError(e => {
+        this.catchErrorService.showErrorModal(e);
+        return throwError(()=>e);
+      })
+    );
+  }
 }

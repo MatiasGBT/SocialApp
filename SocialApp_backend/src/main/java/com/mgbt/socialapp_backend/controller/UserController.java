@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.core.io.Resource;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.*;
 import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -240,5 +241,44 @@ public class UserController {
             e.printStackTrace();
         }
         return new ResponseEntity<>(resource, header, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Gets all users whose name, surname or username is the one entered")
+    @ApiResponse(responseCode = "200", description = "Paginator object (paginator.content = array of users)",
+            content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Page.class))) })
+    @GetMapping("/get/list/by-name/{name}&{page}")
+    @PreAuthorize("isAuthenticated() and hasRole('admin')")
+    public ResponseEntity<?> getUsersByNameOrSurnameOrUsername(@PathVariable String name,
+                                                               @PathVariable Integer page,
+                                                               Locale locale) {
+        try {
+            Pageable pageable = PageRequest.of(page, 5);
+            Page<UserApp> users = userService.getByNameOrSurnameOrUsername(name, pageable);
+            return new ResponseEntity<>(users, HttpStatus.OK);
+        } catch (DataAccessException e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", messageSource.getMessage("error.database", null, locale));
+            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "Updates a user with the object passed in the Request Body")
+    @ApiResponse(responseCode = "200", description = "User updated correctly",
+            content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = JsonMessage.class))) })
+    @PutMapping("/put")
+    @PreAuthorize("isAuthenticated() and hasRole('user')")
+    public ResponseEntity<?> update(@RequestBody UserApp user,
+                                    Locale locale) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            userService.save(user);
+            response.put("message", messageSource.getMessage("userController.userUpdated", null, locale));
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (DataAccessException e) {
+            response.put("message", messageSource.getMessage("error.database", null, locale));
+            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

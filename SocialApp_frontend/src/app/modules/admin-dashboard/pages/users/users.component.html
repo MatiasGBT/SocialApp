@@ -1,66 +1,36 @@
 <section id="section-users">
     <div id="users">
         <div id="search-input">
-            <input type="text" [placeholder]="placeholder">
-            <button><i class="fa-solid fa-magnifying-glass"></i></button>
+            <input type="text" [placeholder]="placeholder" [(ngModel)]="searchName"
+            (keypress)="search($event)">
+            <button (click)="searchUsers()"><i class="fa-solid fa-magnifying-glass"></i></button>
         </div>
 
-        <div class="user">
-            <div class="user-data">
-                <img src="https://via.placeholder.com/50" alt="User photo">
-                <p>Pepe test</p>
+        <div class="user" *ngFor="let user of users">
+            <div class="user-data" [routerLink]="['/profile', user.idUser]">
+                <img *ngIf="user?.photo" src="http://localhost:8090/api/users/img/{{user.photo}}" alt="User photo">
+                <img *ngIf="!user?.photo" src="http://localhost:8090/images/no-photo.jpg" alt="The user has no photo">
+                <p>{{user.name}} {{user.surname}}</p>
             </div>
             <div class="user-buttons">
-                <button class="verify-btn"><i class="fa-solid fa-check"></i></button>
-                <button class="delete-btn"><i class="fa-solid fa-trash"></i></button>
+                <button class="verify-btn" *ngIf="!user.isChecked" (click)="changeUserIsChecked(user)"><i class="fa-solid fa-check"></i></button>
+                <button class="delete-btn" *ngIf="user.isChecked" (click)="changeUserIsChecked(user)"><i class="fa-solid fa-check"></i></button>
+                <button class="verify-btn" *ngIf="user.deletionDate" (click)="deleteOrRestoreUser(user)"><i class="fa-solid fa-trash-can-arrow-up"></i></button>
+                <button class="delete-btn" *ngIf="!user.deletionDate" (click)="deleteOrRestoreUser(user)"><i class="fa-solid fa-trash"></i></button>
             </div>
         </div>
 
-        <div class="user">
-            <div class="user-data">
-                <img src="https://via.placeholder.com/50" alt="User photo">
-                <p>Leon Scott Kennedy</p>
-            </div>
-            <div class="user-buttons">
-                <button class="verify-btn"><i class="fa-solid fa-check"></i></button>
-                <button class="delete-btn"><i class="fa-solid fa-trash"></i></button>
-            </div>
+        <paginator-admin-comp *ngIf="paginator && !paginator.empty" [name]="name" [paginator]="paginator" [route]="'users'"></paginator-admin-comp>
+
+        <div id="no-users" *ngIf="!paginator">
+            <p>{{noUsersSearched}}</p>
+            <img src="../../../../../assets/img/search_bg.svg" alt="No users searched">
         </div>
 
-        <div class="user">
-            <div class="user-data">
-                <img src="https://via.placeholder.com/50" alt="User photo">
-                <p>María test</p>
-            </div>
-            <div class="user-buttons">
-                <button class="verify-btn"><i class="fa-solid fa-check"></i></button>
-                <button class="delete-btn"><i class="fa-solid fa-trash"></i></button>
-            </div>
+        <div id="no-users" *ngIf="paginator && paginator.empty">
+            <p>{{noUsersFound}}</p>
+            <img src="../../../../../assets/img/no_posts_bg.svg" alt="No users founded">
         </div>
-
-        <div class="user">
-            <div class="user-data">
-                <img src="https://via.placeholder.com/50" alt="User photo">
-                <p>Pepe test</p>
-            </div>
-            <div class="user-buttons">
-                <button class="verify-btn"><i class="fa-solid fa-check"></i></button>
-                <button class="delete-btn"><i class="fa-solid fa-trash"></i></button>
-            </div>
-        </div>
-
-        <div class="user">
-            <div class="user-data">
-                <img src="https://via.placeholder.com/50" alt="User photo">
-                <p>Leon Scott Kennedy</p>
-            </div>
-            <div class="user-buttons">
-                <button class="verify-btn"><i class="fa-solid fa-check"></i></button>
-                <button class="delete-btn"><i class="fa-solid fa-trash"></i></button>
-            </div>
-        </div>
-
-        <paginator-admin-comp></paginator-admin-comp>
     </div>
 
     <aside>

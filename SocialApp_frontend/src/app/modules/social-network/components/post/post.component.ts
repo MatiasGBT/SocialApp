@@ -139,7 +139,7 @@ export class PostComponent implements OnInit {
       }
     });
 
-    if (extraInformation && extraInformation.length <= 50) {
+    if (extraInformation && extraInformation.length <= 200) {
       report.extraInformation = extraInformation;
     }
     this.completeReport(report);

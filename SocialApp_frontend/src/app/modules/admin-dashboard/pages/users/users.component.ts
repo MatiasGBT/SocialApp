@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { TranslateExtensionService } from 'src/app/services/translate-extension.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-users',
@@ -9,11 +12,69 @@ import { TranslateExtensionService } from 'src/app/services/translate-extension.
 })
 export class UsersComponent implements OnInit {
   public placeholder: string;
+  public noUsersSearched: string;
+  public noUsersFound: string;
+  public name: string;
+  public searchName: string;
+  public page: number;
+  public paginator: any;
+  public users: User[] = [];
 
-  constructor(private authService: AuthService, private translateExtensionService: TranslateExtensionService) { }
+  constructor(private authService: AuthService, private userService: UserService,
+    private translateExtensionService: TranslateExtensionService,
+    private activatedRoute: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.authService.userIsOnAdminModule = true;
     this.placeholder = this.translateExtensionService.getTranslatedStringByUrl('ADMIN.USERS_PLACEHOLDER');
+    this.noUsersSearched = this.translateExtensionService.getTranslatedStringByUrl('ADMIN.NO_USERS_SEARCHED');
+    this.noUsersFound = this.translateExtensionService.getTranslatedStringByUrl('ADMIN.NO_USERS_FOUND');
+
+    this.activatedRoute.params.subscribe(params => {
+      if (params['name'] && params['page']) {
+        this.name = params['name'];
+        this.searchName = params['name'];
+        this.page = params['page'];
+        this.searchUsers();
+      }
+    });
+  }
+
+  public search(event) {
+    if (event.key === 'Enter' || event.keyCode == 13) {
+      this.searchUsers();
+    }
+  }
+
+  public searchUsers() {
+    if (this.searchName && this.searchName.length >= 3) {
+      if (!this.page || this.searchName != this.name) {
+        this.router.navigate(['/admin/users/' + this.searchName + '/0']);
+      } else {
+        this.getUsers();
+      }
+    }
+  }
+
+  private getUsers() {
+    this.userService.getUsersByNames(this.name, this.page).subscribe(response => {
+      this.users = response.content;
+      this.paginator = response;
+      //response.empty boolean
+    });
+  }
+
+  public changeUserIsChecked(user: User) {
+    user.isChecked = !user.isChecked;
+    this.userService.update(user).subscribe(response => {
+      console.log(response.message);
+    });
+  }
+
+  public deleteOrRestoreUser(user: User) {
+    user.deletionDate ? user.deletionDate = null : user.deletionDate = new Date();
+    this.userService.update(user).subscribe(response => {
+      console.log(response.message);
+    });
   }
 }

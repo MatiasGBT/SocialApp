@@ -52,6 +52,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    cursor: pointer;
 }
 
 .user-data img {
@@ -101,6 +102,20 @@ aside {
     display: none;
 }
 
+#no-users {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /*100vh - navbar height - footer height - (search name input + #users padding) - section padding*/
+    height: calc(100vh - 60px - 60px - 60px - 80px);
+}
+
+#no-users img {
+    width: 100%;
+    margin-top: 5px;
+}
+
 @media (min-width: 768px) {
     .user-buttons {
         width: 105px;
@@ -110,6 +125,14 @@ aside {
         width: 50px;
         height: 50px;
         font-size: 1rem;
+    }
+
+    #no-users {
+        height: calc(100vh - 60px - 60px);
+    }
+
+    #no-users img {
+        width: 50%;
     }
 }
 
@@ -135,5 +158,14 @@ aside {
     aside img {
         width: 100%;
         height: auto;
+    }
+
+    #no-users {
+        /*100vh - navbar height - search name input height - #users padding*/
+        height: calc(100vh - 60px - 60px - 25px);
+    }
+
+    #no-users img {
+        width: 50%;
     }
 }

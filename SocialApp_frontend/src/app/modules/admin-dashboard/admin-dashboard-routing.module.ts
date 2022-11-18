@@ -9,7 +9,8 @@ import { ReportsComponent } from './pages/reports/reports.component';
 const routes: Routes = [
   {path: '', redirectTo: 'users', pathMatch: 'full'},
   {path: 'users', component: UsersComponent, canActivate: [AuthGuard, RoleGuard], data: {role: 'admin'}},
-  {path: 'reports', component: ReportsComponent, canActivate: [AuthGuard, RoleGuard], data: {role: 'admin'}}
+  {path: 'users/:name/:page', component: UsersComponent, canActivate: [AuthGuard, RoleGuard], data: {role: 'admin'}},
+  {path: 'reports/:page', component: ReportsComponent, canActivate: [AuthGuard, RoleGuard], data: {role: 'admin'}}
 ]
 
 @NgModule({
