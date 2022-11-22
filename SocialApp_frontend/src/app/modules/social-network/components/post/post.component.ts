@@ -42,27 +42,23 @@ export class PostComponent implements OnInit {
 
   public likePost() {
     if (!this.isLiked) {
-      this.userService.getKeycloakUser().subscribe(user => {
-        this.likeService.likePost(this.post.idPost, user.idUser).subscribe(response => {
-          console.log(response.message);
-          this.isLiked = true;
-          this.post.likes.length += 1;
-          if (this.post.user.username != this.authService.getUsername()) {
-            this.webSocketService.newNotification(this.post.user);
-          }
-        });
+      this.likeService.likePost(this.post.idPost, this.authService.keycloakUser.idUser).subscribe(response => {
+        console.log(response.message);
+        this.isLiked = true;
+        this.post.likes.length += 1;
+        if (this.post.user.username != this.authService.getUsername()) {
+          this.webSocketService.newNotification(this.post.user);
+        }
       });
     }
   }
 
   public dislikePost() {
     if (this.isLiked) {
-      this.userService.getKeycloakUser().subscribe(user => {
-        this.likeService.dislikePost(this.post.idPost, user.idUser).subscribe(response => {
-          console.log(response.message);
-          this.isLiked = false;
-          this.post.likes.length -= 1;
-        });
+      this.likeService.dislikePost(this.post.idPost, this.authService.keycloakUser.idUser).subscribe(response => {
+        console.log(response.message);
+        this.isLiked = false;
+        this.post.likes.length -= 1;
       });
     }
   }
@@ -88,13 +84,11 @@ export class PostComponent implements OnInit {
   }
 
   public goToProfile() {
-    this.userService.getKeycloakUser().subscribe(user => {
-      if (user.idUser == this.post.user.idUser) {
-        this.router.navigate(['/profile']);
-      } else {
-        this.router.navigate(['/profile', this.post.user.idUser]);
-      }
-    });
+    if (this.authService.keycloakUser.idUser == this.post.user.idUser) {
+      this.router.navigate(['/profile']);
+    } else {
+      this.router.navigate(['/profile', this.post.user.idUser]);
+    }
   }
 
   //#region Report post
@@ -146,11 +140,9 @@ export class PostComponent implements OnInit {
   }
 
   private completeReport(report: Report) {
-    this.userService.getKeycloakUser().subscribe(user => {
-      report.user = user;
-      report.post = this.post;
-      this.reportService.createReport(report).subscribe(response => console.log(response.message));
-    });
+    report.user = this.authService.keycloakUser;
+    report.post = this.post;
+    this.reportService.createReport(report).subscribe(response => console.log(response.message));
     Swal.fire(this.translateExtensionService.getTranslatedStringByUrl('POST.REPORT_MODAL_SUCCESS'));
     this.isReported = true;
   }

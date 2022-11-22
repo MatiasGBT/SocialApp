@@ -1,4 +1,5 @@
 {
+    "BOOT": "Iniciando a aplicação...",
     "NAVBAR": {
         "SEARCH_PEOPLE": "Buscar pessoas"
     },
@@ -205,6 +206,10 @@
         "REPORTS_DELETE_REPORT_TITLE": "Você tem certeza de que quer eliminar este relatório?",
         "REPORTS_DELETE_TEXT": "Esta ação não pode ser desfeita",
         "REPORTS_DELETE_MODAL_BTN_DELETE": "Eliminar",
-        "REPORTS_DELETE_MODAL_BTN_CANCEL": "Cancelar"
+        "REPORTS_DELETE_MODAL_BTN_CANCEL": "Cancelar",
+        "REPORTS_REASON": "Motivo",
+        "REPORTS_USER_WHO_REPORTED": "Usuário que relatou",
+        "REPORTS_REPORTED_POST": "Publicação relatada",
+        "REPORTS_EXTRA_INFORMATION": "Informação adicional"
     }
 }

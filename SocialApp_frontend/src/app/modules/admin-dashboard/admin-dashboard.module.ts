@@ -5,12 +5,14 @@ import { AdminDashboardRoutingModule } from './admin-dashboard-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { ReportsComponent } from './pages/reports/reports.component';
 import { PaginatorComponent } from './components/paginator/paginator.component';
+import { ReportCardComponent } from './components/report-card/report-card.component';
 
 @NgModule({
   declarations: [
     UsersComponent,
     ReportsComponent,
-    PaginatorComponent
+    PaginatorComponent,
+    ReportCardComponent
   ],
   imports: [
     CommonModule,

@@ -1,14 +1,7 @@
 <section id="section-reports">
     <div id="reports">
-        <div class="report" *ngFor="let report of reports">
-            <p>Reason: {{report.reportReason.reason}}</p>
-            <p [routerLink]="['/profile', report.user.idUser]" class="link">User who reported: {{report.user.name}} {{report.user.surname}}</p>
-            <p [routerLink]="['/post', report.post.idPost]" class="link">Reported post: {{report.post.idPost}}</p>
-            <p *ngIf="report?.extraInformation">Extra information: {{report.extraInformation}}</p>
-            <div class="report-btns">
-                <button class="ban-post-btn" (click)="deletePost(report)"><i class="fa-solid fa-ban"></i></button>
-                <button class="delete-report-btn" (click)="deleteReport(report)"><i class="fa-solid fa-xmark"></i></button>
-            </div>
+        <div id="report-cards">
+            <report-card-comp *ngFor="let report of reports" [report]="report"></report-card-comp>
         </div>
 
         <paginator-admin-comp *ngIf="paginator && !paginator.empty" [paginator]="paginator" [route]="'reports'"></paginator-admin-comp>

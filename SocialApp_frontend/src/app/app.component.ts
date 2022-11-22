@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { ThemePalette } from '@angular/material/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { filter } from 'rxjs';
@@ -12,9 +13,7 @@ import { WebsocketService } from './services/websocket.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  public user: User;
-
-  constructor(private translate: TranslateService, private authService: AuthService,
+  constructor(private translate: TranslateService, public authService: AuthService,
     private router: Router, private webSocketService: WebsocketService) {
     translate.addLangs(['en', 'es', 'pt']);
   }
@@ -29,7 +28,7 @@ export class AppComponent implements OnInit {
   private login() {
     this.authService.login().subscribe(response => {
       console.log(response.message);
-      this.user = response.user as User;
+      this.authService.keycloakUser = response.user as User;
       this.authService.userIsChecked = response.user.isChecked;
       if (response?.status && response.status == 201) {
         this.router.navigate(['/profile/edit'])

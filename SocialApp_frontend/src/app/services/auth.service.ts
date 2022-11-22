@@ -10,7 +10,7 @@ import { User } from '../models/user';
 export class AuthService {
   private token = this.keycloakService.getKeycloakInstance().token;
   private baseUrl = "http://localhost:8090/api/app/";
-  public userIsChecked: boolean;
+  public keycloakUser: User;
   public userIsOnAdminModule: boolean = false;
 
   constructor(private http: HttpClient, private keycloakService: KeycloakService) { }
@@ -33,6 +33,10 @@ export class AuthService {
   public hasRole(role: string): boolean {
     let payload = this.obtainPayload(this.token);
     return payload.resource_access.springback.roles.includes(role);
+  }
+
+  public userIsChecked() {
+    return this.keycloakUser.isChecked;
   }
 
   private obtainPayload(access_token:string): any {

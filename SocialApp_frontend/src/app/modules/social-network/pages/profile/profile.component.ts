@@ -37,7 +37,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userService.userChanger.subscribe(data => {
-      this.user.photo = data.photo;
+      if (data?.photo) {
+        this.user.photo = data.photo;
+      }
+      if (data?.description) {
+        this.user.description = data.description;
+      }
     });
 
     this.activatedRoute.params.subscribe(params => {
@@ -79,10 +84,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   private getKeycloakUser() {
-    this.userService.getKeycloakUser().subscribe(user => {
-      this.user = user;
-      this.getProfileHeaderData();
-    });
+    this.user = this.authService.keycloakUser;
+    this.getProfileHeaderData();
   }
 
   private getRelationship() {
@@ -131,10 +134,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   private getUsersYouMayKnow() {
-    this.userService.getKeycloakUser().subscribe(user => {
-      let keycloakUserId = user.idUser;
-      this.userService.getUsersYouMayKnow(this.user.idUser, keycloakUserId).subscribe(usersYouMayKnow => this.usersYouMayKnow = usersYouMayKnow);
-    });
+    let keycloakUserId = this.authService.keycloakUser.idUser;
+    this.userService.getUsersYouMayKnow(this.user.idUser, keycloakUserId).subscribe(usersYouMayKnow => this.usersYouMayKnow = usersYouMayKnow);
   }
 
   public addFriend(): void {

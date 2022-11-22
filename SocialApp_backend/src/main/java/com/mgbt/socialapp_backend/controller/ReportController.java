@@ -35,7 +35,7 @@ public class ReportController {
     public ResponseEntity<?> getReports(@PathVariable Integer page,
                                         Locale locale) {
         try {
-            Pageable pageable = PageRequest.of(page, 5);
+            Pageable pageable = PageRequest.of(page, 6);
             Page<Report> reports = reportService.toList(pageable);
             return new ResponseEntity<>(reports, HttpStatus.OK);
         } catch (DataAccessException e) {
@@ -54,7 +54,6 @@ public class ReportController {
     public ResponseEntity<?> createReport(@RequestBody Report report, Locale locale) {
         Map<String, Object> response = new HashMap<>();
         try {
-            System.out.println(report);
             reportService.save(report);
             response.put("message", messageSource.getMessage("reportController.reportPost", null, locale));
             return new ResponseEntity<>(response, HttpStatus.CREATED);

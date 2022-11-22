@@ -13,6 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { FooterComponent } from './pages/footer/footer.component';
 import { NavbarComponent } from './pages/navbar/navbar.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -48,6 +49,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     AdminDashboardModule,
     KeycloakAngularModule,
     MatAutocompleteModule,
+    MatProgressSpinnerModule,
     BrowserAnimationsModule
   ],
   providers: [

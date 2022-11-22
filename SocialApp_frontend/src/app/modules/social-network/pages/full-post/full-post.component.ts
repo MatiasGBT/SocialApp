@@ -4,9 +4,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { Comment } from 'src/app/models/comment';
 import { Post } from 'src/app/models/post';
 import { User } from 'src/app/models/user';
+import { AuthService } from 'src/app/services/auth.service';
 import { CommentService } from 'src/app/services/comment.service';
 import { PostService } from 'src/app/services/post.service';
-import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-full-post',
@@ -21,7 +21,7 @@ export class FullPostComponent implements OnInit {
   public commentPlaceholder: string;
 
   constructor(private activatedRoute: ActivatedRoute, private postService: PostService,
-    private userService: UserService, private router: Router,
+    private authService: AuthService, private router: Router,
     private commentService: CommentService, private translate: TranslateService) { }
 
   ngOnInit(): void {
@@ -29,7 +29,7 @@ export class FullPostComponent implements OnInit {
       let id = params['id'];
       if (id) {
         this.postService.getPost(id).subscribe(post => this.post = post);
-        this.userService.getKeycloakUser().subscribe(user => this.keycloakUser = user);
+        this.keycloakUser = this.authService.keycloakUser;
         this.commentService.getComments(id).subscribe(comments => this.comments = comments);
         this.translateCreateCommentPlaceholder();
       } else {

@@ -6,9 +6,9 @@
         <input type="file" (change)="fileChangeHandler($event)" #file style="display: none;">
         <button (click)="file.click()" id="select-button">{{'PROFILE.EDIT.PHOTO_BUTTON' | translate}}</button>
         <div class="image">
-            <img *ngIf="!user?.photo" [src]="output?.base64" alt="">
+            <img *ngIf="output?.base64" [src]="output?.base64" alt="">
             <img *ngIf="!user?.photo && !output?.base64" src="http://localhost:8090/images/no-photo.jpg">
-            <img *ngIf="user?.photo" src="http://localhost:8090/api/users/img/{{user.photo}}" alt="">
+            <img *ngIf="user?.photo && !output?.base64" src="http://localhost:8090/api/users/img/{{user.photo}}" alt="">
         </div>
 
         <h2>{{'PROFILE.EDIT.DESCRIPTION_TITLE' | translate}}</h2>

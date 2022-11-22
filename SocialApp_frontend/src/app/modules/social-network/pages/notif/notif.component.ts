@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Notification } from 'src/app/models/notification';
+import { AuthService } from 'src/app/services/auth.service';
 import { FriendshipService } from 'src/app/services/friendship.service';
 import { NotificationsService } from 'src/app/services/notifications.service';
 import { TranslateExtensionService } from 'src/app/services/translate-extension.service';
-import { UserService } from 'src/app/services/user.service';
 import { WebsocketService } from 'src/app/services/websocket.service';
 import Swal from 'sweetalert2';
 
@@ -17,7 +17,7 @@ export class NotifComponent implements OnInit {
   public isNotificationsEnabled: boolean;
   public notifications: Notification[] = [];
 
-  constructor(private notificationsService: NotificationsService, private userService: UserService,
+  constructor(private notificationsService: NotificationsService, private authService: AuthService,
     private friendshipService: FriendshipService, private router: Router,
     private translateExtensionService: TranslateExtensionService,
     private webSocketService: WebsocketService) { }
@@ -25,10 +25,8 @@ export class NotifComponent implements OnInit {
   ngOnInit(): void {
     this.isNotificationsEnabled = this.notificationsService.getNotificationsStatus();
     if (this.isNotificationsEnabled) {
-      this.userService.getKeycloakUser().subscribe(keycloakUser => {
-        let user = keycloakUser;
-        this.notificationsService.getNotifications(user).subscribe(notifications => this.notifications = notifications);
-      });
+      let user = this.authService.keycloakUser;
+      this.notificationsService.getNotifications(user).subscribe(notifications => this.notifications = notifications);
     }
 
     this.notificationsService.notificationsChanger.subscribe(isNotificationsEnabled => this.isNotificationsEnabled = isNotificationsEnabled);

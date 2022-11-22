@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/models/user';
-import { UserService } from 'src/app/services/user.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-liked-posts',
@@ -10,10 +10,10 @@ import { UserService } from 'src/app/services/user.service';
 export class LikedPostsComponent implements OnInit {
   public keycloakUser: User;
 
-  constructor(private userService: UserService) { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.userService.getKeycloakUser().subscribe(keycloakUser => this.keycloakUser = keycloakUser);
+    this.keycloakUser = this.authService.keycloakUser;
   }
 
 }

@@ -1,0 +1,56 @@
+.report {
+    margin-top: 7.5px;
+    margin-bottom: 7.5px;
+    padding: 20px;
+    border-radius: 25px;
+    background: #24242b;
+}
+
+.report p {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    word-wrap: break-word;
+}
+
+.link {
+    cursor: pointer;
+}
+
+.report-btns {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.report-btns button {
+    width: 45%;
+    height: 25px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 1rem;
+    border-radius: 10px;
+}
+
+.ban-post-btn {
+    background: #9b111e;
+    transition: .3s;
+}
+
+.ban-post-btn:hover {
+    background: #750d17;
+    transition: .3s;
+}
+
+.delete-report-btn {
+    background: #2cb67d;
+    transition: .3s;
+}
+
+.delete-report-btn:hover {
+    background: #20855b;
+    transition: .3s;
+}
+
+@media (min-width: 1038px) {
+}

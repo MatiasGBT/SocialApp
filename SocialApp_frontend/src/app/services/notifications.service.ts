@@ -20,7 +20,7 @@ export class NotificationsService {
 
   getNotificationsStatus() {
     const notificationsStatus: string = localStorage.getItem('notifications');
-    return notificationsStatus == null || notificationsStatus == 'on';
+    return notificationsStatus == 'on' ? true : false;
   }
 
   public getNotifications(user: User): Observable<Notification[]> {

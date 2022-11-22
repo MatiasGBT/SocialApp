@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Post } from 'src/app/models/post';
 import { User } from 'src/app/models/user';
+import { AuthService } from 'src/app/services/auth.service';
 import { PostService } from 'src/app/services/post.service';
-import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-index',
@@ -19,7 +19,7 @@ export class IndexComponent implements OnInit {
   public welcomePost: Post;
   public page: string;
 
-  constructor(private userService: UserService, private postService: PostService,
+  constructor(private authService: AuthService, private postService: PostService,
     private activatedRoute: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
@@ -34,7 +34,7 @@ export class IndexComponent implements OnInit {
       }
     });
 
-    this.userService.getKeycloakUser().subscribe(user => this.user = user);
+    this.user = this.authService.keycloakUser;
 
     this.postService.getTheMostPopularPostFromToday().subscribe(popularPost => {
       this.popularPost = popularPost;

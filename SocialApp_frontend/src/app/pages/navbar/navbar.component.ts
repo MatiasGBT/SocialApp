@@ -16,7 +16,6 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class NavbarComponent implements OnInit {
   public placeholder: string;
-  @Input() public user: User;
   public people: Observable<User[]>;
   control = new FormControl();
 
@@ -24,12 +23,12 @@ export class NavbarComponent implements OnInit {
     private router: Router, public authService: AuthService) {}
 
   ngOnInit(): void {
+    this.getPlaceholder();
+
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.translate.use(event.lang);
-      this.translate.get('NAVBAR.SEARCH_PEOPLE').subscribe((res: string) => this.placeholder = res);
+      this.getPlaceholder();
     });
-
-    this.userService.userChanger.subscribe(data => this.user.photo = data.photo);
     
     this.people = this.control.valueChanges.pipe(
       map(value => typeof value === 'string' && value.length >= 3 ? value : value.name),
@@ -53,5 +52,9 @@ export class NavbarComponent implements OnInit {
     if ((event.key === 'Enter' || event.keyCode == 13) && this.control.value && this.control.value.length >= 3) {
       this.router.navigate(['/search', this.control.value]);
     }
+  }
+
+  private getPlaceholder() {
+    this.translate.get('NAVBAR.SEARCH_PEOPLE').subscribe((res: string) => this.placeholder = res);
   }
 }

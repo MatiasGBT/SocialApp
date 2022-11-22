@@ -3,6 +3,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 import { Comment } from 'src/app/models/comment';
 import { User } from 'src/app/models/user';
+import { AuthService } from 'src/app/services/auth.service';
 import { CommentService } from 'src/app/services/comment.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -18,14 +19,14 @@ export class CommentPageComponent implements OnInit, OnDestroy {
   public subscriber: Subscription;
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router,
-    private commentService: CommentService, private userService: UserService) { }
+    private commentService: CommentService, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
       let id = params['id'];
       if (id) {
         this.commentService.getComment(id).subscribe(comment => this.comment = comment);
-        this.userService.getKeycloakUser().subscribe(user => this.keycloakUser = user)
+        this.keycloakUser = this.authService.keycloakUser;
       } else {
         this.router.navigate(['/index']);
       }

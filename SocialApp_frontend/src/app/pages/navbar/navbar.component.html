@@ -13,8 +13,8 @@
   <a [routerLink]="['/profile']"
   [ngStyle]="{'margin-left':authService.userIsOnAdminModule?'auto':'0',
               'margin-right':authService.userIsOnAdminModule?'15px':'0'}">
-    <p *ngIf="user?.name">{{user.name}}</p>
-    <img *ngIf="user?.photo" src="http://localhost:8090/api/users/img/{{user.photo}}">
-    <img *ngIf="!user?.photo" src="http://localhost:8090/images/no-photo.jpg">
+    <p *ngIf="authService.keycloakUser?.name">{{authService.keycloakUser.name}}</p>
+    <img *ngIf="authService.keycloakUser?.photo" src="http://localhost:8090/api/users/img/{{authService.keycloakUser.photo}}">
+    <img *ngIf="!authService.keycloakUser?.photo" src="http://localhost:8090/images/no-photo.jpg">
   </a>
 </nav>

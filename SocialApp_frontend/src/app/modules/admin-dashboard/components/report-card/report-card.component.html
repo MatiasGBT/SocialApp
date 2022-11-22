@@ -1,0 +1,10 @@
+<div class="report" *ngIf="report">
+    <p>{{'ADMIN.REPORTS_REASON' | translate}}: {{report.reportReason.reason}}</p>
+    <p [routerLink]="['/profile', report.user.idUser]" class="link">{{'ADMIN.REPORTS_USER_WHO_REPORTED' | translate}}: {{report.user.name}} {{report.user.surname}}</p>
+    <p [routerLink]="['/post', report.post.idPost]" class="link">{{'ADMIN.REPORTS_REPORTED_POST' | translate}}: {{report.post.idPost}}</p>
+    <p *ngIf="report?.extraInformation">{{'ADMIN.REPORTS_EXTRA_INFORMATION' | translate}}: {{report.extraInformation}}</p>
+    <div class="report-btns" *ngIf="canBeRemoved">
+        <button class="ban-post-btn" (click)="deletePost(report)"><i class="fa-solid fa-ban"></i></button>
+        <button class="delete-report-btn" (click)="deleteReport(report)"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+</div>

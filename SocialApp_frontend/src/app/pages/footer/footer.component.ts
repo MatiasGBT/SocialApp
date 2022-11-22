@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Notification } from 'src/app/models/notification';
-import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { NotificationsService } from 'src/app/services/notifications.service';
 
@@ -13,18 +12,17 @@ export class FooterComponent implements OnInit {
   public isNotificationsEnabled: boolean;
   public notificationsNumber: number;
   private notifications: Notification[] = [];
-  @Input() public user: User;
 
   constructor(private notificationsService: NotificationsService, public authService: AuthService) { }
 
   ngOnInit(): void {
     this.isNotificationsEnabled = this.notificationsService.getNotificationsStatus();
+    this.obtainNotifications();
 
+    //This code detects when the user activates/deactivates notifications.
     this.notificationsService.notificationsEnabled.subscribe(areEnabled => {
       this.isNotificationsEnabled = areEnabled;
-      if (this.isNotificationsEnabled) {
-        this.obtainNotifications();
-      }
+      this.obtainNotifications();
     });
 
     //This code detects when a user sees one of his notifications, which causes the badge number to be reduced.
@@ -37,15 +35,15 @@ export class FooterComponent implements OnInit {
   }
 
   ngOnChanges() {
-    if (this.isNotificationsEnabled && this.user) {
-      this.obtainNotifications();
-    }
+    this.obtainNotifications();
   }
 
   private obtainNotifications(): void {
-    this.notificationsService.getNotifications(this.user).subscribe(notifications => {
-      this.notifications = notifications;
-      this.notificationsNumber = this.notifications.filter(n => !n.isViewed).length;
-    });
+    if (this.isNotificationsEnabled) {
+      this.notificationsService.getNotifications(this.authService.keycloakUser).subscribe(notifications => {
+        this.notifications = notifications;
+        this.notificationsNumber = this.notifications.filter(n => !n.isViewed).length;
+      });
+    }
   }
 }
