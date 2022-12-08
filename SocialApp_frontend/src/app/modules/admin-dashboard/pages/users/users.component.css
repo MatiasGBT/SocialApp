@@ -62,6 +62,10 @@
     border-radius: 50%;
 }
 
+.user-data .username {
+    display: none;
+}
+
 .user-buttons {
     min-width: 75px; /*user-buttons button width x2 + extra 5px*/
     display: flex;
@@ -117,6 +121,12 @@ aside {
 }
 
 @media (min-width: 768px) {
+    .user-data .username {
+        display: block;
+        margin-left: 5px;
+        color: darkgray;
+    }
+
     .user-buttons {
         width: 105px;
     }

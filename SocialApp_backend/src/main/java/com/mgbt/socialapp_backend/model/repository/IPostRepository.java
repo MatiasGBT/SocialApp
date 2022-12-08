@@ -1,6 +1,7 @@
 package com.mgbt.socialapp_backend.model.repository;
 
 import com.mgbt.socialapp_backend.model.entity.Post;
+import com.mgbt.socialapp_backend.model.entity.UserApp;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 import java.util.List;
@@ -141,4 +142,6 @@ public interface IPostRepository extends JpaRepository<Post, Long> {
             "ORDER BY total_likes DESC, p.date DESC LIMIT 1",
             nativeQuery = true)
     Post findTheMostPopularPostFromToday();
+
+    Post findByUserAndIsPinned(UserApp user, boolean isPinned);
 }

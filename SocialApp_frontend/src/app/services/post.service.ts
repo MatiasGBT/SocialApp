@@ -13,6 +13,7 @@ export class PostService {
   private baseUrl: string = 'http://localhost:8090/api/posts';
   @Output() deletePostEmitter: EventEmitter<any> = new EventEmitter();
   @Output() reducePostsQuantityEmitter: EventEmitter<any> = new EventEmitter();
+  @Output() pinPostEmitter: EventEmitter<any> = new EventEmitter();
 
   constructor(private http: HttpClient, private router: Router,
     private authService: AuthService, private catchErrorService: CatchErrorService) { }
@@ -69,6 +70,33 @@ export class PostService {
 
   public deletePost(idPost: number): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/delete/${idPost}`).pipe(
+      catchError(e => {
+        this.catchErrorService.showErrorModal(e);
+        return throwError(() => e);
+      })
+    );
+  }
+
+  public getPinnedPost(idUser: number): Observable<Post> {
+    return this.http.get<Post>(`${this.baseUrl}/get/pinned/${idUser}`).pipe(
+      catchError(e => {
+        this.catchErrorService.showErrorModal(e);
+        return throwError(() => e);
+      })
+    );
+  }
+
+  public pinPost(idPost: number): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/put/pin/${idPost}`, null).pipe(
+      catchError(e => {
+        this.catchErrorService.showErrorModal(e);
+        return throwError(() => e);
+      })
+    );
+  }
+
+  public unpinPost(idPost: number): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/put/unpin/${idPost}`, null).pipe(
       catchError(e => {
         this.catchErrorService.showErrorModal(e);
         return throwError(() => e);

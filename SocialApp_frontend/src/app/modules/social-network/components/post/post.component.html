@@ -19,6 +19,8 @@
         <i *ngIf="!isLiked" class="fa-regular fa-heart" (click)="likePost()"></i>
         <i *ngIf="isLiked" class="fa-solid fa-heart" (click)="dislikePost()"></i>
         <i class="fa-solid fa-comment" [routerLink]="['/post', post.idPost]"></i>
+        <i *ngIf="post.user.username == authService.getUsername() && !post.isFeatured" class="fa-regular fa-star" (click)="pinPost()"></i>
+        <i *ngIf="post.user.username == authService.getUsername() && post.isFeatured" class="fa-solid fa-star" (click)="unpinPost()"></i>
         <a href="http://localhost:8090/api/posts/img/{{post.photo}}"><i *ngIf="post?.photo" class="fa-solid fa-download"></i></a>
         <i *ngIf="post.user.username != authService.getUsername() && !isReported" class="fa-solid fa-triangle-exclamation" (click)="reportPost()"></i>
         <i *ngIf="post.user.username == authService.getUsername()" class="fa-solid fa-trash" (click)="deletePost()"></i>

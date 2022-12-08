@@ -217,6 +217,75 @@ public class PostController {
         }
     }
 
+    //#region Highlight Post
+    @Operation(summary = "Gets the pinned post by its user ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Post entity",
+                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Post.class)) }),
+            @ApiResponse(responseCode = "404", description = "Post not found",
+                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = InternalServerError.class)) })
+    })
+    @GetMapping("/get/pinned/{idUser}")
+    @PreAuthorize("isAuthenticated() and hasRole('user')")
+    public ResponseEntity<?> getPinnedPost(@PathVariable Long idUser, Locale locale) {
+        try {
+            UserApp user = userService.findById(idUser);
+            Post post = postService.findByUserAndIsPinned(user);
+            return new ResponseEntity<>(post, HttpStatus.OK);
+        } catch (DataAccessException e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", messageSource.getMessage("error.database", null, locale));
+            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "Sets the isPinned property of a post to true")
+    @ApiResponse(responseCode = "200", description = "Post updated correctly",
+            content = { @Content(mediaType = "application/json", schema = @Schema(implementation = JsonMessage.class)) })
+    @PutMapping("/put/pin/{idPost}")
+    @PreAuthorize("hasRole('user')")
+    public ResponseEntity<?> pinPost(@PathVariable Long idPost, Locale locale) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Post post = postService.findById(idPost);
+            Post featuredPost = postService.findByUserAndIsPinned(post.getUser());
+            if (featuredPost != null) {
+                featuredPost.setIsPinned(false);
+                postService.save(featuredPost);
+            }
+            post.setIsPinned(true);
+            postService.save(post);
+            response.put("message", messageSource.getMessage("postController.highlightPost", null, locale));
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (DataAccessException e) {
+            response.put("message", messageSource.getMessage("error.database", null, locale));
+            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "Sets the isPinned property of a post to false")
+    @ApiResponse(responseCode = "200", description = "Post updated correctly",
+            content = { @Content(mediaType = "application/json", schema = @Schema(implementation = JsonMessage.class)) })
+    @PutMapping("/put/unpin/{idPost}")
+    @PreAuthorize("hasRole('user')")
+    public ResponseEntity<?> unpinPost(@PathVariable Long idPost, Locale locale) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Post post = postService.findById(idPost);
+            post.setIsPinned(false);
+            postService.save(post);
+            response.put("message", messageSource.getMessage("postController.highlightPost", null, locale));
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (DataAccessException e) {
+            response.put("message", messageSource.getMessage("error.database", null, locale));
+            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    //#endregion
+
     @Operation(summary = "Gets file from posts directory by filename")
     @ApiResponse(description = "Image file", content = { @Content(mediaType = "multipart/form-data") })
     @GetMapping("/img/{fileName:.+}")

@@ -43,7 +43,7 @@
                 <button type="button" class="profile-button side-profile-button" (click)="addFriend()" *ngIf="friendship?.status == false && !authService.userIsChecked">
                     <i class="fa-solid fa-plus"></i> {{'PROFILE.ADD_FRIEND' | translate}}
                 </button>
-                <button type="button" class="profile-button" *ngIf="friendship?.status == true || followership" [routerLink]="['/profile/chat', user.idUser]">
+                <button type="button" class="profile-button" *ngIf="friendship?.status == true" [routerLink]="['/profile/chat', user.idUser]">
                     <i class="fa-solid fa-message"></i> {{'PROFILE.SEND_MESSAGE' | translate}}
                 </button>
                 <button type="button" class="profile-button" *ngIf="friendship?.status == true" (click)="callFriend()">
@@ -72,15 +72,21 @@
     </div>
 
     <aside>
-        <div *ngIf="usersYouMayKnow?.length > 0">
+        <ng-container *ngIf="pinnedPost">
+            <h2>{{'ASIDE.PINNED_POST' | translate}}:</h2>
+            <post-comp [post]="pinnedPost"></post-comp>
+        </ng-container>
+        
+        <ng-container *ngIf="!pinnedPost && usersYouMayKnow?.length > 0">
             <h2>{{'ASIDE.USERS_MAYBE' | translate}}:</h2>
             <figure class="users-aside" *ngFor="let userYouMayKnow of usersYouMayKnow" (click)="goToProfile(userYouMayKnow)">
                 <img *ngIf="userYouMayKnow?.photo" src="http://localhost:8090/api/users/img/{{userYouMayKnow.photo}}">
                 <img *ngIf="!userYouMayKnow?.photo" src="http://localhost:8090/images/no-photo.jpg">
                 <figcaption>{{userYouMayKnow.name}} {{userYouMayKnow.surname}}</figcaption><i class="fa-solid fa-check" style="display: none;"></i>
             </figure>
-        </div>
-        <img *ngIf="usersYouMayKnow?.length == 0" src="../../../../../assets/img/no_users_you_may_know_BG.svg" alt="This user has no other users that you may know of." id="aside-img">
+        </ng-container>
+
+        <img *ngIf="!pinnedPost && usersYouMayKnow?.length == 0" src="../../../../../assets/img/no_users_you_may_know_BG.svg" alt="This user has no other users that you may know of." id="aside-img">
     </aside>
 </section>
 

@@ -11,6 +11,7 @@
                 <img *ngIf="user?.photo" src="http://localhost:8090/api/users/img/{{user.photo}}" alt="User photo">
                 <img *ngIf="!user?.photo" src="http://localhost:8090/images/no-photo.jpg" alt="The user has no photo">
                 <p>{{user.name}} {{user.surname}}</p>
+                <p class="username">({{user.username}})</p>
             </div>
             <div class="user-buttons">
                 <button class="verify-btn" *ngIf="!user.isChecked" (click)="changeUserIsChecked(user)"><i class="fa-solid fa-check"></i></button>
@@ -23,12 +24,12 @@
         <paginator-admin-comp *ngIf="paginator && !paginator.empty" [name]="name" [paginator]="paginator" [route]="'users'"></paginator-admin-comp>
 
         <div id="no-users" *ngIf="!paginator">
-            <p>{{noUsersSearched}}</p>
+            <p>{{'ADMIN.NO_USERS_SEARCHED' | translate}}</p>
             <img src="../../../../../assets/img/search_bg.svg" alt="No users searched">
         </div>
 
         <div id="no-users" *ngIf="paginator && paginator.empty">
-            <p>{{noUsersFound}}</p>
+            <p>{{'ADMIN.NO_USERS_FOUND' | translate}}</p>
             <img src="../../../../../assets/img/no_posts_bg.svg" alt="No users founded">
         </div>
     </div>

@@ -8,7 +8,7 @@ import javax.persistence.*;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@DiscriminatorValue("friend_notif")
+@DiscriminatorValue("friend_type")
 @NoArgsConstructor
 public class NotificationFriend extends Notification {
 
@@ -21,5 +21,10 @@ public class NotificationFriend extends Notification {
     public NotificationFriend(UserApp userReceiver, UserApp friend) {
         super(userReceiver);
         this.friend = friend;
+    }
+
+    @Override
+    public String getType() {
+        return "friend_type";
     }
 }

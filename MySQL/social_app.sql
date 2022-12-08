@@ -184,6 +184,7 @@ CREATE TABLE `posts` (
   `text` varchar(200) DEFAULT NULL,
   `photo` varchar(100) DEFAULT NULL,
   `date` datetime(6) NOT NULL,
+  `is_pinned` tinyint NOT NULL DEFAULT '0',
   `id_user` bigint NOT NULL,
   PRIMARY KEY (`id_post`),
   KEY `fk_user_post` (`id_user`),

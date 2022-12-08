@@ -8,11 +8,16 @@ import javax.persistence.*;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@DiscriminatorValue("post_notif")
+@DiscriminatorValue("post_type")
 public class NotificationPost extends Notification {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"hibernateLazyInitializer","handler","text","photo","date","user","likes"})
     @JoinColumn(name = "id_post")
     private Post post;
+
+    @Override
+    public String getType() {
+        return "post_type";
+    }
 }

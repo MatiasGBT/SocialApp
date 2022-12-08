@@ -14,7 +14,7 @@ import { WebsocketService } from './services/websocket.service';
 })
 export class AppComponent implements OnInit {
   constructor(private translate: TranslateService, public authService: AuthService,
-    private router: Router, private webSocketService: WebsocketService) {
+              private router: Router, private webSocketService: WebsocketService) {
     translate.addLangs(['en', 'es', 'pt']);
   }
   
@@ -29,7 +29,6 @@ export class AppComponent implements OnInit {
     this.authService.login().subscribe(response => {
       console.log(response.message);
       this.authService.keycloakUser = response.user as User;
-      this.authService.userIsChecked = response.user.isChecked;
       if (response?.status && response.status == 201) {
         this.router.navigate(['/profile/edit'])
       }
@@ -38,7 +37,7 @@ export class AppComponent implements OnInit {
 
   private getAndSetLanguage() {
     const lang = localStorage.getItem('lang');
-    if (lang != null) {
+    if (lang) {
       this.translate.use(lang);
     } else {
       this.translate.use('en');

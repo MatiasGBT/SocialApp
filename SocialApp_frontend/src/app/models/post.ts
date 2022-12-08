@@ -10,4 +10,5 @@ export class Post {
     user: User;
     likes: Like[];
     reports: Report[];
+    isFeatured: boolean;
 }

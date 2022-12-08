@@ -53,8 +53,12 @@ public class Post implements Serializable {
     @JsonIgnoreProperties({"hibernateLazyInitializer","handler","post","reportReason","extraInformation"})
     private List<Report> reports;
 
+    @Column(name = "is_pinned", nullable = false, columnDefinition = "BOOLEAN")
+    private Boolean isPinned;
+
     @PrePersist
-    public void setUpCreationDate() {
+    public void setUp() {
         this.date = new Date();
+        this.isPinned = false;
     }
 }

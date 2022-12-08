@@ -1,15 +1,14 @@
 package com.mgbt.socialapp_backend.model.entity.notification;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.mgbt.socialapp_backend.model.entity.Comment;
-import com.mgbt.socialapp_backend.model.entity.UserApp;
+import com.mgbt.socialapp_backend.model.entity.*;
 import lombok.*;
 import javax.persistence.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@DiscriminatorValue("comment_notif")
+@DiscriminatorValue("comment_type")
 @NoArgsConstructor
 public class NotificationComment extends Notification {
 
@@ -21,5 +20,10 @@ public class NotificationComment extends Notification {
     public NotificationComment(UserApp userReceiver, Comment comment) {
         super(userReceiver);
         this.comment = comment;
+    }
+
+    @Override
+    public String getType() {
+        return "comment_type";
     }
 }

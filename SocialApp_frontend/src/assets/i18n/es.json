@@ -32,6 +32,7 @@
     },
     "ASIDE": {
         "FEATURED_POST": "Publicación destacada",
+        "PINNED_POST": "Publicación anclada",
         "USERS_MAYBE": "Quizá conozcas a"
     },
     "PROFILE": {
@@ -90,7 +91,7 @@
         "DELETE_ALL": "Eliminar todas las notificaciones",
         "NEW_FRIEND_TITLE": "¡Nuevo amigo!",
         "NEW_FRIEND_TEXT": "ahora es tu amigo",
-        "LIKE_POST_TITLE": "Tu post recibió un like",
+        "LIKE_POST_TITLE": "Tu publicación recibió un like",
         "LIKE_POST_TEXT": "Ver",
         "NEW_MESSAGE_TITLE": "te envió un mensaje",
         "NEW_MESSAGE_TEXT": "Pulsa para verlo",

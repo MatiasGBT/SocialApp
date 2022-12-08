@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { TranslateExtensionService } from 'src/app/services/translate-extension.service';
@@ -12,8 +13,6 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class UsersComponent implements OnInit {
   public placeholder: string;
-  public noUsersSearched: string;
-  public noUsersFound: string;
   public name: string;
   public searchName: string;
   public page: number;
@@ -22,13 +21,15 @@ export class UsersComponent implements OnInit {
 
   constructor(private authService: AuthService, private userService: UserService,
     private translateExtensionService: TranslateExtensionService,
-    private activatedRoute: ActivatedRoute, private router: Router) { }
+    private activatedRoute: ActivatedRoute, private router: Router,
+    private translate: TranslateService) { }
 
   ngOnInit(): void {
+    const lang = localStorage.getItem('lang');
+    lang ? this.translate.use(lang) : this.translate.use('en');
+
     this.authService.userIsOnAdminModule = true;
     this.placeholder = this.translateExtensionService.getTranslatedStringByUrl('ADMIN.USERS_PLACEHOLDER');
-    this.noUsersSearched = this.translateExtensionService.getTranslatedStringByUrl('ADMIN.NO_USERS_SEARCHED');
-    this.noUsersFound = this.translateExtensionService.getTranslatedStringByUrl('ADMIN.NO_USERS_FOUND');
 
     this.activatedRoute.params.subscribe(params => {
       if (params['name'] && params['page']) {
@@ -60,7 +61,6 @@ export class UsersComponent implements OnInit {
     this.userService.getUsersByNames(this.name, this.page).subscribe(response => {
       this.users = response.content;
       this.paginator = response;
-      //response.empty boolean
     });
   }
 

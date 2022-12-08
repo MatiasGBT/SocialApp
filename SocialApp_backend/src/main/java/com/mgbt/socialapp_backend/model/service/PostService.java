@@ -1,6 +1,7 @@
 package com.mgbt.socialapp_backend.model.service;
 
 import com.mgbt.socialapp_backend.model.entity.Post;
+import com.mgbt.socialapp_backend.model.entity.UserApp;
 import com.mgbt.socialapp_backend.model.repository.IPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -146,5 +147,10 @@ public class PostService implements IService<Post> {
     @Transactional(readOnly = true)
     public Post findTheMostPopularPostsFromToday() {
         return repository.findTheMostPopularPostFromToday();
+    }
+
+    @Transactional(readOnly = true)
+    public Post findByUserAndIsPinned(UserApp user) {
+        return repository.findByUserAndIsPinned(user, true);
     }
 }

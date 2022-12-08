@@ -3,6 +3,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 import { Followership } from 'src/app/models/followership';
 import { Friendship } from 'src/app/models/friendship';
+import { Post } from 'src/app/models/post';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { CallService } from 'src/app/services/call.service';
@@ -28,6 +29,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   public followingQuantity: number;
   public usersYouMayKnow: User[] = [];
   private subscriber: Subscription;
+  public pinnedPost: Post;
 
   constructor(private userService: UserService, private activatedRoute: ActivatedRoute,
     private friendshipService: FriendshipService, private router: Router,
@@ -78,6 +80,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   private getUser() {
     this.userService.getUser(this.id).subscribe(user => {
       this.user = user;
+      this.getHighlightedPost();
       this.getRelationship();
       this.callService.subscribeToEvents();
     });
@@ -86,6 +89,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
   private getKeycloakUser() {
     this.user = this.authService.keycloakUser;
     this.getProfileHeaderData();
+    this.getHighlightedPost();
+  }
+
+  private getHighlightedPost() {
+    this.postService.getPinnedPost(this.user.idUser).subscribe(pinnedPost => {
+      this.pinnedPost = pinnedPost;
+    });
   }
 
   private getRelationship() {

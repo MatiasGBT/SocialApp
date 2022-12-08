@@ -7,6 +7,7 @@ import { User } from "./user";
 export class Notification {
     idNotification: number;
     isViewed: boolean;
+    type: string;
     friend: User;
     userTransmitter: User;
     post: Post;

@@ -36,6 +36,10 @@ public abstract class Notification implements Serializable {
     @Temporal(value = TemporalType.DATE)
     private Date date;
 
+    public String getType() {
+        return "notification_type";
+    }
+
     @PrePersist
     public void setUp() {
         this.date = new Date();

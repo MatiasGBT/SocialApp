@@ -32,6 +32,7 @@
     },
     "ASIDE": {
         "FEATURED_POST": "Featured post",
+        "PINNED_POST": "Pinned post",
         "USERS_MAYBE": "Users you may know"
     },
     "PROFILE": {

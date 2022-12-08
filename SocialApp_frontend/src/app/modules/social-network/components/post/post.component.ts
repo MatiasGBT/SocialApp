@@ -9,7 +9,6 @@ import { PostService } from 'src/app/services/post.service';
 import { ReportReasonService } from 'src/app/services/report-reason.service';
 import { ReportService } from 'src/app/services/report.service';
 import { TranslateExtensionService } from 'src/app/services/translate-extension.service';
-import { UserService } from 'src/app/services/user.service';
 import { WebsocketService } from 'src/app/services/websocket.service';
 import Swal from 'sweetalert2';
 
@@ -24,10 +23,10 @@ export class PostComponent implements OnInit {
   public isReported: boolean;
 
   constructor(public authService: AuthService, private postService: PostService,
-    private userService: UserService, private reportService: ReportService,
+    private reportService: ReportService, private likeService: LikeService,
     private router: Router, private reportReasonService: ReportReasonService,
     private translateExtensionService: TranslateExtensionService,
-    private webSocketService: WebsocketService, private likeService: LikeService) { }
+    private webSocketService: WebsocketService) { }
 
   ngOnInit(): void {
     /*This is done to find out if the logged in user has liked this post so that the heart icon can be changed.*/
@@ -38,6 +37,9 @@ export class PostComponent implements OnInit {
     this.post.reports.find(r => r.user.username == this.authService.getUsername()) != undefined 
     ? this.isReported = true
     : this.isReported = false;
+
+    //If the post is highlighted and the user highlights another post, the other post loses the highlight.
+    this.postService.pinPostEmitter.subscribe(() => this.post.isFeatured = false);
   }
 
   public likePost() {
@@ -61,6 +63,21 @@ export class PostComponent implements OnInit {
         this.post.likes.length -= 1;
       });
     }
+  }
+
+  public pinPost() {
+    this.postService.pinPost(this.post.idPost).subscribe(response => {
+      this.postService.pinPostEmitter.emit();
+      this.post.isFeatured = true;
+      console.log(response.message);
+    });
+  }
+
+  public unpinPost() {
+    this.postService.unpinPost(this.post.idPost).subscribe(response => {
+      this.post.isFeatured = false;
+      console.log(response.message);
+    });
   }
 
   public deletePost() {
