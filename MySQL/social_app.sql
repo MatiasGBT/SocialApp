@@ -198,7 +198,7 @@ CREATE TABLE `posts` (
 
 LOCK TABLES `posts` WRITE;
 /*!40000 ALTER TABLE `posts` DISABLE KEYS */;
-INSERT INTO `posts` VALUES (1,'Welcome to Social App! start adding some friends, you can search for people using the search bar, have fun!','79b2a43b-1b31-4be8-bd67-9c9c9e536881_fdgh.png','2022-10-28 14:25:43.319000',1);
+INSERT INTO `posts` VALUES (1,'Welcome to Social App! start adding some friends, you can search for people using the search bar, have fun!','79b2a43b-1b31-4be8-bd67-9c9c9e536881_fdgh.png','2022-10-28 14:25:43.319000',0,1);
 /*!40000 ALTER TABLE `posts` ENABLE KEYS */;
 UNLOCK TABLES;
 

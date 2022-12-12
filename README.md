@@ -1,12 +1,25 @@
 # SocialApp
-(In process) Social network made with Angular, Spring Boot (Java), Keycloak and MySQL.  
+Social network made with Angular, Spring Boot (Java), Keycloak and MySQL.  
+
+This application allows:
+- Create an account
+- Modify your profile picture and other data
+- Create posts
+- Receive notifications
+- Choose between three different languages (English, Spanish and Portuguese)
+- Send friend requests, as well as accept or reject those that are sent to you
+- View and interact with the posts created by your friends (like, comment, download their image, etc.)
+- Chat or start a video call with a friend
+- Follow verified accounts
+- View and interact with the posts created by the users you follow
+- Appear in trends (only for verified accounts)
+- And more
 
 ***Note:** this is a personal practice project and I do not allow its distribution.*  
 ## API Docs
 To view the API documentation you must first [deploy](#deployment) the application and then enter one of the following paths in your browser:
 - http://localhost:8090/api-docs (To view the docs in JSON format)
 - http://localhost:8090/swagger-ui.html (To view the docs with a graphical interface)
-
 ## Deployment
 ***Important note:** At the moment the app starts in developer mode and is not adapted for production.*  
 
@@ -48,7 +61,8 @@ You will be redirected to a registration page. Use false information (just to te
 - Email: *user@mail.com*
 - Username: *user*
 - Password: *user123*
-- Confirm password: *user123*  
+- Confirm password: *user123*
+
 After registering you will be able to use and explore the app.
 ## Screenshots
 Some screenshots of the application.
@@ -98,6 +112,7 @@ Utilities provided by other developers/designers used in this project:
 - [Sweet Alert 2](https://sweetalert2.github.io/)
 - [Angular Material](https://material.angular.io/)
 - [unDraw](https://undraw.co/illustrations)
+- [PeerJS](https://peerjs.com/)
 ## Author
 
 [@MatiasGBT](https://github.com/MatiasGBT)
