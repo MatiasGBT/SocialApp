@@ -39,7 +39,7 @@ export class PostComponent implements OnInit {
     : this.isReported = false;
 
     //If the post is highlighted and the user highlights another post, the other post loses the highlight.
-    this.postService.pinPostEmitter.subscribe(() => this.post.isFeatured = false);
+    this.postService.pinPostEmitter.subscribe(() => this.post.isPinned = false);
   }
 
   public likePost() {
@@ -68,14 +68,14 @@ export class PostComponent implements OnInit {
   public pinPost() {
     this.postService.pinPost(this.post.idPost).subscribe(response => {
       this.postService.pinPostEmitter.emit();
-      this.post.isFeatured = true;
+      this.post.isPinned = true;
       console.log(response.message);
     });
   }
 
   public unpinPost() {
     this.postService.unpinPost(this.post.idPost).subscribe(response => {
-      this.post.isFeatured = false;
+      this.post.isPinned = false;
       console.log(response.message);
     });
   }

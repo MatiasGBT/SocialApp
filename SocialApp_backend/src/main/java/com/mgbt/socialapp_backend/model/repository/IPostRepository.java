@@ -110,11 +110,11 @@ public interface IPostRepository extends JpaRepository<Post, Long> {
     //endregion
 
     //region By user
-    @Query(value = "SELECT p.* FROM posts p WHERE p.id_user = ?1 ORDER BY p.date DESC, p.id_post DESC LIMIT ?2,10",
+    @Query(value = "SELECT p.* FROM posts p WHERE p.id_user = ?1 AND p.is_pinned = 0 ORDER BY p.date DESC, p.id_post DESC LIMIT ?2,10",
             nativeQuery = true)
     List<Post> findPostsByUser(Long idUser, Integer from);
 
-    @Query(value = "SELECT MIN(p.id_post) FROM posts p WHERE p.id_user = ?", nativeQuery = true)
+    @Query(value = "SELECT MIN(p.id_post) FROM posts p WHERE p.id_user = ? AND p.is_pinned = 0", nativeQuery = true)
     Long findLastIdPostFromPostsByUser(Long idUser);
 
     @Query(value = "SELECT p.* FROM posts p " +

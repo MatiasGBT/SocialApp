@@ -57,7 +57,7 @@
                     *ngIf="!followership && !friendship && !isKeycloakUserPage">
                     <i class="fa-solid fa-plus"></i> {{'PROFILE.FOLLOW' | translate}}
                 </button>
-                <button type="button" class="profile-button" *ngIf="followership" (click)="unfollowUser()">
+                <button type="button" class="profile-button side-profile-button" *ngIf="followership" (click)="unfollowUser()">
                     <i class="fa-solid fa-minus"></i> {{'PROFILE.STOP_FOLLOWING' | translate}}
                 </button>
             </div>

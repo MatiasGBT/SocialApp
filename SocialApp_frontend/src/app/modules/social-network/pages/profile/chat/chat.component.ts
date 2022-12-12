@@ -1,9 +1,9 @@
 import { AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Friendship } from 'src/app/models/friendship';
 import { Message } from 'src/app/models/message';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
-import { FollowershipService } from 'src/app/services/followership.service';
 import { FriendshipService } from 'src/app/services/friendship.service';
 import { MessageService } from 'src/app/services/message.service';
 import { TranslateExtensionService } from 'src/app/services/translate-extension.service';
@@ -32,14 +32,13 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
   constructor(private authService: AuthService, private activatedRoute: ActivatedRoute,
     private router: Router, private messageService: MessageService,
     private friendshipService: FriendshipService, private webSocketService: WebsocketService,
-    private userService: UserService, private translateExtensionService: TranslateExtensionService,
-    private followershipService: FollowershipService) { }
+    private userService: UserService, private translateExtensionService: TranslateExtensionService) { }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
       let id = params['id'];
       if (id) {
-        this.getUser(id);
+        this.getFriendship(id);
       } else {
         this.router.navigate(['/index']);
       }
@@ -64,7 +63,12 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    //It is necessary to make the check because, if the user enters through the url to a chat
+    //of someone who does not have as a friend, the property this.friend will not be instantiated
+    //and this will throw an error.
+    if (this.friend) {
       this.webSocketService.quitChat(this.friend);
+    }
   }
 
   private scrollToBottom() {
@@ -75,43 +79,25 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   //#region Init methods
-  private getUser(id: number) {
-    this.userService.getUser(id).subscribe(user => {
-      this.friend = user;
-      if (user.isChecked) {
-        this.getFollowership(id);
-      } else {
-        this.getFriendship(id);
-      }
-    });
-  }
-
-  private getFollowership(id: number) {
-    this.followershipService.getFollowership(id).subscribe(followership => {
-      if (!followership) {
-        this.router.navigate(['/profile']);
-      }
-      if (followership?.userChecked.username == this.authService.getUsername()) {
-        this.keycloakUser = followership.userChecked;
-      } else {
-        this.keycloakUser = followership.userFollower;
-      }
-      this.initChat();
-    });
-  }
-
   private getFriendship(id: number) {
     this.friendshipService.getFriendship(id).subscribe(friendship => {
-      if (!friendship.status) {
+      if (friendship.status) {
+        this.setUsers(friendship);
+        this.initChat();
+      } else {
         this.router.navigate(['/profile']);
       }
-      if (friendship?.userTransmitter.username == this.authService.getUsername()) {
-        this.keycloakUser = friendship.userTransmitter;
-      } else {
-        this.keycloakUser = friendship.userReceiver;
-      }
-      this.initChat();
     });
+  }
+
+  private setUsers(friendship: Friendship) {
+    if (friendship?.userTransmitter.username == this.authService.getUsername()) {
+      this.keycloakUser = friendship.userTransmitter;
+      this.friend = friendship.userReceiver;
+    } else {
+      this.keycloakUser = friendship.userReceiver;
+      this.friend = friendship.userTransmitter;
+    }
   }
 
   private initChat() {
