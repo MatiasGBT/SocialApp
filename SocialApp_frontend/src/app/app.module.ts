@@ -14,6 +14,15 @@ import { FooterComponent } from './pages/footer/footer.component';
 import { NavbarComponent } from './pages/navbar/navbar.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { registerLocaleData } from '@angular/common';
+
+import localeEn from '@angular/common/locales/en';
+import localeEs from '@angular/common/locales/es';
+import localePt from '@angular/common/locales/pt';
+import { LocaleProvider } from './locale-provider';
+registerLocaleData(localeEn, 'en');
+registerLocaleData(localeEs, 'es');
+registerLocaleData(localePt, 'pt');
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -59,7 +68,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       multi: true,
       deps: [KeycloakService]
     },
-    {provide: HTTP_INTERCEPTORS, useClass: LanguageInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: LanguageInterceptor, multi: true},
+    LocaleProvider
   ],
   bootstrap: [AppComponent]
 })

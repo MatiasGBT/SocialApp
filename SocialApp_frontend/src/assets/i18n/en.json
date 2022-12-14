@@ -89,6 +89,8 @@
     "NOTIFICATIONS": {
         "TITLE": "Notifications",
         "DELETE_ALL": "Delete all notifications",
+        "NEW_NOTIF_TITLE": "New notification",
+        "NEW_NOTIF_TEXT": "Please restart the page",
         "NEW_FRIEND_TITLE": "¡New friend!",
         "NEW_FRIEND_TEXT": "is now your friend",
         "LIKE_POST_TITLE": "Your post received a like",

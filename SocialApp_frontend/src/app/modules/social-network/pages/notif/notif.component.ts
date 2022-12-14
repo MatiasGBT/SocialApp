@@ -30,6 +30,17 @@ export class NotifComponent implements OnInit {
     }
 
     this.notificationsService.notificationsChanger.subscribe(isNotificationsEnabled => this.isNotificationsEnabled = isNotificationsEnabled);
+
+    this.notificationsService.newNotification.subscribe(() => {
+      if (this.router.url.includes('notif')) {
+        Swal.fire({
+          title: this.translateExtensionService.getTranslatedStringByUrl('NOTIFICATIONS.NEW_NOTIF_TITLE'),
+          text: this.translateExtensionService.getTranslatedStringByUrl('NOTIFICATIONS.NEW_NOTIF_TEXT'),
+          position: 'top-end', timer: 1000, background: '#7f5af0',
+          showConfirmButton: false, color: 'white',
+        })
+      }
+    });
   }
 
   public getOpacity(notification: Notification) {
@@ -63,12 +74,9 @@ export class NotifComponent implements OnInit {
     this.friendshipService.acceptFriendRequest(notification.friendship.idFriendship).subscribe(response => {
       this.webSocketService.newNotification(notification.friendship.userTransmitter);
       Swal.fire({
-        icon: 'success',
         title: response.message,
-        showConfirmButton: false,
-        timer: 1250,
-        background: '#7f5af0',
-        color: 'white'
+        icon: 'success', showConfirmButton: false, timer: 1250,
+        background: '#7f5af0', color: 'white'
       }).then(() => {
         this.notificationsService.delete(notification.idNotification).subscribe(response => {
           console.log(response.message);
@@ -81,22 +89,23 @@ export class NotifComponent implements OnInit {
 
   public viewNotification(notification: Notification) {
     this.notificationsService.viewNotification(notification.idNotification).subscribe(response => console.log(response.message));
-    if (!notification?.friendship) {
+    notification.view();
+    if (notification.type != 'friendship_type') {
       this.notificationsService.notificationsChanger.emit(this.notifications.filter(n => n.idNotification !== notification.idNotification));
     }
-    if (notification?.friend) {
+    if (notification.type == 'friend_type') {
       this.router.navigate(['/profile', notification.friend.idUser]);
     }
-    if (notification?.post) {
+    if (notification.type == 'post_type') {
       this.router.navigate(['/post', notification.post.idPost]);
     }
-    if (notification?.comment) {
+    if (notification.type == 'comment_type') {
       this.router.navigate(['/comment', notification.comment.idComment]);
     }
-    if (notification?.userTransmitter) {
+    if (notification.type == 'message_type') {
       this.router.navigate(['/profile/chat', notification.userTransmitter.idUser]);
     }
-    if (notification?.followership) {
+    if (notification.type == 'followership_type') {
       this.router.navigate(['/profile', notification.followership.userFollower.idUser]);
     }
   }

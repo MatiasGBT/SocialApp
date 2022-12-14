@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { KeycloakService } from 'keycloak-angular';
 import { AuthService } from 'src/app/services/auth.service';
+import { LocaleService } from 'src/app/services/locale.service';
 import { NotificationsService } from 'src/app/services/notifications.service';
 import { WebsocketService } from 'src/app/services/websocket.service';
 
@@ -16,7 +17,7 @@ export class ConfigComponent implements OnInit {
 
   constructor(public translate: TranslateService, private keycloakService: KeycloakService,
     private notificationServide: NotificationsService, private webSocketService: WebsocketService,
-    public authService: AuthService) {}
+    public authService: AuthService, private localeService: LocaleService) {}
 
   ngOnInit(): void {
     const notifications = localStorage.getItem('notifications');
@@ -45,7 +46,7 @@ export class ConfigComponent implements OnInit {
   }
 
   changeLanguage() {
-    this.translate.use(this.selectedLanguage);
+    this.localeService.setLocale(this.selectedLanguage);
     localStorage.setItem('lang', this.selectedLanguage);
   }
 
