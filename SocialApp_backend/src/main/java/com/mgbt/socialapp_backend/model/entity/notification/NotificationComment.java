@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class NotificationComment extends Notification {
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","text","user","post","date","replies"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","text","post","date","hasReplies"})
     @JoinColumn(name = "id_comment")
     private Comment comment;
 

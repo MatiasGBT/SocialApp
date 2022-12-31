@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./notif.component.css']
 })
 export class NotifComponent implements OnInit {
-  public isNotificationsEnabled: boolean;
+  public areNotificationsEnabled: boolean;
   public notifications: Notification[] = [];
 
   constructor(private notificationsService: NotificationsService, private authService: AuthService,
@@ -23,21 +23,25 @@ export class NotifComponent implements OnInit {
     private webSocketService: WebsocketService) { }
 
   ngOnInit(): void {
-    this.isNotificationsEnabled = this.notificationsService.getNotificationsStatus();
-    if (this.isNotificationsEnabled) {
+    this.areNotificationsEnabled = this.notificationsService.getNotificationsStatus();
+    if (this.areNotificationsEnabled) {
       let user = this.authService.keycloakUser;
       this.notificationsService.getNotifications(user).subscribe(notifications => this.notifications = notifications);
     }
 
-    this.notificationsService.notificationsChanger.subscribe(isNotificationsEnabled => this.isNotificationsEnabled = isNotificationsEnabled);
+    this.notificationsService.notificationsChanger.subscribe(isNotificationsEnabled => this.areNotificationsEnabled = isNotificationsEnabled);
 
     this.notificationsService.newNotification.subscribe(() => {
       if (this.router.url.includes('notif')) {
         Swal.fire({
           title: this.translateExtensionService.getTranslatedStringByUrl('NOTIFICATIONS.NEW_NOTIF_TITLE'),
           text: this.translateExtensionService.getTranslatedStringByUrl('NOTIFICATIONS.NEW_NOTIF_TEXT'),
-          position: 'top-end', timer: 1000, background: '#7f5af0',
-          showConfirmButton: false, color: 'white',
+          position: 'bottom-end', timer: 1500, background: '#7f5af0', timerProgressBar: true,
+          showConfirmButton: false, color: 'white', toast: true, icon: 'info',
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
         })
       }
     });
@@ -89,7 +93,6 @@ export class NotifComponent implements OnInit {
 
   public viewNotification(notification: Notification) {
     this.notificationsService.viewNotification(notification.idNotification).subscribe(response => console.log(response.message));
-    notification.view();
     if (notification.type != 'friendship_type') {
       this.notificationsService.notificationsChanger.emit(this.notifications.filter(n => n.idNotification !== notification.idNotification));
     }

@@ -68,5 +68,17 @@
                 <button (click)="logout()">{{'SETTINGS.LOGOUT' | translate}}</button>
             </div>
         </div>
+
+        <div class="configuration-box delete-account-box" *ngIf="authService.keycloakUser.deletionDate == null">
+            <i class="fa-solid fa-trash notif-icon"></i>
+            <div class="configuration-data">
+                <h2>{{'SETTINGS.DELETE_ACCOUNT.TITLE' | translate}}</h2>
+                <p>{{'SETTINGS.DELETE_ACCOUNT.TEXT' | translate}}</p>
+            </div>
+            
+            <div class="option">
+                <button (click)="startDeletionProcess()">{{'SETTINGS.DELETE_ACCOUNT.BUTTON' | translate}}</button>
+            </div>
+        </div>
     </div>
 </section>

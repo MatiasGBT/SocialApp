@@ -51,6 +51,10 @@ export class PostComponent implements OnInit {
         if (this.post.user.username != this.authService.getUsername()) {
           this.webSocketService.newNotification(this.post.user);
         }
+        Swal.fire({
+          title: '💜', timer: 1000, showConfirmButton: false, background: 'transparent', 
+          allowOutsideClick: false, allowEscapeKey: false
+        });
       });
     }
   }

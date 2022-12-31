@@ -1,5 +1,7 @@
 package com.mgbt.socialapp_backend.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mgbt.socialapp_backend.model.entity.notification.Notification;
 import lombok.*;
 import javax.persistence.*;
 import java.io.*;
@@ -50,10 +52,69 @@ public class UserApp implements Serializable {
     @JoinColumn(name = "id_status", nullable = false)
     private Status status;
 
+    //#region Properties required for cascade elimination
+    @OneToMany(mappedBy="userReceiver", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Notification> notifications;
+
+    @OneToMany(mappedBy="user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Comment> comments;
+
+    @OneToMany(mappedBy="userChecked", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Followership> following;
+
+    @OneToMany(mappedBy="userFollower", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Followership> followers;
+
+    @OneToMany(mappedBy="userTransmitter", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Friendship> friendshipsTransmitted;
+
+    @OneToMany(mappedBy="userReceiver", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Friendship> friendshipsReceived;
+
+    @OneToMany(mappedBy="user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Like> likes;
+
+    @OneToMany(mappedBy="userTransmitter", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Message> messagesTransmitted;
+
+    @OneToMany(mappedBy="userReceiver", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Message> messagesReceived;
+
+    @OneToMany(mappedBy="user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Post> posts;
+
+    @OneToMany(mappedBy="user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Report> reports;
+    //#endregion
+
     @PrePersist
     public void setUp() {
         this.creationDate = new Date();
         this.isChecked = false;
         this.status = new Status(1L, "Connected");
+    }
+
+    public UserApp(Long idUser, String username, String name, String surname, String photo, String description, Date creationDate, Date deletionDate, Boolean isChecked, Status status) {
+        this.idUser = idUser;
+        this.username = username;
+        this.name = name;
+        this.surname = surname;
+        this.photo = photo;
+        this.description = description;
+        this.creationDate = creationDate;
+        this.deletionDate = deletionDate;
+        this.isChecked = isChecked;
+        this.status = status;
     }
 }

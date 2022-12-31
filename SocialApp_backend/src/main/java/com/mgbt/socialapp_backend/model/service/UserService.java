@@ -86,4 +86,9 @@ public class UserService implements IService<UserApp> {
     public Page<UserApp> getByNameOrSurnameOrUsername(String name, Pageable pageable) {
         return repository.findByNameContainingOrSurnameContainingOrUsernameContaining(name, name, name, pageable);
     }
+
+    @Transactional(readOnly = true)
+    public List<UserApp> getUsersWhoseDeletionDateIsNotNull() {
+        return repository.findByDeletionDateIsNotNull();
+    }
 }

@@ -2,6 +2,7 @@ package com.mgbt.socialapp_backend.controller;
 
 import com.mgbt.socialapp_backend.exceptions.FileNameTooLongException;
 import com.mgbt.socialapp_backend.model.entity.*;
+import com.mgbt.socialapp_backend.model.entity.notification.NotificationDeleteAccount;
 import com.mgbt.socialapp_backend.model.service.*;
 import com.mgbt.socialapp_backend.utility_classes.*;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,6 +27,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @Autowired
     private IUploadFileService uploadFileService;
@@ -272,12 +276,40 @@ public class UserController {
                                     Locale locale) {
         Map<String, Object> response = new HashMap<>();
         try {
+            //If the update occurs because the user or an administrator initiates the account
+            //deletion process, create a notification so that the user is aware of it.
+            UserApp originalUser = userService.findById(user.getIdUser());
+            if (originalUser.getDeletionDate() == null && user.getDeletionDate() != null) {
+                NotificationDeleteAccount notification = new NotificationDeleteAccount(user);
+                notificationService.save(notification);
+            }
             userService.save(user);
             response.put("message", messageSource.getMessage("userController.userUpdated", null, locale));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (DataAccessException e) {
             response.put("message", messageSource.getMessage("error.database", null, locale));
             response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Operation(summary = "Deletes all users who have started the account deletion process 14 days ago")
+    @ApiResponse(responseCode = "200", description = "Users deleted correctly",
+            content = { @Content(mediaType = "application/json", schema = @Schema(implementation = JsonMessage.class)) })
+    @DeleteMapping("/delete")
+    @PreAuthorize("isAuthenticated() and hasRole('admin')")
+    public ResponseEntity<?> deleteUsers(Locale locale) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            List<UserApp> users = userService.getUsersWhoseDeletionDateIsNotNull();
+            if (!users.isEmpty()) {
+                users.forEach(u -> userService.delete(u));
+            }
+            response.put("message", users.size() + " " + messageSource.getMessage("userController.deletionProcess", null, locale));
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response.put("message", response.put("message", messageSource.getMessage("error.databaseOrFile", null, locale)));
+            response.put("error", e.getMessage() + ": " + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

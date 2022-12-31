@@ -7,6 +7,11 @@ header {
     display: flex;
 }
 
+header h1 {
+    width: 45%;
+    margin-right: 5%;
+}
+
 h2 {
     font-size: 1.25rem;
 }
@@ -27,6 +32,7 @@ h2 {
 
 .notification-data {
     cursor: pointer;
+    max-width: 70%;
 }
 
 .notif-icon {
@@ -49,7 +55,7 @@ h2 {
 
 .delete-all-button {
     display: block;
-    width: auto;
+    width: 45%;
     height: 30px;
     border-radius: 10px;
     padding-left: 10px;
@@ -62,8 +68,8 @@ h2 {
 
 .delete-button {
     border-radius: 50%;
-    width: 50px;
-    height: 50px;
+    min-width: 50px;
+    min-height: 50px;
 }
 
 .delete-button:hover {
@@ -113,5 +119,6 @@ h2 {
 
     .delete-all-button {
         font-size: 1rem;
+        width: auto;
     }
 }

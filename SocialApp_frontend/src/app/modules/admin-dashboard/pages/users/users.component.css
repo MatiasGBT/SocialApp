@@ -111,13 +111,40 @@ aside {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    /*100vh - navbar height - footer height - (search name input + #users padding) - section padding*/
-    height: calc(100vh - 60px - 60px - 60px - 80px);
+    height: auto;
+    margin-top: 5px;
 }
 
 #no-users img {
-    width: 100%;
+    width: 90%;
     margin-top: 5px;
+}
+
+#delete-all-users-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    margin-bottom: 15px;
+    width: 75%;
+    background: #7f5af0;
+    border: none;
+    border-radius: 10px;
+    padding: 5px;
+    outline: none;
+    cursor: pointer;
+    color: white;
+    text-align: center;
+    transition: .3s;
+}
+
+#delete-all-users-btn:hover {
+    background: #6f4ed1;
+    transition: .3s;
+}
+
+#delete-all-users-btn i {
+    margin-right: 5px;
 }
 
 @media (min-width: 768px) {
@@ -138,11 +165,15 @@ aside {
     }
 
     #no-users {
-        height: calc(100vh - 60px - 60px);
+        margin-top: 10px;
     }
 
     #no-users img {
         width: 50%;
+    }
+
+    #delete-all-users-btn {
+        width: 45%;
     }
 }
 
@@ -162,7 +193,7 @@ aside {
         padding: 15px;
         background: #2e2e36;
         width: 25%;
-        height: calc(100vh - 60px);
+        min-height: calc(100vh - 60px);
     }
 
     aside img {
@@ -170,12 +201,8 @@ aside {
         height: auto;
     }
 
-    #no-users {
-        /*100vh - navbar height - search name input height - #users padding*/
-        height: calc(100vh - 60px - 60px - 25px);
-    }
-
-    #no-users img {
-        width: 50%;
+    #delete-all-users-btn {
+        width: 35%;
+        margin-bottom: 10px;
     }
 }

@@ -41,6 +41,7 @@
         "NUMBER_OF_FOLLOWERS": "Followers",
         "NUMBER_OF_FOLLOWING": "Following",
         "FRIENDS_SINCE": "Friends since ",
+        "DAYS_UNTIL_ELIMINATION": "This account will be deleted in {{value}} day/s",
         "EDIT_PROFILE": "Edit profile",
         "LIKED_POSTS_BUTTON": "See posts you liked",
         "ADD_FRIEND": "Add friend",
@@ -88,21 +89,37 @@
     },
     "NOTIFICATIONS": {
         "TITLE": "Notifications",
-        "DELETE_ALL": "Delete all notifications",
+        "DELETE_ALL": "Delete all",
         "NEW_NOTIF_TITLE": "New notification",
         "NEW_NOTIF_TEXT": "Please restart the page",
-        "NEW_FRIEND_TITLE": "¡New friend!",
-        "NEW_FRIEND_TEXT": "is now your friend",
-        "LIKE_POST_TITLE": "Your post received a like",
-        "LIKE_POST_TEXT": "¡Check it!",
-        "NEW_MESSAGE_TITLE": "sent you a message",
-        "NEW_MESSAGE_TEXT": "Touch to see it",
-        "FRIEND_REQUEST_TITLE": "New friend request",
-        "FRIEND_REQUEST_TEXT": "sent you a friend request",
-        "COMMENT_TITLE": "Someone replied to your comment",
-        "COMMENT_TEXT": "Touch to see it",
-        "FOLLOWER_TITLE": "New follower",
-        "FOLLOWER_TEXT": "started following you",
+        "friend_type": {
+            "TITLE": "¡New friend!",
+            "TEXT": "is now your friend"
+        },
+        "like_post_type": {
+            "TITLE": "Your post received a like",
+            "TEXT": "¡Check it!"
+        },
+        "message_type": {
+            "TITLE": "sent you a message",
+            "TEXT": "Touch to see it"
+        },
+        "friendship_type": {
+            "TITLE": "New friend request",
+            "TEXT": "sent you a friend request"
+        },
+        "comment_type": {
+            "TITLE": "replied to your comment",
+            "TEXT": "Touch to see it"
+        },
+        "followership_type": {
+            "TITLE": "New follower",
+            "TEXT": "started following you"
+        },
+        "delete_account_type": {
+            "TITLE": "Account deletion process started",
+            "TEXT": "If it is an error, please contact our support"
+        },
         "NOTIFICATIONS_DISABLED": "Notifications are disabled. Activate them in the Settings tab to view them.",
         "NO_NOTIFICATIONS": "You have no notifications at the moment",
         "NO_NOTIFICATIONS_TO_DELETE_TITLE": "You have no notifications to delete",
@@ -120,7 +137,16 @@
         "ADMIN_TITLE": "Admin dashboard",
         "ADMIN_TEXT": "Manage users and reports",
         "ADMIN_BUTTON": "Go",
-        "LOGOUT": "Logout"
+        "LOGOUT": "Logout",
+        "DELETE_ACCOUNT": {
+            "TITLE": "Start the account deletion process",
+            "TEXT": "You will have 14 days to reverse the process",
+            "BUTTON": "Delete account",
+            "MODAL_TITLE": "Are you sure?",
+            "MODAL_TEXT": "You will have 14 days to reverse this action by contacting our support. After this interval, the account will be completely deleted.",
+            "MODAL_CONFIRM_BUTTON": "Start process",
+            "MODAL_CANCEL_BUTTON": "Cancel"
+        }
     },
     "SEARCH": {
         "USERS_TITLE": "Users found",
@@ -201,6 +227,12 @@
         "ROLE_TEXT": "You don't have access to this resource"
     },
     "ADMIN": {
+        "DELETE_PROCESS": {
+            "BUTTON": "Start the deletion process",
+            "MODAL_TITLE": "Are you sure you want to start the accounts deletion process?",
+            "MODAL_TEXT": "This process will delete all accounts that have started the account deletion process 14 days ago or more. It may take some time.",
+            "COMPLETED_MODAL_TITLE": "The accounts deletion process is finished"
+        },
         "USERS_PLACEHOLDER": "Search by name, surname or username",
         "NO_USERS_SEARCHED": "Use the search engine to find users",
         "NO_USERS_FOUND": "No users found",

@@ -30,6 +30,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
   public usersYouMayKnow: User[] = [];
   private subscriber: Subscription;
   public pinnedPost: Post;
+  public daysUntilElimination: number;
+  public daysUntilEliminationParam: any;
 
   constructor(private userService: UserService, private activatedRoute: ActivatedRoute,
     private friendshipService: FriendshipService, private router: Router,
@@ -83,6 +85,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       this.getHighlightedPost();
       this.getRelationship();
       this.callService.subscribeToEvents();
+      this.getDaysUntilElimination();
     });
   }
 
@@ -90,6 +93,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.user = this.authService.keycloakUser;
     this.getProfileHeaderData();
     this.getHighlightedPost();
+    this.getDaysUntilElimination();
   }
 
   private getHighlightedPost() {
@@ -98,12 +102,19 @@ export class ProfileComponent implements OnInit, OnDestroy {
     });
   }
 
-  private getRelationship() {
-    if (this.user.isChecked) {
-      this.getFollowership();
-    } else {
-      this.getFriendship();
+  private getDaysUntilElimination() {
+    if (this.user?.deletionDate) {
+      let deletionDate = new Date(this.user.deletionDate);
+      let todayDate = new Date();
+      let daysDifferenceInMilliseconds = todayDate.getTime() - deletionDate.getTime();
+      let dayInMilliseconds = 86400000;
+      this.daysUntilElimination = 14 - daysDifferenceInMilliseconds / dayInMilliseconds | 0;
+      this.daysUntilEliminationParam = {value: this.daysUntilElimination};
     }
+  }
+
+  private getRelationship() {
+    this.user.isChecked ? this.getFollowership() : this.getFriendship();
   }
 
   private getProfileHeaderData() {

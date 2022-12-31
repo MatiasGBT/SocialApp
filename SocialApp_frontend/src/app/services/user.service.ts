@@ -123,4 +123,13 @@ export class UserService {
       })
     );
   }
+
+  public deleteUsersWithDeletionDate(): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/delete`).pipe(
+      catchError(e => {
+        this.catchErrorService.showErrorModal(e);
+        return throwError(()=>e);
+      })
+    );
+  }
 }

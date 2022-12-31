@@ -15,8 +15,4 @@ export class Notification {
     comment: Comment;
     followership: Followership;
     date: Date;
-
-    view(): void {
-        console.log("standard")
-    }
 }

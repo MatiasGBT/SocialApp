@@ -1,5 +1,8 @@
 <section id="section-users">
     <div id="users">
+        <button (click)="deleteUsersWhoseDeletionDateIsNotNull()" id="delete-all-users-btn">
+            <i class="fa-solid fa-trash"></i>{{'ADMIN.DELETE_PROCESS.BUTTON' | translate}}
+        </button>
         <div id="search-input">
             <input type="text" [placeholder]="placeholder" [(ngModel)]="searchName"
             (keypress)="search($event)">

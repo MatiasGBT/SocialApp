@@ -1,7 +1,7 @@
 package com.mgbt.socialapp_backend.controller;
 
 import com.mgbt.socialapp_backend.model.entity.*;
-import com.mgbt.socialapp_backend.model.entity.notification.NotificationPost;
+import com.mgbt.socialapp_backend.model.entity.notification.NotificationLikePost;
 import com.mgbt.socialapp_backend.model.service.*;
 import com.mgbt.socialapp_backend.utility_classes.JsonMessage;
 import io.swagger.v3.oas.annotations.Operation;
@@ -61,7 +61,7 @@ public class LikeController {
                 like.setUser(user);
                 likeService.save(like);
                 if (!post.getUser().getIdUser().equals(user.getIdUser())) {
-                    NotificationPost notificationPost = new NotificationPost();
+                    NotificationLikePost notificationPost = new NotificationLikePost();
                     notificationPost.setPost(post);
                     notificationPost.setUserReceiver(post.getUser());
                     notificationService.save(notificationPost);

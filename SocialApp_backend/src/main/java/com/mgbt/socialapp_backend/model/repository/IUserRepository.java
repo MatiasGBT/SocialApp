@@ -56,4 +56,9 @@ public interface IUserRepository extends JpaRepository<UserApp, Long> {
     List<UserApp> findUsersYouMayKnowByUser(Long idUser, Long idKeycloakUser);
 
     Page<UserApp> findByNameContainingOrSurnameContainingOrUsernameContaining(String name, String surname, String username, Pageable pageable);
+
+    @Query(value = "SELECT * FROM users WHERE deletion_date IS NOT NULL " +
+            "AND DATEDIFF(current_timestamp(), deletion_date) >= 14",
+            nativeQuery = true)
+    List<UserApp> findByDeletionDateIsNotNull();
 }

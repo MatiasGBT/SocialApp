@@ -13,7 +13,7 @@
         <button type="button" *ngIf="!followership && !friendship" (click)="followUser()">
             <i class="fas fa-plus"></i>
         </button>
-        <button type="button" *ngIf="friendship?.status || followership" [routerLink]="['/profile/chat', user.idUser]">
+        <button type="button" *ngIf="friendship?.status" [routerLink]="['/profile/chat', user.idUser]">
             <i class="fas fa-message"></i>
         </button>
         <button type="button" *ngIf="friendship?.status" (click)="callFriend()">

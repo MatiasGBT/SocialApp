@@ -5,6 +5,7 @@ import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { TranslateExtensionService } from 'src/app/services/translate-extension.service';
 import { UserService } from 'src/app/services/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-users',
@@ -76,5 +77,26 @@ export class UsersComponent implements OnInit {
     this.userService.update(user).subscribe(response => {
       console.log(response.message);
     });
+  }
+
+  public deleteUsersWhoseDeletionDateIsNotNull() {
+    Swal.fire({
+      title: this.translateExtensionService.getTranslatedStringByUrl('ADMIN.DELETE_PROCESS.MODAL_TITLE'),
+      text: this.translateExtensionService.getTranslatedStringByUrl('ADMIN.DELETE_PROCESS.MODAL_TEXT'),
+      showCancelButton: true, showLoaderOnConfirm: true, background: '#7f5af0', color: 'white',
+      confirmButtonColor: '#2cb67d', cancelButtonColor: '#d33', backdrop: true,
+      preConfirm: () => {
+        return this.userService.deleteUsersWithDeletionDate().subscribe(response => console.log(response.message));
+      },
+      allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.router.navigate(['/admin/users']);
+        Swal.fire({
+          title: this.translateExtensionService.getTranslatedStringByUrl('ADMIN.DELETE_PROCESS.COMPLETED_MODAL_TITLE'),
+          background: '#7f5af0', color: 'white', confirmButtonColor: '#2cb67d'
+        });
+      }
+    })
   }
 }

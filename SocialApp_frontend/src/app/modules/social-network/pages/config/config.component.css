@@ -21,6 +21,10 @@ p {
     margin-top: 15px;
 }
 
+.delete-account-box {
+    color: firebrick;
+}
+
 .option {
     margin-left: auto;
 }

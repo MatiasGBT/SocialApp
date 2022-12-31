@@ -31,6 +31,7 @@
             <div id="profile-description">
                 <p *ngIf="user?.description">{{user.description}}</p>
                 <p *ngIf="friendship?.status" id="friendship-date">{{'PROFILE.FRIENDS_SINCE' | translate}} {{friendship.date | date:'shortDate'}}</p>
+                <p *ngIf="daysUntilElimination" id="deletion-date">{{'PROFILE.DAYS_UNTIL_ELIMINATION' | translate:daysUntilEliminationParam}}</p>
             </div>
 
             <div id="profile-buttons">
@@ -67,13 +68,17 @@
 
         <h3>{{'PROFILE.POSTS' | translate}}:</h3>
         <div id="publications">
+            <div id="pinned-post-container" *ngIf="pinnedPost">
+                <post-comp [post]="pinnedPost"></post-comp>
+                <p id="pinned-post-text"><i class="fa-solid fa-thumbtack"></i> {{'ASIDE.PINNED_POST' | translate}}</p>
+            </div>
             <posts-list-comp *ngIf="user?.idUser" [idUser]="user.idUser" [page]="'profile'"></posts-list-comp>
         </div>
     </div>
 
     <aside>
         <ng-container *ngIf="pinnedPost">
-            <h2>{{'ASIDE.PINNED_POST' | translate}}:</h2>
+            <h2><i class="fa-solid fa-thumbtack"></i> {{'ASIDE.PINNED_POST' | translate}}:</h2>
             <post-comp [post]="pinnedPost"></post-comp>
         </ng-container>
         

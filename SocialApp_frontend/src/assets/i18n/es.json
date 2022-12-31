@@ -41,6 +41,7 @@
         "NUMBER_OF_FOLLOWERS": "Seguidores",
         "NUMBER_OF_FOLLOWING": "Seguidos",
         "FRIENDS_SINCE": "Amigos desde ",
+        "DAYS_UNTIL_ELIMINATION": "Esta cuenta será eliminada en {{value}} día/s",
         "EDIT_PROFILE": "Editar perfil",
         "LIKED_POSTS_BUTTON": "Ver publicaciones que te gustaron",
         "ADD_FRIEND": "Agregar amigo",
@@ -88,21 +89,37 @@
     },
     "NOTIFICATIONS": {
         "TITLE": "Notificaciones",
-        "DELETE_ALL": "Eliminar todas las notificaciones",
+        "DELETE_ALL": "Eliminar todas",
         "NEW_NOTIF_TITLE": "Nueva notificación",
         "NEW_NOTIF_TEXT": "Por favor reinicie la página",
-        "NEW_FRIEND_TITLE": "¡Nuevo amigo!",
-        "NEW_FRIEND_TEXT": "ahora es tu amigo",
-        "LIKE_POST_TITLE": "Tu publicación recibió un like",
-        "LIKE_POST_TEXT": "Ver",
-        "NEW_MESSAGE_TITLE": "te envió un mensaje",
-        "NEW_MESSAGE_TEXT": "Pulsa para verlo",
-        "FRIEND_REQUEST_TITLE": "Nueva petición de amistad",
-        "FRIEND_REQUEST_TEXT": "te envió una petición de amistad",
-        "COMMENT_TITLE": "Alguien respondió tu comentario",
-        "COMMENT_TEXT": "Pulsa para verlo",
-        "FOLLOWER_TITLE": "Nuevo seguidor",
-        "FOLLOWER_TEXT": "comenzó a seguirte",
+        "friend_type": {
+            "TITLE": "¡Nuevo amigo!",
+            "TEXT": "ahora es tu amigo"
+        },
+        "like_post_type": {
+            "TITLE": "Tu publicación recibió un like",
+            "TEXT": "Ver"
+        },
+        "message_type": {
+            "TITLE": "te envió un mensaje",
+            "TEXT": "Pulsa para verlo"
+        },
+        "friendship_type": {
+            "TITLE": "Nueva petición de amistad",
+            "TEXT": "te envió una petición de amistad"
+        },
+        "comment_type": {
+            "TITLE": "respondió tu comentario",
+            "TEXT": "Pulsa para verlo"
+        },
+        "followership_type": {
+            "TITLE": "Nuevo seguidor",
+            "TEXT": "comenzó a seguirte"
+        },
+        "delete_account_type": {
+            "TITLE": "Se inició el proceso de eliminación de cuenta",
+            "TEXT": "Si se trata de un error, por favor comuníquese con nuestro soporte"
+        },
         "NOTIFICATIONS_DISABLED": "Las notificaciones están deshabilitadas. Actívalas en la pestaña de Configuración para visualizarlas.",
         "NO_NOTIFICATIONS": "No tienes notificaciones en este momento",
         "NO_NOTIFICATIONS_TO_DELETE_TITLE": "No tienes notificaciones para eliminar",
@@ -120,7 +137,16 @@
         "ADMIN_TITLE": "Panel de administración",
         "ADMIN_TEXT": "Gestionar usuarios y reportes",
         "ADMIN_BUTTON": "Ir",
-        "LOGOUT": "Cerrar sesión"
+        "LOGOUT": "Cerrar sesión",
+        "DELETE_ACCOUNT": {
+            "TITLE": "Iniciar el proceso de eliminación de cuenta",
+            "TEXT": "Tendrás 14 días para arrepentirte",
+            "BUTTON": "Eliminar cuenta",
+            "MODAL_TITLE": "¿Está seguro?",
+            "MODAL_TEXT": "Tendrás 14 días para revertir esta acción contactando a nuestro soporte. Después de este intervalo, la cuenta se eliminará completamente.",
+            "MODAL_CONFIRM_BUTTON": "Iniciar proceso",
+            "MODAL_CANCEL_BUTTON": "Cancelar"
+        }
     },
     "SEARCH": {
         "USERS_TITLE": "Usuarios encontrados",
@@ -201,6 +227,12 @@
         "ROLE_TEXT": "No tienes acceso a este recurso"
     },
     "ADMIN": {
+        "DELETE_PROCESS": {
+            "BUTTON": "Iniciar el proceso de eliminación",
+            "MODAL_TITLE": "¿Está seguro de que desea iniciar el proceso de eliminación de cuentas?",
+            "MODAL_TEXT": "Este proceso eliminará todas las cuentas que hayan iniciado el proceso de eliminación de cuenta hace 14 días o más. Puede tardar algún tiempo.",
+            "COMPLETED_MODAL_TITLE": "El proceso de eliminación de cuentas ha finalizado"
+        },
         "USERS_PLACEHOLDER": "Busca por nombre, apellido o nombre de usuario",
         "NO_USERS_SEARCHED": "Utiliza el buscador para encontrar usuarios",
         "NO_USERS_FOUND": "No se encontraron usuarios",
