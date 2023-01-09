@@ -39,7 +39,7 @@ export class PostComponent implements OnInit {
     : this.isReported = false;
 
     //If the post is highlighted and the user highlights another post, the other post loses the highlight.
-    this.postService.pinPostEmitter.subscribe(() => this.post.isPinned = false);
+    this.postService.pinPostEvent.subscribe(() => this.post.isPinned = false);
   }
 
   public likePost() {
@@ -71,7 +71,7 @@ export class PostComponent implements OnInit {
 
   public pinPost() {
     this.postService.pinPost(this.post.idPost).subscribe(response => {
-      this.postService.pinPostEmitter.emit();
+      this.postService.pinPostEvent.emit();
       this.post.isPinned = true;
       console.log(response.message);
     });
@@ -95,8 +95,8 @@ export class PostComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.postService.deletePost(this.post.idPost).subscribe(response => console.log(response.message));
-        this.postService.deletePostEmitter.emit(this.post);
-        this.postService.reducePostsQuantityEmitter.emit();
+        this.postService.postDeletedEvent.emit(this.post);
+        this.postService.reducePostsQuantityEvent.emit();
         if (this.router.url.includes("post")) {
           this.router.navigate(['/index']);
         }

@@ -14,7 +14,7 @@ import { WebsocketService } from './websocket.service';
 })
 export class FriendshipService {
   private baseUrl: string = 'http://localhost:8090/api/friendships';
-  @Output() friendshipDeletedEmitter: EventEmitter<any> = new EventEmitter();
+  @Output() friendshipDeletedEvent: EventEmitter<any> = new EventEmitter();
 
   constructor(private http: HttpClient, private authService: AuthService,
           private translateExtensionService: TranslateExtensionService,
@@ -92,7 +92,7 @@ export class FriendshipService {
     }).then((result) => {
       if (result.isConfirmed) {
         this.deleteFriendship(idFriendship).subscribe(response => console.log(response.message));
-        this.friendshipDeletedEmitter.emit();
+        this.friendshipDeletedEvent.emit();
       }
     });
   }

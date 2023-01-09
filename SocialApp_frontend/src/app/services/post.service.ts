@@ -11,9 +11,9 @@ import { CatchErrorService } from './catch-error.service';
 })
 export class PostService {
   private baseUrl: string = 'http://localhost:8090/api/posts';
-  @Output() deletePostEmitter: EventEmitter<any> = new EventEmitter();
-  @Output() reducePostsQuantityEmitter: EventEmitter<any> = new EventEmitter();
-  @Output() pinPostEmitter: EventEmitter<any> = new EventEmitter();
+  @Output() postDeletedEvent: EventEmitter<any> = new EventEmitter();
+  @Output() reducePostsQuantityEvent: EventEmitter<any> = new EventEmitter();
+  @Output() pinPostEvent: EventEmitter<any> = new EventEmitter();
 
   constructor(private http: HttpClient, private router: Router,
     private authService: AuthService, private catchErrorService: CatchErrorService) { }

@@ -29,9 +29,9 @@ export class NotifComponent implements OnInit {
       this.notificationsService.getNotifications(user).subscribe(notifications => this.notifications = notifications);
     }
 
-    this.notificationsService.notificationsChanger.subscribe(isNotificationsEnabled => this.areNotificationsEnabled = isNotificationsEnabled);
+    this.notificationsService.notificationsEnabledEvent.subscribe(areNotificationsEnabled => this.areNotificationsEnabled = areNotificationsEnabled);
 
-    this.notificationsService.newNotification.subscribe(() => {
+    this.notificationsService.newNotificationEvent.subscribe(() => {
       if (this.router.url.includes('notif')) {
         Swal.fire({
           title: this.translateExtensionService.getTranslatedStringByUrl('NOTIFICATIONS.NEW_NOTIF_TITLE'),
@@ -55,7 +55,7 @@ export class NotifComponent implements OnInit {
     this.notificationsService.delete(notification.idNotification).subscribe(response => {
       console.log(response.message);
       this.notifications = this.notifications.filter(n => n.idNotification !== response.id);
-      this.notificationsService.notificationsChanger.emit(this.notifications);
+      this.notificationsService.notificationViewedOrDeletedEvent.emit(this.notifications);
       if (notification?.friendship) {
         this.friendshipService.deleteFriendship(notification.friendship.idFriendship).subscribe();
       }
@@ -67,7 +67,7 @@ export class NotifComponent implements OnInit {
       this.notificationsService.deleteAll().subscribe(response => {
         console.log(response.message);
         this.notifications = this.notifications.filter(n => n?.friendship);
-        this.notificationsService.notificationsChanger.emit(this.notifications);
+        this.notificationsService.notificationViewedOrDeletedEvent.emit(this.notifications);
       });
     } else {
       this.showNoNotificationsModal();
@@ -85,7 +85,7 @@ export class NotifComponent implements OnInit {
         this.notificationsService.delete(notification.idNotification).subscribe(response => {
           console.log(response.message);
           this.notifications = this.notifications.filter(n => n?.idNotification != notification.idNotification);
-          this.notificationsService.notificationsChanger.emit(this.notifications);
+          this.notificationsService.notificationViewedOrDeletedEvent.emit(this.notifications);
         })
       });
     });
@@ -94,7 +94,7 @@ export class NotifComponent implements OnInit {
   public viewNotification(notification: Notification) {
     this.notificationsService.viewNotification(notification.idNotification).subscribe(response => console.log(response.message));
     if (notification.type != 'friendship_type') {
-      this.notificationsService.notificationsChanger.emit(this.notifications.filter(n => n.idNotification !== notification.idNotification));
+      this.notificationsService.notificationViewedOrDeletedEvent.emit(this.notifications.filter(n => n.idNotification !== notification.idNotification));
     }
     if (notification.type == 'friend_type') {
       this.router.navigate(['/profile', notification.friend.idUser]);

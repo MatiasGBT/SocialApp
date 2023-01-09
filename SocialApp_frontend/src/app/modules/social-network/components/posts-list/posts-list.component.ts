@@ -20,7 +20,7 @@ export class PostsListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPosts();
-    this.postService.deletePostEmitter.subscribe(post => this.posts = this.posts.filter(p => p.idPost != post.idPost));
+    this.postService.postDeletedEvent.subscribe(post => this.posts = this.posts.filter(p => p.idPost != post.idPost));
   }
 
   public getNewPosts() {

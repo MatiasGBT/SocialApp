@@ -9,29 +9,31 @@ import { NotificationsService } from 'src/app/services/notifications.service';
   styleUrls: ['./footer.component.css']
 })
 export class FooterComponent implements OnInit {
-  public isNotificationsEnabled: boolean;
-  public notificationsNumber: number;
+  public areNotificationsEnabled: boolean;
+  public notificationsQuantity: number;
   private notifications: Notification[] = [];
 
   constructor(private notificationsService: NotificationsService, public authService: AuthService) { }
 
   ngOnInit(): void {
-    this.isNotificationsEnabled = this.notificationsService.getNotificationsStatus();
-    this.obtainNotifications();
+    this.areNotificationsEnabled = this.notificationsService.getNotificationsStatus();
+    if (this.areNotificationsEnabled) {
+      this.obtainNotifications();
+    }
 
     //This code detects when the user activates/deactivates notifications.
-    this.notificationsService.notificationsEnabled.subscribe(areEnabled => {
-      this.isNotificationsEnabled = areEnabled;
+    this.notificationsService.notificationsEnabledEvent.subscribe(areEnabled => {
+      this.areNotificationsEnabled = areEnabled;
       this.obtainNotifications();
     });
 
     //This code detects when a user sees one of his notifications, which causes the badge number to be reduced.
-    this.notificationsService.notificationsChanger.subscribe(notifications => {
+    this.notificationsService.notificationViewedOrDeletedEvent.subscribe(notifications => {
       this.notifications = notifications.filter(n => !n.isViewed);
-      this.notificationsNumber = this.notifications.length;
+      this.notificationsQuantity = this.notifications.length;
     });
 
-    this.notificationsService.newNotification.subscribe(() => this.notificationsNumber++);
+    this.notificationsService.newNotificationEvent.subscribe(() => this.notificationsQuantity++);
   }
 
   ngOnChanges() {
@@ -39,10 +41,10 @@ export class FooterComponent implements OnInit {
   }
 
   private obtainNotifications(): void {
-    if (this.isNotificationsEnabled) {
+    if (this.areNotificationsEnabled) {
       this.notificationsService.getNotifications(this.authService.keycloakUser).subscribe(notifications => {
         this.notifications = notifications;
-        this.notificationsNumber = this.notifications.filter(n => !n.isViewed).length;
+        this.notificationsQuantity = this.notifications.filter(n => !n.isViewed).length;
       });
     }
   }

@@ -40,7 +40,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     public authService: AuthService) { }
 
   ngOnInit(): void {
-    this.userService.userChanger.subscribe(data => {
+    this.userService.changePhotoOrDescriptionEvent.subscribe(data => {
       if (data?.photo) {
         this.user.photo = data.photo;
       }
@@ -59,7 +59,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.postService.reducePostsQuantityEmitter.subscribe(() => this.userPostQuantity--);
+    this.postService.reducePostsQuantityEvent.subscribe(() => this.userPostQuantity--);
 
     /*
     This subscription serves to fix a bug that arises when we enter a user profile that is
@@ -171,7 +171,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   public deleteFriend() {
     this.friendshipService.askToDelete(this.friendship.idFriendship);
-    this.friendshipService.friendshipDeletedEmitter.subscribe(() => {
+    this.friendshipService.friendshipDeletedEvent.subscribe(() => {
       this.friendship.status = false;
       this.friendsQuantity--;
     });

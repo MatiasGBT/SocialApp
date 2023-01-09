@@ -43,7 +43,7 @@ export class CallComponent implements OnInit, OnDestroy {
             this.callPeer(peerId);
           });
           //When one user deactivates the camera, it reaches the other user so that it is not displayed on their screen.
-          this.friendChangedCamera = this.webSocketService.friendChangedCamera.subscribe(cameraStatus => {
+          this.friendChangedCamera = this.webSocketService.friendChangedCameraStatusEvent.subscribe(cameraStatus => {
             this.friendVideoEnabled = (cameraStatus === 'true');
             if (this.friendVideoEnabled) {
               this.renderer2.setStyle(this.friendVideo.nativeElement, 'opacity', '100');

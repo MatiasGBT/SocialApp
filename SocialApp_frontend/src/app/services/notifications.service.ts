@@ -11,9 +11,9 @@ import { CatchErrorService } from './catch-error.service';
 })
 export class NotificationsService {
   private baseUrl: string = 'http://localhost:8090/api/notifications';
-  @Output() notificationsChanger: EventEmitter<any> = new EventEmitter();
-  @Output() notificationsEnabled: EventEmitter<any> = new EventEmitter();
-  @Output() newNotification: EventEmitter<any> = new EventEmitter();
+  @Output() notificationViewedOrDeletedEvent: EventEmitter<any> = new EventEmitter();
+  @Output() notificationsEnabledEvent: EventEmitter<any> = new EventEmitter();
+  @Output() newNotificationEvent: EventEmitter<any> = new EventEmitter();
 
   constructor(private authService: AuthService, private http: HttpClient,
     private catchErrorService: CatchErrorService) { }

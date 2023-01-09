@@ -66,7 +66,7 @@ export class EditProfileComponent implements OnInit {
   private updateProfile() {
     this.userService.updateProfile(this.file, this.description).subscribe(response => {
       console.log(response.message);
-      this.userService.userChanger.emit({photo: response.photo, description: response.description});
+      this.userService.changePhotoOrDescriptionEvent.emit({photo: response.photo, description: response.description});
     });
   }
 

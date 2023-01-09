@@ -19,7 +19,7 @@ export class ConfigComponent implements OnInit {
   public selectedLanguage: string;
 
   constructor(public translate: TranslateService, private keycloakService: KeycloakService,
-    private notificationServide: NotificationsService, private webSocketService: WebsocketService,
+    private notificationService: NotificationsService, private webSocketService: WebsocketService,
     public authService: AuthService, private localeService: LocaleService,
     private userService: UserService,
     private translateExtensionService: TranslateExtensionService) {}
@@ -42,12 +42,10 @@ export class ConfigComponent implements OnInit {
 
   changeNotifications() {
     this.inputCheck = !this.inputCheck;
-    var notif: string = 'on';
-    if (!this.inputCheck) {
-      notif = 'off';
-    }
+    let notif: string;
+    this.inputCheck ? notif = 'on' : notif = 'off';
     localStorage.setItem('notifications', notif);
-    this.notificationServide.notificationsEnabled.emit(this.inputCheck);
+    this.notificationService.notificationsEnabledEvent.emit(this.inputCheck);
   }
 
   changeLanguage() {

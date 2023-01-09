@@ -32,11 +32,11 @@ export class WebsocketService {
   private enterCall: StompSubscription;
   private receivePeerId: StompSubscription;
   private friendVideoStatus: StompSubscription;
-  @Output() friendAcceptedEvent: EventEmitter<any> = new EventEmitter();
-  @Output() friendIsReadyEvent: EventEmitter<any> = new EventEmitter();
-  @Output() friendRejectedEvent: EventEmitter<any> = new EventEmitter();
+  @Output() friendAcceptedCallEvent: EventEmitter<any> = new EventEmitter();
+  @Output() friendIsReadyToStartCallEvent: EventEmitter<any> = new EventEmitter();
+  @Output() friendRejectedCallEvent: EventEmitter<any> = new EventEmitter();
   @Output() receivePeerIdEvent: EventEmitter<any> = new EventEmitter();
-  @Output() friendChangedCamera: EventEmitter<any> = new EventEmitter();
+  @Output() friendChangedCameraStatusEvent: EventEmitter<any> = new EventEmitter();
   public callCreatorUsername: string;
   //#endregion
 
@@ -63,7 +63,7 @@ export class WebsocketService {
     this.stopmJsClient.subscribe(`/ws/notifications/${this.authService.getUsername()}`, e => {
       if (e.body == "200") {
         console.log(this.translateExtensionService.getTranslatedStringByUrl("WEBSOCKET.NEW_NOTIFICATION"));
-        this.notificationsService.newNotification.emit();
+        this.notificationsService.newNotificationEvent.emit();
       }
     });
   }
@@ -228,7 +228,7 @@ export class WebsocketService {
     this.waitingForFriendToAcceptCall = this.stopmJsClient.subscribe(`/ws/call/accept/${this.authService.getUsername()}/${userReceiver.username}`, e => {
       if (e.body == "200") {
         this.callCreatorUsername = this.authService.getUsername();
-        this.friendAcceptedEvent.emit(userReceiver);
+        this.friendAcceptedCallEvent.emit(userReceiver);
       }
     });
   }
@@ -244,7 +244,7 @@ export class WebsocketService {
     */
     this.friendIsReadyToCall = this.stopmJsClient.subscribe(`/ws/call/ready/${this.authService.getUsername()}/${userReceiver.username}`, e => {
       if (e.body == "200") {
-        this.friendIsReadyEvent.emit();
+        this.friendIsReadyToStartCallEvent.emit();
         this.unsubscribeFromWaitingCall();
       }
     });
@@ -253,7 +253,7 @@ export class WebsocketService {
   private waitForFriendToRejectCall(userReceiver: User) {
     this.waitingForFriendToRejectCall = this.stopmJsClient.subscribe(`/ws/call/reject/${this.authService.getUsername()}/${userReceiver.username}`, e => {
       if (e.body == "200") {
-        this.friendRejectedEvent.emit(userReceiver);
+        this.friendRejectedCallEvent.emit(userReceiver);
         this.unsubscribeFromWaitingCall();
       }
     });
@@ -279,7 +279,7 @@ export class WebsocketService {
     });
     this.friendVideoStatus = this.stopmJsClient.subscribe(`/ws/call/video-enabled/${this.authService.getUsername()}`, e => {
       if (e.body != "500") {
-        this.friendChangedCamera.emit(e.body);
+        this.friendChangedCameraStatusEvent.emit(e.body);
       }
     });
   }

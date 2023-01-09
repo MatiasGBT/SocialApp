@@ -49,7 +49,7 @@ export class UserComponent implements OnInit {
 
   public deleteFriend() {
     this.friendshipService.askToDelete(this.friendship.idFriendship);
-    this.friendshipService.friendshipDeletedEmitter.subscribe(() => this.friendship.status = false);
+    this.friendshipService.friendshipDeletedEvent.subscribe(() => this.friendship.status = false);
   }
 
   public callFriend() {

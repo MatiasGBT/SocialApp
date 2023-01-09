@@ -43,20 +43,20 @@ export class CallService {
     }
 
   public subscribeToEvents() {
-    this.friendAcceptedSubscription = this.webSocketService.friendAcceptedEvent.subscribe(user => {
+    this.friendAcceptedSubscription = this.webSocketService.friendAcceptedCallEvent.subscribe(user => {
       Swal.close();
       Swal.fire({
         title: this.translateExtensionService.getTranslatedStringByUrl('CALL.JOINING_CALL'),
         showConfirmButton: false, background: '#7f5af0', color: 'white'
       });
-      this.friendIsReadySubscription = this.webSocketService.friendIsReadyEvent.subscribe(() => { //desub
+      this.friendIsReadySubscription = this.webSocketService.friendIsReadyToStartCallEvent.subscribe(() => { //desub
         Swal.close();
         this.router.navigate(['/profile/call', user.idUser]);
         this.unsubscribeFromEvents();
       });
     });
 
-    this.friendRejectedSubscription = this.webSocketService.friendRejectedEvent.subscribe(() => {
+    this.friendRejectedSubscription = this.webSocketService.friendRejectedCallEvent.subscribe(() => {
       Swal.close();
       Swal.fire({
         title: this.translateExtensionService.getTranslatedStringByUrl("CALL.FRIEND_REJECTED"),
