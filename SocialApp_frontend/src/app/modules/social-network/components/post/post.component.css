@@ -3,7 +3,7 @@
     padding-top: 25px;
     padding-left: 25px;
     padding-right: 25px;
-    font-size: 1.2rem;
+    font-size: .85rem;
 }
 
 .publication-header {
@@ -28,7 +28,7 @@
 
 .publication-header-user figcaption {
     margin-left: 10px;
-    font-weight: bold;
+    font-weight: 550;
 }
 
 .publication-header-user i {
@@ -49,10 +49,11 @@
     max-height: 300px;
     display: flex;
     margin: auto;
+    margin-top: 5px;
 }
 
 .publication-footer {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -65,15 +66,14 @@
 }
 
 @media (min-width: 768px) {
-    .publication-footer {
-        font-size: 1.2rem;
+    .publication {
+        font-size: 1rem;
     }
 }
 
 @media (min-width: 1038px) {
     .publication {
         width: 100%;
-        font-size: 1rem;
     }
     
     .publication-header p {

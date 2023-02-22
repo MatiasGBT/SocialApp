@@ -11,6 +11,7 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
+    padding: 0 25px;
 }
 
 #profile-header-photo {
@@ -22,16 +23,16 @@
 }
 
 #profile-header-photo img {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     border: 2px solid #7f5af0;
 }
 
 #profile-header-photo figcaption {
     margin-top: 10px;
-    font-size: 1.2rem;
-    font-weight: bold;
+    font-size: 1rem;
+    font-weight: 550;
 }
 
 #profile-header-photo i {
@@ -43,6 +44,7 @@
     align-items: center;
     justify-content: space-between;
     text-align: center;
+    font-size: .85rem;
 }
 
 #profile-header-data div {
@@ -127,11 +129,17 @@ hr {
     #profile-header-photo img {
         border-radius: 5px;
         margin-left: 25px;
+        width: 80px;
+        height: 80px;
     }
     
     #profile-header-photo figcaption {
         margin-top: 0;
         margin-left: 20px;
+    }
+
+    #profile-header-data {
+        font-size: 1rem;
     }
 
     #profile-description {

@@ -1,5 +1,7 @@
 #section-settings {
-    padding: 25px;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 25px;
 }
 
 h2 {
@@ -12,13 +14,21 @@ p {
 
 #configurations i {
     font-size: 1.25rem;
-    margin-right: 15px;
 }
 
 .configuration-box {
     display: flex;
     align-items: center;
-    margin-top: 15px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.configuration-box i {
+    width: 15%;
+}
+
+.configuration-data {
+    width: 85%;
 }
 
 .delete-account-box {
@@ -27,6 +37,7 @@ p {
 
 .option {
     margin-left: auto;
+    margin-top: 10px;
 }
 
 .notif-input input {
@@ -139,6 +150,25 @@ p {
 .option button:hover {
     background: #6f4ed1;
     transition: .3s;
+}
+
+@media (min-width: 768px) {
+    .configuration-box {
+        flex-wrap: nowrap;
+    }
+    
+    .configuration-box i {
+        width: auto;
+        margin-right: 15px;
+    }
+    
+    .configuration-data {
+        width: auto;
+    }
+    
+    .option {
+        margin-top: none;
+    }
 }
 
 @media (min-width: 1038px) {
