@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateStore } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../../app.module';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -9,7 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    TranslateModule.forRoot({
+    TranslateModule.forChild({
       defaultLanguage: 'en',
       loader: {
           provide: TranslateLoader,
@@ -18,6 +18,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
       }
     }),
   ],
-  exports: [FormsModule, ReactiveFormsModule, TranslateModule]
+  exports: [FormsModule, ReactiveFormsModule, TranslateModule],
+  providers:[TranslateStore]
 })
 export class SharedModule { }
